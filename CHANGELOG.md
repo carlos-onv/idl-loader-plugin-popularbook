@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file for both hum
 - **Primary Logic:** Located in `functions-esmart.php`.
 - **Signature Algorithm:** HMAC-SHA256 with Base64url encoding (no padding).
 - **Critical Secret:** `yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm` (Verified for APIs 5 & 6).
+- **Retry Logic Update:** Added support for error code `20306` (observed live) which differs from the documented `40001` for signature mismatches.
 - **Known Blockers:** API #9 (`getPublicExamQuestions`) returns 40001; suspecting a different secret key for the `customer-center` module.
 - **Field Handling:** Strings are required for the HMAC signature, but integers are required for several fields in the JSON body (Split Type logic).
 

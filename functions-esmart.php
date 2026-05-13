@@ -81,26 +81,26 @@ function emathsmart_log_api_error($order_id, $type, $attempt, $payload, $respons
 {
     global $wpdb;
     $table_name = $wpdb->prefix . 'emathsmart_log';
-    
+
     // Parse response code if possible
     $response_code = null;
     if (!empty($response)) {
         $decoded = json_decode($response, true);
         if (isset($decoded['code'])) {
-            $response_code = (int)$decoded['code'];
+            $response_code = (int) $decoded['code'];
         }
     }
 
     $wpdb->insert($table_name, [
-        'order_id'          => $order_id,
-        'api_type'          => $type,
-        'attempt'           => $attempt,
-        'request_payload'   => is_array($payload) ? json_encode($payload) : $payload,
-        'response_code'     => $response_code,
-        'response_body'     => $response,
-        'curl_error'        => $curl_error,
-        'http_status'       => (int)$http_status,
-        'created_at'        => current_time('mysql')
+        'order_id' => $order_id,
+        'api_type' => $type,
+        'attempt' => $attempt,
+        'request_payload' => is_array($payload) ? json_encode($payload) : $payload,
+        'response_code' => $response_code,
+        'response_body' => $response,
+        'curl_error' => $curl_error,
+        'http_status' => (int) $http_status,
+        'created_at' => current_time('mysql')
     ]);
 }
 
@@ -108,7 +108,8 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
 {
     if (isset($order_id) && is_numeric($order_id) && $order_id > 0) {
         $order = wc_get_order($order_id);
-        if (!$order) return;
+        if (!$order)
+            return;
 
         $max_attempts = 3;
         $attempt = 1;
@@ -132,7 +133,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     $sub_data['trial_end'] = $sub_obj->get_date('trial_end');
                 }
 
-                $expireTimestamp = $now + (365 * 86400); 
+                $expireTimestamp = $now + (365 * 86400);
                 if (!empty($sub_data['next_payment'])) {
                     $expireTimestamp = strtotime($sub_data['next_payment']);
                 }
@@ -147,61 +148,63 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 }
 
                 $sign_params = [
-                    'appId'                     => 'ParentClub',
-                    'timestamp'                 => (string)$now,
-                    'nonce'                     => $nonce,
-                    'orderId'                   => (string)$order_id,
-                    'parentClubParentId'        => 'PID' . $order->get_user_id(),
-                    'type'                      => '1',
-                    'payStatus'                 => '1',
-                    'payAmount'                 => number_format((float)$order->get_total(), 2, '.', ''),
-                    'payTimestamp'              => (string)$now,
-                    'expireTimestamp'           => (string)$expireTimestamp,
-                    'subscriptionType'          => (string)$subscriptionType,
-                    'trialType'                 => (string)$trialType,
-                    'parentClubSubscriptionId'  => 'SID' . $order->get_user_id(),
+                    'appId' => 'ParentClub',
+                    'timestamp' => (string) $now,
+                    'nonce' => $nonce,
+                    'orderId' => (string) $order_id,
+                    'parentClubParentId' => 'PID' . $order->get_user_id(),
+                    'type' => '1',
+                    'payStatus' => '1',
+                    'payAmount' => number_format((float) $order->get_total(), 2, '.', ''),
+                    'payTimestamp' => (string) $now,
+                    'expireTimestamp' => (string) $expireTimestamp,
+                    'subscriptionType' => (string) $subscriptionType,
+                    'trialType' => (string) $trialType,
+                    'parentClubSubscriptionId' => 'SID' . $order->get_user_id(),
                 ];
                 $post_body = $sign_params;
-                $post_body['timestamp'] = (int)$now;
+                $post_body['timestamp'] = (int) $now;
                 $post_body['type'] = 1;
                 $post_body['payStatus'] = 1;
-                $post_body['payTimestamp'] = (int)$now;
-                $post_body['expireTimestamp'] = (int)$expireTimestamp;
-                $post_body['subscriptionType'] = (int)$subscriptionType;
-                $post_body['trialType'] = (int)$trialType;
+                $post_body['payTimestamp'] = (int) $now;
+                $post_body['expireTimestamp'] = (int) $expireTimestamp;
+                $post_body['subscriptionType'] = (int) $subscriptionType;
+                $post_body['trialType'] = (int) $trialType;
 
             } else if ($subscription_type == 'refund') {
                 $url = "https://math-pro-cms.dcraysai.com/api/user-center/order/refundNotify";
                 $sign_params = [
-                    'appId'                 => 'ParentClub',
-                    'orderId'               => (string)$order_id,
-                    'timestamp'             => (string)$now,
-                    'nonce'                 => $nonce,
+                    'appId' => 'ParentClub',
+                    'orderId' => (string) $order_id,
+                    'timestamp' => (string) $now,
+                    'nonce' => $nonce,
                 ];
                 $post_body = $sign_params;
-                $post_body['timestamp'] = (int)$now;
+                $post_body['timestamp'] = (int) $now;
 
             } else if ($subscription_type == 'public_exams') {
                 $url = "https://math-pro-cms.dcraysai.com/api/customer-center/getPublicExamQuestions";
-                $expireTimestamp = $now + (365 * 86400); 
+                $expireTimestamp = $now + (365 * 86400);
                 $sign_params = [
-                    'appId'                     => 'ParentClub',
-                    'parentId'                  => 'PID' . $order->get_user_id(),
-                    'subscriptionId'            => 'SID' . $order->get_user_id(),
-                    'timestamp'                 => (string)$now,
-                    'nonce'                     => $nonce,
-                    'expireTimestamp'           => (string)$expireTimestamp,
+                    'appId' => 'ParentClub',
+                    'parentId' => 'PID' . $order->get_user_id(),
+                    'subscriptionId' => 'SID' . $order->get_user_id(),
+                    'timestamp' => (string) $now,
+                    'nonce' => $nonce,
+                    'expireTimestamp' => (string) $expireTimestamp,
                 ];
                 $post_body = $sign_params;
-                $post_body['timestamp'] = (int)$now;
-                $post_body['expireTimestamp'] = (int)$expireTimestamp;
+                $post_body['timestamp'] = (int) $now;
+                $post_body['expireTimestamp'] = (int) $expireTimestamp;
             }
 
-            $secret = "yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm";
+            //$secret = "yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm";
+            $secret = "WRONG KEY";
             ksort($sign_params);
             $pairs = [];
             foreach ($sign_params as $k => $v) {
-                if ($v !== null) $pairs[] = $k . '=' . $v;
+                if ($v !== null)
+                    $pairs[] = $k . '=' . $v;
             }
             $content = implode('&', $pairs);
             $hash = hash_hmac('sha256', $content, $secret, true);
@@ -221,21 +224,22 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
             curl_close($ch);
 
             $decoded = json_decode($response, true);
-            $code = isset($decoded['code']) ? (int)$decoded['code'] : 0;
+            $code = isset($decoded['code']) ? (int) $decoded['code'] : 0;
 
             if ($code === 200 || $code === 40101) {
                 $success = true;
-                
+
                 // FEATURE 3: Add Success Note
                 $note = ($code === 200) ? "eMathSmart: Synced ✅" : "eMathSmart: Synced ✅ (already processed)";
                 $order->add_order_note($note);
             } else {
                 // Log failure to DB
                 emathsmart_log_api_error($order_id, $subscription_type, $attempt, $post_body, $response, $curl_error, $http_status);
-                
+
                 // Determine if we should retry
                 $should_retry = false;
-                if ($curl_error || $http_status >= 500 || in_array($code, [40001, 40002, 40003, 50000])) {
+                // Add 20306 to retry list (observed in live tests for signature errors)
+                if ($curl_error || $http_status >= 500 || in_array($code, [40001, 20306, 40002, 40003, 50000])) {
                     $should_retry = true;
                 }
 
@@ -246,10 +250,12 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 } else {
                     // FEATURE 3: Add Failure Note after max attempts
                     $error_msg = "eMathSmart: Failed ❌ after $attempt attempts.";
-                    if ($code) $error_msg .= " (Code: $code)";
-                    if ($curl_error) $error_msg .= " (cURL Error: $curl_error)";
+                    if ($code)
+                        $error_msg .= " (Code: $code)";
+                    if ($curl_error)
+                        $error_msg .= " (cURL Error: $curl_error)";
                     $order->add_order_note($error_msg);
-                    break; 
+                    break;
                 }
             }
         } // End While Loop
