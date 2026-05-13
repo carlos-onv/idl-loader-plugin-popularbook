@@ -264,7 +264,8 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
             if ($code === 200 || $code === 40101 || $code === 40201 || $code === 40202) {
                 $success = true;
 
-                $note = ($subscription_type === 'refund') ? "eMathSmart: Refund Synced ✅" : "eMathSmart: Synced ✅";
+                $api_label = ($subscription_type === 'refund') ? 'Refund Notify' : 'Payment Notify';
+                $note = "eMathSmart $api_label: Synced ✅";
                 
                 if ($code === 40101 || $code === 40202) {
                     $note .= " (already processed)";
@@ -290,13 +291,14 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     continue;
                 } else {
                     // FEATURE 3: Specific Failure Notes
-                    $error_msg = "eMathSmart: Failed ❌ after $attempt attempts.";
+                    $api_label = ($subscription_type === 'refund') ? 'Refund Notify' : 'Payment Notify';
+                    $error_msg = "eMathSmart $api_label: Failed ❌ after $attempt attempts.";
                     if ($code) $error_msg .= " (Code: $code)";
                     if ($curl_error) $error_msg .= " (cURL Error: $curl_error)";
 
                     if ($subscription_type === 'refund') {
-                        if ($code === 40203) $error_msg = "eMathSmart: Refund Failed ❌ Parent ID mismatch.";
-                        if ($code === 40204) $error_msg = "eMathSmart: Refund Failed ❌ Timestamp before payment.";
+                        if ($code === 40203) $error_msg = "eMathSmart Refund Notify: Failed ❌ Parent ID mismatch.";
+                        if ($code === 40204) $error_msg = "eMathSmart Refund Notify: Failed ❌ Timestamp before payment.";
                     }
 
                     $order->add_order_note($error_msg);
