@@ -35,6 +35,11 @@ function custom_testcms()
 add_action('admin_init', 'emathsmart_create_log_table');
 function emathsmart_create_log_table()
 {
+    $current_version = '1.0';
+    if (get_option('emathsmart_log_table_version') === $current_version) {
+        return; // Table already created, skip
+    }
+
     global $wpdb;
     $table_name = $wpdb->prefix . 'emathsmart_log';
     $charset_collate = $wpdb->get_charset_collate();
@@ -56,6 +61,7 @@ function emathsmart_create_log_table()
 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
+    update_option('emathsmart_log_table_version', $current_version);
 }
 
 /**
@@ -196,6 +202,10 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 $post_body = $sign_params;
                 $post_body['timestamp'] = (int) $now;
                 $post_body['expireTimestamp'] = (int) $expireTimestamp;
+            } else {
+                // Unknown subscription type — bail out
+                if ($debug) echo "<pre>Unknown subscription type: $subscription_type</pre>";
+                return;
             }
 
             $secret = "yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm";
