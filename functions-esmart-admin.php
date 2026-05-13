@@ -33,14 +33,36 @@ function emathsmart_render_logs_page() {
     $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
     $offset = ($current_page - 1) * $per_page;
 
+    // Filters
     $where = "1=1";
-    $total_items = $wpdb->get_var("SELECT COUNT(*) FROM $table_name WHERE $where");
+    $params = [];
+
+    if (!empty($_GET['order_id'])) {
+        $where .= " AND order_id = %d";
+        $params[] = intval($_GET['order_id']);
+    }
+
+    if (!empty($_GET['api_type'])) {
+        $where .= " AND api_type = %s";
+        $params[] = sanitize_text_field($_GET['api_type']);
+    }
+
+    if (!empty($_GET['date_from'])) {
+        $where .= " AND created_at >= %s";
+        $params[] = sanitize_text_field($_GET['date_from']) . ' 00:00:00';
+    }
+
+    if (!empty($_GET['date_to'])) {
+        $where .= " AND created_at <= %s";
+        $params[] = sanitize_text_field($_GET['date_to']) . ' 23:59:59';
+    }
+
+    $total_items = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE $where", $params));
     $num_pages = ceil($total_items / $per_page);
 
-    $logs = $wpdb->get_results($wpdb->prepare(
-        "SELECT * FROM $table_name WHERE $where ORDER BY id DESC LIMIT %d OFFSET %d",
-        $per_page, $offset
-    ));
+    $sql = "SELECT * FROM $table_name WHERE $where ORDER BY id DESC LIMIT %d OFFSET %d";
+    $query_params = array_merge($params, [$per_page, $offset]);
+    $logs = $wpdb->get_results($wpdb->prepare($sql, $query_params));
     ?>
     <div class="wrap">
         <h1 class="wp-heading-inline">eMathSmart API Logs</h1>
@@ -49,6 +71,43 @@ function emathsmart_render_logs_page() {
         <div class="notice notice-info is-dismissible">
             <p>This page displays communication logs for eMathSmart APIs. Only failures and manual resends are logged here for debugging.</p>
         </div>
+
+        <!-- Filters Form -->
+        <form method="get" style="margin-bottom: 20px; background: #fff; padding: 15px; border: 1px solid #ccd0d4; border-radius: 4px;">
+            <input type="hidden" name="page" value="emathsmart-logs">
+            
+            <div style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+                <div>
+                    <label for="order_id">Order ID</label><br>
+                    <input type="number" name="order_id" id="order_id" value="<?php echo isset($_GET['order_id']) ? esc_attr($_GET['order_id']) : ''; ?>" placeholder="e.g. 116377">
+                </div>
+                
+                <div>
+                    <label for="api_type">API Type</label><br>
+                    <select name="api_type" id="api_type">
+                        <option value="">All Types</option>
+                        <option value="Payment" <?php selected(isset($_GET['api_type']) && $_GET['api_type'] == 'Payment'); ?>>Payment</option>
+                        <option value="refund" <?php selected(isset($_GET['api_type']) && $_GET['api_type'] == 'refund'); ?>>Refund</option>
+                        <option value="public_exams" <?php selected(isset($_GET['api_type']) && $_GET['api_type'] == 'public_exams'); ?>>Public Exams</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="date_from">From Date</label><br>
+                    <input type="date" name="date_from" id="date_from" value="<?php echo isset($_GET['date_from']) ? esc_attr($_GET['date_from']) : ''; ?>">
+                </div>
+                
+                <div>
+                    <label for="date_to">To Date</label><br>
+                    <input type="date" name="date_to" id="date_to" value="<?php echo isset($_GET['date_to']) ? esc_attr($_GET['date_to']) : ''; ?>">
+                </div>
+                
+                <div>
+                    <button type="submit" class="button button-primary">Filter Logs</button>
+                    <a href="admin.php?page=emathsmart-logs" class="button">Clear</a>
+                </div>
+            </div>
+        </form>
 
         <div class="tablenav top">
             <div class="tablenav-pages">
