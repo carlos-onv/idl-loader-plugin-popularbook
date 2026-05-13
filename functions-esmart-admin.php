@@ -31,6 +31,13 @@ function emathsmart_render_logs_page() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'emathsmart_log';
 
+    // Guard: ensure the log table exists
+    if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") !== $table_name) {
+        echo '<div class="wrap"><h1>eMathSmart API Logs</h1>';
+        echo '<div class="notice notice-warning"><p>The log table <code>' . esc_html($table_name) . '</code> does not exist yet. Logs will appear here once the first API call is made.</p></div></div>';
+        return;
+    }
+
     // Pagination Logic
     $per_page = 20;
     $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
@@ -60,12 +67,17 @@ function emathsmart_render_logs_page() {
         $params[] = sanitize_text_field($_GET['date_to']) . ' 23:59:59';
     }
 
-    $total_items = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE $where", $params));
+    // Build count query — only use prepare() when we have placeholders
+    $count_sql = "SELECT COUNT(*) FROM $table_name WHERE $where";
+    $total_items = !empty($params)
+        ? (int) $wpdb->get_var($wpdb->prepare($count_sql, $params))
+        : (int) $wpdb->get_var($count_sql);
     $num_pages = ceil($total_items / $per_page);
 
-    $sql = "SELECT * FROM $table_name WHERE $where ORDER BY id DESC LIMIT %d OFFSET %d";
+    // Build data query
+    $data_sql = "SELECT * FROM $table_name WHERE $where ORDER BY id DESC LIMIT %d OFFSET %d";
     $query_params = array_merge($params, [$per_page, $offset]);
-    $logs = $wpdb->get_results($wpdb->prepare($sql, $query_params));
+    $logs = $wpdb->get_results($wpdb->prepare($data_sql, $query_params));
     ?>
     <style>
         :root {
@@ -201,6 +213,21 @@ function emathsmart_render_logs_page() {
         .badge-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
         .badge-info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
 
+        .log-details-row td {
+            padding: 0 !important;
+            border-top: none !important;
+        }
+
+        .log-details-grid {
+            display: flex;
+            gap: 20px;
+        }
+
+        .log-details-col {
+            flex: 1;
+            min-width: 0;
+        }
+
         .log-details-content {
             padding: 25px;
             background: #fcfcfc;
@@ -208,6 +235,8 @@ function emathsmart_render_logs_page() {
         }
 
         .log-details-content pre {
+            white-space: pre-wrap;
+            word-break: break-all;
             background: #fff;
             border: 1px solid #e1e1e1;
             padding: 15px;
@@ -217,7 +246,7 @@ function emathsmart_render_logs_page() {
             font-size: 12px;
             line-height: 1.6;
             max-height: 500px;
-            overflow: auto;
+            overflow-y: auto;
         }
 
         .log-details-col strong {
@@ -228,6 +257,13 @@ function emathsmart_render_logs_page() {
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+
+        /* Header column layout for stacked title + meta */
+        .emathsmart-header.emathsmart-header--column {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
     </style>
 
     <div class="wrap emathsmart-admin">
@@ -237,7 +273,7 @@ function emathsmart_render_logs_page() {
             </div>
         </div>
 
-        <div class="emathsmart-header" style="flex-direction: column; align-items: flex-start; gap: 10px;">
+        <div class="emathsmart-header emathsmart-header--column">
             <h1>eMathSmart API Logs</h1>
             <div class="emathsmart-meta">
                 <span class="displaying-num"><?php printf(_n('%s Entry Found', '%s Entries Found', $total_items), number_format_i18n($total_items)); ?></span>
