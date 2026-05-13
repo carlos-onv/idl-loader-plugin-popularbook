@@ -308,9 +308,14 @@ add_filter('woocommerce_order_actions', 'emathsmart_add_resend_order_action');
 function emathsmart_add_resend_order_action($actions)
 {
     global $theorder;
-    // Only show for completed or refunded orders
+    // Only show for completed or refunded SUBSCRIPTION orders
     if ($theorder->has_status(['completed', 'refunded'])) {
-        $actions['emathsmart_resend'] = __('Resend to eMathSmart', 'woocommerce');
+        if (function_exists('wcs_get_subscriptions_for_order')) {
+            $subscriptions = wcs_get_subscriptions_for_order($theorder->get_id(), array('order_type' => 'any'));
+            if (!empty($subscriptions)) {
+                $actions['emathsmart_resend'] = __('Resend to eMathSmart', 'woocommerce');
+            }
+        }
     }
     return $actions;
 }
