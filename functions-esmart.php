@@ -1,5 +1,6 @@
 <?php
 require_once('functions-esmart-debug.php');
+require_once('functions-esmart-admin.php');
 
 
 
