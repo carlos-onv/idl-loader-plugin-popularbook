@@ -231,13 +231,13 @@ function emathsmart_render_logs_page() {
     </style>
 
     <div class="wrap emathsmart-admin">
-        <div class="emathsmart-notices" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-            <div class="notice notice-info is-dismissible" style="margin: 0; flex: 1; min-width: 300px;">
+        <div class="emathsmart-notices">
+            <div class="notice notice-info is-dismissible">
                 <p>This page displays communication logs for eMathSmart APIs. Only failures and manual resends are logged here for debugging.</p>
             </div>
         </div>
 
-        <div class="emathsmart-header">
+        <div class="emathsmart-header" style="flex-direction: column; align-items: flex-start; gap: 10px;">
             <h1>eMathSmart API Logs</h1>
             <div class="emathsmart-meta">
                 <span class="displaying-num"><?php printf(_n('%s Entry Found', '%s Entries Found', $total_items), number_format_i18n($total_items)); ?></span>
@@ -419,21 +419,6 @@ function emathsmart_render_logs_page() {
             el.style.display = 'none';
         }
     }
-
-    // Move standard WP notices into our row container
-    document.addEventListener('DOMContentLoaded', function() {
-        var noticeContainer = document.querySelector('.emathsmart-notices');
-        var allNotices = document.querySelectorAll('.wrap > .notice, .wrap > .updated, .wrap > .error');
-        
-        allNotices.forEach(function(notice) {
-            if (!notice.closest('.emathsmart-notices')) {
-                notice.style.margin = '0';
-                notice.style.flex = '1';
-                notice.style.minWidth = '300px';
-                noticeContainer.appendChild(notice);
-            }
-        });
-    });
     </script>
     <?php
 }
