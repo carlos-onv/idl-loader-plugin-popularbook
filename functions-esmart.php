@@ -191,7 +191,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     'timestamp' => (string) $now,
                     'nonce' => $nonce,
                     'orderId' => (string) $order_id,
-                    'parentClubParentId' => 'PID' . $order->get_user_id(),
+                    'parentClubParentId' => (string) $order->get_user_id(),
                     'type' => '1',
                     'payStatus' => '1',
                     'payAmount' => number_format((float) $order->get_total(), 2, '.', ''),
@@ -199,7 +199,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     'expireTimestamp' => (string) $expireTimestamp,
                     'subscriptionType' => (string) $subscriptionType,
                     'trialType' => (string) $trialType,
-                    'parentClubSubscriptionId' => 'SID' . $order->get_user_id(),
+                    'parentClubSubscriptionId' => (string) $order_id,
                 ];
                 $post_body = $sign_params;
                 $post_body['timestamp'] = (int) $now;
@@ -233,8 +233,8 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 // Note: expireTimestamp is EXCLUDED from signature
                 $sign_params = [
                     'appId' => 'ParentClub',
-                    'parentId' => 'PID' . $order->get_user_id(),
-                    'subscriptionId' => 'SID' . $order->get_user_id(),
+                    'parentId' => (string) $order->get_user_id(),
+                    'subscriptionId' => (string) $order_id,
                     'timestamp' => (string) $now,
                     'nonce' => $nonce,
                 ];
