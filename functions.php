@@ -133,10 +133,16 @@ function child_remove_style()
 
         wp_deregister_script('mc4wp-forms-api');
 
-        wp_deregister_script('vc_tta_autoplay_script');
-        wp_deregister_script('vc_accordion_script');
-        wp_dequeue_script('vc_tta_autoplay_script');
-        wp_dequeue_script('vc_accordion_script');
+        // WPBakery accordion/tab scripts: skip dequeue on pages that render vc_tta-accordion
+        // (parents-club has an FAQ accordion that needs wpb_composer_front_js to toggle).
+        if ($_SERVER['REQUEST_URI'] !== '/parents-club' && $_SERVER['REQUEST_URI'] !== '/parents-club/') {
+            wp_deregister_script('vc_tta_autoplay_script');
+            wp_deregister_script('vc_accordion_script');
+            wp_dequeue_script('vc_tta_autoplay_script');
+            wp_dequeue_script('vc_accordion_script');
+
+            wp_dequeue_script('wpb_composer_front_js');
+        }
 
         wp_dequeue_script('ultimate-vc-addons-script');
         wp_dequeue_script('ultimate-vc-addons-row-bg');
@@ -144,8 +150,6 @@ function child_remove_style()
         wp_dequeue_script('jquery-ui.js');
 
         wp_dequeue_script('wt-owl-js');
-
-        wp_dequeue_script('wpb_composer_front_js');
 
         wp_dequeue_script('yith-wcwtl-frontend');
 
@@ -482,6 +486,32 @@ function rs_avada_logout_link_shortcode($atts, $content = '')
 add_shortcode('rs_logout', 'rs_avada_logout_link_shortcode');
 
 add_action('wp_enqueue_scripts', 'book_junky_enqueue_styles', PHP_INT_MAX);
+
+/**
+ * Replace parent theme's Bootstrap 3.3.6 (incompatible with jQuery 3) and
+ * book-junky.js (unguarded rangeSlider call) with patched child-theme copies.
+ */
+function bjc_replace_parent_scripts()
+{
+    wp_deregister_script('bootstrap');
+    wp_enqueue_script(
+        'bootstrap',
+        get_stylesheet_directory_uri() . '/assets/js/bootstrap.min.js',
+        array('jquery'),
+        '3.4.1',
+        true
+    );
+
+    wp_deregister_script('book-junky');
+    wp_enqueue_script(
+        'book-junky',
+        get_stylesheet_directory_uri() . '/assets/js/book-junky.js',
+        array('jquery'),
+        '1.0.1',
+        true
+    );
+}
+add_action('wp_enqueue_scripts', 'bjc_replace_parent_scripts', PHP_INT_MAX);
 
 
 remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');

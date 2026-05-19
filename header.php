@@ -158,9 +158,11 @@ if( function_exists('is_wc_endpoint_url') && is_wc_endpoint_url( 'order-received
     if (!bCheck()) {
         jQuery.getScript("https://www.popularbook.ca/wp-content/plugins/revslider/sr6/assets/js/rbtools.min.js");
         jQuery.getScript("https://www.popularbook.ca/wp-content/plugins/revslider/sr6/assets/js/rs6.min.js");
-        
+
+        <?php if ($_SERVER['REQUEST_URI'] !== '/parents-club' && $_SERVER['REQUEST_URI'] !== '/parents-club/'): ?>
         jQuery.getScript("https://www.popularbook.ca/wp-content/plugins/js_composer/assets/lib/vc/vc_accordion/vc-accordion.min.js");
         jQuery.getScript("https://www.popularbook.ca/wp-content/plugins/js_composer/assets/lib/vc/vc-tta-autoplay/vc-tta-autoplay.min.js");
+        <?php endif; ?>
     }
 </script>
 	
