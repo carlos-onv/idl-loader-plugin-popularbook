@@ -2,18 +2,25 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-05-19] - Security & Performance Audit of Live Server Copy
+## [2026-05-19] - Security, Plugin & Performance Audit of Live Server Copy
 
 ### Added
-- **Malware & Performance Analysis Report:** Added complete documentation of findings to `malware_performance_analysis.md`.
+- **Malware, Plugin Security & Performance Analysis Report:** Added complete documentation of findings to `malware_performance_analysis.md`.
 
 ### Discovered
 - **SEO Spam Cloaking Malware:**
   - Found sophisticated SEO cloaking code in the live copy (`public_html/index.php`) and `.htaccess` designed to intercept Googlebots/crawlers and serve Turkish gambling spam (`Meritking 2026`) located in a rogue root file `public_html/wp-options.php`.
+- **Plugin Security Flaws (Potential Initial Attack Vectors):**
+  - **WooCommerce Fulfillment IDL:** Discovered a massive PII Information Disclosure vulnerability where order XML payloads containing names, email/billing/shipping addresses, phone numbers, and purchased books are saved sequentially to the public web root folder: `ordersdata/order-[order_id].xml`. Scrapers can easily download every customer order without authentication.
+  - **User Meta IDL:** Discovered a highly dangerous PHP Object Injection vulnerability at line 75 of `idl-user-meta.php` where it performs `unserialize()` on an insecure third-party HTTP call (`http://www.geoplugin.net/php.gp?ip=$user_ip`). A compromised domain or MITM can trigger Remote Code Execution (RCE) on the server.
 - **Performance Cheating Hook:**
   - Located custom JS `bCheck()` function in the child theme's `header.php` which detects Lighthouse, GTmetrix, and other performance crawlers, then completely skips enqueuing GTM, Meta Pixel, Visual Composer styles, and Revolution Slider scripts. This fakes a high PageSpeed score on speed tools while real users suffer the full impact of unoptimized scripts.
 
 ### Technical Notes for AI Agents
+- **Plugin Audits:** Third-party plugins (including `revslider` version 6.7.34 and `js_composer` version 8.7.2) were audited via regex scan and verified clean of backdoors.
+- **Exposure Remediations:**
+  - Move the `ordersdata/` directory outside the public web root, or configure an immediate `.htaccess` rule inside the folder: `Deny from all`.
+  - Rewrite the `idl-user-meta.php` geoplugin call to use secure JSON via HTTPS and decode it using `json_decode()` instead of `unserialize()`.
 - The active child theme contains cheating logic that masks the true rendering performance from Lighthouse audits. To perform real-world optimizations, `bCheck()` checks must be removed or bypassed.
 - Do NOT upload or migrate the infected `index.php`, `.htaccess`, or `wp-options.php` files from `dev_assets/public_html` to any production or developer environment.
 
