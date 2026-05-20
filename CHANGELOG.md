@@ -2,7 +2,22 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-20] - Chronological Timeline Correction for Order Notes
+
+### Fixed
+- **Timeline Order of Order Notes:** Corrected the chronological timeline sequence of WooCommerce order notes when order status changes.
+  - Subscription status changes (`emathsmart_cancel_subscription_on_refund` and `emathsmart_reactivate_subscription_on_completed`) and eMathSmart API Sync notes (`process_subscription_custom`) are now fully deferred using `emathsmart_defer_order_note()`.
+  - This ensures they are written to the database during the WordPress `shutdown` hook, *after* WooCommerce core writes the standard order status transition note.
+  - The correct chronological order is now guaranteed:
+    1. **Order status change** (e.g. *"Order status changed from completed to refunded"* or vice-versa)
+    2. **Subscription change** (e.g. *"Subscription #X automatically cancelled/reactivated..."*)
+    3. **eMathSmart Sync** (e.g. *"eMathSmart Refund/Payment Notify: Synced ✅"*)
+
+### Technical Notes for AI Agents
+- **Deferred Flushing in Simulations:** Since the debug and simulation endpoints in `functions-esmart-debug.php` use `exit;` to terminate execution early (which bypasses WordPress's normal `shutdown` hook execution), we have updated the debug and simulation handlers to manually invoke `emathsmart_flush_deferred_notes()` before calling `exit;`. This ensures that all deferred notes are correctly flushed and written to the database during testing and manual simulation execution.
+
 ## [2026-05-20] - Auto-Reactivate Subscription on Parent Order Completed Reversal
+
 
 ### Added
 - **Feature: Auto-reactivate cancelled subscriptions on order status reversal**

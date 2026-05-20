@@ -25,6 +25,9 @@ function custom_testcms()
         }
         process_subscription_custom($order_id, $type, true); // True = Debug mode for manual testing
 
+        // Flush deferred notes manually since we call exit here
+        emathsmart_flush_deferred_notes();
+
         exit;
     }
 }
@@ -68,9 +71,10 @@ function emathsmart_create_log_table()
 /**
  * PRODUCTION HOOKS: Trigger eMathSmart notifications automatically
  */
-add_action('woocommerce_order_status_completed', 'emathsmart_trigger_payment_notification', 20, 1);
-function emathsmart_trigger_payment_notification($order_id)
+add_action('woocommerce_order_status_changed', 'emathsmart_trigger_payment_notification', 20, 4);
+function emathsmart_trigger_payment_notification($order_id, $from, $to, $order)
 {
+    if ($to !== 'completed') return;
     // Only notify eMathSmart for subscription orders
     if (!function_exists('wcs_get_subscriptions_for_order')) return;
     $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'any'));
@@ -79,9 +83,10 @@ function emathsmart_trigger_payment_notification($order_id)
     process_subscription_custom($order_id, 'Payment', false);
 }
 
-add_action('woocommerce_order_status_refunded', 'emathsmart_trigger_refund_notification', 20, 1);
-function emathsmart_trigger_refund_notification($order_id)
+add_action('woocommerce_order_status_changed', 'emathsmart_trigger_refund_notification', 20, 4);
+function emathsmart_trigger_refund_notification($order_id, $from, $to, $order)
 {
+    if ($to !== 'refunded') return;
     // Only notify eMathSmart for subscription orders
     if (!function_exists('wcs_get_subscriptions_for_order')) return;
     $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'any'));
@@ -93,13 +98,14 @@ function emathsmart_trigger_refund_notification($order_id)
 // Auto-cancel active subscriptions when a parent order is refunded.
 // WCS built-in (maybe_cancel_subscription_on_full_refund) only handles pending-cancel status.
 // This ensures active subscriptions are also cancelled on refund.
-add_action('woocommerce_order_status_refunded', 'emathsmart_cancel_subscription_on_refund', 30, 1);
-function emathsmart_cancel_subscription_on_refund($order_id)
+// Hooked to status change at priority 10 so it runs BEFORE refundNotify at priority 20 and after order status note is added.
+add_action('woocommerce_order_status_changed', 'emathsmart_cancel_subscription_on_refund', 10, 4);
+function emathsmart_cancel_subscription_on_refund($order_id, $from, $to, $order)
 {
+    if ($to !== 'refunded') return;
     if (!function_exists('wcs_get_subscriptions_for_order')) return;
 
     $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'parent'));
-    $order = wc_get_order($order_id);
 
     foreach ($subscriptions as $subscription) {
         if ($subscription->has_status(array('active', 'on-hold')) && $subscription->can_be_updated_to('cancelled')) {
@@ -111,15 +117,14 @@ function emathsmart_cancel_subscription_on_refund($order_id)
                 )
             );
 
-            // Add note to parent order too
-            if ($order) {
-                $order->add_order_note(
-                    sprintf(
-                        __('Subscription #%s automatically cancelled after this order was refunded.', 'woocommerce-subscriptions'),
-                        $subscription->get_id()
-                    )
-                );
-            }
+            // Defer the note to parent order so it appears chronologically after the status change note
+            emathsmart_defer_order_note(
+                $order_id,
+                sprintf(
+                    __('Subscription #%s automatically cancelled after this order was refunded.', 'woocommerce-subscriptions'),
+                    $subscription->get_id()
+                )
+            );
         }
     }
 }
@@ -572,13 +577,13 @@ function emathsmart_handle_sso_logout()
 // status changes back to completed (manual reversal of refund).
 // Hooked at priority 10 so it runs BEFORE paymentNotify at priority 20.
 // ============================================================
-add_action('woocommerce_order_status_completed', 'emathsmart_reactivate_subscription_on_completed', 10, 1);
-function emathsmart_reactivate_subscription_on_completed($order_id)
+add_action('woocommerce_order_status_changed', 'emathsmart_reactivate_subscription_on_completed', 10, 4);
+function emathsmart_reactivate_subscription_on_completed($order_id, $from, $to, $order)
 {
+    if ($to !== 'completed') return;
     if (!function_exists('wcs_get_subscriptions_for_order')) return;
 
     $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'parent'));
-    $order = wc_get_order($order_id);
 
     foreach ($subscriptions as $subscription) {
         if ($subscription->has_status('cancelled')) {
@@ -593,15 +598,14 @@ function emathsmart_reactivate_subscription_on_completed($order_id)
                 )
             );
 
-            // Add note to parent order too
-            if ($order) {
-                $order->add_order_note(
-                    sprintf(
-                        __('Subscription #%s automatically reactivated after this order status was changed back to completed.', 'woocommerce-subscriptions'),
-                        $subscription->get_id()
-                    )
-                );
-            }
+            // Defer the note to parent order so it appears chronologically after the status change note
+            emathsmart_defer_order_note(
+                $order_id,
+                sprintf(
+                    __('Subscription #%s automatically reactivated after this order status was changed back to completed.', 'woocommerce-subscriptions'),
+                    $subscription->get_id()
+                )
+            );
         }
     }
 }

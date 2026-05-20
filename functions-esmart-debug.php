@@ -60,6 +60,9 @@ function emathsmart_run_error_tests()
         }
 
         echo "<br><a href='?testcms=process&type=Payment'>Run real Payment test (Success path)</a>";
+        if (function_exists('emathsmart_flush_deferred_notes')) {
+            emathsmart_flush_deferred_notes();
+        }
         exit;
     }
 }
@@ -729,6 +732,11 @@ add_action('init', function () {
     echo "<h3>2. Triggering eMathSmart API notification...</h3>";
     process_subscription_custom($order_id, 'refund', true);
 
+    // Flush any deferred notes manually since we are calling exit
+    if (function_exists('emathsmart_flush_deferred_notes')) {
+        emathsmart_flush_deferred_notes();
+    }
+
     echo "<hr><p style='color:green;font-weight:bold;'>Simulation complete!</p>";
     exit;
 });
@@ -792,6 +800,11 @@ add_action('init', function () {
     // Trigger eMathSmart notification with debug output turned ON (true)
     echo "<h3>2. Triggering eMathSmart API notification...</h3>";
     process_subscription_custom($order_id, 'Payment', true);
+
+    // Flush any deferred notes manually since we are calling exit
+    if (function_exists('emathsmart_flush_deferred_notes')) {
+        emathsmart_flush_deferred_notes();
+    }
 
     echo "<hr><p style='color:green;font-weight:bold;'>Simulation complete!</p>";
     exit;
