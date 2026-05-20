@@ -733,3 +733,67 @@ add_action('init', function () {
     exit;
 });
 
+// ============================================================
+// DEBUG TOOL: ?simulate_completed_trigger=<order_id>
+// Simulates a parent order being changed to completed to test
+// automatic reactivation and eMathSmart API notification.
+// Usage: https://dev.popularbook.ca/?simulate_completed_trigger=12345
+// ============================================================
+add_action('init', function () {
+    if (!isset($_GET['simulate_completed_trigger'])) return;
+
+    // Safety: only allow admins
+    if (!current_user_can('manage_options')) {
+        wp_die('Unauthorized. You must be logged in as an admin to use this tool.');
+    }
+
+    $order_id = intval($_GET['simulate_completed_trigger']);
+    if ($order_id <= 0) {
+        wp_die('Invalid order ID.');
+    }
+
+    $order = wc_get_order($order_id);
+    if (!$order) {
+        wp_die("Order #$order_id not found.");
+    }
+
+    echo "<h2>Simulating Reversal (Completed) for Order #$order_id</h2>";
+
+    $subscriptions = [];
+    if (function_exists('wcs_get_subscriptions_for_order')) {
+        $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'parent'));
+        echo "<h3>Linked Parent Subscriptions BEFORE Reactivation:</h3>";
+        if (empty($subscriptions)) {
+            echo "<p style='color:orange;'>No parent subscriptions found linked to this order.</p>";
+        } else {
+            echo "<ul>";
+            foreach ($subscriptions as $subscription) {
+                echo "<li>Subscription #<b>" . $subscription->get_id() . "</b> | Status: <b>" . $subscription->get_status() . "</b></li>";
+            }
+            echo "</ul>";
+        }
+    }
+
+    // Trigger the reactivation hook
+    echo "<h3>1. Triggering 'emathsmart_reactivate_subscription_on_completed' hook...</h3>";
+    emathsmart_reactivate_subscription_on_completed($order_id);
+
+    if (function_exists('wcs_get_subscriptions_for_order') && !empty($subscriptions)) {
+        echo "<h3>Updated Subscription Statuses:</h3>";
+        echo "<ul>";
+        foreach ($subscriptions as $subscription) {
+            // Re-fetch to get updated status
+            $updated_sub = wcs_get_subscription($subscription->get_id());
+            echo "<li>Subscription #<b>" . $updated_sub->get_id() . "</b> | New Status: <b style='color:green;'>" . $updated_sub->get_status() . "</b></li>";
+        }
+        echo "</ul>";
+    }
+
+    // Trigger eMathSmart notification with debug output turned ON (true)
+    echo "<h3>2. Triggering eMathSmart API notification...</h3>";
+    process_subscription_custom($order_id, 'Payment', true);
+
+    echo "<hr><p style='color:green;font-weight:bold;'>Simulation complete!</p>";
+    exit;
+});
+

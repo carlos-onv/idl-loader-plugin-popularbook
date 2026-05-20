@@ -566,3 +566,42 @@ function emathsmart_handle_sso_logout()
     wp_redirect(home_url('/'));
     exit;
 }
+
+// ============================================================
+// Auto-reactivate cancelled subscriptions when a parent order
+// status changes back to completed (manual reversal of refund).
+// Hooked at priority 10 so it runs BEFORE paymentNotify at priority 20.
+// ============================================================
+add_action('woocommerce_order_status_completed', 'emathsmart_reactivate_subscription_on_completed', 10, 1);
+function emathsmart_reactivate_subscription_on_completed($order_id)
+{
+    if (!function_exists('wcs_get_subscriptions_for_order')) return;
+
+    $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'parent'));
+    $order = wc_get_order($order_id);
+
+    foreach ($subscriptions as $subscription) {
+        if ($subscription->has_status('cancelled')) {
+            // Bypass native WCS transition checks by setting status directly and saving
+            $subscription->set_status('active');
+            $subscription->save();
+
+            $subscription->add_order_note(
+                sprintf(
+                    __('Subscription automatically reactivated because parent order #%s status was changed to completed.', 'woocommerce-subscriptions'),
+                    $order_id
+                )
+            );
+
+            // Add note to parent order too
+            if ($order) {
+                $order->add_order_note(
+                    sprintf(
+                        __('Subscription #%s automatically reactivated after this order status was changed back to completed.', 'woocommerce-subscriptions'),
+                        $subscription->get_id()
+                    )
+                );
+            }
+        }
+    }
+}

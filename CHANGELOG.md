@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-20] - Auto-Reactivate Subscription on Parent Order Completed Reversal
+
+### Added
+- **Feature: Auto-reactivate cancelled subscriptions on order status reversal**
+  - Added `emathsmart_reactivate_subscription_on_completed()` hooked to `woocommerce_order_status_completed` (priority 10) in `functions-esmart.php`.
+  - Automatically transitions `cancelled` subscriptions back to `active` when their parent order is changed back to completed (manual reversal of a refund).
+  - Safely bypasses WooCommerce Subscriptions native transition restrictions (which block direct 'cancelled' to 'active' status changes) by directly updating the status and saving (`$subscription->set_status('active'); $subscription->save();`).
+  - Automatically triggers the `Payment` notification to eMathSmart immediately afterwards (priority 20) with active subscription details.
+  - Appends timeline notes to both the subscription and the parent order:
+    - Parent order: *"Subscription #X automatically reactivated after this order status was changed back to completed."*
+    - Subscription: *"Subscription automatically reactivated because parent order #Y status was changed to completed."*
+- **Diagnostic Tool: `?simulate_completed_trigger=<order_id>`** (Clean Core)
+  - Created a debug tool inside `functions-esmart-debug.php` to simulate the manual completed reversal flow.
+  - Triggers reactivation of the database subscription, prints status before/after, and shows live request/response of the eMathSmart payment notification.
+
+### Technical Notes for AI Agents
+- **Bypassing Native Transition Limits:** Directly using `$subscription->update_status('active')` on a cancelled subscription will throw a fatal PHP exception because WooCommerce Subscriptions natively does not allow transition from cancelled directly back to active. Bypassed safely using:
+  ```php
+  $subscription->set_status('active');
+  $subscription->save();
+  ```
+- **Execution Order (Priority):** Hooked to `woocommerce_order_status_completed` at priority 10, running *before* the eMathSmart paymentNotify hook at priority 20 (`emathsmart_trigger_payment_notification`). This ensures the subscription is marked `active` in the DB before the API payload is prepared, so the API payload accurately computes the active dates and states.
+- **Modified files:** `functions-esmart.php` (production hook), `functions-esmart-debug.php` (diagnostic simulation utility). Clean Core rule fully respected.
+
 ## [2026-05-20] - eMathSmart SSO Logout Endpoint
 
 ### Added
