@@ -99,6 +99,8 @@ function emathsmart_cancel_subscription_on_refund($order_id)
     if (!function_exists('wcs_get_subscriptions_for_order')) return;
 
     $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'parent'));
+    $order = wc_get_order($order_id);
+
     foreach ($subscriptions as $subscription) {
         if ($subscription->has_status(array('active', 'on-hold')) && $subscription->can_be_updated_to('cancelled')) {
             $subscription->update_status(
@@ -108,6 +110,16 @@ function emathsmart_cancel_subscription_on_refund($order_id)
                     $order_id
                 )
             );
+
+            // Add note to parent order too
+            if ($order) {
+                $order->add_order_note(
+                    sprintf(
+                        __('Subscription #%s automatically cancelled after this order was refunded.', 'woocommerce-subscriptions'),
+                        $subscription->get_id()
+                    )
+                );
+            }
         }
     }
 }

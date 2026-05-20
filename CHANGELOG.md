@@ -23,7 +23,8 @@ All notable changes to this project will be documented in this file for both hum
 - **Feature: Auto-cancel active subscriptions on refund**
   - Added `emathsmart_cancel_subscription_on_refund()` hooked to `woocommerce_order_status_refunded` (priority 30) in `functions-esmart.php`.
   - Automatically cancels subscriptions with `active` or `on-hold` status when their parent order is refunded.
-  - Adds an order note: *"Subscription automatically cancelled because order #X was refunded."*
+  - Adds an order note to the subscription: *"Subscription automatically cancelled because order #X was refunded."*
+  - Adds an order note to the parent order: *"Subscription #Y automatically cancelled after this order was refunded."*
 - **Diagnostic Tool: `?simulate_refund_trigger=<order_id>`** (Clean Core)
   - Created a debug tool inside `functions-esmart-debug.php` to simulate refund events.
   - Safely cancels parent order subscriptions on WordPress, and prints out full API communication payload with eMathSmart's refundNotify endpoint.
