@@ -3143,7 +3143,7 @@ echo "<pre>";
 print_r($sign_string);
 print_r($sign_string_post);
 
-$ch = curl_init("https://math-pro-cms.dcraysai.com/api/user-center/order/paymentNotify");
+$ch = curl_init("https://test.emathsmart.ca/api/user-center/order/paymentNotify");
 
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
@@ -3200,7 +3200,7 @@ curl_close($ch);
             print_r($order_array);
             echo "<br>\n\n";
             //exit;
-            $url = "https://math-pro-cms.dcraysai.com/api/user-center/order/paymentNotify";
+            $url = "https://test.emathsmart.ca/api/user-center/order/paymentNotify";
             
             
             $payload = json_encode($order_array);
@@ -3236,7 +3236,7 @@ $data = "appId={$appId}&nonce={$nonce}&&timestamp={$timestamp}&type={$type}";
 $signature = base64_encode(hash_hmac('sha256', $data, $secret_key, true));
 
 
-$url = "https://math-pro-cms.dcraysai.com/api/user-center/order/paymentNotify";
+$url = "https://test.emathsmart.ca/api/user-center/order/paymentNotify";
 
 // POST fields (if required)
 $postFields = $order_array;

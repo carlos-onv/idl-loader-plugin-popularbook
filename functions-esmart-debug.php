@@ -577,11 +577,94 @@ function emathsmart_test_trial_email() {
     echo "<h1>Testing Trial Expiration Email for Subscription $subscription_id</h1>";
 
     // Load WooCommerce emails so the mailer is initialized
-    WC()->mailer();
+    $mailer = WC()->mailer();
+    $emails = $mailer->get_emails();
 
-    // Trigger the trial end hook which sends the email
-    do_action('woocommerce_subscription_trial_end', $subscription);
+    if (isset($emails['WCS_Email_Customer_Notification_Auto_Trial_Expiration'])) {
+        $email = $emails['WCS_Email_Customer_Notification_Auto_Trial_Expiration'];
+        
+        // Manually setup the email object to bypass the local environment block in WCS
+        $email->object    = $subscription;
+        $email->recipient = $subscription->get_billing_email();
+        $email->setup_locale();
+        $email->placeholders['{customers_first_name}'] = $subscription->get_billing_first_name();
+        $email->placeholders['{time_until_renewal}']   = 'soon'; // simple string to prevent errors
+        
+        // Send the email directly
+        $result = $email->send( 
+            $email->get_recipient(), 
+            $email->get_subject(), 
+            $email->get_content(), 
+            $email->get_headers(), 
+            $email->get_attachments() 
+        );
+        $email->restore_locale();
 
-    echo "<p style='color:green;'><b>Email trigger fired!</b> Check your inbox (or Mailpit) for the Trial Expiration email.</p>";
+        if ($result) {
+            echo "<p style='color:green;'><b>Email trigger fired successfully!</b> Check your inbox (or Mailpit) for the Trial Expiration email.</p>";
+        } else {
+            echo "<p style='color:red;'><b>Email failed to send.</b> Check your local mail configuration.</p>";
+        }
+    } else {
+        echo "<p style='color:red;'>Could not find the WCS_Email_Customer_Notification_Auto_Trial_Expiration class.</p>";
+    }
+
     exit;
 }
+
+// ============================================================
+// DEBUG TOOL: ?set_trial_end=<subscription_id>
+// Resets the trial end date on a subscription to +7 days from now.
+// Also sets a test billing first name if one is missing.
+// Usage: https://dev.popularbook.ca/?set_trial_end=117584
+// REMOVE before going live / do not use in production.
+// ============================================================
+add_action('init', function () {
+    if (!isset($_GET['set_trial_end'])) return;
+
+    // Safety: only allow admins
+    if (!current_user_can('manage_options')) {
+        wp_die('Unauthorized. You must be logged in as an admin to use this tool.');
+    }
+
+    $subscription_id = intval($_GET['set_trial_end']);
+    if ($subscription_id <= 0) {
+        wp_die('Invalid subscription ID.');
+    }
+
+    $subscription = wcs_get_subscription($subscription_id);
+    if (!$subscription) {
+        wp_die("Subscription #$subscription_id not found.");
+    }
+
+    echo "<h2>Set Trial End &mdash; Subscription #$subscription_id</h2>";
+
+    // --- 1. Set trial_end to +7 days ---
+    $new_trial_end = gmdate('Y-m-d H:i:s', strtotime('+7 days'));
+    try {
+        $subscription->update_dates([
+            'trial_end' => $new_trial_end,
+        ]);
+        echo "<p style='color:green;'><b>trial_end</b> updated to: <b>" . $new_trial_end . "</b> (UTC)</p>";
+    } catch (Exception $e) {
+        echo "<p style='color:red;'>Failed to update trial_end: " . esc_html($e->getMessage()) . "</p>";
+    }
+
+    // --- 2. Set a test billing first name if empty ---
+    $first_name = $subscription->get_billing_first_name();
+    if (empty(trim($first_name))) {
+        $subscription->set_billing_first_name('Test');
+        $subscription->set_billing_last_name('User');
+        $subscription->save();
+        echo "<p style='color:green;'><b>Billing name</b> set to: <b>Test User</b> (was empty)</p>";
+    } else {
+        echo "<p style='color:#888;'>Billing name already set to: <b>" . esc_html($first_name) . "</b> &mdash; not changed.</p>";
+    }
+
+    // --- 3. Summary ---
+    echo "<hr>";
+    echo "<p>Done! Now run the test email:<br>";
+    echo "<a href='" . esc_url(home_url('/?test_trial_email=' . $subscription_id)) . "'>?test_trial_email=$subscription_id</a></p>";
+
+    exit;
+});

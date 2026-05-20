@@ -233,7 +233,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
             $post_body = [];
 
             if ($subscription_type == 'Payment') {
-                $url = "https://math-pro-cms.dcraysai.com/api/user-center/order/paymentNotify";
+                $url = "https://test.emathsmart.ca/api/user-center/order/paymentNotify";
 
                 $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'any'));
                 $sub_data = ['billing_period' => '', 'next_payment' => '', 'trial_end' => ''];
@@ -292,7 +292,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 $post_body['trialType'] = (int) $trialType;
 
             } else if ($subscription_type == 'refund') {
-                $url = "https://math-pro-cms.dcraysai.com/api/user-center/order/refundNotify";
+                $url = "https://test.emathsmart.ca/api/user-center/order/refundNotify";
                 
                 $date_modified = $order->get_date_modified();
                 $refundTimestamp = $date_modified ? $date_modified->getTimestamp() : $now;
@@ -476,6 +476,7 @@ function emathsmart_process_resend_action($order)
  * Inject Public Exam links into the Trial Expiration email
  */
 add_action('woocommerce_email_customer_details', 'emathsmart_inject_exam_links_to_email', 20, 4);
+add_action('woocommerce_subscriptions_email_order_details', 'emathsmart_inject_exam_links_to_email', 20, 4);
 function emathsmart_inject_exam_links_to_email($order, $sent_to_admin, $plain_text, $email) {
     // Only target the Trial Expiration notification
     if ($email->id !== 'customer_notification_manual_trial_expiry' && $email->id !== 'customer_notification_auto_trial_expiry') {

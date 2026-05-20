@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-20] - API Endpoint Migration to test.emathsmart.ca + Trial Email Injection Fix + Debug Tools
+
+### Changed
+- **API Endpoint Migration:** Updated all eMathSmart API calls from `math-pro-cms.dcraysai.com` → `test.emathsmart.ca` across:
+  - `functions-esmart.php`: API #5 (`paymentNotify` ~line 236), API #6 (`refundNotify` ~line 295), API #9 (`getPublicExamQuestions` ~lines 103 & 312)
+  - `functions.php`: API #5 payment notify calls (~lines 3146, 3203, 3239)
+  - `functions-esmart-debug.php`: All 3 diagnostic endpoint references (~lines 86, 234, 404)
+
+### Fixed
+- **WCS Trial Expiration Email — PDF Injection Not Firing:**
+  - Root cause: The WooCommerce Subscriptions automatic trial expiry email (`WCS_Email_Customer_Notification_Auto_Trial_Expiration`) uses the template hook `woocommerce_subscriptions_email_order_details`, NOT the standard `woocommerce_email_customer_details` hook.
+  - Fix: Added `add_action('woocommerce_subscriptions_email_order_details', ...)` in `functions-esmart.php` (~line 479). The original hook was never firing for this email type.
+  - PDF exam links from API #9 now correctly appear below the subscription table in the trial expiration email.
+
+### Added (Debug Tools — `functions-esmart-debug.php` only)
+- **`?test_trial_email=<subscription_id>`** — Directly sends the WCS automatic trial expiration email, bypassing the WCS staging environment block (`should_send_notification()` only allows `production` environment type). Useful for local/dev testing.
+- **`?set_trial_end=<subscription_id>`** — Resets the `trial_end` date on a subscription to +7 days from now. Also sets billing name to "Test User" if the field is empty. Includes a link to fire the test email immediately after. Both tools call `exit` and require admin login.
+
+### Technical Notes for AI Agents
+- **WCS Staging Block:** `WC_Subscriptions_Email_Notifications::should_send_notification()` checks `wp_get_environment_type()` and only allows emails on `production`. On `local` or `development` environments, ALL subscription notification emails are silently suppressed. The `?test_trial_email=` tool bypasses this by calling `$email->send()` directly (not `$email->trigger()`).
+- **Correct Hook for WCS Trial Email:** Use `woocommerce_subscriptions_email_order_details` (not `woocommerce_email_customer_details`) to inject content into the WCS trial expiration email. This hook is called inside the WCS template `customer-notification-auto-trial-ending.php`.
+- **API #9 Call Chain:** `emathsmart_inject_exam_links_to_email($order_id, $email)` → calls `emathsmart_get_public_exam_links($order_id)` → expects a **WC Order ID** (e.g. `117583`), then internally uses `wcs_get_subscriptions_for_order()` to resolve to subscription `117584`.
+- **parentId in API payloads** = WordPress user ID (`$order->get_user_id()`), e.g. `60773` for the test order.
+- **Test Subscription:** Order `117583`, Subscription `117584`, Parent/User `60773`.
+- **API Credentials:** Secret: `yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm`, AppId: `ParentClub`.
+- **Production Domain Question:** Confirm with eMathSmart whether `test.emathsmart.ca` is the permanent production domain or a temporary test domain before going live. May need to update again.
+
 ## [2026-05-20] - AI Documentation Organization
 
 ### Added
