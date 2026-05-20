@@ -83,7 +83,7 @@ function emathsmart_brute_force_api9()
 
     $user_id = $order->get_user_id();
     $secret = "yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm";
-    $url = "https://math-pro-cms.dcraysai.com/api/customer-center/getPublicExamQuestions";
+    $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
     $now = time();
     $nonce = bin2hex(random_bytes(16));
     $expireTimestamp = $now + (365 * 86400);
@@ -231,7 +231,7 @@ function emathsmart_brute_force_api9_values()
 
     $user_id = $order->get_user_id();
     $secret = "yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm";
-    $url = "https://math-pro-cms.dcraysai.com/api/customer-center/getPublicExamQuestions";
+    $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
 
     // Get the WooCommerce subscription ID if available
     $wc_sub_id = '';
@@ -401,7 +401,7 @@ function emathsmart_brute_force_api9_final()
     ];
 
     $secret = "yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm";
-    $url = "https://math-pro-cms.dcraysai.com/api/customer-center/getPublicExamQuestions";
+    $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
 
     echo "<table border='1' style='border-collapse:collapse; width:100%; font-family:monospace;'>";
     echo "<tr style='background:#333;color:#fff;'><th>Parent ID</th><th>Sub ID</th><th>Code</th><th>Message</th></tr>";
@@ -555,5 +555,33 @@ function emathsmart_show_api9_live()
     }
     
     echo "</body>";
+    exit;
+}
+
+/**
+ * Test Trial Expiration Email Injection
+ * URL: https://dev-popularbook.local/?test_trial_email=117584
+ */
+add_action('init', 'emathsmart_test_trial_email');
+function emathsmart_test_trial_email() {
+    if (!isset($_REQUEST['test_trial_email'])) return;
+    if (!current_user_can('manage_options')) wp_die('Unauthorized');
+
+    $subscription_id = (int) $_REQUEST['test_trial_email'];
+    $subscription = wcs_get_subscription($subscription_id);
+
+    if (!$subscription) {
+        wp_die("Subscription $subscription_id not found.");
+    }
+
+    echo "<h1>Testing Trial Expiration Email for Subscription $subscription_id</h1>";
+
+    // Load WooCommerce emails so the mailer is initialized
+    WC()->mailer();
+
+    // Trigger the trial end hook which sends the email
+    do_action('woocommerce_subscription_trial_end', $subscription);
+
+    echo "<p style='color:green;'><b>Email trigger fired!</b> Check your inbox (or Mailpit) for the Trial Expiration email.</p>";
     exit;
 }

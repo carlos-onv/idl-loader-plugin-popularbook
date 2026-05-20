@@ -100,7 +100,7 @@ function emathsmart_get_public_exam_links($order_id) {
 
     $now = time();
     $nonce = bin2hex(random_bytes(16));
-    $url = "https://math-pro-cms.dcraysai.com/api/customer-center/getPublicExamQuestions";
+    $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
     $expireTimestamp = $now + (365 * 86400);
 
     // Get the real WooCommerce Subscription ID (As per Jatin's feedback)
@@ -309,7 +309,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 $post_body['timestamp'] = (int) $now;
 
             } else if ($subscription_type == 'public_exams') {
-                $url = "https://math-pro-cms.dcraysai.com/api/customer-center/getPublicExamQuestions";
+                $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
                 $expireTimestamp = $now + (365 * 86400);
 
                 // Fix "The Register": Use real WCS Subscription ID

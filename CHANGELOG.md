@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-20] - AI Documentation Organization
+
+### Added
+- **AI Documentation Directory:** Created a dedicated `/app/public/dev_assets/ai_documentation` directory.
+- **Documentation Migration:** Organized and copied all key technical specifications, walkthroughs, drafts, implementation plans, and scratch scripts generated during the eMathSmart and audit phases:
+  - Technical specs and briefs (eMathSmart webhook signature issue, API #9 briefing, system prompt templates).
+  - Main task trackers, implementation plans, and walkthroughs.
+  - Scratch PHP scripts used for brute-forcing API signature permutations and testing (moved to `/ai_documentation/scratch/`).
+
+### Technical Notes for AI Agents
+- All technical specifications, design documents, and exploratory PHP scripts are now consolidated in `dev_assets/ai_documentation`. Future agents can reference these files to understand the API reverse-engineering processes (specifically signature permutations, field exclusions, and brute-forcing details).
+- Avoid creating temporary files in the root folder; place any future scratch/exploratory files inside `dev_assets/ai_documentation/scratch/`.
+
 ## [2026-05-19] - Security, Plugin & Performance Audit of Live Server Copy
 
 ### Added
