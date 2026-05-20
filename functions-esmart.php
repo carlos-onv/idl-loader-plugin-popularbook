@@ -90,6 +90,28 @@ function emathsmart_trigger_refund_notification($order_id)
     process_subscription_custom($order_id, 'refund', false); // False = Silent mode for production
 }
 
+// Auto-cancel active subscriptions when a parent order is refunded.
+// WCS built-in (maybe_cancel_subscription_on_full_refund) only handles pending-cancel status.
+// This ensures active subscriptions are also cancelled on refund.
+add_action('woocommerce_order_status_refunded', 'emathsmart_cancel_subscription_on_refund', 30, 1);
+function emathsmart_cancel_subscription_on_refund($order_id)
+{
+    if (!function_exists('wcs_get_subscriptions_for_order')) return;
+
+    $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'parent'));
+    foreach ($subscriptions as $subscription) {
+        if ($subscription->has_status(array('active', 'on-hold')) && $subscription->can_be_updated_to('cancelled')) {
+            $subscription->update_status(
+                'cancelled',
+                sprintf(
+                    __('Subscription automatically cancelled because order #%s was refunded.', 'woocommerce-subscriptions'),
+                    $order_id
+                )
+            );
+        }
+    }
+}
+
 /**
  * API #9 Helper: Fetch Public Exam PDF links for a specific order
  * Returns an array of items with 'title' and 'url'
@@ -501,13 +523,12 @@ function emathsmart_inject_exam_links_to_email($order, $sent_to_admin, $plain_te
         echo '<div style="margin-bottom: 40px; padding: 20px; border: 1px solid #e5e5e5; border-radius: 3px; background: #f9f9f9;">';
         echo '<h2 style="color: #c90000; display: block; font-family: \'Helvetica Neue\', Helvetica, Roboto, Arial, sans-serif; font-size: 18px; font-weight: bold; line-height: 130%; margin: 0 0 15px; text-align: left;">' . __('📚 Download Your Exam Papers', 'book-junky') . '</h2>';
         echo '<p style="margin: 0 0 15px;">' . __('Here are the exam papers and answer keys included with your eMathSmart subscription:', 'book-junky') . '</p>';
-        echo '<ul style="padding: 0; list-style: none;">';
+        echo '<p>';
         foreach ($links as $link) {
-            echo '<li style="margin-bottom: 10px;">';
             echo '<a href="' . esc_url($link['url']) . '" style="color: #c90000; font-weight: bold; text-decoration: underline;">' . esc_html($link['title']) . '</a>';
-            echo '</li>';
+            echo '</br>';
         }
-        echo '</ul>';
+        echo '</p>';
         echo '<p style="font-size: 12px; color: #777; margin-top: 15px;">' . __('Note: These links will remain active while your trial is valid.', 'book-junky') . '</p>';
         echo '</div>';
     }

@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-20] - Auto-Cancel Subscription on Order Refund
+
+### Added
+- **Feature: Auto-cancel active subscriptions on refund**
+  - Added `emathsmart_cancel_subscription_on_refund()` hooked to `woocommerce_order_status_refunded` (priority 30) in `functions-esmart.php`.
+  - Automatically cancels subscriptions with `active` or `on-hold` status when their parent order is refunded.
+  - Adds an order note: *"Subscription automatically cancelled because order #X was refunded."*
+
+### Technical Notes for AI Agents
+- **Why custom code?** WCS built-in `maybe_cancel_subscription_on_full_refund()` (hooked at default priority to `woocommerce_order_fully_refunded`) only cancels subscriptions already in `pending-cancel` status. It does NOT touch `active` subscriptions.
+- **Hook used:** `woocommerce_order_status_refunded` at priority 30 (after the eMathSmart refund notify at priority 20).
+- **Scope:** Only acts on `parent` order type subscriptions — renewal orders don't trigger a cancellation.
+- **Safety check:** Uses `can_be_updated_to('cancelled')` before updating to avoid invalid state transitions.
+- **Modified file:** `functions-esmart.php` only (Clean Core rule respected).
+
 ## [2026-05-20] - API Endpoint Migration to test.emathsmart.ca + Trial Email Injection Fix + Debug Tools
 
 ### Changed
