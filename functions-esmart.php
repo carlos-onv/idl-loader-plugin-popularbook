@@ -533,3 +533,24 @@ function emathsmart_inject_exam_links_to_email($order, $sent_to_admin, $plain_te
         echo '</div>';
     }
 }
+
+// ============================================================
+// eMathSmart SSO Logout Endpoint
+// When eMathSmart redirects the user to:
+//   https://popularbook.ca/?emathsmart_logout=1
+// This hook logs them out of WordPress and redirects home.
+// ============================================================
+add_action('init', 'emathsmart_handle_sso_logout');
+function emathsmart_handle_sso_logout()
+{
+    if (!isset($_GET['emathsmart_logout']) || $_GET['emathsmart_logout'] !== '1') return;
+
+    // Log out the current WordPress user (if logged in)
+    if (is_user_logged_in()) {
+        wp_logout();
+    }
+
+    // Redirect to homepage after logout
+    wp_redirect(home_url('/'));
+    exit;
+}

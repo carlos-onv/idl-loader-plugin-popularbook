@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-20] - eMathSmart SSO Logout Endpoint
+
+### Added
+- **Feature: WordPress logout via eMathSmart logout button**
+  - Added `emathsmart_handle_sso_logout()` in `functions-esmart.php`.
+  - When eMathSmart redirects the user to `https://popularbook.ca/?emathsmart_logout=1` after their logout, WordPress automatically ends the user's session and redirects them to the homepage.
+  - No `parent_id` or extra parameters needed — the user's browser carries the WordPress session cookie with the redirect.
+
+### Technical Notes for AI Agents
+- **Hook:** `add_action('init', 'emathsmart_handle_sso_logout')` — fires early in the WP lifecycle before headers are sent, so `wp_redirect()` works correctly.
+- **Trigger URL:** `https://popularbook.ca/?emathsmart_logout=1` — eMathSmart must be configured to redirect to this URL after their logout flow.
+- **How it works:** Since the user's browser makes the redirect request, their WP session cookie is automatically included. `wp_logout()` destroys that session; no user ID lookup needed.
+- **Safety:** The `is_user_logged_in()` check prevents errors if an already-logged-out user hits the URL.
+- **Modified file:** `functions-esmart.php` only (Clean Core rule respected).
+
 ## [2026-05-20] - Auto-Cancel Subscription on Order Refund
 
 ### Added
