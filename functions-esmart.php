@@ -540,12 +540,13 @@ function emathsmart_inject_exam_links_to_email($order, $sent_to_admin, $plain_te
         echo '<div style="margin-bottom: 40px; padding: 20px; border: 1px solid #e5e5e5; border-radius: 3px; background: #f9f9f9;">';
         echo '<h2 style="color: #c90000; display: block; font-family: \'Helvetica Neue\', Helvetica, Roboto, Arial, sans-serif; font-size: 18px; font-weight: bold; line-height: 130%; margin: 0 0 15px; text-align: left;">' . __('📚 Download Your Exam Papers', 'book-junky') . '</h2>';
         echo '<p style="margin: 0 0 15px;">' . __('Here are the exam papers and answer keys included with your eMathSmart subscription:', 'book-junky') . '</p>';
-        echo '<p>';
+        echo '<div style="margin: 15px 0;">';
         foreach ($links as $link) {
-            echo '<a href="' . esc_url($link['url']) . '" style="color: #c90000; font-weight: bold; text-decoration: underline;">' . esc_html($link['title']) . '</a>';
-            echo '</br>';
+            echo '<div style="margin-bottom: 12px;">';
+            echo '🔗 <a href="' . esc_url($link['url']) . '" style="color: #c90000; font-weight: bold; text-decoration: underline;">' . esc_html($link['title']) . '</a>';
+            echo '</div>';
         }
-        echo '</p>';
+        echo '</div>';
         echo '<p style="font-size: 12px; color: #777; margin-top: 15px;">' . __('Note: These links will remain active while your trial is valid.', 'book-junky') . '</p>';
         echo '</div>';
     }

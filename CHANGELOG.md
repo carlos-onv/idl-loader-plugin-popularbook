@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file for both hum
     1. **Order status change** (e.g. *"Order status changed from completed to refunded"* or vice-versa)
     2. **Subscription change** (e.g. *"Subscription #X automatically cancelled/reactivated..."*)
     3. **eMathSmart Sync** (e.g. *"eMathSmart Refund/Payment Notify: Synced ✅"*)
+- **Invalid HTML Break Tags in Trial Expiration Email:** Refactored the email details injection helper (`emathsmart_inject_exam_links_to_email`) to use highly compatible block-level `<div>` wrappers with margin styling for each PDF link, replacing fragile nested `<p>` and malformed break tags to guarantee consistent layout rendering and line breaks across all modern email clients.
 
 ### Technical Notes for AI Agents
 - **Deferred Flushing in Simulations:** Since the debug and simulation endpoints in `functions-esmart-debug.php` use `exit;` to terminate execution early (which bypasses WordPress's normal `shutdown` hook execution), we have updated the debug and simulation handlers to manually invoke `emathsmart_flush_deferred_notes()` before calling `exit;`. This ensures that all deferred notes are correctly flushed and written to the database during testing and manual simulation execution.
