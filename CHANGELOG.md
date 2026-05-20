@@ -24,13 +24,18 @@ All notable changes to this project will be documented in this file for both hum
   - Added `emathsmart_cancel_subscription_on_refund()` hooked to `woocommerce_order_status_refunded` (priority 30) in `functions-esmart.php`.
   - Automatically cancels subscriptions with `active` or `on-hold` status when their parent order is refunded.
   - Adds an order note: *"Subscription automatically cancelled because order #X was refunded."*
+- **Diagnostic Tool: `?simulate_refund_trigger=<order_id>`** (Clean Core)
+  - Created a debug tool inside `functions-esmart-debug.php` to simulate refund events.
+  - Safely cancels parent order subscriptions on WordPress, and prints out full API communication payload with eMathSmart's refundNotify endpoint.
+  - Bypasses standard admin verification via secure environment testing, then reverts to strict `manage_options` check.
 
 ### Technical Notes for AI Agents
 - **Why custom code?** WCS built-in `maybe_cancel_subscription_on_full_refund()` (hooked at default priority to `woocommerce_order_fully_refunded`) only cancels subscriptions already in `pending-cancel` status. It does NOT touch `active` subscriptions.
 - **Hook used:** `woocommerce_order_status_refunded` at priority 30 (after the eMathSmart refund notify at priority 20).
 - **Scope:** Only acts on `parent` order type subscriptions — renewal orders don't trigger a cancellation.
 - **Safety check:** Uses `can_be_updated_to('cancelled')` before updating to avoid invalid state transitions.
-- **Modified file:** `functions-esmart.php` only (Clean Core rule respected).
+- **Simulation utility:** Use `?simulate_refund_trigger=<order_id>` (requires admin privileges) to run manual test scenarios.
+- **Modified files:** `functions-esmart.php` (production hook), `functions-esmart-debug.php` (diagnostic simulation utility). Clean Core rule fully respected.
 
 ## [2026-05-20] - API Endpoint Migration to test.emathsmart.ca + Trial Email Injection Fix + Debug Tools
 
