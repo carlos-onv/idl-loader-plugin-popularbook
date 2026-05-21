@@ -9,9 +9,13 @@ All notable changes to this project will be documented in this file for both hum
 - **Feature: Add-To-Cart Security Guard:** Integrated a strict validation hook (`woocommerce_add_to_cart_validation`) to prevent unauthorized cart additions and link/API bypasses for the AI Coins variable product.
 - **Feature: Single-Item Checkout Enforcement:** Implemented a single-item cart rule inside cart validation. Adding "AI Coins" or any recurring subscription plan automatically clears any existing cart items to prevent checkout payload and sync conflicts. Conversely, adding a standard book or utility product when an "AI Coins" package or subscription is in the cart empties the cart first.
 
+### Fixed
+- **Theme Frontend Support for Product Variations:** Resolved a frontend layout issue where variable product variations (dropdown select controls) were entirely missing from single product pages. Replaced the child theme's hardcoded template call `woocommerce_simple_add_to_cart()` with the dynamic core `woocommerce_template_single_add_to_cart()` inside `woocommerce/content-single-product.php` (line 156). This fully restores native WooCommerce variations dropdowns and javascript events for variable products, while retaining custom child theme styling for simple products.
+
 ### Technical Notes for AI Agents
 - The gated checks target product and variation slug `'ai-coins'` dynamically.
 - `woocommerce_add_to_cart_validation` handles cart clearance via `WC()->cart->empty_cart()` synchronously during validation to ensure standard products and restricted subscription/utility coins packages are never mixed.
+- Calling `woocommerce_template_single_add_to_cart()` dynamically triggers standard variation markup on variable pages by leveraging core WooCommerce fallbacks, resolving layout limits on the customized single-product wrapper.
 
 ## [2026-05-21] - Refactored Subscription Data Processing in Outbound Hook
 

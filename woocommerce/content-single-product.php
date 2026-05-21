@@ -153,7 +153,7 @@ if ($info_product->have_posts()) {
                             ?> <a href="<?php echo get_option('siteurl') . '/product/' . $excerpt; ?>" target="_blank" class="single_add_to_cart_button alt view_sample_button">View Sample</a> <?php
                                                                                                                                                                                                 }
                                                                                                                                                                                                     ?>
-                            <?php woocommerce_simple_add_to_cart(); ?>
+                            <?php woocommerce_template_single_add_to_cart(); ?>
                             <?php
                             $liked = function_exists("flex_favorites_check_liked_post") ? flex_favorites_check_liked_post(get_the_ID()) : false;
                             if (function_exists('flex_favorites_build_layout')) {
