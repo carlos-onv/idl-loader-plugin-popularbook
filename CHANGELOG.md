@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-21] - Refactored Subscription Data Processing in Outbound Hook
+
+### Changed
+- **Unified Subscription Data Loading Loop:** Refactored `process_subscription_custom` in `functions-esmart.php` to query WooCommerce subscriptions exactly once instead of twice. 
+- **Dynamic Trial Type Resolution:** Replaced the hardcoded `trialType = 1` default with a dynamic calculation. The code now computes the actual duration in days between subscription creation (`date_created`) and `trial_end` to accurately map to `1` (7 days) or `2` (14 days) based on actual checkout configurations.
+- **Refined Variable Fallbacks:** Ensured robust defaults remain active in case an order has no valid subscriptions.
+
+### Technical Notes for AI Agents
+- The core integration continues to use the clean parent `order_id` in order to comply with strict one-subscription-per-transaction assumptions.
+- The `wcs_get_subscriptions_for_order` query is now executed exactly once, cutting database query redundancy in half during status transition hooks.
+
 ## [2026-05-21] - API Audit Documentation Alignment & Vulnerability Mapping
 
 ### Updated

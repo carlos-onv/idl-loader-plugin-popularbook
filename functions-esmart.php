@@ -274,12 +274,19 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
             if ($subscription_type == 'Payment') {
                 $url = "https://test.emathsmart.ca/api/user-center/order/paymentNotify";
 
-                $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'any'));
-                $sub_data = ['billing_period' => '', 'next_payment' => '', 'trial_end' => ''];
-                foreach ($subscriptions as $sub_obj) {
-                    $sub_data['billing_period'] = $sub_obj->get_billing_period();
-                    $sub_data['next_payment'] = $sub_obj->get_date('next_payment');
-                    $sub_data['trial_end'] = $sub_obj->get_date('trial_end');
+                $wc_subscription_id = (string) $order_id; // Fallback
+                $sub_data = ['billing_period' => '', 'next_payment' => '', 'trial_end' => '', 'start_date' => ''];
+
+                if (function_exists('wcs_get_subscriptions_for_order')) {
+                    $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'any'));
+                    foreach ($subscriptions as $sub_obj) {
+                        $wc_subscription_id = (string) $sub_obj->get_id();
+                        $sub_data['billing_period'] = $sub_obj->get_billing_period();
+                        $sub_data['next_payment'] = $sub_obj->get_date('next_payment');
+                        $sub_data['trial_end'] = $sub_obj->get_date('trial_end');
+                        $sub_data['start_date'] = $sub_obj->get_date('date_created');
+                        break; // One-by-one subscription model, break early
+                    }
                 }
 
                 $expireTimestamp = $now + (365 * 86400);
@@ -291,19 +298,20 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 $trialType = 0;
                 if (!empty($sub_data['trial_end'])) {
                     $subscriptionType = 1;
-                    $trialType = 1;
+                    
+                    // Dynamically calculate trial duration in days based on start and end dates
+                    $trial_end_ts = strtotime($sub_data['trial_end']);
+                    $start_date_ts = !empty($sub_data['start_date']) ? strtotime($sub_data['start_date']) : $now;
+                    $diff_days = round(($trial_end_ts - $start_date_ts) / 86400);
+                    
+                    // Map to eMathSmart trial types: 1 = 7 days, 2 = 14 days (default to 1)
+                    if ($diff_days > 10) {
+                        $trialType = 2; // 14 days
+                    } else {
+                        $trialType = 1; // 7 days
+                    }
                 } else if ($sub_data['billing_period'] == "year") {
                     $subscriptionType = 3;
-                }
-
-                // Fix "The Register": Use real WCS Subscription ID instead of Order ID
-                $wc_subscription_id = (string) $order_id; // Fallback
-                if (function_exists('wcs_get_subscriptions_for_order')) {
-                    $subs = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'any'));
-                    foreach ($subs as $sub) {
-                        $wc_subscription_id = (string) $sub->get_id();
-                        break;
-                    }
                 }
 
                 $sign_params = [
