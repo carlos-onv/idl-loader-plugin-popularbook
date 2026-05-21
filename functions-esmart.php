@@ -618,3 +618,133 @@ function emathsmart_reactivate_subscription_on_completed($order_id, $from, $to, 
         }
     }
 }
+
+// ============================================================
+// PHASE 1: Gated Access & Single-Item Cart Enforcements
+// ============================================================
+
+/**
+ * Access Gate: Restrict visiting the "AI Coins" product page to active subscribers only.
+ */
+add_action('template_redirect', 'emathsmart_gate_ai_coins_access');
+function emathsmart_gate_ai_coins_access()
+{
+    if (is_product()) {
+        $product = wc_get_product(get_the_ID());
+        if ($product) {
+            $is_ai_coins = ($product->get_slug() === 'ai-coins');
+            if (!$is_ai_coins && $product->get_parent_id()) {
+                $parent = wc_get_product($product->get_parent_id());
+                if ($parent && $parent->get_slug() === 'ai-coins') {
+                    $is_ai_coins = true;
+                }
+            }
+
+            if ($is_ai_coins) {
+                $user_id = get_current_user_id();
+                $has_active_sub = false;
+
+                if ($user_id && function_exists('wcs_user_has_subscription') && wcs_user_has_subscription($user_id, '', 'active')) {
+                    $has_active_sub = true;
+                }
+
+                if (!$has_active_sub) {
+                    wc_add_notice(__('AI Coins are exclusively available to active subscribers. Please subscribe first to purchase.', 'woocommerce'), 'error');
+                    wp_safe_redirect(home_url('/parents-club'));
+                    exit;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Helper: Check if WooCommerce cart contains any single-item restricted product (AI Coins or any Subscription).
+ */
+function emathsmart_cart_contains_single_item_restricted_product()
+{
+    if (!WC() || !WC()->cart) {
+        return false;
+    }
+
+    foreach (WC()->cart->get_cart() as $cart_item) {
+        $product = $cart_item['data'];
+        if ($product) {
+            // Check by slug
+            if ($product->get_slug() === 'ai-coins') {
+                return true;
+            }
+            if ($product->get_parent_id()) {
+                $parent = wc_get_product($product->get_parent_id());
+                if ($parent && $parent->get_slug() === 'ai-coins') {
+                    return true;
+                }
+            }
+            // Check if subscription
+            if ($product->is_type(array('subscription', 'variable-subscription', 'subscription_variation'))) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+/**
+ * Add-To-Cart Guard & Single-Item Cart Clearance:
+ * 1. Blocks non-subscribers from adding AI Coins to cart via direct link hacks.
+ * 2. Enforces single-item cart rule.
+ */
+add_filter('woocommerce_add_to_cart_validation', 'emathsmart_validate_add_to_cart', 10, 5);
+function emathsmart_validate_add_to_cart($passed, $product_id, $quantity, $variation_id = '', $variations = array())
+{
+    $product = wc_get_product($product_id);
+    if (!$product) {
+        return $passed;
+    }
+
+    $is_ai_coins = ($product->get_slug() === 'ai-coins');
+    $is_subscription = $product->is_type(array('subscription', 'variable-subscription', 'subscription_variation'));
+
+    // Check if the variation itself is selected and is AI Coins or a subscription variation
+    if (!$is_ai_coins && $variation_id) {
+        $var_product = wc_get_product($variation_id);
+        if ($var_product && ($var_product->get_slug() === 'ai-coins' || ($var_product->get_parent_id() && wc_get_product($var_product->get_parent_id())->get_slug() === 'ai-coins'))) {
+            $is_ai_coins = true;
+        }
+    }
+
+    if ($product->get_parent_id()) {
+        $parent = wc_get_product($product->get_parent_id());
+        if ($parent && $parent->get_slug() === 'ai-coins') {
+            $is_ai_coins = true;
+        }
+    }
+
+    // 1. Gated Access Validation for AI Coins
+    if ($is_ai_coins) {
+        $user_id = get_current_user_id();
+        $has_active_sub = false;
+
+        if ($user_id && function_exists('wcs_user_has_subscription') && wcs_user_has_subscription($user_id, '', 'active')) {
+            $has_active_sub = true;
+        }
+
+        if (!$has_active_sub) {
+            wc_add_notice(__('AI Coins are exclusively available to active subscribers. Please subscribe first to purchase.', 'woocommerce'), 'error');
+            return false;
+        }
+    }
+
+    // 2. Single-Item Cart Clearance Rule
+    if ($is_ai_coins || $is_subscription) {
+        // If we are adding AI Coins or a subscription, clear everything else out
+        WC()->cart->empty_cart();
+    } else {
+        // If we are adding a standard product but the cart already has AI Coins or a subscription, clear it first
+        if (emathsmart_cart_contains_single_item_restricted_product()) {
+            WC()->cart->empty_cart();
+        }
+    }
+
+    return $passed;
+}

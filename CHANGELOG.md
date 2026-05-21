@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-21] - eMathSmart AI Coins Integration (Phase 1)
+
+### Added
+- **Feature: AI Coins Gated Access Control:** Restricted access to the `/product/ai-coins/` product page and variation checkouts exclusively to logged-in users with an active core WooCommerce subscription using `wcs_user_has_subscription()`. Unauthorized users are safely redirected to the Core Plans (`/parents-club`) with a custom premium error notice.
+- **Feature: Add-To-Cart Security Guard:** Integrated a strict validation hook (`woocommerce_add_to_cart_validation`) to prevent unauthorized cart additions and link/API bypasses for the AI Coins variable product.
+- **Feature: Single-Item Checkout Enforcement:** Implemented a single-item cart rule inside cart validation. Adding "AI Coins" or any recurring subscription plan automatically clears any existing cart items to prevent checkout payload and sync conflicts. Conversely, adding a standard book or utility product when an "AI Coins" package or subscription is in the cart empties the cart first.
+
+### Technical Notes for AI Agents
+- The gated checks target product and variation slug `'ai-coins'` dynamically.
+- `woocommerce_add_to_cart_validation` handles cart clearance via `WC()->cart->empty_cart()` synchronously during validation to ensure standard products and restricted subscription/utility coins packages are never mixed.
+
 ## [2026-05-21] - Refactored Subscription Data Processing in Outbound Hook
 
 ### Changed
