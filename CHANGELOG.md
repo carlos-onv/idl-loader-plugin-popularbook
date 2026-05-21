@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-21] - API Audit Documentation Alignment & Vulnerability Mapping
+
+### Updated
+- **API Audit Documentation (`api_audit.html`):** Fully updated the technical audit dashboard documentation at `app/public/dev_assets/ai_documentation/api_audit.html` to align with the actual codebase state:
+  - **Inbound Pull Compensation (API #7 & API #8):** Corrected the source file from `functions-esmart-compensation.php` to `functions-restapi.php` and mapped the active production REST routes as `/wp-json/wp/v2/orderpaymentcompensate` and `/wp-json/wp/v2/orderrefundcompensate`. Mapped these as a **Critical Security Vulnerability** because the active legacy endpoints perform **zero signature verification**, leaving client data exposed without authentication. Documented that `functions-esmart-compensation.php` is disabled in `functions.php`.
+  - **AI Tokens & Additional Packages (type=2):** Documented eMathSmart's specification for additional packages (`type=2`), showing how they should load credits via `sourceType=ADDITIONAL` without extending active subscriptions. Identified and documented the active codebase gaps in the GET `/pay` checkout redirect and `process_subscription_custom()` outgoing payment webhook (which currently hardcodes `type=1`).
+  - **Get Public Exam Questions (API #9):** Corrected the documented active lines inside `functions-esmart.php` (lines 136-201 &amp; lines 517-553) and mapped the email hooks to the correct automated triggers `woocommerce_email_customer_details` and `woocommerce_subscriptions_email_order_details` (focusing on manual/auto trial expiration templates) instead of chronological crons.
+  - **Line Range Refinements:** Corrected shifts and ranges for **API #3** (lines 76-168 in `functions-restapi.php`), **API #4** (lines 182-239 in `functions-restapi.php`), **API #5** (lines 74-84 & lines 256-472 in `functions-esmart.php`), and **API #6** (lines 86-96 & lines 256-472 in `functions-esmart.php`).
+  - **Priority Action Items Checklist:** Redesigned the priority checklist at the bottom of the document to place securing inbound pull routes as **Priority #1**, followed by adding AI Token `type=2` checkout and webhook support as **Priority #3**, ensuring proper prioritization for future development cycles.
+
+### Technical Notes for AI Agents
+- **Disabled File Status:** `functions-esmart-compensation.php` exists and contains secure signature checks for compensation, but is entirely commented out of `functions.php`. All actual inbound compensation calls are handled insecurely in `functions-restapi.php`.
+- **AI Token type=2 Spec:** Webhooks must pass `type => 2` for additional packages, and checkouts must map `type=2` parameters to distinct non-recurring product SKU checkouts to avoid breaking active subscription end timestamps.
+
 ## [2026-05-20] - Chronological Timeline Correction for Order Notes
 
 ### Fixed
