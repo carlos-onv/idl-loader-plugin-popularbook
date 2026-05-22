@@ -274,6 +274,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
         $max_attempts = 3;
         $attempt = 1;
         $success = false;
+        $additional_packages = 0;
 
         while ($attempt <= $max_attempts && !$success) {
             $url = "";
@@ -468,6 +469,10 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 $api_label = ($subscription_type === 'refund') ? 'Refund Notify' : 'Payment Notify';
                 $note = "eMathSmart $api_label: Synced ✅";
                 
+                if ($additional_packages > 0 && $subscription_type === 'Payment') {
+                    $note = "eMathSmart $api_label: Synced ✅ (AI Coins: " . $additional_packages . " packages)";
+                }
+                
                 if ($code === 40101 || $code === 40202) {
                     $note .= " (already processed)";
                 } elseif ($code === 40201) {
@@ -491,6 +496,9 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     // FEATURE 3: Specific Failure Notes
                     $api_label = ($subscription_type === 'refund') ? 'Refund Notify' : 'Payment Notify';
                     $error_msg = "eMathSmart $api_label: Failed ❌ after $attempt attempts.";
+                    if ($additional_packages > 0 && $subscription_type === 'Payment') {
+                        $error_msg = "eMathSmart $api_label: Failed ❌ after $attempt attempts (AI Coins: " . $additional_packages . " packages).";
+                    }
                     if ($code) $error_msg .= " (Code: $code)";
                     if ($curl_error) $error_msg .= " (cURL Error: $curl_error)";
 
