@@ -75,10 +75,21 @@ add_action('woocommerce_order_status_changed', 'emathsmart_trigger_payment_notif
 function emathsmart_trigger_payment_notification($order_id, $from, $to, $order)
 {
     if ($to !== 'completed') return;
-    // Only notify eMathSmart for subscription orders
-    if (!function_exists('wcs_get_subscriptions_for_order')) return;
-    $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'any'));
-    if (empty($subscriptions)) return;
+
+    $has_subscription = false;
+    if (function_exists('wcs_get_subscriptions_for_order')) {
+        $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'any'));
+        if (!empty($subscriptions)) {
+            $has_subscription = true;
+        }
+    }
+
+    $has_additional_packages = false;
+    if (function_exists('emathsmart_order_has_additional_packages') && emathsmart_order_has_additional_packages($order_id) > 0) {
+        $has_additional_packages = true;
+    }
+
+    if (!$has_subscription && !$has_additional_packages) return;
 
     process_subscription_custom($order_id, 'Payment', false);
 }
@@ -274,69 +285,94 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
             if ($subscription_type == 'Payment') {
                 $url = "https://test.emathsmart.ca/api/user-center/order/paymentNotify";
 
-                $wc_subscription_id = (string) $order_id; // Fallback
-                $sub_data = ['billing_period' => '', 'next_payment' => '', 'trial_end' => '', 'start_date' => ''];
+                $additional_packages = emathsmart_order_has_additional_packages($order_id);
 
-                if (function_exists('wcs_get_subscriptions_for_order')) {
-                    $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'any'));
-                    foreach ($subscriptions as $sub_obj) {
-                        $wc_subscription_id = (string) $sub_obj->get_id();
-                        $sub_data['billing_period'] = $sub_obj->get_billing_period();
-                        $sub_data['next_payment'] = $sub_obj->get_date('next_payment');
-                        $sub_data['trial_end'] = $sub_obj->get_date('trial_end');
-                        $sub_data['start_date'] = $sub_obj->get_date('date_created');
-                        break; // One-by-one subscription model, break early
+                if ($additional_packages > 0) {
+                    // --- TYPE 2 PAYMENT (AI Coins / Additional Packages) ---
+                    $sign_params = [
+                        'appId' => 'ParentClub',
+                        'timestamp' => (string) $now,
+                        'nonce' => $nonce,
+                        'orderId' => (string) $order_id,
+                        'parentClubParentId' => (string) $order->get_user_id(),
+                        'type' => '2',
+                        'payStatus' => '1',
+                        'payAmount' => number_format((float) $order->get_total(), 2, '.', ''),
+                        'payTimestamp' => (string) $now,
+                        'additionalPackageQuantity' => (string) $additional_packages,
+                    ];
+                    $post_body = $sign_params;
+                    $post_body['timestamp'] = (int) $now;
+                    $post_body['type'] = 2;
+                    $post_body['payStatus'] = 1;
+                    $post_body['payTimestamp'] = (int) $now;
+                    $post_body['additionalPackageQuantity'] = (int) $additional_packages;
+                } else {
+                    // --- TYPE 1 PAYMENT (Subscriptions) ---
+                    $wc_subscription_id = (string) $order_id; // Fallback
+                    $sub_data = ['billing_period' => '', 'next_payment' => '', 'trial_end' => '', 'start_date' => ''];
+
+                    if (function_exists('wcs_get_subscriptions_for_order')) {
+                        $subscriptions = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'any'));
+                        foreach ($subscriptions as $sub_obj) {
+                            $wc_subscription_id = (string) $sub_obj->get_id();
+                            $sub_data['billing_period'] = $sub_obj->get_billing_period();
+                            $sub_data['next_payment'] = $sub_obj->get_date('next_payment');
+                            $sub_data['trial_end'] = $sub_obj->get_date('trial_end');
+                            $sub_data['start_date'] = $sub_obj->get_date('date_created');
+                            break; // One-by-one subscription model, break early
+                        }
                     }
-                }
 
-                $expireTimestamp = $now + (365 * 86400);
-                if (!empty($sub_data['next_payment'])) {
-                    $expireTimestamp = strtotime($sub_data['next_payment']);
-                }
-
-                $subscriptionType = 2; // Default Month
-                $trialType = 0;
-                if (!empty($sub_data['trial_end'])) {
-                    $subscriptionType = 1;
-                    
-                    // Dynamically calculate trial duration in days based on start and end dates
-                    $trial_end_ts = strtotime($sub_data['trial_end']);
-                    $start_date_ts = !empty($sub_data['start_date']) ? strtotime($sub_data['start_date']) : $now;
-                    $diff_days = round(($trial_end_ts - $start_date_ts) / 86400);
-                    
-                    // Map to eMathSmart trial types: 1 = 7 days, 2 = 14 days (default to 1)
-                    if ($diff_days > 10) {
-                        $trialType = 2; // 14 days
-                    } else {
-                        $trialType = 1; // 7 days
+                    $expireTimestamp = $now + (365 * 86400);
+                    if (!empty($sub_data['next_payment'])) {
+                        $expireTimestamp = strtotime($sub_data['next_payment']);
                     }
-                } else if ($sub_data['billing_period'] == "year") {
-                    $subscriptionType = 3;
-                }
 
-                $sign_params = [
-                    'appId' => 'ParentClub',
-                    'timestamp' => (string) $now,
-                    'nonce' => $nonce,
-                    'orderId' => (string) $order_id,
-                    'parentClubParentId' => (string) $order->get_user_id(),
-                    'type' => '1',
-                    'payStatus' => '1',
-                    'payAmount' => number_format((float) $order->get_total(), 2, '.', ''),
-                    'payTimestamp' => (string) $now,
-                    'expireTimestamp' => (string) $expireTimestamp,
-                    'subscriptionType' => (string) $subscriptionType,
-                    'trialType' => (string) $trialType,
-                    'parentClubSubscriptionId' => $wc_subscription_id,
-                ];
-                $post_body = $sign_params;
-                $post_body['timestamp'] = (int) $now;
-                $post_body['type'] = 1;
-                $post_body['payStatus'] = 1;
-                $post_body['payTimestamp'] = (int) $now;
-                $post_body['expireTimestamp'] = (int) $expireTimestamp;
-                $post_body['subscriptionType'] = (int) $subscriptionType;
-                $post_body['trialType'] = (int) $trialType;
+                    $subscriptionType = 2; // Default Month
+                    $trialType = 0;
+                    if (!empty($sub_data['trial_end'])) {
+                        $subscriptionType = 1;
+                        
+                        // Dynamically calculate trial duration in days based on start and end dates
+                        $trial_end_ts = strtotime($sub_data['trial_end']);
+                        $start_date_ts = !empty($sub_data['start_date']) ? strtotime($sub_data['start_date']) : $now;
+                        $diff_days = round(($trial_end_ts - $start_date_ts) / 86400);
+                        
+                        // Map to eMathSmart trial types: 1 = 7 days, 2 = 14 days (default to 1)
+                        if ($diff_days > 10) {
+                            $trialType = 2; // 14 days
+                        } else {
+                            $trialType = 1; // 7 days
+                        }
+                    } else if ($sub_data['billing_period'] == "year") {
+                        $subscriptionType = 3;
+                    }
+
+                    $sign_params = [
+                        'appId' => 'ParentClub',
+                        'timestamp' => (string) $now,
+                        'nonce' => $nonce,
+                        'orderId' => (string) $order_id,
+                        'parentClubParentId' => (string) $order->get_user_id(),
+                        'type' => '1',
+                        'payStatus' => '1',
+                        'payAmount' => number_format((float) $order->get_total(), 2, '.', ''),
+                        'payTimestamp' => (string) $now,
+                        'expireTimestamp' => (string) $expireTimestamp,
+                        'subscriptionType' => (string) $subscriptionType,
+                        'trialType' => (string) $trialType,
+                        'parentClubSubscriptionId' => $wc_subscription_id,
+                    ];
+                    $post_body = $sign_params;
+                    $post_body['timestamp'] = (int) $now;
+                    $post_body['type'] = 1;
+                    $post_body['payStatus'] = 1;
+                    $post_body['payTimestamp'] = (int) $now;
+                    $post_body['expireTimestamp'] = (int) $expireTimestamp;
+                    $post_body['subscriptionType'] = (int) $subscriptionType;
+                    $post_body['trialType'] = (int) $trialType;
+                }
 
             } else if ($subscription_type == 'refund') {
                 $url = "https://test.emathsmart.ca/api/user-center/order/refundNotify";
@@ -493,13 +529,25 @@ add_filter('woocommerce_order_actions', 'emathsmart_add_resend_order_action');
 function emathsmart_add_resend_order_action($actions)
 {
     global $theorder;
-    // Only show for completed or refunded SUBSCRIPTION orders
+    if (!$theorder) return $actions;
+
+    // Only show for completed or refunded orders that have either subscriptions or additional packages
     if ($theorder->has_status(['completed', 'refunded'])) {
+        $has_subscription = false;
         if (function_exists('wcs_get_subscriptions_for_order')) {
             $subscriptions = wcs_get_subscriptions_for_order($theorder->get_id(), array('order_type' => 'any'));
             if (!empty($subscriptions)) {
-                $actions['emathsmart_resend'] = __('Resend to eMathSmart', 'woocommerce');
+                $has_subscription = true;
             }
+        }
+
+        $has_additional_packages = false;
+        if (function_exists('emathsmart_order_has_additional_packages') && emathsmart_order_has_additional_packages($theorder->get_id()) > 0) {
+            $has_additional_packages = true;
+        }
+
+        if ($has_subscription || $has_additional_packages) {
+            $actions['emathsmart_resend'] = __('Resend to eMathSmart', 'woocommerce');
         }
     }
     return $actions;
@@ -835,5 +883,65 @@ function emathsmart_restrict_coupons_for_ai_coins($is_valid, $coupon, $discount)
         return false;
     }
     return $is_valid;
+}
+
+/**
+ * Helper: Check if WooCommerce order contains AI Coins, and calculate the total package quantity.
+ * Option A: Keep the coins attribute + divide by 100 automatically: $packages = intval($coins_attribute) / 100.
+ */
+function emathsmart_order_has_additional_packages($order)
+{
+    if (isset($GLOBALS['emathsmart_mock_type2']) && $GLOBALS['emathsmart_mock_type2']) {
+        return 5; // Mock 5 packages (500 coins)
+    }
+
+    if (is_numeric($order)) {
+        $order = wc_get_order($order);
+    }
+    if (!$order) {
+        return 0;
+    }
+
+    $total_packages = 0;
+
+    foreach ($order->get_items() as $item) {
+        $product = $item->get_product();
+        if (!$product) {
+            continue;
+        }
+
+        $is_ai_coins = false;
+        $slug = $product->get_slug();
+        if ($slug === 'ai-coins') {
+            $is_ai_coins = true;
+        } else {
+            $parent_id = $product->get_parent_id();
+            if ($parent_id) {
+                $parent = wc_get_product($parent_id);
+                if ($parent && $parent->get_slug() === 'ai-coins') {
+                    $is_ai_coins = true;
+                }
+            }
+        }
+
+        if ($is_ai_coins) {
+            $coins_attribute = $product->get_attribute('coins');
+            if (empty($coins_attribute) && $product->is_type('variation')) {
+                // Fallback for variation attributes
+                $coins_attribute = $product->get_meta('attribute_pa_coins', true);
+                if (empty($coins_attribute)) {
+                    $coins_attribute = $product->get_meta('attribute_coins', true);
+                }
+            }
+            
+            $coins_val = intval($coins_attribute);
+            if ($coins_val > 0) {
+                $packages = ($coins_val / 100) * $item->get_quantity();
+                $total_packages += $packages;
+            }
+        }
+    }
+
+    return $total_packages;
 }
 

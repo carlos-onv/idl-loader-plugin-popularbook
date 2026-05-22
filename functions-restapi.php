@@ -218,12 +218,21 @@ function restapi_pay($request) {
         {
             
         }
+        if ($type == 2) {
+            return new WP_REST_Response([
+                'success' => 1,
+                'data' => [
+                    'type' => 'redirect',
+                    'uri'  => home_url('/product/ai-coins'),
+                ]
+            ], 200);
+        }
         if($duration==1)
         return new WP_REST_Response([
             'success' => 1,
             'data' => [
                 'type'       => 'redirect',
-                'uri'     => 'https://dev.popularbook.ca/product/monthly-subscription',
+                'uri'     => home_url('/product/monthly-subscription'),
             ]
         ], 200);
         if($duration==2)
@@ -231,7 +240,7 @@ function restapi_pay($request) {
             'success' => 1,
             'data' => [
                 'type'       => 'redirect',
-                'uri'     => 'https://dev.popularbook.ca/product/yearly-subscription',
+                'uri'     => home_url('/product/yearly-subscription'),
             ]
         ], 200);
     }

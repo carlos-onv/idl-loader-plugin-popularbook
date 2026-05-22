@@ -810,3 +810,65 @@ add_action('init', function () {
     exit;
 });
 
+/**
+ * API #5 TYPE 2 PAYMENT NOTIFICATION MOCK TEST SUITE
+ * URL Trigger: https://dev-popularbook.local/?test_type2=1
+ */
+add_action('init', 'emathsmart_run_type2_test');
+function emathsmart_run_type2_test()
+{
+    if (isset($_REQUEST['test_type2']) && $_REQUEST['test_type2'] == '1') {
+        if (!current_user_can('manage_options')) {
+            wp_die('Unauthorized');
+        }
+
+        echo "<h1>eMathSmart API #5 Type 2 (AI Coins) Diagnostic Simulation</h1>";
+        echo "<p>This simulation triggers a mock payment notification for AI Coins (500 coins = 5 packages) under order ID 116377.</p>";
+
+        $order_id = 116377; // Your test order
+
+        // Hook up the global mock
+        $GLOBALS['emathsmart_mock_type2'] = true;
+
+        echo "<h2>1. Triggering Outbound Webhook Payment Notification</h2>";
+        echo "<em>Expected: Payload with type = 2 and additionalPackageQuantity = 5. Signature will omit subscription keys.</em><br><br>";
+        
+        process_subscription_custom($order_id, 'Payment', true);
+
+        // Clean up global mock
+        unset($GLOBALS['emathsmart_mock_type2']);
+
+        // Database Verification
+        echo "<h2>2. Database Verification (Latest Logs for Order $order_id)</h2>";
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'emathsmart_log';
+        $logs = $wpdb->get_results("SELECT * FROM $table_name WHERE order_id = $order_id ORDER BY id DESC LIMIT 5");
+
+        if ($logs) {
+            echo "<table border='1' cellpadding='5' style='border-collapse: collapse; width: 100%; font-family: sans-serif; font-size: 14px;'>";
+            echo "<tr style='background: #eee;'><th>ID</th><th>Type</th><th>Attempt</th><th>Response Code</th><th>HTTP Status</th><th>Created At</th><th>Response Body</th></tr>";
+            foreach ($logs as $log) {
+                echo "<tr>";
+                echo "<td>{$log->id}</td>";
+                echo "<td>" . esc_html($log->api_type) . "</td>";
+                echo "<td>" . esc_html($log->attempt) . "</td>";
+                echo "<td>" . esc_html($log->response_code) . "</td>";
+                echo "<td>" . esc_html($log->http_status) . "</td>";
+                echo "<td>" . esc_html($log->created_at) . "</td>";
+                echo "<td><pre style='margin: 0; white-space: pre-wrap; font-size: 11px;'>" . esc_html($log->response_body) . "</pre></td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "<p style='color: red;'>No database log entries found for order $order_id.</p>";
+        }
+
+        if (function_exists('emathsmart_flush_deferred_notes')) {
+            emathsmart_flush_deferred_notes();
+        }
+
+        echo "<hr><p style='color:green;font-weight:bold;'>Simulation complete!</p>";
+        exit;
+    }
+}
+

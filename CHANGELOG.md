@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-22] - AI Coins Option A Integration & Type 2 Payment Notifications
+
+### Added
+- **Feature: AI Coins Option A Dynamic Conversion:** Implemented dynamic eMathSmart package conversion (`emathsmart_order_has_additional_packages()`) that reads the existing WooCommerce `coins` variation attribute (`100`, `500`, `1000`) and programmatically divides it by `100` (`$packages = intval($coins_attribute) / 100`) to derive the exact package count, avoiding the need for any additional custom admin settings or database fields.
+- **Feature: Outbound Webhook Payment Notification for AI Coins:** Fully integrated API #5 (`type = 2`) additional package payment notifications in `process_subscription_custom()`. When an AI Coins purchase is detected, the webhook switches to a `type = 2` JSON payload featuring `additionalPackageQuantity`.
+- **Feature: Webhook Signature Subscription Key Exclusions:** Refactored HMAC-SHA256 signature calculations to cleanly omit recurring subscription-specific keys (`subscribeId`, `subscriptionType`, `trialType`, `expireTimestamp`) from both the payload and the sorted parameter array before signing when `type = 2`.
+- **Feature: Inbound Redirect GET /pay Compatibility:** Restored and updated the `restapi_pay()` inbound REST endpoint redirect to cleanly intercept `type = 2` additional package checkouts and dynamically route them to `/product/ai-coins/` using `home_url()`.
+- **Feature: Diagnostic Simulation Suite for Type 2:** Added an interactive test suite `?test_type2=1` inside `functions-esmart-debug.php` to simulate a mock payment notification for AI Coins (500 coins = 5 packages) under order `116377`, validating the HMAC signature and database log entries.
+
+### Technical Notes for AI Agents
+- The helper `emathsmart_order_has_additional_packages` loops through order items, fetches the `pa_coins` (or variations `coins`) attribute value, and dynamically returns `coins / 100` multiplied by line-item quantity.
+- Webhook payloads for `type = 2` omit `expireTimestamp`, `subscriptionType`, `trialType`, and `parentClubSubscriptionId` completely, conforming strictly to the eMathSmart interface specification.
+- Test endpoint `?test_type2=1` verifies the signature using the active sandbox secret and registers logs directly into the `wp_emathsmart_log` table.
+
 ## [2026-05-22] - AI Coins Skip-Cart Redirect
 
 ### Added
