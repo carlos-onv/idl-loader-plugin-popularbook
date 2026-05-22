@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-22] - eMathSmart Migration to Dedicated Plugin Repository
+
+### Added
+- **Plugin Repository Migration:** Successfully transitioned the active custom WooCommerce and subscription integration logic from the obsolete `book-junky-child` theme to the dedicated `idl-loader` plugin folder (`/wp-content/plugins/idl-loader/`).
+- **Complete Commit Preservation:** Replicated and preserved 100% of the historical Git commits and author logs by migrating the `.git` database. Staged the new `idl-loader.php` loader file.
+- **Theme-Specific File Pruning:** Safely deleted all theme-specific visual templates, WooCommerce templates, element maps, assets, and config files from the tracking index of the new dedicated plugin repository.
+- **New Remote Repository:** Pointed the plugin's Git remote to `https://github.com/carlos-onv/idl-loader-plugin-popularbook.git` and successfully pushed the unified `main` branch to the new repository.
+
+### Technical Notes for AI Agents
+- The child theme (`book-junky-child`) has been retired, and all hook files (`functions.php`, `functions-esmart.php`, `functions-esmart-debug.php`, `functions-esmart-admin.php`, `functions-restapi.php`, and `clientcenter-api-library.php`) are now fully powered by the `idl-loader` plugin directory.
+- A compatibility polyfill for `getallheaders()` remains active at the top of `functions-restapi.php` to prevent PHP Fatal Errors under WP-CLI command-line contexts.
+- Future enhancements should be developed inside the `idl-loader` repository and pushed directly to `https://github.com/carlos-onv/idl-loader-plugin-popularbook.git`.
+
 ## [2026-05-22] - eMathSmart AI Coins Coupon Exclusion (Phase 1)
 
 ### Added
