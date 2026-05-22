@@ -672,11 +672,7 @@ function emathsmart_display_gated_notice_on_parents_club($content)
         $reason = isset($_GET['reason']) ? sanitize_text_field($_GET['reason']) : 'no_subscription';
 
         if ($reason === 'not_logged_in') {
-            $login_url = wp_login_url(home_url('/product/ai-coins/'));
-            $message = sprintf(
-                __('AI Coins are exclusively available to active subscribers. If you already have a subscription, please <a href="%s" style="text-decoration: underline; font-weight: bold; color: inherit;">log in</a> first. Otherwise, please subscribe below to purchase.', 'woocommerce'),
-                esc_url($login_url)
-            );
+            $message = __('AI Coins are exclusively available to active subscribers. If you already have a subscription, please <a href="#parents-club-login" style="text-decoration: underline; font-weight: bold; color: inherit;">log in</a> first. Otherwise, please subscribe below to purchase.', 'woocommerce');
         } else {
             $message = __('AI Coins are exclusively available to active subscribers. Please subscribe below to purchase.', 'woocommerce');
         }

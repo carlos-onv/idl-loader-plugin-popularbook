@@ -12,10 +12,13 @@ All notable changes to this project will be documented in this file for both hum
 - **Feature: Dynamic WooCommerce Alert Prepending:** Implemented an early `the_content` filter that automatically prepends a native-styled WooCommerce error banner at the top of the Parents Club and Subscription landing pages when the query parameter is present.
 - **Feature: Intelligent SSO Login Link:** For guests (`reason=not_logged_in`), dynamically embeds a high-utility login link using `wp_login_url(home_url('/product/ai-coins/'))` that automatically logs them in and redirects them straight back to the restricted AI Coins product page to purchase.
 
+### Changed
+- **Feature: Guest Login Link Anchor Target:** Updated the guest gated-access notice login link to point to `#parents-club-login` instead of `wp_login_url(...)` to smoothly scroll visitors directly to the custom login form row on the Parents Club landing page.
+
 ### Technical Notes for AI Agents
 - The redirect targets `restricted_access` and `reason` parameters.
 - The `emathsmart_display_gated_notice_on_parents_club` filter hooks to `the_content` with a priority of `1` to render standard `.woocommerce-error` element tags before any page builders format the body, supporting both `/parents-club` and `/subscription` pages.
-- Uses `wp_login_url()` with automatic redirect parameter back to the core AI Coins product.
+- The guest login link is set directly to `#parents-club-login` to scroll the user to the corresponding login form row.
 
 ## [2026-05-22] - eMathSmart Migration to Dedicated Plugin Repository
 
