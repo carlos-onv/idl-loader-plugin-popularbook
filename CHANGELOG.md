@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-22] - Visual Redesign for eMathSmart Style Alignment
+
+### Changed
+- **Visual Theme Redesign:** Redesigned the product page styling to align with the warm, playful child-portal branding from the eMathSmart screenshot.
+- **Warm striped background:** Replaced the frosted glass theme with a beautiful, rich warm cream-yellow vertical linear gradient background `#fde4ba` and added a custom vertical slat texture to mimic the pinstripe background pattern.
+- **Portal Card styling:** Styled the `.product-container` as a centered, white profile card with a friendly warm outline (`2px solid #ffe9d2`) and a soft shadow.
+- **Active Subscription Card highlights:** Designed the package selector cards to have a friendly cream background (`#fffcf7`) and light outlines, transforming on select into beautiful golden/yellow glossy gradient pills matching the eMathSmart subscription selectors.
+- **Pill Buttons:** Redesigned interactive badges and buttons with vibrant peach/orange glossy linear gradients (`linear-gradient(135deg, #f59652 0%, #eb731f 100%)`) and pill shapes (`border-radius: 100px`) for high visual alignment.
+
 ## [2026-05-22] - UI Refinements & Content Placeholders
 
 ### Changed

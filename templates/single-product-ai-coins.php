@@ -59,6 +59,7 @@ while ( have_posts() ) : the_post();
             margin-right: 0 !important;
             padding-top: 0 !important;
             padding-bottom: 0 !important;
+            background-color: transparent !important;
         }
 
         /* Keep header, banner, and footer width centered and unaffected */
@@ -84,54 +85,38 @@ while ( have_posts() ) : the_post();
         }
 
         #emathsmart-custom-coins-product {
-            --body-bg: #faf8f5;
-            --text-dark: #2c2520;
-            --text-muted: #70655d;
-            --glass-bg: rgba(255, 255, 255, 0.42);
-            --glass-border: rgba(255, 255, 255, 0.55);
-            --glass-shadow: rgba(43, 34, 27, 0.05);
-            --accent-champagne: #ecdccb;
-            --accent-champagne-glow: rgba(236, 220, 203, 0.45);
-            --accent-rosegold: #f5c2bc;
-            --accent-rosegold-glow: rgba(245, 194, 188, 0.45);
-            --accent-gold: #e5a93c;
-            --accent-gold-glow: rgba(229, 169, 60, 0.45);
-            --primary-btn: #3a2e2b;
-            --primary-btn-hover: #1e1614;
+            --body-bg: #fde4ba;
+            --text-dark: #5a3e2b;
+            --text-muted: #8a6f59;
+            --primary-btn: #f28538;
+            --primary-btn-hover: #e07427;
+            --container-bg: #ffffff;
+            --card-border-selected: #f28637;
 
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', 'Inter', sans-serif;
             background-color: var(--body-bg);
+            background-image: linear-gradient(180deg, #fde4ba 0%, #fedb9b 100%);
             color: var(--text-dark);
             padding: 60px 20px 80px 20px;
             position: relative;
             overflow: hidden;
             width: 100%;
-            border-top: 1px solid rgba(0, 0, 0, 0.03);
+            min-height: 100vh;
+            border-top: 1px solid rgba(90, 62, 43, 0.05);
         }
 
-        /* Background ambient lighting glows */
-        #emathsmart-custom-coins-product .ambient-glow-1 {
+        /* Decorative vertical slats pattern to match eMathSmart background */
+        #emathsmart-custom-coins-product::before {
+            content: '';
             position: absolute;
-            width: 650px;
-            height: 650px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(245, 194, 188, 0.25) 0%, rgba(236, 220, 203, 0.08) 50%, rgba(0,0,0,0) 80%);
-            top: -250px;
-            right: -150px;
-            z-index: 1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+            background-size: 40px 100%;
             pointer-events: none;
-        }
-
-        #emathsmart-custom-coins-product .ambient-glow-2 {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(236, 220, 203, 0.2) 0%, rgba(245, 194, 188, 0.05) 50%, rgba(0,0,0,0) 80%);
-            bottom: -150px;
-            left: -150px;
             z-index: 1;
-            pointer-events: none;
         }
 
         #emathsmart-custom-coins-product .product-container {
@@ -139,7 +124,11 @@ while ( have_posts() ) : the_post();
             margin: 0 auto;
             position: relative;
             z-index: 2;
-            padding: 0 15px;
+            padding: 50px;
+            background: var(--container-bg);
+            border-radius: 28px;
+            border: 2px solid #ffe9d2;
+            box-shadow: 0 12px 40px rgba(90, 62, 43, 0.06);
         }
 
         /* Custom Header styling inside content area only */
@@ -150,24 +139,24 @@ while ( have_posts() ) : the_post();
 
         #emathsmart-custom-coins-product .badge {
             display: inline-block;
-            padding: 6px 14px;
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 6px 18px;
+            background: #ffffff;
+            border: 1px solid #ffe2ca;
             border-radius: 100px;
             font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
+            font-weight: 700;
+            color: var(--primary-btn);
             margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 4px 10px rgba(90, 62, 43, 0.03);
         }
 
         #emathsmart-custom-coins-product h1.coins-title {
             font-family: 'Outfit', sans-serif;
             font-size: 38px;
             font-weight: 800;
-            color: #2c2520;
+            color: var(--text-dark);
             margin-bottom: 12px;
             letter-spacing: -0.02em;
         }
@@ -180,7 +169,7 @@ while ( have_posts() ) : the_post();
             line-height: 1.5;
         }
 
-        /* Glassmorphic Selector Grid */
+        /* Selection Grid - Friendly Cards */
         #emathsmart-custom-coins-product .packages-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -189,149 +178,153 @@ while ( have_posts() ) : the_post();
         }
 
         #emathsmart-custom-coins-product .package-card {
-            background-color: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background-color: #fffcf7;
+            border: 2px solid #ffe6cf;
             border-radius: 20px;
-            padding: 30px 24px;
+            padding: 35px 24px;
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 10px 30px var(--glass-shadow);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 6px 18px rgba(90, 62, 43, 0.02);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
             overflow: hidden;
+            color: var(--text-dark);
         }
 
-        #emathsmart-custom-coins-product .package-card::before {
+        /* Hover animation */
+        #emathsmart-custom-coins-product .package-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-btn);
+            box-shadow: 0 12px 30px rgba(90, 62, 43, 0.05);
+        }
+
+        /* Active Plan Card Styling: Golden/Yellow Gradient from Screenshot */
+        #emathsmart-custom-coins-product .package-card.selected {
+            background: linear-gradient(135deg, #ffdc8f 0%, #fdb558 100%);
+            border-color: var(--card-border-selected);
+            box-shadow: 0 10px 25px rgba(242, 134, 55, 0.2);
+        }
+
+        /* Card Gloss Reflection to match subscription card sheens */
+        #emathsmart-custom-coins-product .package-card.selected::after {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.25),
-                transparent
-            );
-            transition: 0.5s;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.28) 0%, transparent 100%);
+            pointer-events: none;
         }
 
-        #emathsmart-custom-coins-product .package-card:hover::before {
-            left: 100%;
-        }
-
-        #emathsmart-custom-coins-product .package-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(255, 255, 255, 0.85);
-            box-shadow: 0 20px 40px rgba(43, 34, 27, 0.08);
-        }
-
-        #emathsmart-custom-coins-product .package-card.selected {
-            border-color: #ffffff;
-            background-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 15px 35px rgba(43, 34, 27, 0.12);
-        }
-
-        /* Card Themes */
-        #emathsmart-custom-coins-product .package-card.theme-starter.selected {
-            box-shadow: 0 0 0 3px var(--accent-champagne), 0 15px 35px var(--glass-shadow);
-        }
-        #emathsmart-custom-coins-product .package-card.theme-popular.selected {
-            box-shadow: 0 0 0 3px var(--accent-rosegold), 0 15px 35px var(--glass-shadow);
-        }
-        #emathsmart-custom-coins-product .package-card.theme-elite.selected {
-            box-shadow: 0 0 0 3px var(--accent-gold), 0 15px 35px var(--glass-shadow);
-        }
-
-        /* Popular Floating Badge */
+        /* Best Value Floating Badge styled like Status Pills */
         #emathsmart-custom-coins-product .popular-tag {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: linear-gradient(135deg, #f5c2bc 0%, #ecdccb 100%);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            color: #3a2e2b;
+            background: #ffffff;
+            border: 1px solid var(--primary-btn);
+            color: var(--primary-btn);
             padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 10px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            z-index: 3;
+            box-shadow: 0 2px 6px rgba(242, 133, 55, 0.1);
         }
 
-        /* Card Content */
+        /* Card Elements */
         #emathsmart-custom-coins-product .coin-icon-wrapper {
-            width: 75px;
-            height: 75px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+            background: #ffffff;
+            border: 2px solid #ffe6cf;
+            box-shadow: inset 0 2px 4px rgba(90,62,43,0.02);
             transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        #emathsmart-custom-coins-product .package-card.selected .coin-icon-wrapper {
+            background: #ffffff;
+            border-color: var(--primary-btn);
+            box-shadow: 0 4px 12px rgba(242, 133, 55, 0.15);
         }
 
         #emathsmart-custom-coins-product .package-card:hover .coin-icon-wrapper {
-            transform: scale(1.08) rotate(5deg);
+            transform: scale(1.08);
         }
 
         #emathsmart-custom-coins-product .coin-icon {
             font-size: 32px;
-            filter: drop-shadow(0 2px 4px rgba(43, 34, 27, 0.1));
+            filter: drop-shadow(0 2px 4px rgba(90, 62, 43, 0.08));
         }
 
         #emathsmart-custom-coins-product .card-title {
             font-family: 'Outfit', sans-serif;
             font-size: 20px;
             font-weight: 700;
-            color: #3c332d;
+            color: var(--text-dark);
             margin-bottom: 6px;
+            z-index: 2;
         }
 
         #emathsmart-custom-coins-product .coin-quantity {
             font-size: 28px;
             font-weight: 800;
             font-family: 'Outfit', sans-serif;
-            color: #1e1614;
+            color: var(--text-dark);
             margin-bottom: 12px;
+            z-index: 2;
         }
 
         #emathsmart-custom-coins-product .card-desc {
-            font-size: 13px;
+            font-size: 13.5px;
             color: var(--text-muted);
-            line-height: 1.4;
+            line-height: 1.45;
             margin-bottom: 20px;
             flex-grow: 1;
+            z-index: 2;
+        }
+
+        #emathsmart-custom-coins-product .package-card.selected .card-desc {
+            color: #634935;
         }
 
         #emathsmart-custom-coins-product .card-divider {
             width: 100%;
             height: 1px;
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(90, 62, 43, 0.06);
             margin-bottom: 15px;
+            z-index: 2;
+        }
+
+        #emathsmart-custom-coins-product .package-card.selected .card-divider {
+            background: rgba(90, 62, 43, 0.1);
         }
 
         /* Dynamic WooCommerce Price mapping */
         #emathsmart-custom-coins-product .card-price {
             font-family: 'Outfit', sans-serif;
             font-size: 22px;
-            font-weight: 700;
-            color: #1e1614;
+            font-weight: 800;
+            color: var(--text-dark);
+            z-index: 2;
         }
 
         #emathsmart-custom-coins-product .card-price .price-free {
-            font-size: 15px;
+            font-size: 14px;
             color: #10b981;
-            font-weight: 600;
+            font-weight: 700;
             background: rgba(16, 185, 129, 0.08);
             padding: 4px 10px;
             border-radius: 6px;
@@ -342,27 +335,29 @@ while ( have_posts() ) : the_post();
             position: absolute;
             bottom: 20px;
             right: 20px;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
-            border: 2px solid rgba(0,0,0,0.15);
-            background-color: transparent;
+            border: 2px solid rgba(90,62,43,0.18);
+            background-color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            z-index: 2;
         }
 
         #emathsmart-custom-coins-product .package-card.selected .select-indicator {
-            border-color: #3a2e2b;
-            background-color: #3a2e2b;
+            border-color: #ffffff;
+            background-color: var(--primary-btn);
+            box-shadow: 0 0 0 2px var(--primary-btn);
         }
 
         #emathsmart-custom-coins-product .select-indicator::after {
             content: '✓';
             color: white;
-            font-size: 11px;
-            font-weight: bold;
+            font-size: 12px;
+            font-weight: 800;
             opacity: 0;
             transition: all 0.2s ease;
         }
@@ -378,21 +373,23 @@ while ( have_posts() ) : the_post();
             margin: 0 auto 50px auto;
         }
 
+        /* Orange Pill Button matching the Portal Buttons */
         #emathsmart-custom-coins-product .action-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background-color: var(--primary-btn);
+            background: var(--primary-btn);
+            background-image: linear-gradient(135deg, #f59652 0%, #eb731f 100%);
             color: white !important;
             padding: 16px 44px;
-            border-radius: 30px;
+            border-radius: 100px;
             font-family: 'Outfit', sans-serif;
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 700;
             text-decoration: none;
             border: none;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(58, 46, 43, 0.2);
+            box-shadow: 0 6px 20px rgba(242, 133, 55, 0.25);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             width: 100%;
             max-width: 320px;
@@ -400,8 +397,9 @@ while ( have_posts() ) : the_post();
 
         #emathsmart-custom-coins-product .action-btn:hover {
             background-color: var(--primary-btn-hover);
+            background-image: linear-gradient(135deg, #eb731f 0%, #d85c07 100%);
             transform: translateY(-2px);
-            box-shadow: 0 14px 30px rgba(58, 46, 43, 0.3);
+            box-shadow: 0 10px 25px rgba(242, 133, 55, 0.35);
         }
 
         #emathsmart-custom-coins-product .action-btn:active {
@@ -415,7 +413,7 @@ while ( have_posts() ) : the_post();
             align-items: center;
             gap: 15px;
             margin-top: 20px;
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-muted);
         }
 
@@ -429,23 +427,21 @@ while ( have_posts() ) : the_post();
             opacity: 0.9;
         }
 
-        /* Dynamic Product Description Styling */
+        /* eMathSmart-themed Product Description Box */
         #emathsmart-custom-coins-product .description-section {
-            background-color: rgba(255, 255, 255, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.45);
+            background-color: #fffdfb;
+            border: 2px solid #ffe9d2;
             border-radius: 24px;
             padding: 45px 40px;
             margin-bottom: 40px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 8px 30px var(--glass-shadow);
+            box-shadow: 0 6px 20px rgba(90, 62, 43, 0.02);
         }
 
         #emathsmart-custom-coins-product .description-section h1 {
             font-family: 'Outfit', sans-serif;
             font-size: 28px;
             font-weight: 800;
-            color: #2c2520;
+            color: var(--text-dark);
             margin-top: 0;
             margin-bottom: 20px;
             letter-spacing: -0.01em;
@@ -455,7 +451,7 @@ while ( have_posts() ) : the_post();
             font-family: 'Outfit', sans-serif;
             font-size: 20px;
             font-weight: 700;
-            color: #3c332d;
+            color: var(--text-dark);
             margin-top: 30px;
             margin-bottom: 15px;
         }
@@ -486,28 +482,29 @@ while ( have_posts() ) : the_post();
             color: var(--text-dark);
         }
 
+        /* Friendly orange stars as list bullet icons */
         #emathsmart-custom-coins-product .description-section li::before {
-            content: '✓';
+            content: '✦';
             position: absolute;
             left: 2px;
             top: 1px;
-            color: #e5a93c;
+            color: var(--primary-btn);
             font-weight: 900;
             font-size: 15px;
         }
 
         #emathsmart-custom-coins-product .description-section blockquote {
-            background: rgba(255, 255, 255, 0.45);
-            border-left: 4px solid var(--accent-rosegold);
+            background: #fffbf6;
+            border-left: 4px solid var(--primary-btn);
             padding: 22px 25px;
             margin: 30px 0;
             border-radius: 0 16px 16px 0;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.01);
+            box-shadow: inset 0 1px 3px rgba(90,62,43,0.01);
         }
 
         #emathsmart-custom-coins-product .description-section blockquote p {
             margin-bottom: 12px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 15px;
         }
 
@@ -521,18 +518,19 @@ while ( have_posts() ) : the_post();
         }
 
         #emathsmart-custom-coins-product .description-section blockquote li::before {
-            content: '✦';
-            color: var(--accent-rosegold);
-            font-size: 13px;
+            content: '•';
+            color: var(--primary-btn);
+            font-size: 18px;
+            left: 5px;
+            top: -2px;
         }
 
         #emathsmart-custom-coins-product .description-section hr {
             border: 0;
             height: 1px;
-            background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0));
+            background: linear-gradient(to right, rgba(90,62,43,0), rgba(90,62,43,0.08), rgba(90,62,43,0));
             margin: 35px 0;
         }
-
 
         /* Hide native WooCommerce elements visual display */
         #emathsmart-hidden-woo-form {
@@ -541,20 +539,21 @@ while ( have_posts() ) : the_post();
 
         /* Responsive modifications */
         @media (max-width: 900px) {
+            #emathsmart-custom-coins-product .product-container {
+                padding: 35px 20px;
+                border-radius: 22px;
+            }
             #emathsmart-custom-coins-product .packages-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
             #emathsmart-custom-coins-product h1.coins-title {
-                font-size: 32px;
+                font-size: 30px;
             }
         }
     </style>
 
     <div id="emathsmart-custom-coins-product">
-        <div class="ambient-glow-1"></div>
-        <div class="ambient-glow-2"></div>
-
         <div class="product-container">
             
             <!-- Custom Header -->
