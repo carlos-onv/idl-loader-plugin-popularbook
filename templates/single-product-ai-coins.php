@@ -533,66 +533,6 @@ while ( have_posts() ) : the_post();
             margin: 35px 0;
         }
 
-        /* Features/Benefits list layout */
-        #emathsmart-custom-coins-product .benefits-section {
-            background-color: rgba(255, 255, 255, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.45);
-            border-radius: 24px;
-            padding: 40px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 8px 30px var(--glass-shadow);
-        }
-
-        #emathsmart-custom-coins-product .benefits-section h2 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: #2c2520;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        #emathsmart-custom-coins-product .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-        }
-
-        #emathsmart-custom-coins-product .benefit-item {
-            display: flex;
-            gap: 15px;
-            align-items: flex-start;
-        }
-
-        #emathsmart-custom-coins-product .benefit-icon {
-            font-size: 22px;
-            line-height: 1.2;
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.02);
-            flex-shrink: 0;
-        }
-
-        #emathsmart-custom-coins-product .benefit-details h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            color: #3c332d;
-            margin-bottom: 5px;
-        }
-
-        #emathsmart-custom-coins-product .benefit-details p {
-            font-size: 13.5px;
-            color: var(--text-muted);
-            line-height: 1.45;
-        }
 
         /* Hide native WooCommerce elements visual display */
         #emathsmart-hidden-woo-form {
@@ -604,9 +544,6 @@ while ( have_posts() ) : the_post();
             #emathsmart-custom-coins-product .packages-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
-            }
-            #emathsmart-custom-coins-product .benefits-grid {
-                grid-template-columns: 1fr;
             }
             #emathsmart-custom-coins-product h1.coins-title {
                 font-size: 32px;
@@ -624,7 +561,7 @@ while ( have_posts() ) : the_post();
             <div class="product-header">
                 <div class="badge">eMathSmart Integration</div>
                 <h1 class="coins-title">AI Personalized Tutoring Coins</h1>
-                <p class="coins-sub">Unlock standard-aligned AI math support, animated explanations, and dynamic parent diagnostics. Choose the package that matches your child's goals.</p>
+                <p class="coins-sub">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
             </div>
 
             <!-- Custom Packages Selection Grid -->
@@ -651,7 +588,7 @@ while ( have_posts() ) : the_post();
                     </div>
                     <h3 class="card-title">Starter Bundle</h3>
                     <div class="coin-quantity">100 Coins</div>
-                    <p class="card-desc">Perfect for targeted math practice and homework assistance. Provides a solid introduction to smart AI tutoring features.</p>
+                    <p class="card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     <div class="card-divider"></div>
                     <div class="card-price"><?php echo $price_html_100; ?></div>
                     <div class="select-indicator"></div>
@@ -678,7 +615,7 @@ while ( have_posts() ) : the_post();
                     </div>
                     <h3 class="card-title">Popular challenge</h3>
                     <div class="coin-quantity">500 Coins</div>
-                    <p class="card-desc">Ideal for weekly learning challenges and comprehensive skill remediation. Recommended for active curriculum reinforcement.</p>
+                    <p class="card-desc">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                     <div class="card-divider"></div>
                     <div class="card-price"><?php echo $price_html_500; ?></div>
                     <div class="select-indicator"></div>
@@ -704,7 +641,7 @@ while ( have_posts() ) : the_post();
                     </div>
                     <h3 class="card-title">Elite Tutor Bundle</h3>
                     <div class="coin-quantity">1000 Coins</div>
-                    <p class="card-desc">Complete math mastery bundle for full curriculum coverage and exam preparation. Ensures continuous adaptive guidance.</p>
+                    <p class="card-desc">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
                     <div class="card-divider"></div>
                     <div class="card-price"><?php echo $price_html_1000; ?></div>
                     <div class="select-indicator"></div>
@@ -745,45 +682,6 @@ while ( have_posts() ) : the_post();
                 </div>
             <?php endif; ?>
 
-            <!-- Features & Benefits Detail Block -->
-            <div class="benefits-section">
-                <h2>What eMathSmart AI Coins Unlock</h2>
-                <div class="benefits-grid">
-                    
-                    <div class="benefit-item">
-                        <div class="benefit-icon">🧠</div>
-                        <div class="benefit-details">
-                            <h3>AI-Powered Homework Explanations</h3>
-                            <p>Instantly breaks down any challenging math problem into dynamic visual steps, empowering children to learn visually rather than just copying answers.</p>
-                        </div>
-                    </div>
-
-                    <div class="benefit-item">
-                        <div class="benefit-icon">🎓</div>
-                        <div class="benefit-details">
-                            <h3>24/7 Smart Curriculum Tutor</h3>
-                            <p>An intelligent, highly encouraging tutor that leverages standard-aligned curriculum models to guide children through conceptual blockers step-by-step.</p>
-                        </div>
-                    </div>
-
-                    <div class="benefit-item">
-                        <div class="benefit-icon">🏆</div>
-                        <div class="benefit-details">
-                            <h3>Gamified Rewards & Achievements</h3>
-                            <p>Keeps learning highly engaging with custom badges, printable wizard reward certificates, and digital milestone awards.</p>
-                        </div>
-                    </div>
-
-                    <div class="benefit-item">
-                        <div class="benefit-icon">📊</div>
-                        <div class="benefit-details">
-                            <h3>Smart Diagnostics Dashboard</h3>
-                            <p>Delivers detailed diagnostic insights directly to parents, tracking progress on Canadian standards, highlights strengths, and uncovers mastery gaps.</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
 
         </div>
 

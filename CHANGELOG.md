@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-22] - UI Refinements & Content Placeholders
+
+### Changed
+- **Content Placeholder Integration:** Replaced the default package subheader text and individual starter/popular/elite card descriptions with layout-friendly Lorem Ipsum chunks to support visual staging.
+- **Removed Benefits Block:** Completely removed the `#emathsmart-custom-coins-product .benefits-section` HTML element ("What eMathSmart AI Coins Unlock" benefits grid) and all associated CSS layout rules (`.benefits-section`, `.benefits-grid`, `.benefit-item`, `.benefit-icon`, `.benefit-details`) from `/templates/single-product-ai-coins.php`.
+
 ## [2026-05-22] - AI Coins Custom Template & Sleek Glass-Minimalist UI (Option B)
 
 ### Added
