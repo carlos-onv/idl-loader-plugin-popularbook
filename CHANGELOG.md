@@ -2,15 +2,18 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-05-22] - Gated Access Redirect Notice Persistence Fix
+## [2026-05-22] - Gated Access Redirect Notice Persistence & Guest Messaging Fix
 
 ### Added
 - **Feature: Query-Parameter-based Notice Persistence:** Resolved a WooCommerce session persistence issue on early `template_redirect` hooks by redirecting unauthorized users to `/parents-club/?restricted_access=ai-coins`.
-- **Feature: Dynamic WooCommerce Alert Prepending:** Implemented a early `the_content` filter that automatically prepends a native-styled WooCommerce error banner at the top of the Parents Club landing page when the query parameter is present. This guarantees 100% notice visibility for both logged-in and guest users, bypassing session write constraints.
+- **Feature: Context-Aware Redirect Reason:** Appends a `reason` parameter (`not_logged_in` or `no_subscription`) based on whether the guest has logged in, providing clear navigation instructions.
+- **Feature: Dynamic WooCommerce Alert Prepending:** Implemented an early `the_content` filter that automatically prepends a native-styled WooCommerce error banner at the top of the Parents Club landing page when the query parameter is present.
+- **Feature: Intelligent SSO Login Link:** For guests (`reason=not_logged_in`), dynamically embeds a high-utility login link using `wp_login_url(home_url('/product/ai-coins/'))` that automatically logs them in and redirects them straight back to the restricted AI Coins product page to purchase.
 
 ### Technical Notes for AI Agents
-- The redirect targets `restricted_access` parameter.
+- The redirect targets `restricted_access` and `reason` parameters.
 - The `emathsmart_display_gated_notice_on_parents_club` filter hooks to `the_content` with a priority of `1` to render standard `.woocommerce-error` element tags before any page builders format the body.
+- Uses `wp_login_url()` with automatic redirect parameter back to the core AI Coins product.
 
 ## [2026-05-22] - eMathSmart Migration to Dedicated Plugin Repository
 
