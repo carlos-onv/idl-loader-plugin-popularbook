@@ -663,6 +663,27 @@ function emathsmart_gate_ai_coins_access()
 }
 
 /**
+ * Skip cart and redirect directly to checkout when AI Coins is added to cart.
+ */
+add_filter('woocommerce_add_to_cart_redirect', 'emathsmart_ai_coins_skip_cart_redirect');
+function emathsmart_ai_coins_skip_cart_redirect($url)
+{
+    if (isset($_REQUEST['add-to-cart'])) {
+        $product_id = absint($_REQUEST['add-to-cart']);
+        $product = wc_get_product($product_id);
+        if ($product) {
+            $slug        = $product->get_slug();
+            $parent      = $product->get_parent_id() ? wc_get_product($product->get_parent_id()) : null;
+            $parent_slug = $parent ? $parent->get_slug() : '';
+            if ($slug === 'ai-coins' || $parent_slug === 'ai-coins') {
+                return wc_get_checkout_url();
+            }
+        }
+    }
+    return $url;
+}
+
+/**
  * Render access notice on the Parents Club and Subscription landing pages when redirected from restricted products.
  */
 add_filter('the_content', 'emathsmart_display_gated_notice_on_parents_club', 1);

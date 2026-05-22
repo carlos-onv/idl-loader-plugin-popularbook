@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-22] - AI Coins Skip-Cart Redirect
+
+### Added
+- **Feature: AI Coins Add-to-Cart Skip Cart:** When any AI Coins product (or variation) is added to the cart, the user is immediately redirected to `/checkout` instead of the cart page, removing an unnecessary step from the purchase flow.
+
+### Technical Notes for AI Agents
+- Hooked into `woocommerce_add_to_cart_redirect` filter in `functions-esmart.php`.
+- Detects the product by slug (`ai-coins`) on both the parent product and its variations using `get_parent_id()`.
+- Returns `wc_get_checkout_url()` to redirect; falls back to the original `$url` for all other products.
+
 ## [2026-05-22] - Gated Access Redirect Notice Persistence & Guest Messaging Fix
 
 ### Added
