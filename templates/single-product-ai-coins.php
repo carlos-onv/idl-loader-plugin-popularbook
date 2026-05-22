@@ -37,8 +37,52 @@ while ( have_posts() ) : the_post();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Scoped Custom Styling to avoid modifying Porto header or footer -->
+    <!-- Scoped Custom Styling to avoid modifying Book Junky header or footer -->
     <style>
+        /* Force parent theme wrappers in Book Junky / Porto to be full width on this specific page template */
+        body.single-product .wrap-boxed,
+        body.single-product #page,
+        body.single-product #content.site-content,
+        body.single-product #main,
+        body.single-product #main .container,
+        body.single-product #main .main-content,
+        body.single-product #main .col-lg-12,
+        body.single-product #main .col-md-12,
+        body.single-product #main .product-layout-default,
+        body.single-product #main .main-content-inner,
+        body.single-product #main .row {
+            max-width: 100% !important;
+            width: 100% !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        /* Keep header, banner, and footer width centered and unaffected */
+        body.single-product #masthead,
+        body.single-product .site-footer {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        body.single-product #masthead .container,
+        body.single-product .site-footer .container,
+        body.single-product #footer-bottom .container,
+        body.single-product #header .container,
+        body.single-product #footer .container,
+        body.single-product #header-inner .container,
+        body.single-product #footer-inner .container {
+            max-width: 1170px !important; /* Standard theme container max-width */
+            margin: 0 auto !important;
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+        }
+
         #emathsmart-custom-coins-product {
             --body-bg: #faf8f5;
             --text-dark: #2c2520;
@@ -91,10 +135,11 @@ while ( have_posts() ) : the_post();
         }
 
         #emathsmart-custom-coins-product .product-container {
-            max-width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
             position: relative;
             z-index: 2;
+            padding: 0 15px;
         }
 
         /* Custom Header styling inside content area only */
