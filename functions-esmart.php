@@ -650,9 +650,10 @@ function emathsmart_gate_ai_coins_access()
 
                 if (!$has_active_sub) {
                     $reason = $user_id ? 'no_subscription' : 'not_logged_in';
+                    $redirect_to = ($reason === 'no_subscription') ? home_url('/subscription') : home_url('/parents-club');
                     wp_safe_redirect(add_query_arg(
                         array('restricted_access' => 'ai-coins', 'reason' => $reason),
-                        home_url('/parents-club')
+                        $redirect_to
                     ));
                     exit;
                 }
@@ -662,12 +663,12 @@ function emathsmart_gate_ai_coins_access()
 }
 
 /**
- * Render access notice on the Parents Club landing page when redirected from restricted products.
+ * Render access notice on the Parents Club and Subscription landing pages when redirected from restricted products.
  */
 add_filter('the_content', 'emathsmart_display_gated_notice_on_parents_club', 1);
 function emathsmart_display_gated_notice_on_parents_club($content)
 {
-    if (is_page('parents-club') && isset($_GET['restricted_access']) && $_GET['restricted_access'] === 'ai-coins') {
+    if ((is_page('parents-club') || is_page('subscription')) && isset($_GET['restricted_access']) && $_GET['restricted_access'] === 'ai-coins') {
         $reason = isset($_GET['reason']) ? sanitize_text_field($_GET['reason']) : 'no_subscription';
 
         if ($reason === 'not_logged_in') {
