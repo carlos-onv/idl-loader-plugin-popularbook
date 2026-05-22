@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-22] - Gated Access Redirect Notice Persistence Fix
+
+### Added
+- **Feature: Query-Parameter-based Notice Persistence:** Resolved a WooCommerce session persistence issue on early `template_redirect` hooks by redirecting unauthorized users to `/parents-club/?restricted_access=ai-coins`.
+- **Feature: Dynamic WooCommerce Alert Prepending:** Implemented a early `the_content` filter that automatically prepends a native-styled WooCommerce error banner at the top of the Parents Club landing page when the query parameter is present. This guarantees 100% notice visibility for both logged-in and guest users, bypassing session write constraints.
+
+### Technical Notes for AI Agents
+- The redirect targets `restricted_access` parameter.
+- The `emathsmart_display_gated_notice_on_parents_club` filter hooks to `the_content` with a priority of `1` to render standard `.woocommerce-error` element tags before any page builders format the body.
+
 ## [2026-05-22] - eMathSmart Migration to Dedicated Plugin Repository
 
 ### Added

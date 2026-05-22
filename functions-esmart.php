@@ -649,13 +649,28 @@ function emathsmart_gate_ai_coins_access()
                 }
 
                 if (!$has_active_sub) {
-                    wc_add_notice(__('AI Coins are exclusively available to active subscribers. Please subscribe first to purchase.', 'woocommerce'), 'error');
-                    wp_safe_redirect(home_url('/parents-club'));
+                    wp_safe_redirect(add_query_arg('restricted_access', 'ai-coins', home_url('/parents-club')));
                     exit;
                 }
             }
         }
     }
+}
+
+/**
+ * Render access notice on the Parents Club landing page when redirected from restricted products.
+ */
+add_filter('the_content', 'emathsmart_display_gated_notice_on_parents_club', 1);
+function emathsmart_display_gated_notice_on_parents_club($content)
+{
+    if (is_page('parents-club') && isset($_GET['restricted_access']) && $_GET['restricted_access'] === 'ai-coins') {
+        $notice_html = '
+        <div class="woocommerce-error" role="alert" style="margin-bottom: 25px;">
+            ' . __('AI Coins are exclusively available to active subscribers. Please subscribe first to purchase.', 'woocommerce') . '
+        </div>';
+        $content = $notice_html . $content;
+    }
+    return $content;
 }
 
 /**
