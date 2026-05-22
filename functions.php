@@ -465,12 +465,14 @@ if ($_SERVER['REQUEST_URI'] != "/contact-us" && $_SERVER['REQUEST_URI'] != "/sch
 
 
 
+/*
 function book_junky_enqueue_styles()
 {
     $parent_style = 'book-junky';
     wp_enqueue_style($parent_style, get_template_directory_uri() . '/style.css');
     wp_enqueue_style('child-style', get_stylesheet_directory_uri() . '/style.css', array($parent_style));
 }
+*/
 
 function rs_avada_logout_link_shortcode($atts, $content = '')
 {
@@ -485,12 +487,14 @@ function rs_avada_logout_link_shortcode($atts, $content = '')
 
 add_shortcode('rs_logout', 'rs_avada_logout_link_shortcode');
 
-add_action('wp_enqueue_scripts', 'book_junky_enqueue_styles', PHP_INT_MAX);
+// add_action('wp_enqueue_scripts', 'book_junky_enqueue_styles', PHP_INT_MAX);
 
 /**
  * Replace parent theme's Bootstrap 3.3.6 (incompatible with jQuery 3) and
  * book-junky.js (unguarded rangeSlider call) with patched child-theme copies.
+ * (Obsolete in plugin context - commented out to prevent loading errors)
  */
+/*
 function bjc_replace_parent_scripts()
 {
     wp_deregister_script('bootstrap');
@@ -512,6 +516,7 @@ function bjc_replace_parent_scripts()
     );
 }
 add_action('wp_enqueue_scripts', 'bjc_replace_parent_scripts', PHP_INT_MAX);
+*/
 
 
 remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart');
