@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file for both hum
 ## [2026-05-22] - AI Coins Custom Template & Sleek Glass-Minimalist UI (Option B)
 
 ### Added
+- **Feature: Dynamic Product Description Display:** Dynamically fetched and rendered the WooCommerce product description (`$product->get_description()`) using a premium Outfit/Inter Glassmorphic typography block styling, cleanly formatting all HTML sub-elements (headings, lists, blockquotes, horizontal rules) inside the isolated `#emathsmart-custom-coins-product` scope.
+- **Feature: Full-Width Layout Container:** Expanded the `.product-container` element to be 100% full-width (`max-width: 100%`), allowing the Option B Glassmorphic columns and sections to stretch beautifully on all viewport sizes.
 - **Feature: Programmatic Custom WooCommerce Product Template Loading:** Implemented a new `template_include` filter in `functions-esmart.php` that dynamically detects single product requests for the `'ai-coins'` slug and redirects page loading to `/templates/single-product-ai-coins.php`.
 - **Feature: High-Fidelity Sleek Glass-Minimalist UI Layout:** Created a bespoke product page template `/wp-content/plugins/idl-loader/templates/single-product-ai-coins.php` using Option B (frosted light-mode glassmorphic styling, champagne and rose-gold details, Outfit/Inter typography, and SSL trust indicators).
 - **Feature: Isolated Theme Scoping:** Scoped all visual selectors and custom typography links strictly under the wrapper `#emathsmart-custom-coins-product`, ensuring the active theme's Porto header, navigation menu, announcement banner, and footer are completely native and untouched.

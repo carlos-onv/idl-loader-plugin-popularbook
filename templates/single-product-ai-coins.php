@@ -91,7 +91,7 @@ while ( have_posts() ) : the_post();
         }
 
         #emathsmart-custom-coins-product .product-container {
-            max-width: 1120px;
+            max-width: 100%;
             margin: 0 auto;
             position: relative;
             z-index: 2;
@@ -384,6 +384,110 @@ while ( have_posts() ) : the_post();
             opacity: 0.9;
         }
 
+        /* Dynamic Product Description Styling */
+        #emathsmart-custom-coins-product .description-section {
+            background-color: rgba(255, 255, 255, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 24px;
+            padding: 45px 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 30px var(--glass-shadow);
+        }
+
+        #emathsmart-custom-coins-product .description-section h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: #2c2520;
+            margin-top: 0;
+            margin-bottom: 20px;
+            letter-spacing: -0.01em;
+        }
+
+        #emathsmart-custom-coins-product .description-section h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #3c332d;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        #emathsmart-custom-coins-product .description-section p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        #emathsmart-custom-coins-product .description-section ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 25px;
+        }
+
+        #emathsmart-custom-coins-product .description-section li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 12px;
+            font-size: 14.5px;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
+        #emathsmart-custom-coins-product .description-section li strong {
+            color: var(--text-dark);
+        }
+
+        #emathsmart-custom-coins-product .description-section li::before {
+            content: '✓';
+            position: absolute;
+            left: 2px;
+            top: 1px;
+            color: #e5a93c;
+            font-weight: 900;
+            font-size: 15px;
+        }
+
+        #emathsmart-custom-coins-product .description-section blockquote {
+            background: rgba(255, 255, 255, 0.45);
+            border-left: 4px solid var(--accent-rosegold);
+            padding: 22px 25px;
+            margin: 30px 0;
+            border-radius: 0 16px 16px 0;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.01);
+        }
+
+        #emathsmart-custom-coins-product .description-section blockquote p {
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        #emathsmart-custom-coins-product .description-section blockquote ul {
+            margin-bottom: 0;
+        }
+
+        #emathsmart-custom-coins-product .description-section blockquote li {
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        #emathsmart-custom-coins-product .description-section blockquote li::before {
+            content: '✦';
+            color: var(--accent-rosegold);
+            font-size: 13px;
+        }
+
+        #emathsmart-custom-coins-product .description-section hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0));
+            margin: 35px 0;
+        }
+
         /* Features/Benefits list layout */
         #emathsmart-custom-coins-product .benefits-section {
             background-color: rgba(255, 255, 255, 0.35);
@@ -585,6 +689,16 @@ while ( have_posts() ) : the_post();
                     </svg>
                 </div>
             </div>
+
+            <!-- Dynamic Product Description Block -->
+            <?php 
+            $description = $product->get_description();
+            if ( ! empty( $description ) ) : 
+            ?>
+                <div class="description-section">
+                    <?php echo apply_filters( 'the_content', $description ); ?>
+                </div>
+            <?php endif; ?>
 
             <!-- Features & Benefits Detail Block -->
             <div class="benefits-section">
