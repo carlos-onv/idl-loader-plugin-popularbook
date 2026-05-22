@@ -1998,7 +1998,7 @@ if( ! function_exists( 'yith_wcaf_customization_enable_notifications_by_default1
 
 
 
-                require_once("mails/clientcenter-api-library.php");
+                require_once("clientcenter-api-library.php");
 
                 $lead = new clientcenter();
 
