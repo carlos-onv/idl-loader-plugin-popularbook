@@ -748,3 +748,43 @@ function emathsmart_validate_add_to_cart($passed, $product_id, $quantity, $varia
 
     return $passed;
 }
+
+/**
+ * Helper: Check if WooCommerce cart contains AI Coins product (or its variations).
+ */
+function emathsmart_cart_contains_ai_coins($cart = null)
+{
+    $cart_to_check = $cart ? $cart : (WC() ? WC()->cart : null);
+    if (!$cart_to_check) {
+        return false;
+    }
+
+    foreach ($cart_to_check->get_cart() as $cart_item) {
+        $product = $cart_item['data'];
+        if ($product) {
+            if ($product->get_slug() === 'ai-coins') {
+                return true;
+            }
+            if ($product->get_parent_id()) {
+                $parent = wc_get_product($product->get_parent_id());
+                if ($parent && $parent->get_slug() === 'ai-coins') {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+/**
+ * Block any coupon code from being applied when the cart contains AI Coins.
+ */
+add_filter('woocommerce_coupon_is_valid', 'emathsmart_restrict_coupons_for_ai_coins', 10, 3);
+function emathsmart_restrict_coupons_for_ai_coins($is_valid, $coupon, $discount)
+{
+    if (emathsmart_cart_contains_ai_coins()) {
+        return false;
+    }
+    return $is_valid;
+}
+

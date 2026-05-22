@@ -1315,9 +1315,15 @@ function apply_group_discount_coupon($cart)
     $user_id = get_current_user_id();
     $discount_enabled = get_user_meta($user_id, 'user_registration_check_box_1661192013', true);
     $coupon_code = sanitize_title($coupon_name);
-    if (!WC_Subscriptions_Cart::cart_contains_subscription() && $discount_enabled && ! $cart->has_discount($coupon_code)) {
+
+    $has_ai_coins = false;
+    if (function_exists('emathsmart_cart_contains_ai_coins') && emathsmart_cart_contains_ai_coins($cart)) {
+        $has_ai_coins = true;
+    }
+
+    if (!$has_ai_coins && !WC_Subscriptions_Cart::cart_contains_subscription() && $discount_enabled && ! $cart->has_discount($coupon_code)) {
         $cart->apply_coupon($coupon_code);
-    } elseif (! $discount_enabled && $cart->has_discount($coupon_code)) {
+    } elseif (($has_ai_coins || !$discount_enabled) && $cart->has_discount($coupon_code)) {
         $cart->remove_coupon($coupon_code);
     } else {
         return;

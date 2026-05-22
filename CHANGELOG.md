@@ -2,7 +2,19 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-22] - eMathSmart AI Coins Coupon Exclusion (Phase 1)
+
+### Added
+- **Feature: AI Coins Coupon Exclusion Guard:** Prevented the automatic `"parents-club-discount"` coupon from being applied when the cart contains AI Coins (variable product ID `116676` or active variations `116679`, `116680`, `116681`). If the coupon is already in the cart when AI Coins is added, it is automatically removed.
+- **Feature: Manual Coupon Restriction:** Blocked manual coupon code applications on checkout when the cart contains AI Coins by hooking into `woocommerce_coupon_is_valid`.
+
+### Technical Notes for AI Agents
+- Added helper `emathsmart_cart_contains_ai_coins($cart)` in `functions-esmart.php` to dynamically verify if any cart item matches the `'ai-coins'` slug (or its parent slug if it is a variation).
+- Integrated `emathsmart_restrict_coupons_for_ai_coins` via the `woocommerce_coupon_is_valid` filter to block manual coupon additions when AI Coins is in the cart.
+- Modified `apply_group_discount_coupon()` in `functions.php` to bypass automatic application of the parent's club discount and automatically force-remove it if `emathsmart_cart_contains_ai_coins()` is true.
+
 ## [2026-05-21] - eMathSmart AI Coins Integration (Phase 1)
+
 
 ### Added
 - **Feature: AI Coins Gated Access Control:** Restricted access to the `/product/ai-coins/` product page and variation checkouts exclusively to logged-in users with an active core WooCommerce subscription using `wcs_user_has_subscription()`. Unauthorized users are safely redirected to the Core Plans (`/parents-club`) with a custom premium error notice.
