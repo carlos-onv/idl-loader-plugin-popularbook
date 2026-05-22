@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-22] - AI Coins Custom Template & Sleek Glass-Minimalist UI (Option B)
+
+### Added
+- **Feature: Programmatic Custom WooCommerce Product Template Loading:** Implemented a new `template_include` filter in `functions-esmart.php` that dynamically detects single product requests for the `'ai-coins'` slug and redirects page loading to `/templates/single-product-ai-coins.php`.
+- **Feature: High-Fidelity Sleek Glass-Minimalist UI Layout:** Created a bespoke product page template `/wp-content/plugins/idl-loader/templates/single-product-ai-coins.php` using Option B (frosted light-mode glassmorphic styling, champagne and rose-gold details, Outfit/Inter typography, and SSL trust indicators).
+- **Feature: Isolated Theme Scoping:** Scoped all visual selectors and custom typography links strictly under the wrapper `#emathsmart-custom-coins-product`, ensuring the active theme's Porto header, navigation menu, announcement banner, and footer are completely native and untouched.
+- **Feature: Hybrid Variation Form Sync:** Developed custom JavaScript integration inside the template that binds card click events directly to the hidden, native WooCommerce variable add-to-cart select attributes, preserving all standard cart validations and discount rules.
+
+### Technical Notes for AI Agents
+- The custom loader routes single variable products matching the `'ai-coins'` parent slug or child variations to `/wp-content/plugins/idl-loader/templates/single-product-ai-coins.php`.
+- Standard theme structures are fully preserved by initiating the WordPress post loop and including the standard `get_header('shop')` and `get_footer('shop')` template parts.
+- Hidden form integration ensures that all custom add-to-cart validations (`woocommerce_add_to_cart_validation`) and coupon exclusions remain 100% active and correct.
+
 ## [2026-05-22] - AI Coins Option A Integration & Type 2 Payment Notifications
 
 ### Added

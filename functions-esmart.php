@@ -953,3 +953,38 @@ function emathsmart_order_has_additional_packages($order)
     return $total_packages;
 }
 
+/**
+ * FEATURE 4: Programmatic Custom Template Loader for AI Coins
+ * Intercepts the template inclusion for the single product page of AI Coins
+ * and serves single-product-ai-coins.php from the plugin templates folder.
+ */
+add_filter('template_include', 'emathsmart_ai_coins_product_template', 99);
+function emathsmart_ai_coins_product_template($template)
+{
+    if (is_singular('product')) {
+        $product = wc_get_product(get_the_ID());
+        if ($product) {
+            $is_ai_coins = false;
+            $slug = $product->get_slug();
+            if ($slug === 'ai-coins') {
+                $is_ai_coins = true;
+            } else {
+                $parent_id = $product->get_parent_id();
+                if ($parent_id) {
+                    $parent = wc_get_product($parent_id);
+                    if ($parent && $parent->get_slug() === 'ai-coins') {
+                        $is_ai_coins = true;
+                    }
+                }
+            }
+
+            if ($is_ai_coins) {
+                $custom_template = dirname(__FILE__) . '/templates/single-product-ai-coins.php';
+                if (file_exists($custom_template)) {
+                    return $custom_template;
+                }
+            }
+        }
+    }
+    return $template;
+}
