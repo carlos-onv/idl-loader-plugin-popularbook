@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-23] - AI Coins Post-Login Redirection Hook
+
+### Added
+- **Feature: Auto-Redirect After Gated Login:** Added custom redirection filters (`woocommerce_login_redirect` and `login_redirect`) that dynamically catch when a user logs in successfully via the `/parents-club` page (or any form where they arrived with the query parameters `restricted_access=ai-coins`).
+- **Dynamic Gated Verification:** Automatically routes the authenticated user straight back to `/product/ai-coins/` if either the login request parameters or the HTTP referrer contains `restricted_access=ai-coins`.
+
 ## [2026-05-22] - Visual Redesign for eMathSmart Style Alignment
 
 ### Changed

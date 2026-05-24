@@ -708,14 +708,45 @@ function emathsmart_gate_ai_coins_access()
                     $reason = $user_id ? 'no_subscription' : 'not_logged_in';
                     $redirect_to = ($reason === 'no_subscription') ? home_url('/subscription') : home_url('/parents-club');
                     wp_safe_redirect(add_query_arg(
-                        array('restricted_access' => 'ai-coins', 'reason' => $reason),
-                        $redirect_to
+                         array('restricted_access' => 'ai-coins', 'reason' => $reason),
+                         $redirect_to
                     ));
                     exit;
                 }
             }
         }
     }
+}
+
+/**
+ * Redirect user back to the AI Coins product page after a successful login 
+ * if they were redirected to the Parents Club login page from a restricted access gate.
+ */
+add_filter('woocommerce_login_redirect', 'emathsmart_login_redirect_to_ai_coins', 9999, 2);
+add_filter('login_redirect', 'emathsmart_login_redirect_to_ai_coins', 9999, 3);
+function emathsmart_login_redirect_to_ai_coins($redirect_to, $requested_redirect_to = null, $user = null)
+{
+    // If the login has failed or has an error, don't override the redirect
+    if (is_wp_error($user) || (is_wp_error($requested_redirect_to) && $user === null)) {
+        return $redirect_to;
+    }
+
+    $is_gated = false;
+
+    // 1. Check if the current request has restricted_access=ai-coins
+    if (isset($_REQUEST['restricted_access']) && $_REQUEST['restricted_access'] === 'ai-coins') {
+        $is_gated = true;
+    }
+    // 2. Check if the HTTP referer has restricted_access=ai-coins
+    elseif (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'restricted_access=ai-coins') !== false) {
+        $is_gated = true;
+    }
+
+    if ($is_gated) {
+        return home_url('/product/ai-coins/');
+    }
+
+    return $redirect_to;
 }
 
 /**
