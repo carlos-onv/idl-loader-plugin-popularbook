@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parents Club - Hero Banner Staging</title>
+    <!-- Google Fonts Loader -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Link to Modular Section 1 Stylesheet -->
+    <link rel="stylesheet" href="css/section-1.css">
+    
+    <style>
+        /* Standalone staging body wrapper adjustments */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .mock-page-wrapper {
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mock-page-wrapper">
+        <!-- Section 1: Hero Banner Panel -->
+        <section id="parents-club-section-1">
+            <div class="container">
+                <div class="hero-grid">
+                    
+                    <!-- COLUMN 1: Brand Info & CTAs -->
+                    <div class="brand-column">
+                        <!-- Custom Mockup Parents Club Logo -->
+                        <div class="brand-logo-wrapper">
+                            <img src="images/popularbook-logo-parents-club.png" alt="Popular Book Company Canada Parents Club">
+                        </div>
+                        
+                        <!-- Attribute Checklist Row -->
+                        <div class="brand-attribute-list">
+                            <div class="attribute-item">
+                                <span class="attribute-icon">👥</span>
+                                <span>40,000+ Canadian Parents</span>
+                            </div>
+                            <div class="attribute-item">
+                                <span class="attribute-icon">🍁</span>
+                                <span>Curriculum-Aligned</span>
+                            </div>
+                            <div class="attribute-item">
+                                <span class="attribute-icon">🛡️</span>
+                                <span>Trusted Since 1994</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Action CTA buttons -->
+                        <div class="brand-actions">
+                            <a href="#signup" class="btn-crimson">Join Parents' Club - It's Free!</a>
+                            <a href="#login" class="btn-outline-crimson">Member Login</a>
+                        </div>
+                    </div>
+                    
+                    <!-- COLUMN 2: Dynamic Signup Card -->
+                    <div class="signup-card" id="signup">
+                        <div class="signup-card-header">
+                            <h2>Join Parents' Club – It's Free!</h2>
+                            <p>Create your free account in less than a minute.</p>
+                        </div>
+                        
+                        <form class="signup-form" method="post" action="">
+                            <!-- First Name & Last Name Split Row -->
+                            <div class="form-row-split">
+                                <div class="form-group">
+                                    <input type="text" class="form-input" name="first_name" placeholder="First Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-input" name="last_name" placeholder="Last Name" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Email Address -->
+                            <div class="form-group">
+                                <input type="email" class="form-input" name="email_address" placeholder="Email Address" required>
+                            </div>
+                            
+                            <!-- Password with Show/Hide eye button -->
+                            <div class="form-group password-wrapper">
+                                <input type="password" class="form-input" id="signup-password" name="password" placeholder="Create Password" required>
+                                <button type="button" class="password-toggle-btn" id="password-toggle-trigger" aria-label="Toggle Password Visibility">
+                                    <!-- Eye open svg -->
+                                    <svg id="eye-open-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <!-- Eye closed svg (hidden by default) -->
+                                    <svg id="eye-closed-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <!-- Dropdown Selects -->
+                            <div class="form-group">
+                                <select class="form-input" name="children_number" required>
+                                    <option value="" disabled selected>Number of Children</option>
+                                    <option value="1">1 Child</option>
+                                    <option value="2">2 Children</option>
+                                    <option value="3">3 Children</option>
+                                    <option value="4">4+ Children</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <select class="form-input" name="grade_level" required>
+                                    <option value="" disabled selected>Grade Level</option>
+                                    <option value="k">Kindergarten</option>
+                                    <option value="1">Grade 1</option>
+                                    <option value="2">Grade 2</option>
+                                    <option value="3">Grade 3</option>
+                                    <option value="4">Grade 4</option>
+                                    <option value="5">Grade 5</option>
+                                    <option value="6">Grade 6+</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn-submit-signup">Create My Free Account</button>
+                            
+                            <p class="login-redirect-text">Already a member? <a href="#login">Login</a></p>
+                        </form>
+                    </div>
+                    
+                    <!-- COLUMN 3: Right Graphic & Benefits Card -->
+                    <div class="benefits-column">
+                        <!-- Studying child photo mock -->
+                        <div class="benefits-image-wrapper">
+                            <!-- Mock graphic showing parent/child reading using premium SVG layout -->
+                            <svg viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; display: block; background: linear-gradient(135deg, #fde4ba 0%, #fedb9b 100%);">
+                                <rect width="320" height="180" fill="url(#image-gradient)"/>
+                                <defs>
+                                    <linearGradient id="image-gradient" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stop-color="#ffe9d2"/>
+                                        <stop offset="100%" stop-color="#fedb9b"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Father outline -->
+                                <circle cx="240" cy="110" r="45" fill="rgba(90, 62, 43, 0.1)"/>
+                                <!-- Child outline -->
+                                <circle cx="100" cy="120" r="35" fill="rgba(90, 62, 43, 0.15)"/>
+                                <!-- Book visual -->
+                                <path d="M70 140 H 260 V 170 H 70 Z" fill="#ffffff" stroke="#5a3e2b" stroke-width="2" rx="4"/>
+                                <path d="M120 140 V 170" stroke="#5a3e2b" stroke-width="2"/>
+                                
+                                <text x="160" y="90" fill="#5a3e2b" font-family="'Outfit', sans-serif" font-size="14" font-weight="700" text-anchor="middle">Learning Study Area</text>
+                            </svg>
+                        </div>
+                        
+                        <!-- Red Benefits Glance Box -->
+                        <div class="benefits-glance-card">
+                            <h3>Benefits at a Glance</h3>
+                            <div class="benefits-glance-grid">
+                                
+                                <!-- Benefit 1 -->
+                                <div class="benefit-bullet">
+                                    <span class="bullet-icon-wrapper">🏷️</span>
+                                    <div class="bullet-content">
+                                        <span class="bullet-title">50% OFF</span>
+                                        <p style="font-size: 11.5px; color: rgba(255,255,255,0.85); margin: 0;">Complete Canadian Curriculum Series</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Benefit 2 -->
+                                <div class="benefit-bullet">
+                                    <span class="bullet-icon-wrapper">💡</span>
+                                    <div class="bullet-content">
+                                        <span class="bullet-title">Learning Tips & News</span>
+                                        <p style="font-size: 11.5px; color: rgba(255,255,255,0.85); margin: 0;">Helpful parenting advice</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Benefit 3 -->
+                                <div class="benefit-bullet">
+                                    <span class="bullet-icon-wrapper">📖</span>
+                                    <div class="bullet-content">
+                                        <span class="bullet-title">30% OFF</span>
+                                        <p style="font-size: 11.5px; color: rgba(255,255,255,0.85); margin: 0;">All Other Workbooks</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Benefit 4 -->
+                                <div class="benefit-bullet">
+                                    <span class="bullet-icon-wrapper">🎁</span>
+                                    <div class="bullet-content">
+                                        <span class="bullet-title">Special Promotions & Offers</span>
+                                        <p style="font-size: 11.5px; color: rgba(255,255,255,0.85); margin: 0;">Exclusive member campaigns</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Benefit 5 -->
+                                <div class="benefit-bullet">
+                                    <span class="bullet-icon-wrapper">📝</span>
+                                    <div class="bullet-content">
+                                        <span class="bullet-title">Free Worksheets & Resources</span>
+                                        <p style="font-size: 11.5px; color: rgba(255,255,255,0.85); margin: 0;">Immediate print downloads</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Benefit 6 -->
+                                <div class="benefit-bullet">
+                                    <span class="bullet-icon-wrapper">💻</span>
+                                    <div class="bullet-content">
+                                        <span class="bullet-title">Access to eMathSmart (Optional)</span>
+                                        <p style="font-size: 11.5px; color: rgba(255,255,255,0.85); margin: 0;">Optional interactive portal</p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Password visibility toggle script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('signup-password');
+            const toggleTrigger = document.getElementById('password-toggle-trigger');
+            const eyeOpen = document.getElementById('eye-open-icon');
+            const eyeClosed = document.getElementById('eye-closed-icon');
+            
+            if (toggleTrigger && passwordInput) {
+                toggleTrigger.addEventListener('click', function() {
+                    const isPassword = passwordInput.getAttribute('type') === 'password';
+                    
+                    if (isPassword) {
+                        passwordInput.setAttribute('type', 'text');
+                        eyeOpen.style.display = 'none';
+                        eyeClosed.style.display = 'block';
+                    } else {
+                        passwordInput.setAttribute('type', 'password');
+                        eyeOpen.style.display = 'block';
+                        eyeClosed.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+/**
+ * Parents Club Redesign - Section 1 CSS
+ * File: section-1.css
+ * Focuses on the Hero Banner Panel (Left Brand Intro, Middle Registration Form, Right Benefits at a Glance)
+ */
+
+#parents-club-section-1,
+#parents-club-section-1 * {
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
+}
+
+#parents-club-section-1 {
+    --brand-red: #af0128;
+    --brand-red-hover: #8f0120;
+    --brand-text-dark: #333333;
+    --brand-text-muted: #666666;
+    --card-bg: #ffffff;
+    --border-light: #e1e1e1;
+    --input-border: #cccccc;
+    --input-focus: #af0128;
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.06);
+    
+    font-family: 'Inter', sans-serif;
+    color: var(--brand-text-dark);
+    background-color: #ffffff;
+    padding: 50px 0;
+    width: 100%;
+}
+
+#parents-club-section-1 .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* 3-Column Layout Grid */
+#parents-club-section-1 .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+@media (min-width: 992px) {
+    #parents-club-section-1 .hero-grid {
+        grid-template-columns: 1.1fr 1.3fr 1.1fr;
+        gap: 30px;
+    }
+}
+
+/* =============================================================================
+   COLUMN 1: Left Brand Intro & Quick CTAs
+   ============================================================================= */
+
+#parents-club-section-1 .brand-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 10px;
+}
+
+@media (min-width: 992px) {
+    #parents-club-section-1 .brand-column {
+        align-items: flex-start;
+        text-align: left;
+    }
+}
+
+/* Custom styled mockup Parents Club Logo */
+#parents-club-section-1 .brand-logo-wrapper {
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 280px;
+}
+
+#parents-club-section-1 .brand-logo-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Bullets with brand indicators */
+#parents-club-section-1 .brand-attribute-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 35px;
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    #parents-club-section-1 .brand-attribute-list {
+        justify-content: flex-start;
+        flex-direction: row;
+    }
+}
+
+#parents-club-section-1 .attribute-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brand-text-dark);
+}
+
+#parents-club-section-1 .attribute-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: rgba(175, 1, 40, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-red);
+    font-size: 11px;
+}
+
+/* Left Buttons */
+#parents-club-section-1 .brand-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 280px;
+}
+
+#parents-club-section-1 .btn-crimson {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--brand-red);
+    color: #ffffff !important;
+    padding: 14px 20px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(175, 1, 40, 0.15);
+}
+
+#parents-club-section-1 .btn-crimson:hover {
+    background-color: var(--brand-red-hover);
+}
+
+#parents-club-section-1 .btn-outline-crimson {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: var(--brand-red) !important;
+    padding: 13px 20px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-decoration: none !important;
+    border: 2px solid var(--brand-red);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+#parents-club-section-1 .btn-outline-crimson:hover {
+    background-color: rgba(175, 1, 40, 0.04);
+}
+
+/* =============================================================================
+   COLUMN 2: Signup Form Card
+   ============================================================================= */
+
+#parents-club-section-1 .signup-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: var(--shadow-soft);
+    width: 100%;
+}
+
+#parents-club-section-1 .signup-card-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#parents-club-section-1 .signup-card-header h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--brand-text-dark);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+}
+
+#parents-club-section-1 .signup-card-header p {
+    font-size: 13.5px;
+    color: var(--brand-text-muted);
+}
+
+#parents-club-section-1 .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Form Row (for First & Last Name Grid) */
+#parents-club-section-1 .form-row-split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+@media (min-width: 576px) {
+    #parents-club-section-1 .form-row-split {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+#parents-club-section-1 .form-group {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+#parents-club-section-1 .form-input {
+    width: 100%;
+    height: 44px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    padding: 0 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--brand-text-dark);
+    background-color: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+}
+
+#parents-club-section-1 .form-input:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px rgba(175, 1, 40, 0.08);
+}
+
+/* Special styling for select inputs */
+#parents-club-section-1 select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 15px;
+    padding-right: 40px;
+    cursor: pointer;
+}
+
+/* Password eye container absolute placement */
+#parents-club-section-1 .password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#parents-club-section-1 .password-toggle-btn {
+    position: absolute;
+    right: 14px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--brand-text-muted);
+    font-size: 15px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#parents-club-section-1 .password-toggle-btn:hover {
+    color: var(--brand-text-dark);
+}
+
+/* Signup Button */
+#parents-club-section-1 .btn-submit-signup {
+    width: 100%;
+    background-color: var(--brand-red);
+    color: #ffffff;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    box-shadow: 0 4px 12px rgba(175, 1, 40, 0.12);
+    margin-top: 5px;
+}
+
+#parents-club-section-1 .btn-submit-signup:hover {
+    background-color: var(--brand-red-hover);
+}
+
+/* Bottom login anchor */
+#parents-club-section-1 .login-redirect-text {
+    text-align: center;
+    font-size: 13px;
+    color: var(--brand-text-muted);
+    margin-top: 15px;
+}
+
+#parents-club-section-1 .login-redirect-text a {
+    color: var(--brand-red);
+    text-decoration: none;
+    font-weight: 700;
+    transition: text-decoration 0.2s ease;
+}
+
+#parents-club-section-1 .login-redirect-text a:hover {
+    text-decoration: underline;
+}
+
+/* =============================================================================
+   COLUMN 3: Right Graphic & Benefits Card
+   ============================================================================= */
+
+#parents-club-section-1 .benefits-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+}
+
+/* Top illustration studies header image */
+#parents-club-section-1 .benefits-image-wrapper {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+#parents-club-section-1 .benefits-image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Crimson Benefits list box */
+#parents-club-section-1 .benefits-glance-card {
+    background-color: var(--brand-red);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 6px 20px rgba(175, 1, 40, 0.15);
+}
+
+#parents-club-section-1 .benefits-glance-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-bottom: 10px;
+}
+
+/* Dynamic two-column grid list inside crimson card */
+#parents-club-section-1 .benefits-glance-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+@media (min-width: 576px) and (max-width: 991px) {
+    #parents-club-section-1 .benefits-glance-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+}
+
+#parents-club-section-1 .benefit-bullet {
+    display: flex;
+    align-items: start;
+    gap: 12px;
+}
+
+#parents-club-section-1 .bullet-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 15px;
+}
+
+#parents-club-section-1 .bullet-content {
+    display: flex;
+    flex-direction: column;
+}
+
+#parents-club-section-1 .bullet-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.35;
+    margin-bottom: 2px;
+}
