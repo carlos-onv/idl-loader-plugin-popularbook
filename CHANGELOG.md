@@ -9,6 +9,10 @@ All notable changes to this project will be documented in this file for both hum
 - **Dynamic Element Parameters:** Configured `vc_map()` to support customizable fields for custom logo image attachment, attribute headers and subheadings, solid button label/target, and outline button label/target.
 - **Native Style Enqueueing:** The shortcode callback enqueues `parents-club-hero-brand.css` dynamically inside the WordPress execution flow using `wp_enqueue_style()`, optimizing performance by loading stylesheet resources only on pages where the intro block appears.
 
+### Fixed
+- **CSS Selector Scoping:** Adjusted selectors in `parents-club-hero-brand.css` from `#parents-club-section-1 .brand-column` to use the modular `.brand-column` as the root element directly. This ensures WPBakery layouts successfully match and render the CSS regardless of outer container wrapping IDs.
+
+
 ## [2026-05-25] - Parents Club Section 1 and Section 2 Redesign Visual Enhancements
 
 ### Added
