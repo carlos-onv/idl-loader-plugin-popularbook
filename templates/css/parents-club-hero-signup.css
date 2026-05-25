@@ -3,7 +3,7 @@
  * File: parents-club-hero-signup.css
  */
 
-.signup-card {
+#parents-club-section-1 .signup-card {
     --brand-red: #af0128;
     --brand-red-hover: #8f0120;
     --brand-text-dark: #333333;
@@ -24,16 +24,16 @@
     box-sizing: border-box;
 }
 
-.signup-card * {
+#parents-club-section-1 .signup-card * {
     box-sizing: border-box !important;
 }
 
-.signup-card-header {
+#parents-club-section-1 .signup-card-header {
     text-align: center;
     margin-bottom: 25px;
 }
 
-.signup-card-header h2 {
+#parents-club-section-1 .signup-card-header h2 {
     font-family: 'Outfit', sans-serif;
     font-size: 22px;
     font-weight: 800;
@@ -42,37 +42,37 @@
     letter-spacing: -0.01em;
 }
 
-.signup-card-header p {
+#parents-club-section-1 .signup-card-header p {
     font-size: 13.5px;
     color: var(--brand-text-muted);
 }
 
-.signup-form {
+#parents-club-section-1 .signup-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
 /* Form Row (for First & Last Name Grid) */
-.form-row-split {
+#parents-club-section-1 .form-row-split {
     display: grid;
     grid-template-columns: 1fr;
     gap: 15px;
 }
 
 @media (min-width: 576px) {
-    .form-row-split {
+    #parents-club-section-1 .form-row-split {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-.form-group {
+#parents-club-section-1 .form-group {
     display: flex;
     flex-direction: column;
     position: relative;
 }
 
-.form-input {
+#parents-club-section-1 .form-input {
     width: 100%;
     height: 44px;
     border: 1px solid var(--input-border);
@@ -86,13 +86,13 @@
     outline: none;
 }
 
-.form-input:focus {
+#parents-club-section-1 .form-input:focus {
     border-color: var(--input-focus);
     box-shadow: 0 0 0 3px rgba(175, 1, 40, 0.08);
 }
 
 /* Special styling for select inputs */
-select.form-input {
+#parents-club-section-1 select.form-input {
     appearance: none;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
@@ -103,13 +103,13 @@ select.form-input {
 }
 
 /* Password eye container absolute placement */
-.password-wrapper {
+#parents-club-section-1 .password-wrapper {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.password-toggle-btn {
+#parents-club-section-1 .password-toggle-btn {
     position: absolute;
     right: 14px;
     background: transparent;
@@ -123,12 +123,12 @@ select.form-input {
     justify-content: center;
 }
 
-.password-toggle-btn:hover {
+#parents-club-section-1 .password-toggle-btn:hover {
     color: var(--brand-text-dark);
 }
 
 /* Signup Button */
-.btn-submit-signup {
+#parents-club-section-1 .btn-submit-signup {
     width: 100%;
     background-color: var(--brand-red);
     color: #ffffff;
@@ -145,25 +145,25 @@ select.form-input {
     margin-top: 5px;
 }
 
-.btn-submit-signup:hover {
+#parents-club-section-1 .btn-submit-signup:hover {
     background-color: var(--brand-red-hover);
 }
 
 /* Bottom login anchor */
-.login-redirect-text {
+#parents-club-section-1 .login-redirect-text {
     text-align: center;
     font-size: 13px;
     color: var(--brand-text-muted);
     margin-top: 15px;
 }
 
-.login-redirect-text a {
+#parents-club-section-1 .login-redirect-text a {
     color: var(--brand-red);
     text-decoration: none;
     font-weight: 700;
     transition: text-decoration 0.2s ease;
 }
 
-.login-redirect-text a:hover {
+#parents-club-section-1 .login-redirect-text a:hover {
     text-decoration: underline;
 }

@@ -3,7 +3,7 @@
  * File: parents-club-hero-brand.css
  */
 
-.brand-column {
+#parents-club-section-1 .brand-column {
     --brand-red: #af0128;
     --brand-red-hover: #8f0120;
     --brand-text-dark: #333333;
@@ -19,32 +19,32 @@
     box-sizing: border-box;
 }
 
-.brand-column * {
+#parents-club-section-1 .brand-column * {
     box-sizing: border-box !important;
 }
 
 @media (min-width: 992px) {
-    .brand-column {
+    #parents-club-section-1 .brand-column {
         align-items: flex-start;
         text-align: left;
     }
 }
 
 /* Custom styled mockup Parents Club Logo */
-.brand-logo-wrapper {
+#parents-club-section-1 .brand-logo-wrapper {
     margin-bottom: 30px;
     width: 100%;
     max-width: 290px;
 }
 
-.brand-logo-wrapper img {
+#parents-club-section-1 .brand-logo-wrapper img {
     width: 100%;
     height: auto;
     display: block;
 }
 
 /* Attributes Checklist Row - Horizontal layout on large screens, stacked on small */
-.brand-attribute-list {
+#parents-club-section-1 .brand-attribute-list {
     display: grid;
     grid-template-columns: 1fr;
     gap: 15px;
@@ -53,51 +53,51 @@
 }
 
 @media (min-width: 480px) {
-    .brand-attribute-list {
+    #parents-club-section-1 .brand-attribute-list {
         grid-template-columns: repeat(3, 1fr);
         gap: 12px;
     }
 }
 
-.attribute-item {
+#parents-club-section-1 .attribute-item {
     display: flex;
     align-items: center;
     gap: 10px;
     text-align: left;
 }
 
-.attribute-icon {
+#parents-club-section-1 .attribute-icon {
     display: flex;
     align-items: center;
     color: var(--brand-red);
     flex-shrink: 0;
 }
 
-.attribute-icon svg {
+#parents-club-section-1 .attribute-icon svg {
     width: 22px;
     height: 22px;
 }
 
-.attribute-text {
+#parents-club-section-1 .attribute-text {
     display: flex;
     flex-direction: column;
     line-height: 1.25;
 }
 
-.attribute-text strong {
+#parents-club-section-1 .attribute-text strong {
     font-size: 13.5px;
     font-weight: 800;
     color: var(--brand-text-dark);
 }
 
-.attribute-text span {
+#parents-club-section-1 .attribute-text span {
     font-size: 11.5px;
     color: var(--brand-text-muted);
     font-weight: 500;
 }
 
 /* Left Buttons - Horizontal on screens above mobile */
-.brand-actions {
+#parents-club-section-1 .brand-actions {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -105,13 +105,13 @@
 }
 
 @media (min-width: 576px) {
-    .brand-actions {
+    #parents-club-section-1 .brand-actions {
         flex-direction: row;
         gap: 12px;
     }
 }
 
-.btn-crimson {
+#parents-club-section-1 .btn-crimson {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -132,11 +132,11 @@
     white-space: nowrap;
 }
 
-.btn-crimson:hover {
+#parents-club-section-1 .btn-crimson:hover {
     background-color: var(--brand-red-hover);
 }
 
-.btn-outline-crimson {
+#parents-club-section-1 .btn-outline-crimson {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -156,13 +156,13 @@
     white-space: nowrap;
 }
 
-.btn-outline-crimson svg {
+#parents-club-section-1 .btn-outline-crimson svg {
     width: 16px;
     height: 16px;
     margin-right: 6px;
     flex-shrink: 0;
 }
 
-.btn-outline-crimson:hover {
+#parents-club-section-1 .btn-outline-crimson:hover {
     background-color: rgba(175, 1, 40, 0.04);
 }

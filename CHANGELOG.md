@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file for both hum
 
 ### Added
 - **Divided Section 1 CSS for WPBakery Mappings:** Split the monolithic `section-1.css` layout into 3 separate CSS component files (`parents-club-hero-brand.css`, `parents-club-hero-signup.css`, and `parents-club-hero-benefits.css`) to map 1-to-1 to 3 distinct WPBakery Page Builder elements. Pruned redundant component rules from `section-1.css` to keep it strictly focused on master outer grid and container layouts.
+- **Scoped Component Stylesheets:** Re-introduced high specificity scoping `#parents-club-section-1` to all selectors in the three divided component stylesheets to insulate them from global theme overrides, ensuring perfect visual rendering.
 - **Feature: Staging Section 2 ("Why Join Parents' Club?"):** Designed and implemented the complete horizontal feature bar for Section 2 inside `/templates/parents-club.html` and a new modular stylesheet `/templates/css/section-2.css`.
 - **Responsive 6-Column Grid:** Configured Section 2's feature grid to dynamically scale: 1-column on mobile, 3-columns on tablets, and 6-columns on desktop.
 - **Official Parents Club Banner Integration:** Switched the benefits banner image to the official high-quality `parents-club-banner.jpg` asset inside `/templates/images/parents-club-banner.jpg`, removing the temporary cropped placeholder.
