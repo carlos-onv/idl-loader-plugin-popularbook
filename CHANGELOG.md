@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-25] - Parents Club Custom WPBakery Hero Element
+
+### Added
+- **Feature: Dynamic Parents Club Hero WPBakery Element:** Implemented a new custom page builder element `[parents_club_hero]` registered programmatically inside the `idl-loader` plugin directory.
+- **WPBakery Integration Hooks:** Leveraged the `vc_before_init` hook and `vc_map()` function inside a new `functions-wpbakery-elements.php` file to register visual field controls (Title, Subtitle, CTA text, CTA Link, Background Image attachment ID) inside WPBakery's custom element repository.
+- **Outfit/Inter Premium Styled Layout:** Created the shortcode callback handler that outputs a high-fidelity centered visual container matching the eMathSmart dashboard warm aesthetics: linear peach/orange gradient backgrounds, subtle vertical slat textures, Inter and Outfit fonts, and pill-shaped animated buttons.
+- **Shortcode Class Autoloader:** Bound the custom shortcode callback logic with the WPBakery backend layout auto-generator using the standard `WPBakeryShortCode` class interface extension.
+
+### Technical Notes for AI Agents
+- The custom shortcodes and `vc_map` bindings are initialized from the new plugin loader file `/wp-content/plugins/idl-loader/functions-wpbakery-elements.php` which is required at the top of the production `functions.php` file.
+- Google Fonts Outfit & Inter are enqueued directly inside the shortcode execution loop to optimize page speed loads, loading only on pages rendering the Parents Club components.
+- The CSS style classes are strictly scoped under the dynamically-generated `#pc-hero-[id]` wrapper block to protect global site headers and footers from layout bleed.
+- The `bg_image` parameter is built to safely accept either standard absolute image URLs or native WordPress media attachment IDs, dynamically pulling the source URL via `wp_get_attachment_image_src()`.
+
 ## [2026-05-25] - Parents Club Redesign Template & Dynamic Dashboards Plan
 
 ### Added

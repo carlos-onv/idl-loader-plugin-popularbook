@@ -9,6 +9,7 @@
 
 require_once("functions-restapi.php");
 require_once("functions-esmart.php");
+require_once("functions-wpbakery-elements.php");
 // require_once("functions-esmart-compensation.php");
 
 
