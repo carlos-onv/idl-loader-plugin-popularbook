@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-25] - Parents Club Redesign Template & Dynamic Dashboards Plan
+
+### Added
+- **Feature: Architectural Design for Parents Club Redesign Template:** Created a comprehensive implementation plan to programmatically register and load a new WordPress page template `parents-club-template.php` inside the active `idl-loader` plugin to preserve clean-core requirements.
+- **ACF Integration Specifications:** Defined the ACF field mappings to make all sections of the landing page fully editable by the user via standard, repeater, and flexible custom fields inside the page editor.
+- **Dynamic State Logic:** Outlined a state-based layout manager that serves context-appropriate content depending on user authorization (guest visitors, logged-in non-subscribers, active eMathSmart subscribers).
+- **Interactive Documentation Dashboard:** Saved the premium interactive HTML plan at `/app/public/dev_assets/ai_documentation/Parents_Club_redesign_plan.html` for alignment and testing.
+
 ## [2026-05-23] - AI Coins Post-Login Redirection Hook & WPBakery/AJAX Compatibility
 
 ### Added
