@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-05-23] - AI Coins Post-Login Redirection Hook
+## [2026-05-23] - AI Coins Post-Login Redirection Hook & WPBakery/AJAX Compatibility
 
 ### Added
 - **Feature: Auto-Redirect After Gated Login:** Added custom redirection filters (`woocommerce_login_redirect` and `login_redirect`) that dynamically catch when a user logs in successfully via the `/parents-club` page (or any form where they arrived with the query parameters `restricted_access=ai-coins`).
 - **Dynamic Gated Verification:** Automatically routes the authenticated user straight back to `/product/ai-coins/` if either the login request parameters or the HTTP referrer contains `restricted_access=ai-coins`.
+- **WPBakery & AJAX Compatibility Script:** Injected an active inline script into the gated error notice output (`the_content` filter). The script dynamically detects WPBakery login widgets and AJAX form inputs, forcefully rewriting form actions and hidden redirect fields (`redirect`, `redirect_to`, `url`, `_wp_http_referer`) to `/product/ai-coins/` on DOM ready and after rendering timeouts, ensuring successful redirection.
 
 ## [2026-05-22] - Visual Redesign for eMathSmart Style Alignment
 

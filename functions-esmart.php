@@ -772,6 +772,7 @@ function emathsmart_ai_coins_skip_cart_redirect($url)
 
 /**
  * Render access notice on the Parents Club and Subscription landing pages when redirected from restricted products.
+ * Includes a context-aware inline script to force login redirect settings on WPBakery and AJAX login widgets.
  */
 add_filter('the_content', 'emathsmart_display_gated_notice_on_parents_club', 1);
 function emathsmart_display_gated_notice_on_parents_club($content)
@@ -781,14 +782,57 @@ function emathsmart_display_gated_notice_on_parents_club($content)
 
         if ($reason === 'not_logged_in') {
             $message = __('AI Coins are exclusively available to active subscribers. If you already have a subscription, please <a href="#parents-club-login" style="text-decoration: underline; font-weight: bold; color: inherit;">log in</a> first. Otherwise, please subscribe below to purchase.', 'woocommerce');
+            
+            $notice_html = '
+            <div class="woocommerce-error" role="alert" style="margin-bottom: 25px;">
+                ' . $message . '
+            </div>
+            <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                function overrideLoginRedirects() {
+                    var loginForms = document.querySelectorAll("form");
+                    loginForms.forEach(function(form) {
+                        if (form.querySelector(\'input[type="password"]\')) {
+                            // 1. Force the form action query parameter to preserve restricted_access
+                            var action = form.getAttribute("action") || window.location.href;
+                            if (action && action.indexOf("restricted_access") === -1) {
+                                var separator = action.indexOf("?") !== -1 ? "&" : "?";
+                                form.setAttribute("action", action + separator + "restricted_access=ai-coins");
+                            }
+
+                            // 2. Set redirect or redirect_to fields to point to /product/ai-coins/
+                            var redirectFields = form.querySelectorAll(\'input[name="redirect"], input[name="redirect_to"], input[name="url"], input[name="_wp_http_referer"]\');
+                            if (redirectFields.length > 0) {
+                                redirectFields.forEach(function(field) {
+                                    field.value = "' . esc_url( home_url('/product/ai-coins/') ) . '";
+                                });
+                            } else {
+                                // 3. Create a redirect_to input field if it is missing
+                                var newInput = document.createElement("input");
+                                newInput.type = "hidden";
+                                newInput.name = "redirect_to";
+                                newInput.value = "' . esc_url( home_url('/product/ai-coins/') ) . '";
+                                form.appendChild(newInput);
+                            }
+                        }
+                    });
+                }
+
+                // Run immediately
+                overrideLoginRedirects();
+                // Also run after a small delay in case WPBakery or other widgets render dynamically
+                setTimeout(overrideLoginRedirects, 500);
+                setTimeout(overrideLoginRedirects, 1500);
+            });
+            </script>';
         } else {
             $message = __('AI Coins are exclusively available to active subscribers. Please subscribe below to purchase.', 'woocommerce');
+            $notice_html = '
+            <div class="woocommerce-error" role="alert" style="margin-bottom: 25px;">
+                ' . $message . '
+            </div>';
         }
 
-        $notice_html = '
-        <div class="woocommerce-error" role="alert" style="margin-bottom: 25px;">
-            ' . $message . '
-        </div>';
         $content = $notice_html . $content;
     }
     return $content;
