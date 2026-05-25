@@ -724,6 +724,7 @@ function emathsmart_gate_ai_coins_access()
  */
 add_filter('woocommerce_login_redirect', 'emathsmart_login_redirect_to_ai_coins', 9999, 2);
 add_filter('login_redirect', 'emathsmart_login_redirect_to_ai_coins', 9999, 3);
+add_filter('user_registration_login_redirect', 'emathsmart_login_redirect_to_ai_coins', 9999, 2);
 function emathsmart_login_redirect_to_ai_coins($redirect_to, $requested_redirect_to = null, $user = null)
 {
     // If the login has failed or has an error, don't override the redirect

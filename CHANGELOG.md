@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file for both hum
 
 ### Added
 - **Feature: Auto-Redirect After Gated Login:** Added custom redirection filters (`woocommerce_login_redirect` and `login_redirect`) that dynamically catch when a user logs in successfully via the `/parents-club` page (or any form where they arrived with the query parameters `restricted_access=ai-coins`).
+- **WPEverest Custom Redirect Hook Integration:** Added the `user_registration_login_redirect` filter hook to natively intercept WPEverest's "User Registration" login form (shortcode `[user_registration_login]` inside the WPBakery layout). Since WPEverest processes login submissions via a custom AJAX routine (`ur_process_login`), it bypasses core WordPress and WooCommerce filters; adding this hook ensures WPEverest successfully returns the correct `/product/ai-coins/` redirect URL in its JSON success payload.
 - **Dynamic Gated Verification:** Automatically routes the authenticated user straight back to `/product/ai-coins/` if either the login request parameters or the HTTP referrer contains `restricted_access=ai-coins`.
 - **WPBakery & AJAX Compatibility Script:** Injected an active inline script into the gated error notice output (`the_content` filter). The script dynamically detects WPBakery login widgets and AJAX form inputs, forcefully rewriting form actions and hidden redirect fields (`redirect`, `redirect_to`, `url`, `_wp_http_referer`) to `/product/ai-coins/` on DOM ready and after rendering timeouts, ensuring successful redirection.
 
