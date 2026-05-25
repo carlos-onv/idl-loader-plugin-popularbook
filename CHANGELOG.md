@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-25] - Parents Club Hero Intro WPBakery Element
+
+### Added
+- **Feature: Parents Club Hero Intro Element:** Implemented the custom page builder element `[parents_club_hero_intro]` inside `functions-wpbakery-elements.php` to handle Column 1 of the Hero section.
+- **Dynamic Element Parameters:** Configured `vc_map()` to support customizable fields for custom logo image attachment, attribute headers and subheadings, solid button label/target, and outline button label/target.
+- **Native Style Enqueueing:** The shortcode callback enqueues `parents-club-hero-brand.css` dynamically inside the WordPress execution flow using `wp_enqueue_style()`, optimizing performance by loading stylesheet resources only on pages where the intro block appears.
+
 ## [2026-05-25] - Parents Club Section 1 and Section 2 Redesign Visual Enhancements
 
 ### Added
