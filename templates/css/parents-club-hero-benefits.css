@@ -1,0 +1,111 @@
+/**
+ * Parents Club Redesign - Hero Benefits Column CSS
+ * File: parents-club-hero-benefits.css
+ */
+
+.benefits-column {
+    --brand-red: #af0128;
+    --border-light: #e1e1e1;
+    
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.benefits-column * {
+    box-sizing: border-box !important;
+}
+
+/* Top illustration studies header image */
+.benefits-image-wrapper {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.benefits-image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Crimson Benefits list box */
+.benefits-glance-card {
+    background-color: var(--brand-red);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 6px 20px rgba(175, 1, 40, 0.15);
+}
+
+.benefits-glance-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-bottom: 10px;
+}
+
+/* Dynamic two-column grid list inside crimson card */
+.benefits-glance-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+@media (min-width: 576px) {
+    .benefits-glance-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 18px 25px;
+    }
+}
+
+.benefit-bullet {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.bullet-icon-wrapper {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #ffffff;
+}
+
+.bullet-icon-wrapper svg {
+    width: 18px;
+    height: 18px;
+}
+
+.bullet-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.bullet-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.3;
+    margin-bottom: 2px;
+}
+
+.bullet-content p {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.3;
+    margin: 0;
+}

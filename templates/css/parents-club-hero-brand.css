@@ -1,0 +1,168 @@
+/**
+ * Parents Club Redesign - Hero Brand Column CSS
+ * File: parents-club-hero-brand.css
+ */
+
+.brand-column {
+    --brand-red: #af0128;
+    --brand-red-hover: #8f0120;
+    --brand-text-dark: #333333;
+    --brand-text-muted: #666666;
+    
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.brand-column * {
+    box-sizing: border-box !important;
+}
+
+@media (min-width: 992px) {
+    .brand-column {
+        align-items: flex-start;
+        text-align: left;
+    }
+}
+
+/* Custom styled mockup Parents Club Logo */
+.brand-logo-wrapper {
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 290px;
+}
+
+.brand-logo-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Attributes Checklist Row - Horizontal layout on large screens, stacked on small */
+.brand-attribute-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 35px;
+    width: 100%;
+}
+
+@media (min-width: 480px) {
+    .brand-attribute-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+}
+
+.attribute-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+}
+
+.attribute-icon {
+    display: flex;
+    align-items: center;
+    color: var(--brand-red);
+    flex-shrink: 0;
+}
+
+.attribute-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.attribute-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.attribute-text strong {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--brand-text-dark);
+}
+
+.attribute-text span {
+    font-size: 11.5px;
+    color: var(--brand-text-muted);
+    font-weight: 500;
+}
+
+/* Left Buttons - Horizontal on screens above mobile */
+.brand-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+@media (min-width: 576px) {
+    .brand-actions {
+        flex-direction: row;
+        gap: 12px;
+    }
+}
+
+.btn-crimson {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--brand-red);
+    color: #ffffff !important;
+    padding: 13px 20px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(175, 1, 40, 0.15);
+    flex: 1.35;
+    white-space: nowrap;
+}
+
+.btn-crimson:hover {
+    background-color: var(--brand-red-hover);
+}
+
+.btn-outline-crimson {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: var(--brand-red) !important;
+    padding: 11px 20px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-decoration: none !important;
+    border: 2px solid var(--brand-red);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    flex: 1;
+    white-space: nowrap;
+}
+
+.btn-outline-crimson svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    flex-shrink: 0;
+}
+
+.btn-outline-crimson:hover {
+    background-color: rgba(175, 1, 40, 0.04);
+}
