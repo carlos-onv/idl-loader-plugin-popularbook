@@ -45,7 +45,7 @@
 
 @media (min-width: 992px) {
     #parents-club-section-1 .hero-grid {
-        grid-template-columns: 1.1fr 1.3fr 1.1fr;
+        grid-template-columns: 1.35fr 1fr 1fr;
         gap: 30px;
     }
 }
@@ -60,6 +60,7 @@
     align-items: center;
     text-align: center;
     padding-top: 10px;
+    width: 100%;
 }
 
 @media (min-width: 992px) {
@@ -71,9 +72,9 @@
 
 /* Custom styled mockup Parents Club Logo */
 #parents-club-section-1 .brand-logo-wrapper {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     width: 100%;
-    max-width: 280px;
+    max-width: 290px;
 }
 
 #parents-club-section-1 .brand-logo-wrapper img {
@@ -82,51 +83,77 @@
     display: block;
 }
 
-/* Bullets with brand indicators */
+/* Attributes Checklist Row - Horizontal layout on large screens, stacked on small */
 #parents-club-section-1 .brand-attribute-list {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 15px;
     margin-bottom: 35px;
     width: 100%;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 480px) {
     #parents-club-section-1 .brand-attribute-list {
-        justify-content: flex-start;
-        flex-direction: row;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
     }
 }
 
 #parents-club-section-1 .attribute-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--brand-text-dark);
+    gap: 10px;
+    text-align: left;
 }
 
 #parents-club-section-1 .attribute-icon {
-    width: 24px;
-    height: 24px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background-color: rgba(175, 1, 40, 0.06);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--brand-red);
-    font-size: 11px;
+    flex-shrink: 0;
 }
 
-/* Left Buttons */
+#parents-club-section-1 .attribute-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+#parents-club-section-1 .attribute-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+#parents-club-section-1 .attribute-text strong {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--brand-text-dark);
+}
+
+#parents-club-section-1 .attribute-text span {
+    font-size: 11.5px;
+    color: var(--brand-text-muted);
+    font-weight: 500;
+}
+
+/* Left Buttons - Horizontal on screens above mobile */
 #parents-club-section-1 .brand-actions {
     display: flex;
     flex-direction: column;
     gap: 12px;
     width: 100%;
-    max-width: 280px;
+}
+
+@media (min-width: 576px) {
+    #parents-club-section-1 .brand-actions {
+        flex-direction: row;
+        gap: 12px;
+    }
 }
 
 #parents-club-section-1 .btn-crimson {
@@ -135,9 +162,9 @@
     justify-content: center;
     background-color: var(--brand-red);
     color: #ffffff !important;
-    padding: 14px 20px;
+    padding: 13px 20px;
     border-radius: 6px;
-    font-size: 13.5px;
+    font-size: 12.5px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.03em;
@@ -146,6 +173,8 @@
     border: none;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(175, 1, 40, 0.15);
+    flex: 1.35;
+    white-space: nowrap;
 }
 
 #parents-club-section-1 .btn-crimson:hover {
@@ -158,9 +187,9 @@
     justify-content: center;
     background-color: transparent;
     color: var(--brand-red) !important;
-    padding: 13px 20px;
+    padding: 11px 20px;
     border-radius: 6px;
-    font-size: 13.5px;
+    font-size: 12.5px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.03em;
@@ -168,6 +197,15 @@
     border: 2px solid var(--brand-red);
     transition: all 0.2s ease;
     cursor: pointer;
+    flex: 1;
+    white-space: nowrap;
+}
+
+#parents-club-section-1 .btn-outline-crimson svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    flex-shrink: 0;
 }
 
 #parents-club-section-1 .btn-outline-crimson:hover {
@@ -379,29 +417,34 @@
     gap: 15px;
 }
 
-@media (min-width: 576px) and (max-width: 991px) {
+@media (min-width: 576px) {
     #parents-club-section-1 .benefits-glance-grid {
         grid-template-columns: 1fr 1fr;
-        gap: 20px;
+        gap: 18px 25px;
     }
 }
 
 #parents-club-section-1 .benefit-bullet {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     gap: 12px;
 }
 
 #parents-club-section-1 .bullet-icon-wrapper {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    font-size: 15px;
+    color: #ffffff;
+}
+
+#parents-club-section-1 .bullet-icon-wrapper svg {
+    width: 18px;
+    height: 18px;
 }
 
 #parents-club-section-1 .bullet-content {
@@ -410,9 +453,16 @@
 }
 
 #parents-club-section-1 .bullet-title {
-    font-size: 13.5px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 800;
     color: #ffffff;
-    line-height: 1.35;
+    line-height: 1.3;
     margin-bottom: 2px;
+}
+
+#parents-club-section-1 .bullet-content p {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.3;
+    margin: 0;
 }

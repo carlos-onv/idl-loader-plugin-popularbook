@@ -1,0 +1,147 @@
+/**
+ * Parents Club Redesign - Section 2 CSS
+ * File: section-2.css
+ * Focuses on the "Why Join Parents' Club?" Horizontal Features Bar
+ */
+
+#parents-club-section-2,
+#parents-club-section-2 * {
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
+}
+
+#parents-club-section-2 {
+    --brand-red: #af0128;
+    --brand-text-dark: #333333;
+    --brand-text-muted: #666666;
+    --bg-light: #f9fbfd;
+    --border-light: #e1e8ed;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.03);
+    
+    font-family: 'Inter', sans-serif;
+    color: var(--brand-text-dark);
+    background-color: #ffffff;
+    padding: 20px 0 50px 0; /* Positioned nicely under Section 1 */
+    width: 100%;
+}
+
+#parents-club-section-2 .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Feature Bar Wrap */
+#parents-club-section-2 .feature-bar-wrapper {
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    #parents-club-section-2 .feature-bar-wrapper {
+        flex-direction: row;
+        gap: 30px;
+        align-items: center;
+        padding: 20px 30px;
+    }
+}
+
+/* Left Title block */
+#parents-club-section-2 .bar-title-block {
+    text-align: center;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+#parents-club-section-2 .bar-title-block h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--brand-text-dark);
+}
+
+@media (min-width: 992px) {
+    #parents-club-section-2 .bar-title-block {
+        width: 160px;
+        text-align: left;
+    }
+    
+    #parents-club-section-2 .bar-title-block h2 {
+        font-size: 20px;
+    }
+}
+
+/* Features Grid */
+#parents-club-section-2 .bar-features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 100%;
+}
+
+@media (min-width: 480px) and (max-width: 991px) {
+    #parents-club-section-2 .bar-features-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px 15px;
+    }
+}
+
+@media (min-width: 992px) {
+    #parents-club-section-2 .bar-features-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 15px;
+        flex-grow: 1;
+    }
+}
+
+/* Feature Item */
+#parents-club-section-2 .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    text-align: left;
+}
+
+#parents-club-section-2 .feature-icon-wrapper {
+    color: var(--brand-red);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2px;
+}
+
+#parents-club-section-2 .feature-icon-wrapper svg {
+    width: 26px;
+    height: 26px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+}
+
+#parents-club-section-2 .feature-text-block {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.35;
+}
+
+#parents-club-section-2 .feature-title {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--brand-text-dark);
+    margin-bottom: 2px;
+}
+
+#parents-club-section-2 .feature-desc {
+    font-size: 11px;
+    color: var(--brand-text-muted);
+}

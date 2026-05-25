@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-25] - Parents Club Section 1 and Section 2 Redesign Visual Enhancements
+
+### Added
+- **Feature: Staging Section 2 ("Why Join Parents' Club?"):** Designed and implemented the complete horizontal feature bar for Section 2 inside `/templates/parents-club.html` and a new modular stylesheet `/templates/css/section-2.css`.
+- **Responsive 6-Column Grid:** Configured Section 2's feature grid to dynamically scale: 1-column on mobile, 3-columns on tablets, and 6-columns on desktop.
+- **Cropped Father-and-Child Study Photo:** Extracted the premium father-and-child study photo directly from the high-resolution redesign mockup using Pillow and saved it to `/templates/images/parents-study-photo.png`.
+- **High-Fidelity SVG Icons:** Replaced basic visual emojis across Column 1 attributes and Column 3 benefits cards with crisp, custom stroke-width white and red inline vector SVGs matching the brand theme.
+- **Horizontal Desktop Buttons:** Styled the left column buttons ("Join Parents' Club" and "Member Login") side-by-side on desktop screens with micro-animations, adding an elegant user silhouette icon to the outline button.
+- **Responsive 2-Column Benefits Grid:** Fixed the CSS media queries in `/templates/css/section-1.css` so that the "Benefits at a Glance" card renders as a clean, balanced two-column list on all tablet and desktop viewports.
+
+### Technical Notes for AI Agents
+- The cropped father-and-child study image is placed inside `/wp-content/plugins/idl-loader/templates/images/parents-study-photo.png` at exactly `375x178` resolution.
+- Responsive styles for Section 2 are isolated inside `/wp-content/plugins/idl-loader/templates/css/section-2.css` to prevent layout interference.
+- High-fidelity vector icons are rendered as standard XML inline elements (`<svg>`) rather than external image resources, ensuring instant load times and pixel-perfect rendering across standard and high-DPI/Retina screens.
+
 ## [2026-05-25] - Parents Club Custom WPBakery Hero Element
 
 ### Added
