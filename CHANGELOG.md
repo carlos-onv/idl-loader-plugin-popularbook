@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file for both hum
 - **Feature: Staging Section 2 ("Why Join Parents' Club?"):** Designed and implemented the complete horizontal feature bar for Section 2 inside `/templates/parents-club.html` and a new modular stylesheet `/templates/css/section-2.css`.
 - **Responsive 6-Column Grid:** Configured Section 2's feature grid to dynamically scale: 1-column on mobile, 3-columns on tablets, and 6-columns on desktop.
 - **Official Parents Club Banner Integration:** Switched the benefits banner image to the official high-quality `parents-club-banner.jpg` asset inside `/templates/images/parents-club-banner.jpg`, removing the temporary cropped placeholder.
+- **Full-Width Viewport Staging:** Removed card-based viewport height constraints and body centering rules, letting the staging page render naturally as a real, full-screen edge-to-edge layout.
 - **High-Fidelity SVG Icons:** Replaced basic visual emojis across Column 1 attributes and Column 3 benefits cards with crisp, custom stroke-width white and red inline vector SVGs matching the brand theme.
 - **Horizontal Desktop Buttons:** Styled the left column buttons ("Join Parents' Club" and "Member Login") side-by-side on desktop screens with micro-animations, adding an elegant user silhouette icon to the outline button.
 - **Responsive 2-Column Benefits Grid:** Fixed the CSS media queries in `/templates/css/section-1.css` so that the "Benefits at a Glance" card renders as a clean, balanced two-column list on all tablet and desktop viewports.
