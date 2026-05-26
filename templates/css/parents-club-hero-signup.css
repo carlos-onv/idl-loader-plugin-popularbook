@@ -19,7 +19,7 @@
     background-color: var(--card-bg) !important;
     border: 1px solid var(--border-light) !important;
     border-radius: 12px !important;
-    padding: 30px !important;
+    padding: 20px 24px !important;
     box-shadow: var(--shadow-soft) !important;
     width: 100% !important;
     max-width: 460px !important;
@@ -190,10 +190,14 @@
     margin-top: 20px !important;
 }
 
-.user-registration.ur-frontend-form button.ur-submit-button {
+.user-registration.ur-frontend-form button.ur-submit-button,
+.user-registration.ur-frontend-form .ur-button-container button.ur-submit-button,
+.user-registration.ur-frontend-form .ur-button-container button,
+.user-registration.ur-frontend-form button {
     width: 100% !important;
     height: 46px !important;
     background-color: var(--brand-red) !important;
+    background: var(--brand-red) !important;
     color: #ffffff !important;
     border: none !important;
     border-radius: 6px !important;
@@ -207,8 +211,12 @@
     box-shadow: 0 4px 12px rgba(175, 1, 40, 0.15) !important;
 }
 
-.user-registration.ur-frontend-form button.ur-submit-button:hover {
+.user-registration.ur-frontend-form button.ur-submit-button:hover,
+.user-registration.ur-frontend-form .ur-button-container button.ur-submit-button:hover,
+.user-registration.ur-frontend-form .ur-button-container button:hover,
+.user-registration.ur-frontend-form button:hover {
     background-color: var(--brand-red-hover) !important;
+    background: var(--brand-red-hover) !important;
     box-shadow: 0 6px 16px rgba(175, 1, 40, 0.22) !important;
 }
 
