@@ -208,6 +208,103 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
+
+    // Register [parents_club_why_join] Element
+    vc_map( array(
+        "name"        => esc_html__( "Parents Club Why Join Bar", "book-junky" ),
+        "base"        => "parents_club_why_join",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Horizontal feature highlights bar for Parents Club landing page.", "book-junky" ),
+        "params"      => array(
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Section Title", "book-junky" ),
+                "param_name"  => "section_title",
+                "value"       => esc_html__( "Why Join Parents' Club?", "book-junky" ),
+                "admin_label" => true,
+                "description" => esc_html__( "Use <br> to stack the heading.", "book-junky" ),
+            ),
+            // Feature 1
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Feature 1 Title", "book-junky" ),
+                "param_name"  => "feat1_title",
+                "value"       => esc_html__( "Save More", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Feature 1 Description", "book-junky" ),
+                "param_name"  => "feat1_desc",
+                "value"       => esc_html__( "Workbook discounts all year long", "book-junky" ),
+            ),
+            // Feature 2
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Feature 2 Title", "book-junky" ),
+                "param_name"  => "feat2_title",
+                "value"       => esc_html__( "Free Resources", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Feature 2 Description", "book-junky" ),
+                "param_name"  => "feat2_desc",
+                "value"       => esc_html__( "Worksheets, printables & learning tools", "book-junky" ),
+            ),
+            // Feature 3
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Feature 3 Title", "book-junky" ),
+                "param_name"  => "feat3_title",
+                "value"       => esc_html__( "Learning Support", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Feature 3 Description", "book-junky" ),
+                "param_name"  => "feat3_desc",
+                "value"       => esc_html__( "Helpful tips for learning at home", "book-junky" ),
+            ),
+            // Feature 4
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Feature 4 Title", "book-junky" ),
+                "param_name"  => "feat4_title",
+                "value"       => esc_html__( "Special Perks", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Feature 4 Description", "book-junky" ),
+                "param_name"  => "feat4_desc",
+                "value"       => esc_html__( "Exclusive promotions & giveaways", "book-junky" ),
+            ),
+            // Feature 5
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Feature 5 Title", "book-junky" ),
+                "param_name"  => "feat5_title",
+                "value"       => esc_html__( "Trusted Quality", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Feature 5 Description", "book-junky" ),
+                "param_name"  => "feat5_desc",
+                "value"       => esc_html__( "Curriculum-aligned Canadian resources", "book-junky" ),
+            ),
+            // Feature 6
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Feature 6 Title", "book-junky" ),
+                "param_name"  => "feat6_title",
+                "value"       => esc_html__( "eMathSmart Access", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Feature 6 Description", "book-junky" ),
+                "param_name"  => "feat6_desc",
+                "value"       => esc_html__( "Optional digital learning upgrade", "book-junky" ),
+            ),
+        )
+    ) );
 }
 
 // -----------------------------------------------------------------------------
@@ -708,6 +805,161 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
     return ob_get_clean();
 }
 
+// Register [parents_club_why_join] Shortcode
+add_shortcode( 'parents_club_why_join', 'idl_loader_parents_club_why_join_shortcode' );
+
+function idl_loader_parents_club_why_join_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'section_title' => "Why Join<br>Parents' Club?",
+        'feat1_title'   => 'Save More',
+        'feat1_desc'    => 'Workbook discounts all year long',
+        'feat2_title'   => 'Free Resources',
+        'feat2_desc'    => 'Worksheets, printables & learning tools',
+        'feat3_title'   => 'Learning Support',
+        'feat3_desc'    => 'Helpful tips for learning at home',
+        'feat4_title'   => 'Special Perks',
+        'feat4_desc'    => 'Exclusive promotions & giveaways',
+        'feat5_title'   => 'Trusted Quality',
+        'feat5_desc'    => 'Curriculum-aligned Canadian resources',
+        'feat6_title'   => 'eMathSmart Access',
+        'feat6_desc'    => 'Optional digital learning upgrade',
+    ), $atts );
+
+    $section_title = wp_kses_post( $attributes['section_title'] );
+    $feat1_title   = esc_html( $attributes['feat1_title'] );
+    $feat1_desc    = esc_html( $attributes['feat1_desc'] );
+    $feat2_title   = esc_html( $attributes['feat2_title'] );
+    $feat2_desc    = esc_html( $attributes['feat2_desc'] );
+    $feat3_title   = esc_html( $attributes['feat3_title'] );
+    $feat3_desc    = esc_html( $attributes['feat3_desc'] );
+    $feat4_title   = esc_html( $attributes['feat4_title'] );
+    $feat4_desc    = esc_html( $attributes['feat4_desc'] );
+    $feat5_title   = esc_html( $attributes['feat5_title'] );
+    $feat5_desc    = esc_html( $attributes['feat5_desc'] );
+    $feat6_title   = esc_html( $attributes['feat6_title'] );
+    $feat6_desc    = esc_html( $attributes['feat6_desc'] );
+
+    // Enqueue the modular stylesheet
+    wp_enqueue_style( 'parents-club-section-2', plugins_url( 'templates/css/section-2.css', __FILE__ ) );
+
+    ob_start();
+    ?>
+    <section id="parents-club-section-2">
+        <div class="container">
+            <div class="feature-bar-wrapper">
+                <!-- Left Title Stack -->
+                <div class="bar-title-block">
+                    <h2><?php echo $section_title; ?></h2>
+                </div>
+                
+                <!-- Right Features Grid -->
+                <div class="bar-features-grid">
+                    <!-- Feature 1: Save More -->
+                    <?php if ( ! empty( $feat1_title ) ) : ?>
+                        <div class="feature-item">
+                            <div class="feature-icon-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 11.5a1.5 1.5 0 0 1-.44 1.06l-7.56 7.56a2 2 0 0 1-2.83 0l-5.66-5.66a2 2 0 0 1 0-2.83l7.56-7.56A1.5 1.5 0 0 1 13.13 4H19.5A1.5 1.5 0 0 1 21 5.5v6z"></path>
+                                    <circle cx="16.5" cy="7.5" r="1.5" fill="currentColor"></circle>
+                                    <circle cx="11.5" cy="12.5" r="1"></circle>
+                                </svg>
+                            </div>
+                            <div class="feature-text-block">
+                                <span class="feature-title"><?php echo $feat1_title; ?></span>
+                                <span class="feature-desc"><?php echo $feat1_desc; ?></span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Feature 2: Free Resources -->
+                    <?php if ( ! empty( $feat2_title ) ) : ?>
+                        <div class="feature-item">
+                            <div class="feature-icon-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                                    <rect x="2" y="7" width="20" height="5"></rect>
+                                    <line x1="12" y1="22" x2="12" y2="7"></line>
+                                    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                                    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                                </svg>
+                            </div>
+                            <div class="feature-text-block">
+                                <span class="feature-title"><?php echo $feat2_title; ?></span>
+                                <span class="feature-desc"><?php echo $feat2_desc; ?></span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Feature 3: Learning Support -->
+                    <?php if ( ! empty( $feat3_title ) ) : ?>
+                        <div class="feature-item">
+                            <div class="feature-icon-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="8" r="5"></circle>
+                                    <path d="M3 20c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6"></path>
+                                    <circle cx="12" cy="8" r="1.5" fill="currentColor"></circle>
+                                </svg>
+                            </div>
+                            <div class="feature-text-block">
+                                <span class="feature-title"><?php echo $feat3_title; ?></span>
+                                <span class="feature-desc"><?php echo $feat3_desc; ?></span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Feature 4: Special Perks -->
+                    <?php if ( ! empty( $feat4_title ) ) : ?>
+                        <div class="feature-item">
+                            <div class="feature-icon-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                </svg>
+                            </div>
+                            <div class="feature-text-block">
+                                <span class="feature-title"><?php echo $feat4_title; ?></span>
+                                <span class="feature-desc"><?php echo $feat4_desc; ?></span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Feature 5: Trusted Quality -->
+                    <?php if ( ! empty( $feat5_title ) ) : ?>
+                        <div class="feature-item">
+                            <div class="feature-icon-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                </svg>
+                            </div>
+                            <div class="feature-text-block">
+                                <span class="feature-title"><?php echo $feat5_title; ?></span>
+                                <span class="feature-desc"><?php echo $feat5_desc; ?></span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Feature 6: eMathSmart Access -->
+                    <?php if ( ! empty( $feat6_title ) ) : ?>
+                        <div class="feature-item">
+                            <div class="feature-icon-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                    <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+                                </svg>
+                            </div>
+                            <div class="feature-text-block">
+                                <span class="feature-title"><?php echo $feat6_title; ?></span>
+                                <span class="feature-desc"><?php echo $feat6_desc; ?></span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php
+    return ob_get_clean();
+}
+
 // -----------------------------------------------------------------------------
 // SECTION 3: WPBakery Shortcode Class Binder
 // -----------------------------------------------------------------------------
@@ -723,5 +975,9 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     
     class WPBakeryShortCode_parents_club_benefits_glance extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for Benefits component
+    }
+    
+    class WPBakeryShortCode_parents_club_why_join extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for Why Join features component
     }
 }
