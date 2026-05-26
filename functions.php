@@ -3364,3 +3364,23 @@ function idl_loader_load_parents_club_template( $template ) {
     return $template;
 }
 
+/**
+ * Force Porto Theme to strip out sidebars and render in full-width.
+ */
+add_filter( 'porto_meta_layout', 'idl_loader_parents_club_layout_filter' );
+function idl_loader_parents_club_layout_filter( $layout ) {
+    if ( is_page( 'parents-club' ) || 'parents-club-template.php' === get_page_template_slug( get_queried_object_id() ) ) {
+        return array( 'fullwidth', '', '' );
+    }
+    return $layout;
+}
+
+add_filter( 'porto_meta_default_layout', 'idl_loader_parents_club_default_layout_filter' );
+function idl_loader_parents_club_default_layout_filter( $layout ) {
+    if ( is_page( 'parents-club' ) || 'parents-club-template.php' === get_page_template_slug( get_queried_object_id() ) ) {
+        return 'fullwidth';
+    }
+    return $layout;
+}
+
+

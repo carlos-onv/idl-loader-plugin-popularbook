@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file for both hum
 - **Dynamic Template Registration:** Hooked into WordPress's `theme_page_templates` filter to make the template selectable as "Parents Club Landing (No Sidebar, Full Width)" in the Page attributes dropdown.
 - **Dynamic Template Include Hook:** Leveraged the `template_include` filter to automatically route requests for pages using this template or with the `parents-club` slug to our plugin's custom template file.
 - **Pure Full-Width CSS Overrides:** Programmatically overrode the Porto theme's wrapper classes and `#main` container paddings, forcing standard theme layouts to render true edge-to-edge content on the Parents Club landing page.
+- **Dynamic Theme Layout Filter Overrides:** Hooked into Porto's custom layout filters (`porto_meta_layout` and `porto_meta_default_layout`) to programmatically strip sidebars and force `fullwidth` mode directly from the plugin environment.
+
 
 ## [2026-05-25] - Parents Club Hero Intro WPBakery Element
 
