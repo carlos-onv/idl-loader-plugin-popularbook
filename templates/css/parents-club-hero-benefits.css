@@ -3,7 +3,7 @@
  * File: parents-club-hero-benefits.css
  */
 
-#parents-club-section-1 .benefits-column {
+.benefits-column {
     --brand-red: #af0128;
     --border-light: #e1e1e1;
     
@@ -11,16 +11,25 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 20px;
+    gap: 0 !important;
     box-sizing: border-box;
 }
 
-#parents-club-section-1 .benefits-column * {
+.benefits-column * {
     box-sizing: border-box !important;
 }
 
+/* Sibling layout spacing - Dynamic 20px spacer between components */
+.benefits-column .benefits-glance-card + .benefits-image-wrapper {
+    margin-top: 20px !important;
+}
+
+.benefits-column .benefits-image-wrapper + .benefits-glance-card {
+    margin-top: 20px !important;
+}
+
 /* Top illustration studies header image */
-#parents-club-section-1 .benefits-image-wrapper {
+.benefits-column .benefits-image-wrapper {
     width: 100%;
     border-radius: 12px;
     overflow: hidden;
@@ -28,14 +37,14 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 }
 
-#parents-club-section-1 .benefits-image-wrapper img {
+.benefits-column .benefits-image-wrapper img {
     width: 100%;
     height: auto;
     display: block;
 }
 
 /* Crimson Benefits list box */
-#parents-club-section-1 .benefits-glance-card {
+.benefits-column .benefits-glance-card {
     background-color: var(--brand-red);
     color: #ffffff;
     border-radius: 12px;
@@ -43,7 +52,7 @@
     box-shadow: 0 6px 20px rgba(175, 1, 40, 0.15);
 }
 
-#parents-club-section-1 .benefits-glance-card h3 {
+.benefits-column .benefits-glance-card h3 {
     font-family: 'Outfit', sans-serif;
     font-size: 19px;
     font-weight: 800;
@@ -54,26 +63,26 @@
 }
 
 /* Dynamic two-column grid list inside crimson card */
-#parents-club-section-1 .benefits-glance-grid {
+.benefits-column .benefits-glance-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 15px;
 }
 
 @media (min-width: 576px) {
-    #parents-club-section-1 .benefits-glance-grid {
+    .benefits-column .benefits-glance-grid {
         grid-template-columns: 1fr 1fr;
         gap: 18px 25px;
     }
 }
 
-#parents-club-section-1 .benefit-bullet {
+.benefits-column .benefit-bullet {
     display: flex;
     align-items: flex-start;
     gap: 12px;
 }
 
-#parents-club-section-1 .bullet-icon-wrapper {
+.benefits-column .bullet-icon-wrapper {
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -85,17 +94,17 @@
     color: #ffffff;
 }
 
-#parents-club-section-1 .bullet-icon-wrapper svg {
+.benefits-column .bullet-icon-wrapper svg {
     width: 18px;
     height: 18px;
 }
 
-#parents-club-section-1 .bullet-content {
+.benefits-column .bullet-content {
     display: flex;
     flex-direction: column;
 }
 
-#parents-club-section-1 .bullet-title {
+.benefits-column .bullet-title {
     font-size: 13px;
     font-weight: 800;
     color: #ffffff;
@@ -103,7 +112,7 @@
     margin-bottom: 2px;
 }
 
-#parents-club-section-1 .bullet-content p {
+.benefits-column .bullet-content p {
     font-size: 11px;
     color: rgba(255, 255, 255, 0.85);
     line-height: 1.3;
