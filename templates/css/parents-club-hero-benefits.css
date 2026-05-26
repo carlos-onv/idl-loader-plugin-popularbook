@@ -103,18 +103,25 @@
 }
 
 .benefits-column .bullet-content {
-    display: flex;
-    flex-direction: column;
+    display: block !important;
 }
 
 .benefits-column .bullet-title {
-    display: none !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #ffffff !important;
+    display: inline !important;
+    margin-right: 4px !important;
+    margin-bottom: 0 !important;
 }
 
 .benefits-column .bullet-content p {
+    font-family: 'Inter', sans-serif !important;
     font-size: 13px !important;
     color: #ffffff !important;
     font-weight: 500 !important;
     line-height: 1.4 !important;
+    display: inline !important;
     margin: 0;
 }

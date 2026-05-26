@@ -27,8 +27,9 @@ All notable changes to this project will be documented in this file for both hum
   - Implemented smart adjacent sibling selectors (`+`) inside `parents-club-hero-benefits.css` to apply a negative `margin-top: -20px !important`, `position: relative !important`, and `z-index: 2 !important` to the crimson `.benefits-glance-card`. This shifts the card upwards to overlap 20px on top of the banner image for a high-fidelity 3D layering effect.
   - Modularized selectors in `parents-club-hero-benefits.css` by removing `#parents-club-section-1` scope to allow seamless layout matching.
   - Adjusted the padding of the crimson `.benefits-glance-card` to exactly `20px 24px !important` to align perfectly with the layout geometry of the sibling signup card.
-  - Refined benefits card details: removed the bottom border and padding from the `h3` header and added a balanced bottom margin; replaced the `.bullet-icon-wrapper` semi-transparent background fill with a transparent background and clean 1px solid white border; removed bold formatting on `span.bullet-title` by hiding it and styled the remaining description text uniformly to achieve a highly elegant, consistent, and clean visual flow.
+  - Refined benefits card details: removed the bottom border and padding from the `h3` header and added a balanced bottom margin; replaced the `.bullet-icon-wrapper` semi-transparent background fill with a transparent background and clean 1px solid white border; removed bold formatting on `span.bullet-title` by merging all text into a single `<p>` tag in the staging HTML template, and configuring the WPBakery CSS renderer to display them inline together with standard weight/size as fallback to ensure a highly elegant, consistent, and clean visual flow.
   - Updated `.benefits-glance-card` to utilize a modern, semi-transparent background color (`rgba(175, 1, 40, 0.9) !important`) for a premium glassmorphic layered effect.
+
 
 
 
