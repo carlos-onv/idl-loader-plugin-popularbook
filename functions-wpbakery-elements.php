@@ -148,6 +148,66 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
+
+    // Register [parents_club_benefits_glance] Element
+    vc_map( array(
+        "name"        => esc_html__( "Parents Club Benefits Glance", "book-junky" ),
+        "base"        => "parents_club_benefits_glance",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Overlapping crimson benefits glance card and top study banner illustration.", "book-junky" ),
+        "params"      => array(
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Top Banner Image", "book-junky" ),
+                "param_name"  => "banner_image",
+                "description" => esc_html__( "Upload an optional custom banner image. If left blank, the default study banner is loaded.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Card Heading Title", "book-junky" ),
+                "param_name"  => "card_title",
+                "value"       => esc_html__( "Benefits at a Glance", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Benefit 1 Text", "book-junky" ),
+                "param_name"  => "benefit1_text",
+                "value"       => esc_html__( "50% OFF Complete Canadian Curriculum Series", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Benefit 2 Text", "book-junky" ),
+                "param_name"  => "benefit2_text",
+                "value"       => esc_html__( "Learning Tips & News Helpful parenting advice", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Benefit 3 Text", "book-junky" ),
+                "param_name"  => "benefit3_text",
+                "value"       => esc_html__( "30% OFF All Other Workbooks", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Benefit 4 Text", "book-junky" ),
+                "param_name"  => "benefit4_text",
+                "value"       => esc_html__( "Special Promotions & Offers Exclusive member campaigns", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Benefit 5 Text", "book-junky" ),
+                "param_name"  => "benefit5_text",
+                "value"       => esc_html__( "Free Worksheets & Resources Immediate print downloads", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Benefit 6 Text", "book-junky" ),
+                "param_name"  => "benefit6_text",
+                "value"       => esc_html__( "Access to eMathSmart Optional interactive portal", "book-junky" ),
+            ),
+        )
+    ) );
 }
 
 // -----------------------------------------------------------------------------
@@ -490,6 +550,164 @@ function idl_loader_parents_club_hero_intro_shortcode( $atts ) {
     return ob_get_clean();
 }
 
+// Register [parents_club_benefits_glance] Shortcode
+add_shortcode( 'parents_club_benefits_glance', 'idl_loader_parents_club_benefits_glance_shortcode' );
+
+function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'banner_image'  => '',
+        'card_title'    => 'Benefits at a Glance',
+        'benefit1_text' => '50% OFF Complete Canadian Curriculum Series',
+        'benefit2_text' => 'Learning Tips & News Helpful parenting advice',
+        'benefit3_text' => '30% OFF All Other Workbooks',
+        'benefit4_text' => 'Special Promotions & Offers Exclusive member campaigns',
+        'benefit5_text' => 'Free Worksheets & Resources Immediate print downloads',
+        'benefit6_text' => 'Access to eMathSmart Optional interactive portal',
+    ), $atts );
+
+    $banner_image  = $attributes['banner_image'];
+    $card_title    = esc_html( $attributes['card_title'] );
+    $benefit1_text = esc_html( $attributes['benefit1_text'] );
+    $benefit2_text = esc_html( $attributes['benefit2_text'] );
+    $benefit3_text = esc_html( $attributes['benefit3_text'] );
+    $benefit4_text = esc_html( $attributes['benefit4_text'] );
+    $benefit5_text = esc_html( $attributes['benefit5_text'] );
+    $benefit6_text = esc_html( $attributes['benefit6_text'] );
+
+    // Enqueue styles programmatically
+    wp_enqueue_style( 'parents-club-hero-benefits', plugins_url( 'templates/css/parents-club-hero-benefits.css', __FILE__ ) );
+
+    // Resolve Banner Image URL
+    $banner_url = '';
+    if ( ! empty( $banner_image ) && is_numeric( $banner_image ) ) {
+        $img_src = wp_get_attachment_image_src( $banner_image, 'full' );
+        if ( $img_src ) {
+            $banner_url = esc_url( $img_src[0] );
+        }
+    }
+    if ( empty( $banner_url ) ) {
+        $banner_url = plugins_url( 'templates/images/parents-club-banner.jpg', __FILE__ );
+    }
+
+    ob_start();
+    ?>
+    <div class="benefits-column">
+        <!-- Premium Parents Club Banner -->
+        <?php if ( ! empty( $banner_url ) ) : ?>
+            <div class="benefits-image-wrapper">
+                <img src="<?php echo esc_url( $banner_url ); ?>" alt="Learning Study Area">
+            </div>
+        <?php endif; ?>
+        
+        <!-- Red Benefits Glance Box -->
+        <div class="benefits-glance-card">
+            <h3><?php echo $card_title; ?></h3>
+            <div class="benefits-glance-grid">
+                
+                <!-- Benefit 1 -->
+                <?php if ( ! empty( $benefit1_text ) ) : ?>
+                    <div class="benefit-bullet">
+                        <span class="bullet-icon-wrapper">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                                <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                            </svg>
+                        </span>
+                        <div class="bullet-content">
+                            <p><?php echo $benefit1_text; ?></p>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <!-- Benefit 2 -->
+                <?php if ( ! empty( $benefit2_text ) ) : ?>
+                    <div class="benefit-bullet">
+                        <span class="bullet-icon-wrapper">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"></path>
+                                <line x1="9" y1="18" x2="15" y2="18"></line>
+                                <line x1="10" y1="22" x2="14" y2="22"></line>
+                            </svg>
+                        </span>
+                        <div class="bullet-content">
+                            <p><?php echo $benefit2_text; ?></p>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <!-- Benefit 3 -->
+                <?php if ( ! empty( $benefit3_text ) ) : ?>
+                    <div class="benefit-bullet">
+                        <span class="bullet-icon-wrapper">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                        </span>
+                        <div class="bullet-content">
+                            <p><?php echo $benefit3_text; ?></p>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <!-- Benefit 4 -->
+                <?php if ( ! empty( $benefit4_text ) ) : ?>
+                    <div class="benefit-bullet">
+                        <span class="bullet-icon-wrapper">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                                <rect x="2" y="7" width="20" height="5"></rect>
+                                <line x1="12" y1="22" x2="12" y2="7"></line>
+                                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                            </svg>
+                        </span>
+                        <div class="bullet-content">
+                            <p><?php echo $benefit4_text; ?></p>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <!-- Benefit 5 -->
+                <?php if ( ! empty( $benefit5_text ) ) : ?>
+                    <div class="benefit-bullet">
+                        <span class="bullet-icon-wrapper">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                        </span>
+                        <div class="bullet-content">
+                            <p><?php echo $benefit5_text; ?></p>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <!-- Benefit 6 -->
+                <?php if ( ! empty( $benefit6_text ) ) : ?>
+                    <div class="benefit-bullet">
+                        <span class="bullet-icon-wrapper">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </span>
+                        <div class="bullet-content">
+                            <p><?php echo $benefit6_text; ?></p>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+            </div>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
 // -----------------------------------------------------------------------------
 // SECTION 3: WPBakery Shortcode Class Binder
 // -----------------------------------------------------------------------------
@@ -501,5 +719,9 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     
     class WPBakeryShortCode_parents_club_hero_intro extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for Intro component
+    }
+    
+    class WPBakeryShortCode_parents_club_benefits_glance extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for Benefits component
     }
 }
