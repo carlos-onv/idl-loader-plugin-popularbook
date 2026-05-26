@@ -1,0 +1,48 @@
+/*
+ * Parents Club Redesign - Core Page Template Layout Styles
+ * File: parents-club-template.css
+ */
+
+/* Clean Porto/Book-Junky Theme Overrides for True Fluid Full-Width Rendering */
+body.page-template-parents-club-template {
+    overflow-x: hidden !important;
+}
+
+/* Force container wrapper to expand edge-to-edge */
+body.page-template-parents-club-template #main,
+body.page-template-parents-club-template #main .container,
+body.page-template-parents-club-template #main .container-fluid,
+body.page-template-parents-club-template #content {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Remove default main section paddings */
+body.page-template-parents-club-template #main {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Ensure the article content stretches 100% */
+body.page-template-parents-club-template article,
+body.page-template-parents-club-template .page-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Guarantee full screen layout isolation for parents-club visual elements */
+.parents-club-section,
+#parents-club-section-1,
+#parents-club-section-2,
+#parents-club-section-3 {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}

@@ -3383,4 +3383,15 @@ function idl_loader_parents_club_default_layout_filter( $layout ) {
     return $layout;
 }
 
+/**
+ * Enqueue full-width layout overrides on Parents Club template page.
+ */
+add_action( 'wp_enqueue_scripts', 'idl_loader_parents_club_template_styles' );
+function idl_loader_parents_club_template_styles() {
+    if ( is_page( 'parents-club' ) || 'parents-club-template.php' === get_page_template_slug( get_queried_object_id() ) ) {
+        wp_enqueue_style( 'parents-club-template-layout', plugins_url( 'templates/css/parents-club-template.css', __FILE__ ) );
+    }
+}
+
+
 
