@@ -1187,6 +1187,653 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
+
+    // Register [parents_club_how_works] Element
+    vc_map( array(
+        "name"        => esc_html__( "Parents Club How Works Steps", "book-junky" ),
+        "base"        => "parents_club_how_works",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Dynamic step-by-step onboarding card with customizable numbers, texts, and icons.", "book-junky" ),
+        "params"      => array(
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Card Title", "book-junky" ),
+                "param_name"  => "card_title",
+                "value"       => esc_html__( "How Parents' Club Works", "book-junky" ),
+                "admin_label" => true,
+            ),
+            // Step 1
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 1 Number Badge", "book-junky" ),
+                "param_name"  => "step1_num",
+                "value"       => esc_html__( "1", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 1 Title", "book-junky" ),
+                "param_name"  => "step1_title",
+                "value"       => esc_html__( "Create Your Free Account", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 1 Description", "book-junky" ),
+                "param_name"  => "step1_desc",
+                "value"       => esc_html__( "Sign up in minutes and start enjoying member benefits right away.", "book-junky" ),
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 1 Icon Source", "book-junky" ),
+                "param_name"  => "step1_icon_source",
+                "value"       => array(
+                    esc_html__( "Predefined Brand Outline", "book-junky" )  => "brand",
+                    esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                    esc_html__( "Custom Image Upload", "book-junky" )        => "custom",
+                ),
+                "std"         => "brand",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 1 Brand Outline Icon", "book-junky" ),
+                "param_name"  => "step1_brand_icon_type",
+                "value"       => array(
+                    esc_html__( "User Add Icon", "book-junky" )             => "user_add",
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "Users Icon", "book-junky" )                => "users",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                ),
+                "std"         => "user_add",
+                "dependency"  => array(
+                    "element" => "step1_icon_source",
+                    "value"   => array( "brand" )
+                )
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 1 Icon Library", "book-junky" ),
+                "param_name"  => "step1_icon_library",
+                "value"       => array(
+                    esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                    esc_html__( "Linecons", "book-junky" )     => "linecons",
+                ),
+                "std"         => "fontawesome",
+                "dependency"  => array(
+                    "element" => "step1_icon_source",
+                    "value"   => array( "library" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Step 1 Font Awesome Icon", "book-junky" ),
+                "param_name"  => "step1_icon_fontawesome",
+                "value"       => "fa fa-user-plus",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "step1_icon_library",
+                    "value"   => array( "fontawesome" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Step 1 Linecons Icon", "book-junky" ),
+                "param_name"  => "step1_icon_linecons",
+                "value"       => "vc_li vc_li-user",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "type"         => "linecons",
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "step1_icon_library",
+                    "value"   => array( "linecons" )
+                )
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Step 1 Custom Icon", "book-junky" ),
+                "param_name"  => "step1_custom_icon",
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Step 1.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "step1_icon_source",
+                    "value"   => array( "custom" )
+                )
+            ),
+
+            // Step 2
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 2 Number Badge", "book-junky" ),
+                "param_name"  => "step2_num",
+                "value"       => esc_html__( "2", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 2 Title", "book-junky" ),
+                "param_name"  => "step2_title",
+                "value"       => esc_html__( "Enjoy Member Savings & Resources", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 2 Description", "book-junky" ),
+                "param_name"  => "step2_desc",
+                "value"       => esc_html__( "Unlock discounts on workbooks and access free learning resources, tips, and more.", "book-junky" ),
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 2 Icon Source", "book-junky" ),
+                "param_name"  => "step2_icon_source",
+                "value"       => array(
+                    esc_html__( "Predefined Brand Outline", "book-junky" )  => "brand",
+                    esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                    esc_html__( "Custom Image Upload", "book-junky" )        => "custom",
+                ),
+                "std"         => "brand",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 2 Brand Outline Icon", "book-junky" ),
+                "param_name"  => "step2_brand_icon_type",
+                "value"       => array(
+                    esc_html__( "User Add Icon", "book-junky" )             => "user_add",
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "Users Icon", "book-junky" )                => "users",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                ),
+                "std"         => "tag",
+                "dependency"  => array(
+                    "element" => "step2_icon_source",
+                    "value"   => array( "brand" )
+                )
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 2 Icon Library", "book-junky" ),
+                "param_name"  => "step2_icon_library",
+                "value"       => array(
+                    esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                    esc_html__( "Linecons", "book-junky" )     => "linecons",
+                ),
+                "std"         => "fontawesome",
+                "dependency"  => array(
+                    "element" => "step2_icon_source",
+                    "value"   => array( "library" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Step 2 Font Awesome Icon", "book-junky" ),
+                "param_name"  => "step2_icon_fontawesome",
+                "value"       => "fa fa-tag",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "step2_icon_library",
+                    "value"   => array( "fontawesome" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Step 2 Linecons Icon", "book-junky" ),
+                "param_name"  => "step2_icon_linecons",
+                "value"       => "vc_li vc_li-tag",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "type"         => "linecons",
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "step2_icon_library",
+                    "value"   => array( "linecons" )
+                )
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Step 2 Custom Icon", "book-junky" ),
+                "param_name"  => "step2_custom_icon",
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Step 2.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "step2_icon_source",
+                    "value"   => array( "custom" )
+                )
+            ),
+
+            // Step 3
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 3 Number Badge", "book-junky" ),
+                "param_name"  => "step3_num",
+                "value"       => esc_html__( "3", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 3 Title", "book-junky" ),
+                "param_name"  => "step3_title",
+                "value"       => esc_html__( "(Optional) Access eMathSmart", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 3 Description", "book-junky" ),
+                "param_name"  => "step3_desc",
+                "value"       => esc_html__( "Subscribe to eMathSmart for interactive digital learning and track progress.", "book-junky" ),
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 3 Icon Source", "book-junky" ),
+                "param_name"  => "step3_icon_source",
+                "value"       => array(
+                    esc_html__( "Predefined Brand Outline", "book-junky" )  => "brand",
+                    esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                    esc_html__( "Custom Image Upload", "book-junky" )        => "custom",
+                ),
+                "std"         => "brand",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 3 Brand Outline Icon", "book-junky" ),
+                "param_name"  => "step3_brand_icon_type",
+                "value"       => array(
+                    esc_html__( "User Add Icon", "book-junky" )             => "user_add",
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "Users Icon", "book-junky" )                => "users",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                ),
+                "std"         => "users",
+                "dependency"  => array(
+                    "element" => "step3_icon_source",
+                    "value"   => array( "brand" )
+                )
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 3 Icon Library", "book-junky" ),
+                "param_name"  => "step3_icon_library",
+                "value"       => array(
+                    esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                    esc_html__( "Linecons", "book-junky" )     => "linecons",
+                ),
+                "std"         => "fontawesome",
+                "dependency"  => array(
+                    "element" => "step3_icon_source",
+                    "value"   => array( "library" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Step 3 Font Awesome Icon", "book-junky" ),
+                "param_name"  => "step3_icon_fontawesome",
+                "value"       => "fa fa-users",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "step3_icon_library",
+                    "value"   => array( "fontawesome" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Step 3 Linecons Icon", "book-junky" ),
+                "param_name"  => "step3_icon_linecons",
+                "value"       => "vc_li vc_li-users",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "type"         => "linecons",
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "step3_icon_library",
+                    "value"   => array( "linecons" )
+                )
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Step 3 Custom Icon", "book-junky" ),
+                "param_name"  => "step3_custom_icon",
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Step 3.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "step3_icon_source",
+                    "value"   => array( "custom" )
+                )
+            ),
+
+            // Step 4
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 4 Number Badge", "book-junky" ),
+                "param_name"  => "step4_num",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 4 Title", "book-junky" ),
+                "param_name"  => "step4_title",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 4 Description", "book-junky" ),
+                "param_name"  => "step4_desc",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 4 Icon Source", "book-junky" ),
+                "param_name"  => "step4_icon_source",
+                "value"       => array(
+                    esc_html__( "Predefined Brand Outline", "book-junky" )  => "brand",
+                    esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                    esc_html__( "Custom Image Upload", "book-junky" )        => "custom",
+                ),
+                "std"         => "brand",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 4 Brand Outline Icon", "book-junky" ),
+                "param_name"  => "step4_brand_icon_type",
+                "value"       => array(
+                    esc_html__( "User Add Icon", "book-junky" )             => "user_add",
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "Users Icon", "book-junky" )                => "users",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                ),
+                "std"         => "star",
+                "dependency"  => array(
+                    "element" => "step4_icon_source",
+                    "value"   => array( "brand" )
+                )
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 4 Icon Library", "book-junky" ),
+                "param_name"  => "step4_icon_library",
+                "value"       => array(
+                    esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                    esc_html__( "Linecons", "book-junky" )     => "linecons",
+                ),
+                "std"         => "fontawesome",
+                "dependency"  => array(
+                    "element" => "step4_icon_source",
+                    "value"   => array( "library" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Step 4 Font Awesome Icon", "book-junky" ),
+                "param_name"  => "step4_icon_fontawesome",
+                "value"       => "fa fa-star",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "step4_icon_library",
+                    "value"   => array( "fontawesome" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Step 4 Linecons Icon", "book-junky" ),
+                "param_name"  => "step4_icon_linecons",
+                "value"       => "vc_li vc_li-star",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "type"         => "linecons",
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "step4_icon_library",
+                    "value"   => array( "linecons" )
+                )
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Step 4 Custom Icon", "book-junky" ),
+                "param_name"  => "step4_custom_icon",
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Step 4.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "step4_icon_source",
+                    "value"   => array( "custom" )
+                )
+            ),
+
+            // Step 5
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 5 Number Badge", "book-junky" ),
+                "param_name"  => "step5_num",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 5 Title", "book-junky" ),
+                "param_name"  => "step5_title",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 5 Description", "book-junky" ),
+                "param_name"  => "step5_desc",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 5 Icon Source", "book-junky" ),
+                "param_name"  => "step5_icon_source",
+                "value"       => array(
+                    esc_html__( "Predefined Brand Outline", "book-junky" )  => "brand",
+                    esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                    esc_html__( "Custom Image Upload", "book-junky" )        => "custom",
+                ),
+                "std"         => "brand",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 5 Brand Outline Icon", "book-junky" ),
+                "param_name"  => "step5_brand_icon_type",
+                "value"       => array(
+                    esc_html__( "User Add Icon", "book-junky" )             => "user_add",
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "Users Icon", "book-junky" )                => "users",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                ),
+                "std"         => "shield",
+                "dependency"  => array(
+                    "element" => "step5_icon_source",
+                    "value"   => array( "brand" )
+                )
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 5 Icon Library", "book-junky" ),
+                "param_name"  => "step5_icon_library",
+                "value"       => array(
+                    esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                    esc_html__( "Linecons", "book-junky" )     => "linecons",
+                ),
+                "std"         => "fontawesome",
+                "dependency"  => array(
+                    "element" => "step5_icon_source",
+                    "value"   => array( "library" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Step 5 Font Awesome Icon", "book-junky" ),
+                "param_name"  => "step5_icon_fontawesome",
+                "value"       => "fa fa-shield",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "step5_icon_library",
+                    "value"   => array( "fontawesome" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Step 5 Linecons Icon", "book-junky" ),
+                "param_name"  => "step5_icon_linecons",
+                "value"       => "vc_li vc_li-key",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "type"         => "linecons",
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "step5_icon_library",
+                    "value"   => array( "linecons" )
+                )
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Step 5 Custom Icon", "book-junky" ),
+                "param_name"  => "step5_custom_icon",
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Step 5.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "step5_icon_source",
+                    "value"   => array( "custom" )
+                )
+            ),
+
+            // Step 6
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 6 Number Badge", "book-junky" ),
+                "param_name"  => "step6_num",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 6 Title", "book-junky" ),
+                "param_name"  => "step6_title",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Step 6 Description", "book-junky" ),
+                "param_name"  => "step6_desc",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 6 Icon Source", "book-junky" ),
+                "param_name"  => "step6_icon_source",
+                "value"       => array(
+                    esc_html__( "Predefined Brand Outline", "book-junky" )  => "brand",
+                    esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                    esc_html__( "Custom Image Upload", "book-junky" )        => "custom",
+                ),
+                "std"         => "brand",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 6 Brand Outline Icon", "book-junky" ),
+                "param_name"  => "step6_brand_icon_type",
+                "value"       => array(
+                    esc_html__( "User Add Icon", "book-junky" )             => "user_add",
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "Users Icon", "book-junky" )                => "users",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                ),
+                "std"         => "idea",
+                "dependency"  => array(
+                    "element" => "step6_icon_source",
+                    "value"   => array( "brand" )
+                )
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Step 6 Icon Library", "book-junky" ),
+                "param_name"  => "step6_icon_library",
+                "value"       => array(
+                    esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                    esc_html__( "Linecons", "book-junky" )     => "linecons",
+                ),
+                "std"         => "fontawesome",
+                "dependency"  => array(
+                    "element" => "step6_icon_source",
+                    "value"   => array( "library" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Step 6 Font Awesome Icon", "book-junky" ),
+                "param_name"  => "step6_icon_fontawesome",
+                "value"       => "fa fa-lightbulb-o",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "step6_icon_library",
+                    "value"   => array( "fontawesome" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Step 6 Linecons Icon", "book-junky" ),
+                "param_name"  => "step6_icon_linecons",
+                "value"       => "vc_li vc_li-bulb",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "type"         => "linecons",
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "step6_icon_library",
+                    "value"   => array( "linecons" )
+                )
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Step 6 Custom Icon", "book-junky" ),
+                "param_name"  => "step6_custom_icon",
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Step 6.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "step6_icon_source",
+                    "value"   => array( "custom" )
+                )
+            ),
+        )
+    ) );
 }
 
 // -----------------------------------------------------------------------------
@@ -2093,6 +2740,240 @@ function idl_loader_parents_club_why_join_shortcode( $atts ) {
     return ob_get_clean();
 }
 
+// Register [parents_club_how_works] Shortcode
+add_shortcode( 'parents_club_how_works', 'idl_loader_parents_club_how_works_shortcode' );
+
+function idl_loader_parents_club_how_works_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'card_title'                 => "How Parents' Club Works",
+        'step1_num'                  => '1',
+        'step1_title'                => 'Create Your Free Account',
+        'step1_desc'                 => 'Sign up in minutes and start enjoying member benefits right away.',
+        'step1_icon_source'          => 'brand',
+        'step1_brand_icon_type'      => 'user_add',
+        'step1_icon_library'         => 'fontawesome',
+        'step1_icon_fontawesome'     => 'fa fa-user-plus',
+        'step1_icon_linecons'        => 'vc_li vc_li-user',
+        'step1_custom_icon'          => '',
+        
+        'step2_num'                  => '2',
+        'step2_title'                => 'Enjoy Member Savings & Resources',
+        'step2_desc'                 => 'Unlock discounts on workbooks and access free learning resources, tips, and more.',
+        'step2_icon_source'          => 'brand',
+        'step2_brand_icon_type'      => 'tag',
+        'step2_icon_library'         => 'fontawesome',
+        'step2_icon_fontawesome'     => 'fa fa-tag',
+        'step2_icon_linecons'        => 'vc_li vc_li-tag',
+        'step2_custom_icon'          => '',
+        
+        'step3_num'                  => '3',
+        'step3_title'                => '(Optional) Access eMathSmart',
+        'step3_desc'                 => 'Subscribe to eMathSmart for interactive digital learning and track progress.',
+        'step3_icon_source'          => 'brand',
+        'step3_brand_icon_type'      => 'users',
+        'step3_icon_library'         => 'fontawesome',
+        'step3_icon_fontawesome'     => 'fa fa-users',
+        'step3_icon_linecons'        => 'vc_li vc_li-users',
+        'step3_custom_icon'          => '',
+        
+        'step4_num'                  => '',
+        'step4_title'                => '',
+        'step4_desc'                 => '',
+        'step4_icon_source'          => 'brand',
+        'step4_brand_icon_type'      => 'star',
+        'step4_icon_library'         => 'fontawesome',
+        'step4_icon_fontawesome'     => 'fa fa-star',
+        'step4_icon_linecons'        => 'vc_li vc_li-star',
+        'step4_custom_icon'          => '',
+        
+        'step5_num'                  => '',
+        'step5_title'                => '',
+        'step5_desc'                 => '',
+        'step5_icon_source'          => 'brand',
+        'step5_brand_icon_type'      => 'shield',
+        'step5_icon_library'         => 'fontawesome',
+        'step5_icon_fontawesome'     => 'fa fa-shield',
+        'step5_icon_linecons'        => 'vc_li vc_li-key',
+        'step5_custom_icon'          => '',
+        
+        'step6_num'                  => '',
+        'step6_title'                => '',
+        'step6_desc'                 => '',
+        'step6_icon_source'          => 'brand',
+        'step6_brand_icon_type'      => 'idea',
+        'step6_icon_library'         => 'fontawesome',
+        'step6_icon_fontawesome'     => 'fa fa-lightbulb-o',
+        'step6_icon_linecons'        => 'vc_li vc_li-bulb',
+        'step6_custom_icon'          => '',
+    ), $atts );
+
+    $card_title = esc_html( $attributes['card_title'] );
+
+    // Enqueue the modular stylesheet
+    wp_enqueue_style( 'parents-club-how-works', plugins_url( 'templates/css/parents-club-how-works.css', __FILE__ ) );
+
+    // Helper closure to render visual SVGs, libraries or custom uploaded media
+    $render_icon = function( $source, $brand_type, $library, $fa_icon, $li_icon, $custom_icon_id ) {
+        if ( $source === 'custom' && ! empty( $custom_icon_id ) ) {
+            $custom_url = '';
+            if ( is_numeric( $custom_icon_id ) ) {
+                $img_src = wp_get_attachment_image_src( $custom_icon_id, 'thumbnail' );
+                if ( $img_src ) {
+                    $custom_url = $img_src[0];
+                }
+            } else {
+                $custom_url = $custom_icon_id;
+            }
+            if ( ! empty( $custom_url ) ) {
+                return '<img src="' . esc_url( $custom_url ) . '" alt="Step Icon" style="width: 44px; height: 44px; display: block; object-fit: contain;">';
+            }
+        }
+
+        if ( $source === 'library' ) {
+            if ( $library === 'linecons' ) {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'linecons' );
+                }
+                $icon_class = ! empty( $li_icon ) ? esc_attr( $li_icon ) : 'vc_li vc_li-tag';
+                return '<i class="how-step-icon-lib ' . $icon_class . '" style="font-size: 32px; color: #af0128; display: inline-flex; align-items: center; justify-content: center; height: 44px; width: 44px;"></i>';
+            } else {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'fontawesome' );
+                }
+                $icon_class = ! empty( $fa_icon ) ? esc_attr( $fa_icon ) : 'fa fa-tag';
+                return '<i class="how-step-icon-lib ' . $icon_class . '" style="font-size: 32px; color: #af0128; display: inline-flex; align-items: center; justify-content: center; height: 44px; width: 44px;"></i>';
+            }
+        }
+
+        switch ( $brand_type ) {
+            case 'user_add':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>';
+            case 'tag':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                            <circle cx="11" cy="14" r="1"></circle>
+                            <circle cx="14" cy="11" r="1"></circle>
+                        </svg>';
+            case 'users':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>';
+            case 'idea':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"></path>
+                            <line x1="9" y1="18" x2="15" y2="18"></line>
+                            <line x1="10" y1="22" x2="14" y2="22"></line>
+                        </svg>';
+            case 'gift':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                            <rect x="2" y="7" width="20" height="5"></rect>
+                            <line x1="12" y1="22" x2="12" y2="7"></line>
+                            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                        </svg>';
+            case 'file':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>';
+            case 'computer':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>';
+            case 'star':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>';
+            case 'shield':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>';
+            default:
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>';
+        }
+    };
+
+    // Filter active steps
+    $active_steps = array();
+    for ( $i = 1; $i <= 6; $i++ ) {
+        $title = $attributes["step{$i}_title"];
+        if ( ! empty( $title ) ) {
+            $active_steps[] = array(
+                'num'    => esc_html( $attributes["step{$i}_num"] ),
+                'title'  => esc_html( $title ),
+                'desc'   => esc_html( $attributes["step{$i}_desc"] ),
+                'icon'   => $render_icon(
+                    $attributes["step{$i}_icon_source"],
+                    $attributes["step{$i}_brand_icon_type"],
+                    $attributes["step{$i}_icon_library"],
+                    $attributes["step{$i}_icon_fontawesome"],
+                    $attributes["step{$i}_icon_linecons"],
+                    $attributes["step{$i}_custom_icon"]
+                )
+            );
+        }
+    }
+
+    ob_start();
+    ?>
+    <div class="how-it-works-card">
+        <?php if ( ! empty( $card_title ) ) : ?>
+            <h2 class="how-title"><?php echo $card_title; ?></h2>
+        <?php endif; ?>
+        
+        <div class="how-steps-wrapper">
+            <?php 
+            $total_steps = count( $active_steps );
+            foreach ( $active_steps as $index => $step ) : 
+            ?>
+                <!-- Step -->
+                <div class="how-step-item">
+                    <div class="how-step-badge-row">
+                        <?php if ( ! empty( $step['num'] ) ) : ?>
+                            <span class="how-step-number"><?php echo $step['num']; ?></span>
+                        <?php endif; ?>
+                        <div class="how-step-icon">
+                            <?php echo $step['icon']; ?>
+                        </div>
+                    </div>
+                    <h3><?php echo $step['title']; ?></h3>
+                    <?php if ( ! empty( $step['desc'] ) ) : ?>
+                        <p><?php echo $step['desc']; ?></p>
+                    <?php endif; ?>
+                </div>
+                
+                <!-- Connector arrow (do not render after the last step) -->
+                <?php if ( $index < $total_steps - 1 ) : ?>
+                    <div class="how-connector">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
 // -----------------------------------------------------------------------------
 // SECTION 3: WPBakery Shortcode Class Binder
 // -----------------------------------------------------------------------------
@@ -2112,5 +2993,9 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     
     class WPBakeryShortCode_parents_club_why_join extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for Why Join features component
+    }
+    
+    class WPBakeryShortCode_parents_club_how_works extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for How Works steps component
     }
 }

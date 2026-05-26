@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file for both hum
 ## [2026-05-26] - Custom Full-Width Page Template
 
 ### Added
+- **Feature: Parents Club How Works Element:** Created and registered the custom page builder element `[parents_club_how_works]` inside `functions-wpbakery-elements.php` to handle Section 3's onboarding steps. Features dynamic parameter fields for up to 6 steps, allowing fully customizable step numbers, titles, and descriptions.
+- **Visual Icon and Upload Selector:** Equipped the step-by-step element with full icon modularity. Administrators can select between predefined brand outline SVGs (User Add, Price Tag, Users, parenting Tips/Lightbulb, Offers/Gift Box, Worksheets/File, eMathSmart/Computer, Star, Shield), standard WPBakery icon libraries (Font Awesome & Linecons) with visual color overrides, or upload fully custom images/SVGs for each step.
 - **Plugin-Only Page Template:** Designed and implemented `parents-club-template.php` strictly inside `/wp-content/plugins/idl-loader/templates/` (keeping the active theme files untouched).
 - **Dynamic Template Registration:** Hooked into WordPress's `theme_page_templates` filter to make the template selectable as "Parents Club Landing (No Sidebar, Full Width)" in the Page attributes dropdown.
 - **Dynamic Template Include Hook:** Leveraged the `template_include` filter to automatically route requests for pages using this template or with the `parents-club` slug to our plugin's custom template file.
