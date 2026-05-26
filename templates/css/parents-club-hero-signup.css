@@ -31,6 +31,30 @@
     box-sizing: border-box !important;
 }
 
+/* Dynamic Registration Form Title and Description styling */
+.user-registration.ur-frontend-form .user-registration-registration-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    color: var(--brand-text-dark) !important;
+    margin-bottom: 0px !important;
+    display: block !important;
+    text-align: center !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.25 !important;
+}
+
+.user-registration.ur-frontend-form .user-registration-registration-description {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13.5px !important;
+    color: var(--brand-text-muted) !important;
+    margin-top: 6px !important;
+    margin-bottom: 25px !important;
+    display: block !important;
+    text-align: center !important;
+    line-height: 1.45 !important;
+}
+
 /* Form Row Grid - Force flex alignment and responsiveness */
 .user-registration.ur-frontend-form .ur-form-row {
     display: flex !important;

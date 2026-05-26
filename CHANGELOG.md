@@ -18,6 +18,9 @@ All notable changes to this project will be documented in this file for both hum
 - **Form Layout Refinements:**
   - Reduced default container padding on `.user-registration.ur-frontend-form` to `20px 24px` to fit columns tightly.
   - Expanded submit button selectors to cover Porto theme overrides and forced the crimson red color, high-fidelity font hierarchy, shadow, and full-width width styling.
+  - Styled form title `.user-registration-registration-title` to render centered, in a bold premium design matching `Outfit` typography, with a `26px` font size and `0px` margin bottom.
+  - Styled description `.user-registration-registration-description` to render centered with muted, balanced spacing.
+
 
 
 
