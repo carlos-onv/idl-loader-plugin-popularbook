@@ -720,6 +720,376 @@ function idl_loader_register_parents_club_elements() {
                     "value"   => array( "custom" )
                 )
             ),
+
+            // Benefit 7
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Benefit 7 Text", "book-junky" ),
+                "param_name"  => "benefit7_text",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 7 Icon Source", "book-junky" ),
+                "param_name"  => "benefit7_icon_source",
+                "value"       => array(
+                    esc_html__( "Predefined Brand Outline", "book-junky" )  => "brand",
+                    esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                    esc_html__( "Custom Image Upload", "book-junky" )        => "custom",
+                ),
+                "std"         => "brand",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 7 Brand Outline Icon", "book-junky" ),
+                "param_name"  => "benefit7_brand_icon_type",
+                "value"       => array(
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Book Icon", "book-junky" )                 => "book",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                ),
+                "std"         => "star",
+                "dependency"  => array(
+                    "element" => "benefit7_icon_source",
+                    "value"   => array( "brand" )
+                )
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 7 Icon Library", "book-junky" ),
+                "param_name"  => "benefit7_icon_library",
+                "value"       => array(
+                    esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                    esc_html__( "Linecons", "book-junky" )     => "linecons",
+                ),
+                "std"         => "fontawesome",
+                "dependency"  => array(
+                    "element" => "benefit7_icon_source",
+                    "value"   => array( "library" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Benefit 7 Font Awesome Icon", "book-junky" ),
+                "param_name"  => "benefit7_icon_fontawesome",
+                "value"       => "fa fa-star",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "benefit7_icon_library",
+                    "value"   => array( "fontawesome" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Benefit 7 Linecons Icon", "book-junky" ),
+                "param_name"  => "benefit7_icon_linecons",
+                "value"       => "vc_li vc_li-star",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "type"         => "linecons",
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "benefit7_icon_library",
+                    "value"   => array( "linecons" )
+                )
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Benefit 7 Custom Icon", "book-junky" ),
+                "param_name"  => "benefit7_custom_icon",
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Benefit 7.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "benefit7_icon_source",
+                    "value"   => array( "custom" )
+                )
+            ),
+
+            // Benefit 8
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Benefit 8 Text", "book-junky" ),
+                "param_name"  => "benefit8_text",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 8 Icon Source", "book-junky" ),
+                "param_name"  => "benefit8_icon_source",
+                "value"       => array(
+                    esc_html__( "Predefined Brand Outline", "book-junky" )  => "brand",
+                    esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                    esc_html__( "Custom Image Upload", "book-junky" )        => "custom",
+                ),
+                "std"         => "brand",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 8 Brand Outline Icon", "book-junky" ),
+                "param_name"  => "benefit8_brand_icon_type",
+                "value"       => array(
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Book Icon", "book-junky" )                 => "book",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                ),
+                "std"         => "shield",
+                "dependency"  => array(
+                    "element" => "benefit8_icon_source",
+                    "value"   => array( "brand" )
+                )
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 8 Icon Library", "book-junky" ),
+                "param_name"  => "benefit8_icon_library",
+                "value"       => array(
+                    esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                    esc_html__( "Linecons", "book-junky" )     => "linecons",
+                ),
+                "std"         => "fontawesome",
+                "dependency"  => array(
+                    "element" => "benefit8_icon_source",
+                    "value"   => array( "library" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Benefit 8 Font Awesome Icon", "book-junky" ),
+                "param_name"  => "benefit8_icon_fontawesome",
+                "value"       => "fa fa-shield",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "benefit8_icon_library",
+                    "value"   => array( "fontawesome" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Benefit 8 Linecons Icon", "book-junky" ),
+                "param_name"  => "benefit8_icon_linecons",
+                "value"       => "vc_li vc_li-key",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "type"         => "linecons",
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "benefit8_icon_library",
+                    "value"   => array( "linecons" )
+                )
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Benefit 8 Custom Icon", "book-junky" ),
+                "param_name"  => "benefit8_custom_icon",
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Benefit 8.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "benefit8_icon_source",
+                    "value"   => array( "custom" )
+                )
+            ),
+
+            // Benefit 9
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Benefit 9 Text", "book-junky" ),
+                "param_name"  => "benefit9_text",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 9 Icon Source", "book-junky" ),
+                "param_name"  => "benefit9_icon_source",
+                "value"       => array(
+                    esc_html__( "Predefined Brand Outline", "book-junky" )  => "brand",
+                    esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                    esc_html__( "Custom Image Upload", "book-junky" )        => "custom",
+                ),
+                "std"         => "brand",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 9 Brand Outline Icon", "book-junky" ),
+                "param_name"  => "benefit9_brand_icon_type",
+                "value"       => array(
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Book Icon", "book-junky" )                 => "book",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                ),
+                "std"         => "tag",
+                "dependency"  => array(
+                    "element" => "benefit9_icon_source",
+                    "value"   => array( "brand" )
+                )
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 9 Icon Library", "book-junky" ),
+                "param_name"  => "benefit9_icon_library",
+                "value"       => array(
+                    esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                    esc_html__( "Linecons", "book-junky" )     => "linecons",
+                ),
+                "std"         => "fontawesome",
+                "dependency"  => array(
+                    "element" => "benefit9_icon_source",
+                    "value"   => array( "library" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Benefit 9 Font Awesome Icon", "book-junky" ),
+                "param_name"  => "benefit9_icon_fontawesome",
+                "value"       => "fa fa-tag",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "benefit9_icon_library",
+                    "value"   => array( "fontawesome" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Benefit 9 Linecons Icon", "book-junky" ),
+                "param_name"  => "benefit9_icon_linecons",
+                "value"       => "vc_li vc_li-tag",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "type"         => "linecons",
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "benefit9_icon_library",
+                    "value"   => array( "linecons" )
+                )
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Benefit 9 Custom Icon", "book-junky" ),
+                "param_name"  => "benefit9_custom_icon",
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Benefit 9.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "benefit9_icon_source",
+                    "value"   => array( "custom" )
+                )
+            ),
+
+            // Benefit 10
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Benefit 10 Text", "book-junky" ),
+                "param_name"  => "benefit10_text",
+                "value"       => "",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 10 Icon Source", "book-junky" ),
+                "param_name"  => "benefit10_icon_source",
+                "value"       => array(
+                    esc_html__( "Predefined Brand Outline", "book-junky" )  => "brand",
+                    esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                    esc_html__( "Custom Image Upload", "book-junky" )        => "custom",
+                ),
+                "std"         => "brand",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 10 Brand Outline Icon", "book-junky" ),
+                "param_name"  => "benefit10_brand_icon_type",
+                "value"       => array(
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Book Icon", "book-junky" )                 => "book",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                ),
+                "std"         => "idea",
+                "dependency"  => array(
+                    "element" => "benefit10_icon_source",
+                    "value"   => array( "brand" )
+                )
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 10 Icon Library", "book-junky" ),
+                "param_name"  => "benefit10_icon_library",
+                "value"       => array(
+                    esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                    esc_html__( "Linecons", "book-junky" )     => "linecons",
+                ),
+                "std"         => "fontawesome",
+                "dependency"  => array(
+                    "element" => "benefit10_icon_source",
+                    "value"   => array( "library" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Benefit 10 Font Awesome Icon", "book-junky" ),
+                "param_name"  => "benefit10_icon_fontawesome",
+                "value"       => "fa fa-lightbulb-o",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "benefit10_icon_library",
+                    "value"   => array( "fontawesome" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Benefit 10 Linecons Icon", "book-junky" ),
+                "param_name"  => "benefit10_icon_linecons",
+                "value"       => "vc_li vc_li-bulb",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "type"         => "linecons",
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "benefit10_icon_library",
+                    "value"   => array( "linecons" )
+                )
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Benefit 10 Custom Icon", "book-junky" ),
+                "param_name"  => "benefit10_custom_icon",
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Benefit 10.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "benefit10_icon_source",
+                    "value"   => array( "custom" )
+                )
+            ),
+        )
+    ) );
         )
     ) );
 
@@ -1210,6 +1580,34 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
         'benefit6_icon_fontawesome'    => 'fa fa-desktop',
         'benefit6_icon_linecons'       => 'vc_li vc_li-tv',
         'benefit6_custom_icon'         => '',
+        'benefit7_text'                => '',
+        'benefit7_icon_source'         => 'brand',
+        'benefit7_brand_icon_type'     => 'star',
+        'benefit7_icon_library'        => 'fontawesome',
+        'benefit7_icon_fontawesome'    => 'fa fa-star',
+        'benefit7_icon_linecons'       => 'vc_li vc_li-star',
+        'benefit7_custom_icon'         => '',
+        'benefit8_text'                => '',
+        'benefit8_icon_source'         => 'brand',
+        'benefit8_brand_icon_type'     => 'shield',
+        'benefit8_icon_library'        => 'fontawesome',
+        'benefit8_icon_fontawesome'    => 'fa fa-shield',
+        'benefit8_icon_linecons'       => 'vc_li vc_li-key',
+        'benefit8_custom_icon'         => '',
+        'benefit9_text'                => '',
+        'benefit9_icon_source'         => 'brand',
+        'benefit9_brand_icon_type'     => 'tag',
+        'benefit9_icon_library'        => 'fontawesome',
+        'benefit9_icon_fontawesome'    => 'fa fa-tag',
+        'benefit9_icon_linecons'       => 'vc_li vc_li-tag',
+        'benefit9_custom_icon'         => '',
+        'benefit10_text'               => '',
+        'benefit10_icon_source'        => 'brand',
+        'benefit10_brand_icon_type'    => 'idea',
+        'benefit10_icon_library'       => 'fontawesome',
+        'benefit10_icon_fontawesome'   => 'fa fa-lightbulb-o',
+        'benefit10_icon_linecons'      => 'vc_li vc_li-bulb',
+        'benefit10_custom_icon'        => '',
     ), $atts );
 
     $banner_image  = $attributes['banner_image'];
@@ -1220,6 +1618,10 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
     $benefit4_text = esc_html( $attributes['benefit4_text'] );
     $benefit5_text = esc_html( $attributes['benefit5_text'] );
     $benefit6_text = esc_html( $attributes['benefit6_text'] );
+    $benefit7_text = esc_html( $attributes['benefit7_text'] );
+    $benefit8_text = esc_html( $attributes['benefit8_text'] );
+    $benefit9_text = esc_html( $attributes['benefit9_text'] );
+    $benefit10_text = esc_html( $attributes['benefit10_text'] );
 
     // Enqueue styles programmatically
     wp_enqueue_style( 'parents-club-hero-benefits', plugins_url( 'templates/css/parents-club-hero-benefits.css', __FILE__ ) );
@@ -1450,6 +1852,86 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
                         </div>
                     </div>
                 <?php endif; ?>
+
+                <!-- Benefit 7 -->
+                <?php if ( ! empty( $benefit7_text ) ) : ?>
+                    <div class="benefit-bullet">
+                        <span class="bullet-icon-wrapper">
+                            <?php echo $render_icon(
+                                $attributes['benefit7_icon_source'],
+                                $attributes['benefit7_brand_icon_type'],
+                                $attributes['benefit7_icon_library'],
+                                $attributes['benefit7_icon_fontawesome'],
+                                $attributes['benefit7_icon_linecons'],
+                                $attributes['benefit7_custom_icon']
+                            ); ?>
+                        </span>
+                        <div class="bullet-content">
+                            <p><?php echo $benefit7_text; ?></p>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Benefit 8 -->
+                <?php if ( ! empty( $benefit8_text ) ) : ?>
+                    <div class="benefit-bullet">
+                        <span class="bullet-icon-wrapper">
+                            <?php echo $render_icon(
+                                $attributes['benefit8_icon_source'],
+                                $attributes['benefit8_brand_icon_type'],
+                                $attributes['benefit8_icon_library'],
+                                $attributes['benefit8_icon_fontawesome'],
+                                $attributes['benefit8_icon_linecons'],
+                                $attributes['benefit8_custom_icon']
+                            ); ?>
+                        </span>
+                        <div class="bullet-content">
+                            <p><?php echo $benefit8_text; ?></p>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Benefit 9 -->
+                <?php if ( ! empty( $benefit9_text ) ) : ?>
+                    <div class="benefit-bullet">
+                        <span class="bullet-icon-wrapper">
+                            <?php echo $render_icon(
+                                $attributes['benefit9_icon_source'],
+                                $attributes['benefit9_brand_icon_type'],
+                                $attributes['benefit9_icon_library'],
+                                $attributes['benefit9_icon_fontawesome'],
+                                $attributes['benefit9_icon_linecons'],
+                                $attributes['benefit9_custom_icon']
+                            ); ?>
+                        </span>
+                        <div class="bullet-content">
+                            <p><?php echo $benefit9_text; ?></p>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Benefit 10 -->
+                <?php if ( ! empty( $benefit10_text ) ) : ?>
+                    <div class="benefit-bullet">
+                        <span class="bullet-icon-wrapper">
+                            <?php echo $render_icon(
+                                $attributes['benefit10_icon_source'],
+                                $attributes['benefit10_brand_icon_type'],
+                                $attributes['benefit10_icon_library'],
+                                $attributes['benefit10_icon_fontawesome'],
+                                $attributes['benefit10_icon_linecons'],
+                                $attributes['benefit10_custom_icon']
+                            ); ?>
+                        </span>
+                        <div class="bullet-content">
+                            <p><?php echo $benefit10_text; ?></p>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+            </div>
+        </div>
+    </div>
                 
             </div>
         </div>
