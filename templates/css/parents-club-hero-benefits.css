@@ -19,13 +19,15 @@
     box-sizing: border-box !important;
 }
 
-/* Sibling layout spacing - Dynamic 20px spacer between components */
+/* Sibling layout spacing - Dynamic spacer to shift the card overlappingly on top of the image wrapper */
 .benefits-column .benefits-glance-card + .benefits-image-wrapper {
     margin-top: 20px !important;
 }
 
 .benefits-column .benefits-image-wrapper + .benefits-glance-card {
-    margin-top: 20px !important;
+    margin-top: -20px !important;
+    position: relative !important;
+    z-index: 2 !important;
 }
 
 /* Top illustration studies header image */
