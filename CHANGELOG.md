@@ -26,6 +26,8 @@ All notable changes to this project will be documented in this file for both hum
   - Removed standard `gap: 20px` from `.benefits-column` to prevent conflicting layout spacing.
   - Implemented smart adjacent sibling selectors (`+`) inside `parents-club-hero-benefits.css` to apply a negative `margin-top: -20px !important`, `position: relative !important`, and `z-index: 2 !important` to the crimson `.benefits-glance-card`. This shifts the card upwards to overlap 20px on top of the banner image for a high-fidelity 3D layering effect.
   - Modularized selectors in `parents-club-hero-benefits.css` by removing `#parents-club-section-1` scope to allow seamless layout matching.
+  - Adjusted the padding of the crimson `.benefits-glance-card` to exactly `20px 24px !important` to align perfectly with the layout geometry of the sibling signup card.
+
 
 
 
