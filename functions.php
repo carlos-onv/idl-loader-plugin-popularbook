@@ -3362,9 +3362,7 @@ function idl_loader_load_parents_club_template( $template ) {
         }
     }
     return $template;
-}
-
-/**
+}/**
  * Force Porto Theme to strip out sidebars and render in full-width.
  */
 add_filter( 'porto_meta_layout', 'idl_loader_parents_club_layout_filter' );
@@ -3383,9 +3381,39 @@ function idl_loader_parents_club_default_layout_filter( $layout ) {
     return $layout;
 }
 
+/**
+ * Guarantee the proper page template body classes are always output,
+ * even when the template file is intercepted programmatically by slug fallbacks.
+ */
+add_filter( 'body_class', 'idl_loader_parents_club_body_classes' );
+function idl_loader_parents_club_body_classes( $classes ) {
+    if ( is_page( 'parents-club' ) || 'parents-club-template.php' === get_page_template_slug( get_queried_object_id() ) ) {
+        $classes[] = 'page-template-parents-club-template';
+        $classes[] = 'parents-club-landing-page';
+    }
+    return $classes;
+}
+
+/**
+ * Enqueue all Parents Club redesigned component stylesheets natively.
+ * Utilizes highly robust fallback checks (page ID, slug, and template file name checks).
+ */
 add_action( 'wp_enqueue_scripts', 'idl_loader_parents_club_template_styles' );
 function idl_loader_parents_club_template_styles() {
-    if ( is_page( 'parents-club' ) || 'parents-club-template.php' === get_page_template_slug( get_queried_object_id() ) ) {
+    global $post;
+    $is_parents_page = false;
+    
+    if ( is_page( 'parents-club' ) ) {
+        $is_parents_page = true;
+    } elseif ( is_page_template( 'parents-club-template.php' ) ) {
+        $is_parents_page = true;
+    } elseif ( isset( $post->post_name ) && 'parents-club' === $post->post_name ) {
+        $is_parents_page = true;
+    } elseif ( is_singular() && 'parents-club-template.php' === get_page_template_slug( get_the_ID() ) ) {
+        $is_parents_page = true;
+    }
+    
+    if ( $is_parents_page ) {
         wp_enqueue_style( 'parents-club-template-layout', plugins_url( 'templates/css/parents-club-template.css', __FILE__ ) );
         wp_enqueue_style( 'parents-club-hero-brand', plugins_url( 'templates/css/parents-club-hero-brand.css', __FILE__ ) );
         wp_enqueue_style( 'parents-club-hero-signup', plugins_url( 'templates/css/parents-club-hero-signup.css', __FILE__ ) );
@@ -3394,7 +3422,3 @@ function idl_loader_parents_club_template_styles() {
         wp_enqueue_style( 'parents-club-section-2', plugins_url( 'templates/css/section-2.css', __FILE__ ) );
     }
 }
-
-
-
-
