@@ -177,11 +177,67 @@ function idl_loader_register_parents_club_elements() {
                 "value"       => esc_html__( "50% OFF Complete Canadian Curriculum Series", "book-junky" ),
             ),
             array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 1 Icon Type", "book-junky" ),
+                "param_name"  => "benefit1_icon_type",
+                "value"       => array(
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Book Icon", "book-junky" )                 => "book",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                    esc_html__( "Custom Icon Upload", "book-junky" )         => "custom",
+                ),
+                "std"         => "tag",
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Benefit 1 Custom Icon", "book-junky" ),
+                "param_name"  => "benefit1_custom_icon",
+                "dependency"  => array(
+                    "element" => "benefit1_icon_type",
+                    "value"   => array( "custom" ),
+                ),
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Benefit 1.", "book-junky" ),
+            ),
+
+            array(
                 "type"        => "textfield",
                 "heading"     => esc_html__( "Benefit 2 Text", "book-junky" ),
                 "param_name"  => "benefit2_text",
                 "value"       => esc_html__( "Learning Tips & News Helpful parenting advice", "book-junky" ),
             ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 2 Icon Type", "book-junky" ),
+                "param_name"  => "benefit2_icon_type",
+                "value"       => array(
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Book Icon", "book-junky" )                 => "book",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                    esc_html__( "Custom Icon Upload", "book-junky" )         => "custom",
+                ),
+                "std"         => "idea",
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Benefit 2 Custom Icon", "book-junky" ),
+                "param_name"  => "benefit2_custom_icon",
+                "dependency"  => array(
+                    "element" => "benefit2_icon_type",
+                    "value"   => array( "custom" ),
+                ),
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Benefit 2.", "book-junky" ),
+            ),
+
             array(
                 "type"        => "textfield",
                 "heading"     => esc_html__( "Benefit 3 Text", "book-junky" ),
@@ -189,11 +245,67 @@ function idl_loader_register_parents_club_elements() {
                 "value"       => esc_html__( "30% OFF All Other Workbooks", "book-junky" ),
             ),
             array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 3 Icon Type", "book-junky" ),
+                "param_name"  => "benefit3_icon_type",
+                "value"       => array(
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Book Icon", "book-junky" )                 => "book",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                    esc_html__( "Custom Icon Upload", "book-junky" )         => "custom",
+                ),
+                "std"         => "tag",
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Benefit 3 Custom Icon", "book-junky" ),
+                "param_name"  => "benefit3_custom_icon",
+                "dependency"  => array(
+                    "element" => "benefit3_icon_type",
+                    "value"   => array( "custom" ),
+                ),
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Benefit 3.", "book-junky" ),
+            ),
+
+            array(
                 "type"        => "textfield",
                 "heading"     => esc_html__( "Benefit 4 Text", "book-junky" ),
                 "param_name"  => "benefit4_text",
                 "value"       => esc_html__( "Special Promotions & Offers Exclusive member campaigns", "book-junky" ),
             ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 4 Icon Type", "book-junky" ),
+                "param_name"  => "benefit4_icon_type",
+                "value"       => array(
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Book Icon", "book-junky" )                 => "book",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                    esc_html__( "Custom Icon Upload", "book-junky" )         => "custom",
+                ),
+                "std"         => "gift",
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Benefit 4 Custom Icon", "book-junky" ),
+                "param_name"  => "benefit4_custom_icon",
+                "dependency"  => array(
+                    "element" => "benefit4_icon_type",
+                    "value"   => array( "custom" ),
+                ),
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Benefit 4.", "book-junky" ),
+            ),
+
             array(
                 "type"        => "textfield",
                 "heading"     => esc_html__( "Benefit 5 Text", "book-junky" ),
@@ -201,10 +313,65 @@ function idl_loader_register_parents_club_elements() {
                 "value"       => esc_html__( "Free Worksheets & Resources Immediate print downloads", "book-junky" ),
             ),
             array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 5 Icon Type", "book-junky" ),
+                "param_name"  => "benefit5_icon_type",
+                "value"       => array(
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Book Icon", "book-junky" )                 => "book",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                    esc_html__( "Custom Icon Upload", "book-junky" )         => "custom",
+                ),
+                "std"         => "file",
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Benefit 5 Custom Icon", "book-junky" ),
+                "param_name"  => "benefit5_custom_icon",
+                "dependency"  => array(
+                    "element" => "benefit5_icon_type",
+                    "value"   => array( "custom" ),
+                ),
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Benefit 5.", "book-junky" ),
+            ),
+
+            array(
                 "type"        => "textfield",
                 "heading"     => esc_html__( "Benefit 6 Text", "book-junky" ),
                 "param_name"  => "benefit6_text",
                 "value"       => esc_html__( "Access to eMathSmart Optional interactive portal", "book-junky" ),
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Benefit 6 Icon Type", "book-junky" ),
+                "param_name"  => "benefit6_icon_type",
+                "value"       => array(
+                    esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                    esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                    esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                    esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                    esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                    esc_html__( "Book Icon", "book-junky" )                 => "book",
+                    esc_html__( "Star Icon", "book-junky" )                 => "star",
+                    esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                    esc_html__( "Custom Icon Upload", "book-junky" )         => "custom",
+                ),
+                "std"         => "computer",
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Benefit 6 Custom Icon", "book-junky" ),
+                "param_name"  => "benefit6_custom_icon",
+                "dependency"  => array(
+                    "element" => "benefit6_icon_type",
+                    "value"   => array( "custom" ),
+                ),
+                "description" => esc_html__( "Upload an SVG or image to use as a custom icon for Benefit 6.", "book-junky" ),
             ),
         )
     ) );
@@ -652,14 +819,26 @@ add_shortcode( 'parents_club_benefits_glance', 'idl_loader_parents_club_benefits
 
 function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
     $attributes = shortcode_atts( array(
-        'banner_image'  => '',
-        'card_title'    => 'Benefits at a Glance',
-        'benefit1_text' => '50% OFF Complete Canadian Curriculum Series',
-        'benefit2_text' => 'Learning Tips & News Helpful parenting advice',
-        'benefit3_text' => '30% OFF All Other Workbooks',
-        'benefit4_text' => 'Special Promotions & Offers Exclusive member campaigns',
-        'benefit5_text' => 'Free Worksheets & Resources Immediate print downloads',
-        'benefit6_text' => 'Access to eMathSmart Optional interactive portal',
+        'banner_image'          => '',
+        'card_title'            => 'Benefits at a Glance',
+        'benefit1_text'         => '50% OFF Complete Canadian Curriculum Series',
+        'benefit1_icon_type'    => 'tag',
+        'benefit1_custom_icon'  => '',
+        'benefit2_text'         => 'Learning Tips & News Helpful parenting advice',
+        'benefit2_icon_type'    => 'idea',
+        'benefit2_custom_icon'  => '',
+        'benefit3_text'         => '30% OFF All Other Workbooks',
+        'benefit3_icon_type'    => 'tag',
+        'benefit3_custom_icon'  => '',
+        'benefit4_text'         => 'Special Promotions & Offers Exclusive member campaigns',
+        'benefit4_icon_type'    => 'gift',
+        'benefit4_custom_icon'  => '',
+        'benefit5_text'         => 'Free Worksheets & Resources Immediate print downloads',
+        'benefit5_icon_type'    => 'file',
+        'benefit5_custom_icon'  => '',
+        'benefit6_text'         => 'Access to eMathSmart Optional interactive portal',
+        'benefit6_icon_type'    => 'computer',
+        'benefit6_custom_icon'  => '',
     ), $atts );
 
     $banner_image  = $attributes['banner_image'];
@@ -686,6 +865,76 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
         $banner_url = plugins_url( 'templates/images/parents-club-banner.jpg', __FILE__ );
     }
 
+    // Helper closure to render visual SVGs or custom uploaded media
+    $render_icon = function( $icon_type, $custom_icon_id ) {
+        if ( $icon_type === 'custom' && ! empty( $custom_icon_id ) ) {
+            $custom_url = '';
+            if ( is_numeric( $custom_icon_id ) ) {
+                $img_src = wp_get_attachment_image_src( $custom_icon_id, 'thumbnail' );
+                if ( $img_src ) {
+                    $custom_url = $img_src[0];
+                }
+            } else {
+                $custom_url = $custom_icon_id;
+            }
+            if ( ! empty( $custom_url ) ) {
+                return '<img src="' . esc_url( $custom_url ) . '" alt="Icon" style="width: 18px; height: 18px; display: block; object-fit: contain; filter: brightness(0) invert(1);">';
+            }
+        }
+
+        switch ( $icon_type ) {
+            case 'tag':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                        </svg>';
+            case 'idea':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"></path>
+                            <line x1="9" y1="18" x2="15" y2="18"></line>
+                            <line x1="10" y1="22" x2="14" y2="22"></line>
+                        </svg>';
+            case 'gift':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                            <rect x="2" y="7" width="20" height="5"></rect>
+                            <line x1="12" y1="22" x2="12" y2="7"></line>
+                            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                        </svg>';
+            case 'file':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>';
+            case 'computer':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>';
+            case 'book':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        </svg>';
+            case 'star':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>';
+            case 'shield':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>';
+            default:
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>';
+        }
+    };
+
     ob_start();
     ?>
     <div class="benefits-column">
@@ -705,10 +954,7 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
                 <?php if ( ! empty( $benefit1_text ) ) : ?>
                     <div class="benefit-bullet">
                         <span class="bullet-icon-wrapper">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                                <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                            </svg>
+                            <?php echo $render_icon( $attributes['benefit1_icon_type'], $attributes['benefit1_custom_icon'] ); ?>
                         </span>
                         <div class="bullet-content">
                             <p><?php echo $benefit1_text; ?></p>
@@ -720,11 +966,7 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
                 <?php if ( ! empty( $benefit2_text ) ) : ?>
                     <div class="benefit-bullet">
                         <span class="bullet-icon-wrapper">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"></path>
-                                <line x1="9" y1="18" x2="15" y2="18"></line>
-                                <line x1="10" y1="22" x2="14" y2="22"></line>
-                            </svg>
+                            <?php echo $render_icon( $attributes['benefit2_icon_type'], $attributes['benefit2_custom_icon'] ); ?>
                         </span>
                         <div class="bullet-content">
                             <p><?php echo $benefit2_text; ?></p>
@@ -736,10 +978,7 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
                 <?php if ( ! empty( $benefit3_text ) ) : ?>
                     <div class="benefit-bullet">
                         <span class="bullet-icon-wrapper">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                            </svg>
+                            <?php echo $render_icon( $attributes['benefit3_icon_type'], $attributes['benefit3_custom_icon'] ); ?>
                         </span>
                         <div class="bullet-content">
                             <p><?php echo $benefit3_text; ?></p>
@@ -751,13 +990,7 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
                 <?php if ( ! empty( $benefit4_text ) ) : ?>
                     <div class="benefit-bullet">
                         <span class="bullet-icon-wrapper">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                                <rect x="2" y="7" width="20" height="5"></rect>
-                                <line x1="12" y1="22" x2="12" y2="7"></line>
-                                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
-                                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
-                            </svg>
+                            <?php echo $render_icon( $attributes['benefit4_icon_type'], $attributes['benefit4_custom_icon'] ); ?>
                         </span>
                         <div class="bullet-content">
                             <p><?php echo $benefit4_text; ?></p>
@@ -769,12 +1002,7 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
                 <?php if ( ! empty( $benefit5_text ) ) : ?>
                     <div class="benefit-bullet">
                         <span class="bullet-icon-wrapper">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                            </svg>
+                            <?php echo $render_icon( $attributes['benefit5_icon_type'], $attributes['benefit5_custom_icon'] ); ?>
                         </span>
                         <div class="bullet-content">
                             <p><?php echo $benefit5_text; ?></p>
@@ -786,11 +1014,7 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
                 <?php if ( ! empty( $benefit6_text ) ) : ?>
                     <div class="benefit-bullet">
                         <span class="bullet-icon-wrapper">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                                <line x1="8" y1="21" x2="16" y2="21"></line>
-                                <line x1="12" y1="17" x2="12" y2="21"></line>
-                            </svg>
+                            <?php echo $render_icon( $attributes['benefit6_icon_type'], $attributes['benefit6_custom_icon'] ); ?>
                         </span>
                         <div class="bullet-content">
                             <p><?php echo $benefit6_text; ?></p>
