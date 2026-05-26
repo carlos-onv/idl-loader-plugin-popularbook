@@ -43,8 +43,8 @@
     width: 100%;
     height: auto;
     display: block;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 20%, #000000 100%) !important;
-    mask-image: linear-gradient(to right, transparent 0%, transparent 20%, #000000 100%) !important;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 5%, #000000 100%) !important;
+    mask-image: linear-gradient(to right, transparent 0%, transparent 5%, #000000 100%) !important;
 }
 
 /* Crimson Benefits list box */

@@ -25,7 +25,7 @@ All notable changes to this project will be documented in this file for both hum
   - Styled form title `.user-registration-registration-title` to render centered, in a bold premium design matching `Outfit` typography, with a `26px` font size and `0px` margin bottom.
   - Styled description `.user-registration-registration-description` to render centered with muted, balanced spacing.
 - **Benefits Column Spacing and Scoping:**
-  - Added linear-gradient CSS mask (`mask-image` and `-webkit-mask-image`) to `.benefits-column .benefits-image-wrapper img` to smoothly fade in starting at 20% from the left edge.
+  - Added linear-gradient CSS mask (`mask-image` and `-webkit-mask-image`) to `.benefits-column .benefits-image-wrapper img` to smoothly fade in starting at 5% from the left edge.
   - Retained the primary vertical element sequence in `/templates/parents-club.html` (with `.benefits-image-wrapper` rendered first at the top, and `.benefits-glance-card` rendered second below it).
   - Removed standard `gap: 20px` from `.benefits-column` to prevent conflicting layout spacing.
   - Implemented smart adjacent sibling selectors (`+`) inside `parents-club-hero-benefits.css` to apply a negative `margin-top: -20px !important`, `position: relative !important`, and `z-index: 2 !important` to the crimson `.benefits-glance-card`. This shifts the card upwards to overlap 20px on top of the banner image for a high-fidelity 3D layering effect.
