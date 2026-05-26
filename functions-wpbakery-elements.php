@@ -1090,8 +1090,6 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
-        )
-    ) );
 
     // Register [parents_club_why_join] Element
     vc_map( array(
