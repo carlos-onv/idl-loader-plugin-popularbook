@@ -22,9 +22,11 @@ All notable changes to this project will be documented in this file for both hum
   - Styled form title `.user-registration-registration-title` to render centered, in a bold premium design matching `Outfit` typography, with a `26px` font size and `0px` margin bottom.
   - Styled description `.user-registration-registration-description` to render centered with muted, balanced spacing.
 - **Benefits Column Spacing and Scoping:**
+  - Swapped the vertical rendering sequence inside the static staging template `/templates/parents-club.html` to place `.benefits-glance-card` directly above `.benefits-image-wrapper`.
   - Removed standard `gap: 20px` from `.benefits-column` to prevent conflicting layout spacing.
   - Implemented smart adjacent sibling selectors (`+`) to guarantee a precise, clean `20px` vertical spacing between `.benefits-glance-card` and `.benefits-image-wrapper` regardless of their vertical rendering order in WPBakery.
   - Modularized selectors in `parents-club-hero-benefits.css` by removing `#parents-club-section-1` scope to allow seamless layout matching.
+
 
 
 
