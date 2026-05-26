@@ -1339,6 +1339,139 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
+
+    // Register [esmart_login_card] Element
+    vc_map( array(
+        "name"        => esc_html__( "eMathSmart Login Card", "book-junky" ),
+        "base"        => "esmart_login_card",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Gateway login card for eMathSmart — shows brand logo, login CTA, and redirect link.", "book-junky" ),
+        "params"      => array(
+
+            // --- Brand ---
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Card Brand Type", "book-junky" ),
+                "param_name"  => "brand_type",
+                "value"       => array(
+                    esc_html__( "Styled Text Logo (eMathSmart®)", "book-junky" ) => "text_logo",
+                    esc_html__( "Custom Brand Image Upload", "book-junky" )       => "custom_image",
+                ),
+                "std"         => "text_logo",
+                "admin_label" => true,
+                "description" => esc_html__( "Choose how the brand identity is displayed at the top of the card.", "book-junky" ),
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Custom Brand Image", "book-junky" ),
+                "param_name"  => "brand_image",
+                "description" => esc_html__( "Upload a custom logo image or SVG. Shown only when 'Custom Brand Image Upload' is selected above.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "brand_type",
+                    "value"   => array( "custom_image" ),
+                ),
+            ),
+
+            // --- Content ---
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Lead Title Text", "book-junky" ),
+                "param_name"  => "lead_title",
+                "value"       => esc_html__( "Already have an eMathSmart account?", "book-junky" ),
+                "admin_label" => true,
+                "description" => esc_html__( "Main question / prompt shown above the login button.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Description Paragraph", "book-junky" ),
+                "param_name"  => "description",
+                "value"       => esc_html__( "Login here to access the program.", "book-junky" ),
+                "description" => esc_html__( "Short instruction text shown below the lead title.", "book-junky" ),
+            ),
+
+            // --- CTA Button ---
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "CTA Button Label", "book-junky" ),
+                "param_name"  => "cta_label",
+                "value"       => esc_html__( "Login to eMathSmart", "book-junky" ),
+                "admin_label" => true,
+                "description" => esc_html__( "Text displayed on the main login button.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "CTA Button Link", "book-junky" ),
+                "param_name"  => "cta_link",
+                "value"       => "#emathsmart-login",
+                "description" => esc_html__( "Destination URL or scroll anchor for the login button (e.g. #emathsmart-login).", "book-junky" ),
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "CTA Button Icon", "book-junky" ),
+                "param_name"  => "cta_icon_library",
+                "value"       => array(
+                    esc_html__( "Arrow (default)", "book-junky" ) => "arrow",
+                    esc_html__( "Font Awesome", "book-junky" )    => "fontawesome",
+                    esc_html__( "Linecons", "book-junky" )        => "linecons",
+                ),
+                "std"         => "arrow",
+                "description" => esc_html__( "Hover indicator icon library for the CTA button.", "book-junky" ),
+            ),
+            array(
+                "type"       => "iconpicker",
+                "heading"    => esc_html__( "Font Awesome Button Icon", "book-junky" ),
+                "param_name" => "cta_icon_fontawesome",
+                "value"      => "fa fa-arrow-right",
+                "settings"   => array(
+                    "emptyIcon"    => false,
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency" => array(
+                    "element" => "cta_icon_library",
+                    "value"   => array( "fontawesome" ),
+                ),
+            ),
+            array(
+                "type"       => "iconpicker",
+                "heading"    => esc_html__( "Linecons Button Icon", "book-junky" ),
+                "param_name" => "cta_icon_linecons",
+                "value"      => "vc_li vc_li-arrow-right",
+                "settings"   => array(
+                    "emptyIcon"    => false,
+                    "type"         => "linecons",
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency" => array(
+                    "element" => "cta_icon_library",
+                    "value"   => array( "linecons" ),
+                ),
+            ),
+
+            // --- Redirect / Bottom Link ---
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Redirect Lead Text", "book-junky" ),
+                "param_name"  => "redirect_lead",
+                "value"       => esc_html__( "New to eMathSmart?", "book-junky" ),
+                "description" => esc_html__( "Introductory text before the bottom redirect link.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Redirect Link Label", "book-junky" ),
+                "param_name"  => "redirect_label",
+                "value"       => esc_html__( "Learn more", "book-junky" ),
+                "description" => esc_html__( "Clickable anchor text for the redirect link.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Redirect Link URL", "book-junky" ),
+                "param_name"  => "redirect_link",
+                "value"       => "#emathsmart-learn",
+                "description" => esc_html__( "Destination URL or anchor for the redirect link (e.g. #emathsmart-learn).", "book-junky" ),
+            ),
+        ),
+    ) );
 }
 
 // -----------------------------------------------------------------------------
@@ -2434,6 +2567,99 @@ function idl_loader_parents_club_how_works_shortcode( $atts ) {
     return ob_get_clean();
 }
 
+add_shortcode( 'esmart_login_card', 'idl_loader_esmart_login_card_shortcode' );
+
+function idl_loader_esmart_login_card_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'brand_type'          => 'text_logo',
+        'brand_image'         => '',
+        'lead_title'          => 'Already have an eMathSmart account?',
+        'description'         => 'Login here to access the program.',
+        'cta_label'           => 'Login to eMathSmart',
+        'cta_link'            => '#emathsmart-login',
+        'cta_icon_library'    => 'arrow',
+        'cta_icon_fontawesome'=> 'fa fa-arrow-right',
+        'cta_icon_linecons'   => 'vc_li vc_li-arrow-right',
+        'redirect_lead'       => 'New to eMathSmart?',
+        'redirect_label'      => 'Learn more',
+        'redirect_link'       => '#emathsmart-learn',
+    ), $atts );
+
+    // Enqueue gateway stylesheet
+    wp_enqueue_style(
+        'parents-club-esmart-gateway',
+        plugins_url( 'templates/css/parents-club-esmart-gateway.css', __FILE__ ),
+        array(),
+        '1.0.0'
+    );
+
+    // --- Brand logo ---
+    $brand_html = '';
+    if ( 'custom_image' === $attributes['brand_type'] && ! empty( $attributes['brand_image'] ) ) {
+        $img_url = wp_get_attachment_image_url( absint( $attributes['brand_image'] ), 'medium' );
+        if ( $img_url ) {
+            $brand_html = '<div class="esmart-logo-row"><img src="' . esc_url( $img_url ) . '" alt="' . esc_attr__( 'eMathSmart Logo', 'book-junky' ) . '" class="esmart-custom-logo" /></div>';
+        }
+    }
+    // Fallback: styled text logo (default)
+    if ( empty( $brand_html ) ) {
+        $brand_html = '<div class="esmart-logo-row">
+            <div class="esmart-text-logo">
+                <span class="letter-e">e</span><span class="word-math">Math</span><span class="word-smart">Smart</span><span class="letter-i">®</span>
+            </div>
+        </div>';
+    }
+
+    // --- CTA icon ---
+    $icon_html = '';
+    $icon_lib  = $attributes['cta_icon_library'];
+    if ( 'fontawesome' === $icon_lib && ! empty( $attributes['cta_icon_fontawesome'] ) ) {
+        $icon_class = esc_attr( $attributes['cta_icon_fontawesome'] );
+        $icon_html  = '<i class="' . $icon_class . '" aria-hidden="true"></i>';
+    } elseif ( 'linecons' === $icon_lib && ! empty( $attributes['cta_icon_linecons'] ) ) {
+        $icon_class = esc_attr( $attributes['cta_icon_linecons'] );
+        $icon_html  = '<i class="' . $icon_class . '" aria-hidden="true"></i>';
+    } else {
+        // Default SVG arrow (matches staging HTML)
+        $icon_html = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>';
+    }
+
+    // --- Sanitise text fields ---
+    $lead_title     = esc_html( $attributes['lead_title'] );
+    $description    = esc_html( $attributes['description'] );
+    $cta_label      = esc_html( $attributes['cta_label'] );
+    $cta_link       = esc_url( $attributes['cta_link'] );
+    $redirect_lead  = esc_html( $attributes['redirect_lead'] );
+    $redirect_label = esc_html( $attributes['redirect_label'] );
+    $redirect_link  = esc_url( $attributes['redirect_link'] );
+
+    ob_start();
+    ?>
+    <div class="esmart-login-card">
+
+        <?php echo $brand_html; // already escaped above ?>
+
+        <p class="esmart-login-lead"><?php echo $lead_title; ?></p>
+        <p class="esmart-login-desc"><?php echo $description; ?></p>
+
+        <a href="<?php echo $cta_link; ?>" class="btn-esmart-login">
+            <?php echo $cta_label; ?>
+            <?php echo $icon_html; // SVG/icon — safe, composed above ?>
+        </a>
+
+        <p class="esmart-redirect-text">
+            <?php echo $redirect_lead; ?>
+            <a href="<?php echo $redirect_link; ?>"><?php echo $redirect_label; ?></a>
+        </p>
+
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
 // -----------------------------------------------------------------------------
 // SECTION 3: WPBakery Shortcode Class Binder
 // -----------------------------------------------------------------------------
@@ -2457,5 +2683,9 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     
     class WPBakeryShortCode_parents_club_how_works extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for How Works steps component
+    }
+
+    class WPBakeryShortCode_esmart_login_card extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for eMathSmart Gateway Login Card
     }
 }

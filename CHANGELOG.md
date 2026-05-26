@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-26] - WPBakery Element: eMathSmart Gateway Login Card
+
+### Added
+- **New WPBakery Element `[esmart_login_card]`** registered inside `idl_loader_register_parents_club_elements()` in `functions-wpbakery-elements.php`.
+  - **Card Brand Type** dropdown: "Styled Text Logo (eMathSmart®)" or "Custom Brand Image Upload".
+  - **Custom Brand Image** (`attach_image`) field with dependency on the Custom Image branch.
+  - **Lead Title Text** (default: *"Already have an eMathSmart account?"*).
+  - **Description Paragraph** (default: *"Login here to access the program."*).
+  - **CTA Button Label** (default: *"Login to eMathSmart"*) and **CTA Button Link** (default: `#emathsmart-login`).
+  - **CTA Button Icon** dropdown with three options: default SVG arrow, Font Awesome (`iconpicker`), Linecons (`iconpicker`) — each shown/hidden via dependency rules.
+  - **Redirect Lead Text** (default: *"New to eMathSmart?"*), **Redirect Link Label** (default: *"Learn more"*), and **Redirect Link URL** (default: `#emathsmart-learn`).
+- **Shortcode renderer `idl_loader_esmart_login_card_shortcode()`** registered via `add_shortcode()`.
+  - Dynamically enqueues `templates/css/parents-club-esmart-gateway.css` via `wp_enqueue_style()`.
+  - Renders the exact card markup from `templates/parents-club.html` (lines 480–500) using Inter and Outfit typography.
+  - Gracefully falls back to the styled text logo when no custom image is configured.
+  - All user-supplied values are escaped (`esc_html`, `esc_url`, `esc_attr`, `absint`) before output.
+- **`WPBakeryShortCode_esmart_login_card`** class appended to the Section 3 class binder block.
+
+### Technical Notes for AI Agents
+- **Element base:** `esmart_login_card`; registered under the "eMathSmart Elements" WPBakery category.
+- **CSS handle:** `parents-club-esmart-gateway` → `templates/css/parents-club-esmart-gateway.css`.
+- **Brand logic:** `brand_type === 'custom_image'` with a valid `brand_image` attachment ID renders an `<img>` tag; anything else renders the five-span styled text logo.
+- **Icon logic:** `cta_icon_library` controls which iconpicker param is active; the default `arrow` branch outputs an inline SVG that matches the staging HTML exactly.
+
 ## [2026-05-26] - Custom Full-Width Page Template
 
 ### Added
