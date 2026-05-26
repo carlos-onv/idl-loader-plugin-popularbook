@@ -16,6 +16,9 @@ All notable changes to this project will be documented in this file for both hum
 - **Feature: Customizable Benefits Glance Icons:** Updated the `[parents_club_benefits_glance]` WPBakery element to support choosing a predefined SVG outline icon (Tag, parenting idea, Gift Box, Worksheets file, Computer Portal, Book, Star, Shield) or attaching a custom image/SVG for each of the benefit items.
 - **Shortcode Callback Icon Logic Update:** Completed mapping and updating the `idl_loader_parents_club_benefits_glance_shortcode` renderer in `functions-wpbakery-elements.php` to parse and render these dynamic icons. Integrated `vc_icon_element_fonts_enqueue` to auto-load Font Awesome or Linecons styles on-demand if the library source option is selected.
 - **Feature: Expanded Benefit Items Capacity:** Extended the `[parents_club_benefits_glance]` element's capability from 6 items up to 10 fully custom visual benefits. Configured visual mappings, conditional settings, brand SVGs, library selections, and frontend render templates dynamically for items 7 through 10.
+- **Staging: Onboarding Steps & eMathSmart Login Widget:** Implemented the third section layout grid and two new distinct responsive components in `parents-club.html` (How Parents' Club Works Steps and eMathSmart Gateway Login Box).
+- **Externalized Component Stylesheets:** Created scoped CSS files `/templates/css/section-3.css`, `/templates/css/parents-club-how-works.css`, and `/templates/css/parents-club-esmart-gateway.css` to allow seamless separate conversions into modular WPBakery Page Builder elements in the future.
+
 
 
 

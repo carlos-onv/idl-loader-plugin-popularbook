@@ -1,0 +1,123 @@
+.esmart-login-card {
+    --brand-red: #af0128;
+    --esmart-blue: #0056b3;
+    --text-dark: #333333;
+    --text-muted: #666666;
+    --btn-orange: #f28538;
+    --btn-gradient: linear-gradient(135deg, #f59652 0%, #eb731f 100%);
+    --btn-gradient-hover: linear-gradient(135deg, #eb731f 0%, #d85c07 100%);
+    
+    font-family: 'Inter', sans-serif;
+    background-color: #fafafa;
+    border: 1px solid #f1f3f5;
+    border-radius: 16px;
+    padding: 30px 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.esmart-logo-row {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Styled text logo if image is not preferred */
+.esmart-text-logo {
+    font-family: 'Outfit', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+}
+
+.esmart-text-logo .letter-e { color: #0056b3; font-style: italic; font-weight: 900; }
+.esmart-text-logo .word-math { color: #0056b3; }
+.esmart-text-logo .word-smart { color: #af0128; }
+.esmart-text-logo .letter-i { font-size: 26px; vertical-align: super; line-height: 0; color: #4eb84e; }
+
+.esmart-login-card p.esmart-login-lead {
+    font-size: 14px;
+    color: var(--text-dark);
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+}
+
+.esmart-login-card p.esmart-login-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 28px 0;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.esmart-login-card .btn-esmart-login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--btn-orange);
+    background-image: var(--btn-gradient);
+    color: #ffffff !important;
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: 0 6px 18px rgba(242, 133, 55, 0.2);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    max-width: 280px;
+    margin-bottom: 20px;
+}
+
+.esmart-login-card .btn-esmart-login:hover {
+    background-image: var(--btn-gradient-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(242, 133, 55, 0.3);
+}
+
+.esmart-login-card .btn-esmart-login svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+    transition: transform 0.3s ease;
+}
+
+.esmart-login-card .btn-esmart-login:hover svg {
+    transform: translateX(3px);
+}
+
+.esmart-login-card .esmart-redirect-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+    font-weight: 500;
+}
+
+.esmart-login-card .esmart-redirect-text a {
+    color: #af0128;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.2s ease;
+}
+
+.esmart-login-card .esmart-redirect-text a:hover {
+    color: #8c001f;
+    text-decoration: underline;
+}
