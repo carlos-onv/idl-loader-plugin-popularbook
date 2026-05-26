@@ -17,7 +17,8 @@ All notable changes to this project will be documented in this file for both hum
 - **Stylesheet Loading Mismatch:** Added active enqueues for `parents-club-hero-signup.css` and sibling stylesheets inside the plugin's core template assets hook. This guarantees that form designs render on active pages.
 - **Dynamic Body Class Injection:** Added a hook on WordPress's `body_class` filter (`idl_loader_parents_club_body_classes`) to programmatically inject `.page-template-parents-club-template` and `.parents-club-landing-page` body classes. This resolves layout breakdown issues caused by the absence of template-specific body selectors when template inclusion is bypassed or force-loaded via slug fallback.
 - **Form Layout Refinements:**
-  - Reduced default container padding on `.user-registration.ur-frontend-form` to `20px 24px` to fit columns tightly.
+    - Added `min-width: stretch` (with `-webkit-fill-available` and `-moz-available` vendor fallbacks) to `.user-registration.ur-frontend-form` container in `parents-club-hero-signup.css` to achieve complete fluid responsiveness.
+    - Reduced default container padding on `.user-registration.ur-frontend-form` to `20px 24px` to fit columns tightly.
   - Expanded submit button selectors to cover Porto theme overrides and forced the crimson red color, high-fidelity font hierarchy, shadow, and full-width width styling.
   - Styled form title `.user-registration-registration-title` to render centered, in a bold premium design matching `Outfit` typography, with a `26px` font size and `0px` margin bottom.
   - Styled description `.user-registration-registration-description` to render centered with muted, balanced spacing.

@@ -23,6 +23,9 @@
     box-shadow: var(--shadow-soft) !important;
     width: 100% !important;
     max-width: 460px !important;
+    min-width: -webkit-fill-available !important;
+    min-width: -moz-available !important;
+    min-width: stretch !important;
     margin: 0 auto !important;
     box-sizing: border-box !important;
 }
