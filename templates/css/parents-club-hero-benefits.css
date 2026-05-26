@@ -47,7 +47,7 @@
 
 /* Crimson Benefits list box */
 .benefits-column .benefits-glance-card {
-    background-color: var(--brand-red);
+    background-color: rgba(175, 1, 40, 0.9) !important;
     color: #ffffff;
     border-radius: 12px;
     padding: 20px 24px !important;
