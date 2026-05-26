@@ -3321,21 +3321,46 @@ curl_close($ch);
             
             
         }
-    }
+            
+            
+            
 }
-
 */
 
+// -----------------------------------------------------------------------------
+// PARENTS CLUB FULL-WIDTH TEMPLATE LOADER
+// -----------------------------------------------------------------------------
 
+/**
+ * Register the custom page template programmatically in the theme templates dropdown.
+ */
+add_filter( 'theme_page_templates', 'idl_loader_register_parents_club_template' );
+function idl_loader_register_parents_club_template( $templates ) {
+    $templates['parents-club-template.php'] = 'Parents Club Landing (No Sidebar, Full Width)';
+    return $templates;
+}
 
+/**
+ * Intercept the template selection and load the custom full-width file from the plugin templates.
+ */
+add_filter( 'template_include', 'idl_loader_load_parents_club_template' );
+function idl_loader_load_parents_club_template( $template ) {
+    // 1. Check if the page is using our custom page template
+    $page_template = get_page_template_slug( get_queried_object_id() );
+    if ( 'parents-club-template.php' === $page_template ) {
+        $plugin_template = plugin_dir_path( __FILE__ ) . 'templates/parents-club-template.php';
+        if ( file_exists( $plugin_template ) ) {
+            return $plugin_template;
+        }
+    }
+    
+    // 2. Fallback: Force load if it's the exact 'parents-club' slug page
+    if ( is_page( 'parents-club' ) ) {
+        $plugin_template = plugin_dir_path( __FILE__ ) . 'templates/parents-club-template.php';
+        if ( file_exists( $plugin_template ) ) {
+            return $plugin_template;
+        }
+    }
+    return $template;
+}
 
-
-
-
-
-
-
-
-            
-            
-            

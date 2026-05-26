@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-26] - Custom Full-Width Page Template
+
+### Added
+- **Plugin-Only Page Template:** Designed and implemented `parents-club-template.php` strictly inside `/wp-content/plugins/idl-loader/templates/` (keeping the active theme files untouched).
+- **Dynamic Template Registration:** Hooked into WordPress's `theme_page_templates` filter to make the template selectable as "Parents Club Landing (No Sidebar, Full Width)" in the Page attributes dropdown.
+- **Dynamic Template Include Hook:** Leveraged the `template_include` filter to automatically route requests for pages using this template or with the `parents-club` slug to our plugin's custom template file.
+- **Pure Full-Width CSS Overrides:** Programmatically overrode the Porto theme's wrapper classes and `#main` container paddings, forcing standard theme layouts to render true edge-to-edge content on the Parents Club landing page.
+
 ## [2026-05-25] - Parents Club Hero Intro WPBakery Element
 
 ### Added
