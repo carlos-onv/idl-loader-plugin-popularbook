@@ -97,7 +97,7 @@
     flex-grow: 1 !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 14px !important;
+    gap: 10px !important;
 }
 
 .pc-plan-card .pc-plan-item {
