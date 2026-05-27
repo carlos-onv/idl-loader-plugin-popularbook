@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file for both hum
 - **Brand Logo Sizing**: Increased `.brand-column .brand-logo-wrapper` `max-width` to **`395px`** inside `parents-club-hero-brand.css` for enhanced visual layout spacing.
 - **Why Join Element Refinement**: Removed `<section id=\"parents-club-section-2\">` and `.container` wrappers from the `[parents_club_why_join]` element renderer. The shortcode output now starts natively at `.feature-bar-wrapper` to allow seamless visual rows nested inside WPBakery drag-and-drop elements layouts.
 - **Section 2 CSS Rescoping**: Overwrote `section-2.css` to scope all styling cleanly under the `.feature-bar-wrapper` root class (instead of the old `#parents-club-section-2` wrapper). This fixes the layout break where elements were growing vertically instead of horizontally on desktop screens.
+- **WPBakery Row Spacing**: Programmed a global layout standardize rule inside `parents-club-template.css` to automatically apply a uniform **`15px` top and bottom margin** (`margin-top: 15px !important; margin-bottom: 15px !important;`) on all standard WPBakery rows (`.vc_row`) inside the Parents Club landing page template. This guarantees spacing consistency for all existing and future editor rows.
 
 ## [2026-05-27] - WPBakery Element: eMathSmart Unified Plan Card
 

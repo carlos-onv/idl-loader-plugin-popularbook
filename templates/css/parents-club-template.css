@@ -104,3 +104,10 @@ body.page-template-parents-club-template .page-content {
     }
 }
 
+/* Standardize top and bottom margins for all WPBakery rows on the landing page */
+body.page-template-parents-club-template #main .vc_row {
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+}
+
+
