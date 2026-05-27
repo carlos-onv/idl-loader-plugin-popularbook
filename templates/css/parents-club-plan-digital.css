@@ -3,7 +3,7 @@
  * File: parents-club-plan-digital.css
  */
 
-.pc-plan-digital {
+.pc-plan-card.pc-plan-digital {
     border-color: #cbd5e1 !important;
     min-height: 470px !important;
 }
