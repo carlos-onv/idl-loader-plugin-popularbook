@@ -7,52 +7,31 @@
     border-color: #cbd5e1 !important;
 }
 
-/* Styled text logo */
+/* Logo image style */
 .pc-plan-digital .digital-logo-row {
-    margin-bottom: 8px !important;
+    margin-bottom: 12px !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     width: 100% !important;
+    height: 46px !important;
 }
 
-.pc-plan-digital .digital-text-logo {
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 26px !important;
-    font-weight: 800 !important;
-    letter-spacing: -0.5px !important;
-    display: flex !important;
-    align-items: center !important;
-    line-height: 1 !important;
-}
-
-.pc-plan-digital .digital-text-logo .letter-e {
-    color: #0056b3 !important;
-}
-
-.pc-plan-digital .digital-text-logo .word-math {
-    color: #0066ff !important;
-}
-
-.pc-plan-digital .digital-text-logo .word-smart {
-    color: #ff3366 !important;
-}
-
-.pc-plan-digital .digital-text-logo .letter-i {
-    font-size: 10px !important;
-    font-weight: 600 !important;
-    vertical-align: super !important;
-    margin-left: 2px !important;
-    color: #64748b !important;
+.pc-plan-digital .digital-brand-logo {
+    max-height: 42px !important;
+    width: auto !important;
+    object-fit: contain !important;
+    display: block !important;
 }
 
 .pc-plan-digital .pc-plan-title {
     color: #1e293b !important;
-    font-size: 16px !important;
+    font-size: 19px !important;
     font-weight: 800 !important;
     text-transform: none !important;
-    letter-spacing: 0.5px !important;
-    margin-bottom: 12px !important;
+    letter-spacing: -0.2px !important;
+    margin-bottom: 16px !important;
+    font-family: 'Outfit', sans-serif !important;
 }
 
 /* Capsule badge override */
@@ -65,7 +44,7 @@
 /* List check icons color */
 .pc-plan-digital .pc-plan-item-icon svg {
     stroke: #0066ff !important;
-    stroke-width: 2.5 !important;
+    stroke-width: 2.2 !important;
 }
 
 /* Bottom Graphic style */
@@ -80,7 +59,7 @@
 }
 
 .pc-plan-digital .plan-graphic-container img {
-    max-width: 85% !important;
+    max-width: 90% !important;
     height: auto !important;
     object-fit: contain !important;
     transition: all 0.5s ease !important;
