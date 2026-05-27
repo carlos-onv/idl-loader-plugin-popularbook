@@ -5,9 +5,8 @@
 
 .pc-plan-digital {
     border-color: #cbd5e1 !important;
+    min-height: 470px !important;
 }
-
-/* Logo image style */
 .pc-plan-digital .digital-logo-row {
     margin-bottom: 12px !important;
     display: flex !important;
