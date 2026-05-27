@@ -3,78 +3,94 @@
  * File: parents-club-plan-not-ready.css
  */
 
-.plan-not-ready {
-    background-color: #f8fafc;
-    border: 1px solid #cbd5e1;
-    border-radius: 20px;
-    padding: 35px 24px 30px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    box-shadow: var(--shadow-premium);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    height: 100%;
-    min-height: 520px;
+.pc-plan-not-ready {
+    background-color: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 20px !important;
+    padding: 40px 24px 30px 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    position: relative !important;
+    box-shadow: var(--shadow-premium) !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    height: auto !important;
+    min-height: 520px !important;
+    box-sizing: border-box !important;
 }
 
-.plan-not-ready:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-hover);
-    border-color: #94a3b8;
+.pc-plan-not-ready:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: var(--shadow-hover) !important;
+    border-color: #94a3b8 !important;
 }
 
-.plan-not-ready .not-ready-title {
-    font-family: 'Outfit', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 16px;
-    text-align: center;
-    color: #1e293b;
-    line-height: 1.25;
+/* Reset inner elements to prevent Porto theme overrides */
+.pc-plan-not-ready h3,
+.pc-plan-not-ready p,
+.pc-plan-not-ready div,
+.pc-plan-not-ready img {
+    position: static !important;
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
 }
 
-.plan-not-ready .not-ready-desc {
-    font-family: 'Inter', sans-serif;
-    font-size: 13.5px;
-    line-height: 1.55;
-    color: #475569;
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: 30px;
+.pc-plan-not-ready .pc-not-ready-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    margin-bottom: 16px !important;
+    text-align: center !important;
+    color: #1e293b !important;
+    line-height: 1.25 !important;
+    display: block !important;
+    width: 100% !important;
+    text-transform: none !important;
+}
+
+.pc-plan-not-ready .pc-not-ready-desc {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13.5px !important;
+    line-height: 1.55 !important;
+    color: #475569 !important;
+    font-weight: 500 !important;
+    text-align: center !important;
+    margin-bottom: 30px !important;
+    display: block !important;
 }
 
 /* Bottom Graphic style */
-.plan-not-ready .not-ready-graphic {
-    width: 100%;
-    margin-top: auto;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding-top: 10px;
-    overflow: visible;
+.pc-plan-not-ready .pc-not-ready-graphic {
+    width: 100% !important;
+    margin-top: auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-end !important;
+    padding-top: 10px !important;
+    overflow: visible !important;
 }
 
-.plan-not-ready .not-ready-graphic img {
-    max-width: 82%;
-    height: auto;
-    object-fit: contain;
-    transition: all 0.5s ease;
-    animation: floatAnimationNotReady 6s ease-in-out 1.5s infinite; /* Offset by 1.5s for alternating motion */
+.pc-plan-not-ready .pc-not-ready-graphic img {
+    max-width: 95% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    transition: all 0.5s ease !important;
+    animation: floatAnimationNotReady 6s ease-in-out 1.5s infinite !important;
 }
 
-.plan-not-ready:hover .not-ready-graphic img {
-    transform: scale(1.05);
+.pc-plan-not-ready:hover .pc-not-ready-graphic img {
+    transform: scale(1.04) !important;
 }
 
 @keyframes floatAnimationNotReady {
     0% {
-        transform: translateY(0px);
+        transform: translateY(0px) !important;
     }
     50% {
-        transform: translateY(-6px);
+        transform: translateY(-6px) !important;
     }
     100% {
-        transform: translateY(0px);
+        transform: translateY(0px) !important;
     }
 }
