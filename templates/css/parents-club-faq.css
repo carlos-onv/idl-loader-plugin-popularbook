@@ -15,33 +15,33 @@
 
 #parents-club-section-6 {
     --s6-brand-red: #af0128;
-    --s6-text-dark: #1a1a1a;
-    --s6-text-muted: #666666;
+    --s6-text-dark: #1e293b;
+    --s6-text-muted: #475569;
 
     font-family: 'Inter', sans-serif;
     background-color: #ffffff;
-    padding: 40px 0 60px;
+    padding: 50px 0 70px;
     width: 100%;
 }
 
 #parents-club-section-6 .container {
-    max-width: 100%;
+    width: 100% !important;
     margin: 0 auto;
-    padding: 0 4%;
+    padding: 0 20px;
 }
 
 /* ── Two-panel layout ── */
 #parents-club-section-6 .s6-layout {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 35px;
     align-items: flex-start;
 }
 
 @media (min-width: 992px) {
     #parents-club-section-6 .s6-layout {
         flex-direction: row;
-        gap: 24px;
+        gap: 30px;
         align-items: flex-start;
     }
 }
@@ -54,25 +54,26 @@
 
 #parents-club-section-6 .faq-title {
     font-family: 'Outfit', sans-serif !important;
-    font-size: 20px !important;
+    font-size: 22px !important;
     font-weight: 800 !important;
     color: var(--s6-text-dark) !important;
-    margin-bottom: 18px !important;
+    margin-bottom: 24px !important;
     line-height: 1.25 !important;
+    text-transform: none !important;
 }
 
 /* 3-column grid for FAQ items */
 #parents-club-section-6 .faq-columns {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 8px 20px;
+    gap: 10px 24px;
 }
 
 /* Each column stacks its items with a gap */
 #parents-club-section-6 .faq-col {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     align-items: stretch;
 }
 
@@ -90,11 +91,17 @@
 
 /* Each accordion item */
 #parents-club-section-6 .faq-item {
-    border: 1px solid #e5e7eb !important;
-    border-radius: 8px !important;
+    border: 1px solid #e2e8f0 !important; /* Premium border slate-200 */
+    border-radius: 10px !important;
     overflow: hidden;
     background-color: #ffffff;
-    align-self: start; /* prevent stretch so items don't grow to fill column height */
+    width: 100%; /* stretch to fill flex column */
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02) !important; /* Soft premium shadow */
+    transition: all 0.2s ease !important;
+}
+
+#parents-club-section-6 .faq-item:hover {
+    border-color: #cbd5e1 !important;
 }
 
 /* Question button row */
@@ -102,23 +109,23 @@
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 12px !important;
+    gap: 14px !important;
     width: 100% !important;
-    padding: 13px 14px !important;
+    padding: 15px 18px !important; /* Increased padding matching design */
     background: none !important;
     border: none !important;
     cursor: pointer !important;
     text-align: left !important;
     font-family: 'Inter', sans-serif !important;
-    font-size: 12.5px !important;
-    font-weight: 500 !important;
+    font-size: 13.5px !important; /* Correct readable size */
+    font-weight: 700 !important; /* Bold as per design */
     color: var(--s6-text-dark) !important;
-    line-height: 1.4 !important;
-    transition: background-color 0.15s ease !important;
+    line-height: 1.45 !important;
+    transition: all 0.2s ease !important;
 }
 
 #parents-club-section-6 .faq-question:hover {
-    background-color: #fafafa !important;
+    background-color: #f8fafc !important; /* Slate-50 hover */
 }
 
 #parents-club-section-6 .faq-question.is-open {
@@ -128,10 +135,10 @@
 /* Chevron icon */
 #parents-club-section-6 .faq-chevron {
     flex-shrink: 0;
-    width: 16px;
-    height: 16px;
-    color: #9ca3af;
-    transition: transform 0.2s ease, color 0.15s ease;
+    width: 13px;
+    height: 13px;
+    color: #475569; /* Dark slate gray */
+    transition: transform 0.25s ease, color 0.15s ease;
 }
 
 #parents-club-section-6 .faq-question.is-open .faq-chevron {
@@ -142,14 +149,26 @@
 /* Answer panel */
 #parents-club-section-6 .faq-answer {
     display: none;
-    padding: 0 14px 14px;
+    padding: 0 18px 18px; /* Matching increased padding */
     font-family: 'Inter', sans-serif;
-    font-size: 12px;
+    font-size: 13px !important; /* Perfect readable sizing */
     color: var(--s6-text-muted);
     line-height: 1.6;
-    border-top: 1px solid #f0f0f0 !important;
+    border-top: 1px solid #f1f5f9 !important;
+}
+
+@keyframes faqFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 #parents-club-section-6 .faq-answer.is-open {
     display: block;
+    animation: faqFadeIn 0.2s ease-out forwards;
 }

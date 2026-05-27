@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-27] - Section 6 FAQ and Need Help Redesign
+
+### Changed
+- **FAQ Accordion Styling**: Refined spacing, shadow, and borders of the FAQ white accordion cards to match high-fidelity specs perfectly. Question buttons are styled as bold (`font-weight: 700`) at `13.5px` and chevron indicators are darkened to a highly visible slate gray (`#475569`) with smooth transition rotations.
+- **Premium Accordion Animation**: Integrated a responsive, clean fade-in and slide-down transition (`faqFadeIn`) for active/open accordion answers to make the panel feel dynamic and interactive.
+- **Need Help Panel Makeover**: 
+  - Changed the contact icons from solid red circular badges to standalone transparent outline SVG elements styled in pure crimson red (`#af0128`).
+  - Mapped contact details links (Email and Call info values) to standard dark slate (`#475569`) with crimson hover styles for optimal reading hierarchy.
+  - Omitted the redundant bold "Office Hours" header, rendering the operating hours as a single-line value perfectly aligned with the clock outline SVG.
+  - Positioned the large books and pencils graphic (`books-pencils.png`) dynamically with z-indexing at the bottom right, allowing it to elegantly overlap and overflow card boundaries.
+
 ## [2026-05-27] - Parents Club Page Container Responsive Breakpoints
 
 ### Fixed

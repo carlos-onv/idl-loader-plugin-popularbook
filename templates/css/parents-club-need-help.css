@@ -7,88 +7,100 @@
 #parents-club-section-6 .need-help-panel {
     flex-shrink: 0;
     width: 100%;
-    background-color: #f3f4f6;
-    border-radius: 14px;
-    padding: 24px 20px 20px;
+    background-color: #f8fafc !important; /* Premium light-grey slate-50 */
+    border: 1px solid #f1f5f9 !important; /* Extremely subtle boundary border */
+    border-radius: 18px !important;
+    padding: 30px 24px 30px 24px !important;
     display: flex;
     flex-direction: column;
     gap: 0;
     position: relative;
-    overflow: hidden;
+    overflow: visible !important; /* Allow the illustration to overflow */
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04) !important; /* Premium soft drop shadow */
 }
 
 @media (min-width: 992px) {
     #parents-club-section-6 .need-help-panel {
-        width: 280px;
-        min-width: 280px;
+        width: 320px !important;
+        min-width: 320px !important;
     }
 }
 
-/* Pencil cup illustration — top-right corner */
+/* Books & pencils illustration — positioned at bottom right, overlapping border */
 #parents-club-section-6 .need-help-illustration {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 90px;
-    height: auto;
-    pointer-events: none;
+    position: absolute !important;
+    bottom: -15px !important;
+    right: -25px !important;
+    top: auto !important;
+    width: 165px !important;
+    height: auto !important;
+    pointer-events: none !important;
+    display: block !important;
+    z-index: 2 !important;
 }
 
 /* Title */
 #parents-club-section-6 .need-help-title {
     font-family: 'Outfit', sans-serif !important;
-    font-size: 18px !important;
+    font-size: 20px !important;
     font-weight: 800 !important;
-    color: var(--s6-text-dark) !important;
-    margin-bottom: 4px !important;
+    color: #1e293b !important; /* Dark slate */
+    margin-bottom: 6px !important;
     line-height: 1.2 !important;
-    position: relative; /* sit above illustration */
+    position: relative;
     z-index: 1;
+    padding-right: 120px; /* clear the illustration */
+    text-transform: none !important;
 }
 
 /* Subtitle */
 #parents-club-section-6 .need-help-subtitle {
     font-family: 'Inter', sans-serif !important;
-    font-size: 12.5px !important;
-    font-weight: 400 !important;
-    color: var(--s6-text-muted) !important;
-    margin-bottom: 20px !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: #475569 !important; /* Slate-600 */
+    margin-bottom: 25px !important;
     line-height: 1.4 !important;
+    position: relative;
+    z-index: 1;
+    padding-right: 120px; /* clear the illustration */
 }
 
 /* Contact rows */
 #parents-club-section-6 .need-help-contacts {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
 }
 
 #parents-club-section-6 .contact-row {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 14px;
 }
 
-/* Red icon circle */
+/* Clean transparent red outline icon */
 #parents-club-section-6 .contact-icon {
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    background-color: var(--s6-brand-red);
-    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    background-color: transparent !important;
+    border-radius: 0 !important;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ffffff;
-    margin-top: 1px;
+    color: #af0128 !important; /* Crimson Red */
+    margin-top: 2px;
 }
 
 #parents-club-section-6 .contact-icon svg {
-    width: 15px;
-    height: 15px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
+    width: 22px !important;
+    height: 22px !important;
+    stroke: #af0128 !important;
+    fill: none !important;
+    stroke-width: 2.2 !important;
     stroke-linecap: round;
     stroke-linejoin: round;
 }
@@ -97,30 +109,32 @@
 #parents-club-section-6 .contact-info {
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 2px;
 }
 
 #parents-club-section-6 .contact-label {
     font-family: 'Inter', sans-serif !important;
-    font-size: 13px !important;
+    font-size: 13.5px !important;
     font-weight: 700 !important;
-    color: var(--s6-text-dark) !important;
+    color: #1e293b !important; /* Dark slate */
     line-height: 1.3 !important;
 }
 
 #parents-club-section-6 .contact-value {
     font-family: 'Inter', sans-serif !important;
-    font-size: 12px !important;
-    font-weight: 400 !important;
-    color: var(--s6-text-muted) !important;
+    font-size: 12.5px !important;
+    font-weight: 500 !important;
+    color: #475569 !important; /* Slate-600 instead of active red */
     line-height: 1.4 !important;
 }
 
 #parents-club-section-6 .contact-value a {
-    color: var(--s6-brand-red) !important;
+    color: #475569 !important; /* Muted dark gray/slate link instead of crimson red */
     text-decoration: none !important;
+    font-weight: 500 !important;
 }
 
 #parents-club-section-6 .contact-value a:hover {
+    color: #af0128 !important; /* Red hover for feedback */
     text-decoration: underline !important;
 }
