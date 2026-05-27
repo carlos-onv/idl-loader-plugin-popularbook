@@ -3853,34 +3853,40 @@ function idl_loader_parents_club_need_help_shortcode( $atts ) {
     ?>
     <div id="parents-club-section-6">
         <div class="need-help-panel">
-            <img src="<?php echo esc_url( $illustration_url ); ?>" alt="" class="need-help-illustration" aria-hidden="true">
-            <?php if ( ! empty( $title ) ) : ?>
-                <h3 class="need-help-title"><?php echo $title; ?></h3>
-            <?php endif; ?>
-            <?php if ( ! empty( $subtitle ) ) : ?>
-                <p class="need-help-subtitle"><?php echo $subtitle; ?></p>
-            <?php endif; ?>
-            <div class="need-help-contacts">
-                <?php foreach ( $active_contacts as $contact ) : ?>
-                    <div class="contact-row">
-                        <div class="contact-icon">
-                            <?php echo $contact['icon']; ?>
-                        </div>
-                        <div class="contact-info">
-                            <?php if ( ! empty( $contact['label'] ) ) : ?>
-                                <span class="contact-label"><?php echo $contact['label']; ?></span>
-                            <?php endif; ?>
-                            <span class="contact-value">
-                                <?php if ( ! empty( $contact['link'] ) ) : ?>
-                                    <a href="<?php echo $contact['link']; ?>"><?php echo $contact['value']; ?></a>
-                                <?php else : ?>
-                                    <?php echo $contact['value']; ?>
+            <div class="need-help-body">
+                <?php if ( ! empty( $title ) ) : ?>
+                    <h3 class="need-help-title"><?php echo $title; ?></h3>
+                <?php endif; ?>
+                <?php if ( ! empty( $subtitle ) ) : ?>
+                    <p class="need-help-subtitle"><?php echo $subtitle; ?></p>
+                <?php endif; ?>
+                <div class="need-help-contacts">
+                    <?php foreach ( $active_contacts as $contact ) : ?>
+                        <div class="contact-row">
+                            <div class="contact-icon">
+                                <?php echo $contact['icon']; ?>
+                            </div>
+                            <div class="contact-info">
+                                <?php if ( ! empty( $contact['label'] ) ) : ?>
+                                    <span class="contact-label"><?php echo $contact['label']; ?></span>
                                 <?php endif; ?>
-                            </span>
+                                <span class="contact-value">
+                                    <?php if ( ! empty( $contact['link'] ) ) : ?>
+                                        <a href="<?php echo $contact['link']; ?>"><?php echo $contact['value']; ?></a>
+                                    <?php else : ?>
+                                        <?php echo $contact['value']; ?>
+                                    <?php endif; ?>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            </div><!-- /.need-help-contacts -->
+                    <?php endforeach; ?>
+                </div><!-- /.need-help-contacts -->
+            </div><!-- /.need-help-body -->
+            <?php if ( ! empty( $illustration_url ) ) : ?>
+                <div class="need-help-image-wrapper">
+                    <img src="<?php echo esc_url( $illustration_url ); ?>" alt="" class="need-help-illustration" aria-hidden="true">
+                </div>
+            <?php endif; ?>
         </div><!-- /.need-help-panel -->
     </div><!-- /#parents-club-section-6 -->
     <?php

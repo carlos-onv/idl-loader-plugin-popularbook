@@ -6,35 +6,47 @@
 
 #parents-club-section-6 .need-help-panel {
     flex-shrink: 0;
-    width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
     background-color: #f8fafc !important; /* Premium light-grey slate-50 */
     border: 1px solid #f1f5f9 !important; /* Extremely subtle boundary border */
     border-radius: 18px !important;
     padding: 30px 24px 30px 24px !important;
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 20px !important;
     position: relative;
-    overflow: visible !important; /* Allow the illustration to overflow */
+    overflow: hidden !important;
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04) !important; /* Premium soft drop shadow */
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
     #parents-club-section-6 .need-help-panel {
-        width: 320px !important;
-        min-width: 320px !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 30px !important;
     }
 }
 
-/* Books & pencils illustration — positioned at bottom right, overlapping border */
+#parents-club-section-6 .need-help-body {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+#parents-club-section-6 .need-help-image-wrapper {
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Books & pencils illustration — positioned next to content */
 #parents-club-section-6 .need-help-illustration {
-    position: absolute !important;
-    bottom: -15px !important;
-    right: -25px !important;
-    top: auto !important;
+    position: static !important;
     width: 165px !important;
     height: auto !important;
-    pointer-events: none !important;
     display: block !important;
     z-index: 2 !important;
 }
@@ -49,7 +61,7 @@
     line-height: 1.2 !important;
     position: relative;
     z-index: 1;
-    padding-right: 120px; /* clear the illustration */
+    padding-right: 0 !important; /* no absolute overlay clearance needed */
     text-transform: none !important;
 }
 
@@ -63,7 +75,7 @@
     line-height: 1.4 !important;
     position: relative;
     z-index: 1;
-    padding-right: 120px; /* clear the illustration */
+    padding-right: 0 !important; /* no absolute overlay clearance needed */
 }
 
 /* Contact rows */
