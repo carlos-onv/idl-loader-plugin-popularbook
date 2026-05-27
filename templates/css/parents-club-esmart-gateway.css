@@ -121,3 +121,19 @@
     color: #8c001f;
     text-decoration: underline;
 }
+
+/* Bundled plugin logo (eMathSmart_logo_FINAL .png) */
+.esmart-login-card .esmart-plugin-logo {
+    max-width: 180px;
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Admin-uploaded custom logo */
+.esmart-login-card .esmart-custom-logo {
+    max-width: 180px;
+    width: 100%;
+    height: auto;
+    display: block;
+}

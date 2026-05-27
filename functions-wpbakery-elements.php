@@ -1355,10 +1355,10 @@ function idl_loader_register_parents_club_elements() {
                 "heading"     => esc_html__( "Card Brand Type", "book-junky" ),
                 "param_name"  => "brand_type",
                 "value"       => array(
-                    esc_html__( "Styled Text Logo (eMathSmart®)", "book-junky" ) => "text_logo",
-                    esc_html__( "Custom Brand Image Upload", "book-junky" )       => "custom_image",
+                    esc_html__( "Plugin eMathSmart Logo (default)", "book-junky" ) => "plugin_logo",
+                    esc_html__( "Custom Brand Image Upload", "book-junky" )         => "custom_image",
                 ),
-                "std"         => "text_logo",
+                "std"         => "plugin_logo",
                 "admin_label" => true,
                 "description" => esc_html__( "Choose how the brand identity is displayed at the top of the card.", "book-junky" ),
             ),
@@ -2841,7 +2841,7 @@ add_shortcode( 'esmart_login_card', 'idl_loader_esmart_login_card_shortcode' );
 
 function idl_loader_esmart_login_card_shortcode( $atts ) {
     $attributes = shortcode_atts( array(
-        'brand_type'          => 'text_logo',
+        'brand_type'          => 'plugin_logo',
         'brand_image'         => '',
         'lead_title'          => 'Already have an eMathSmart account?',
         'description'         => 'Login here to access the program.',
@@ -2866,18 +2866,16 @@ function idl_loader_esmart_login_card_shortcode( $atts ) {
     // --- Brand logo ---
     $brand_html = '';
     if ( 'custom_image' === $attributes['brand_type'] && ! empty( $attributes['brand_image'] ) ) {
+        // Admin-uploaded custom logo
         $img_url = wp_get_attachment_image_url( absint( $attributes['brand_image'] ), 'medium' );
         if ( $img_url ) {
             $brand_html = '<div class="esmart-logo-row"><img src="' . esc_url( $img_url ) . '" alt="' . esc_attr__( 'eMathSmart Logo', 'book-junky' ) . '" class="esmart-custom-logo" /></div>';
         }
     }
-    // Fallback: styled text logo (default)
+    // Default: bundled plugin logo image
     if ( empty( $brand_html ) ) {
-        $brand_html = '<div class="esmart-logo-row">
-            <div class="esmart-text-logo">
-                <span class="letter-e">e</span><span class="word-math">Math</span><span class="word-smart">Smart</span><span class="letter-i">®</span>
-            </div>
-        </div>';
+        $plugin_logo_url = plugins_url( 'templates/images/eMathSmart_logo_FINAL .png', __FILE__ );
+        $brand_html = '<div class="esmart-logo-row"><img src="' . esc_url( $plugin_logo_url ) . '" alt="' . esc_attr__( 'eMathSmart', 'book-junky' ) . '" class="esmart-plugin-logo" /></div>';
     }
 
     // --- CTA icon ---
