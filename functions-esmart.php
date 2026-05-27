@@ -632,8 +632,19 @@ function emathsmart_handle_sso_logout()
         wp_logout();
     }
 
-    // Redirect to homepage after logout
-    wp_redirect(home_url('/'));
+    // Redirect to eMathSmart if specified, otherwise fallback to homepage
+    $redirect_url = '';
+    if (isset($_GET['redirect_uri'])) {
+        $redirect_url = esc_url_raw($_GET['redirect_uri']);
+    } elseif (isset($_GET['redirect_url'])) {
+        $redirect_url = esc_url_raw($_GET['redirect_url']);
+    }
+
+    if (!empty($redirect_url)) {
+        wp_redirect($redirect_url);
+    } else {
+        wp_redirect(home_url('/'));
+    }
     exit;
 }
 
