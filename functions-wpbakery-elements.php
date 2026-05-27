@@ -1472,7 +1472,277 @@ function idl_loader_register_parents_club_elements() {
             ),
         ),
     ) );
+
+    // Register [emathsmart_plan_card] Unified Element
+    vc_map( array(
+        "name"        => esc_html__( "eMathSmart Plan Card", "book-junky" ),
+        "base"        => "emathsmart_plan_card",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Unified modular plan card supporting digital, pricing, and alternative not-ready layouts.", "book-junky" ),
+        "params"      => array(
+            // 1. Layout & High-Level Scoping
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Card Layout Type", "book-junky" ),
+                "param_name"  => "card_layout",
+                "value"       => array(
+                    esc_html__( "Digital Learning Layout", "book-junky" ) => "digital",
+                    esc_html__( "Pricing Plan Layout", "book-junky" )    => "pricing",
+                    esc_html__( "Alternative Info / Not Ready Layout", "book-junky" ) => "not_ready",
+                ),
+                "std"         => "digital",
+                "admin_label" => true,
+                "description" => esc_html__( "Select the card layout style. Scoped custom CSS will load conditionally.", "book-junky" ),
+            ),
+            array(
+                "type"        => "checkbox",
+                "heading"     => esc_html__( "Highlight Border", "book-junky" ),
+                "param_name"  => "highlighted_border",
+                "value"       => array( esc_html__( "Yes, apply highlighted border (Annual theme)", "book-junky" ) => "yes" ),
+                "dependency"  => array(
+                    "element" => "card_layout",
+                    "value"   => array( "pricing" )
+                ),
+                "description" => esc_html__( "Check this to style the border with the highlighted brand color.", "book-junky" ),
+            ),
+            array(
+                "type"        => "checkbox",
+                "heading"     => esc_html__( "Show 'Best Value' Badge", "book-junky" ),
+                "param_name"  => "best_value",
+                "value"       => array( esc_html__( "Yes, display the Best Value badge", "book-junky" ) => "yes" ),
+                "dependency"  => array(
+                    "element" => "card_layout",
+                    "value"   => array( "pricing" )
+                ),
+                "description" => esc_html__( "Renders the absolute centered badge ribbon above the card header.", "book-junky" ),
+            ),
+
+            // 2. Branding (Conditional on Digital Layout)
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Branding Type", "book-junky" ),
+                "param_name"  => "brand_type",
+                "value"       => array(
+                    esc_html__( "eMathSmart Logo Image", "book-junky" ) => "image",
+                    esc_html__( "Styled Text Brand", "book-junky" )      => "text",
+                ),
+                "std"         => "image",
+                "dependency"  => array(
+                    "element" => "card_layout",
+                    "value"   => array( "digital" )
+                ),
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Custom Brand Logo Image", "book-junky" ),
+                "param_name"  => "logo_image",
+                "dependency"  => array(
+                    "element" => "brand_type",
+                    "value"   => array( "image" )
+                ),
+                "description" => esc_html__( "Upload an SVG or image brand logo. Defaults to the pre-packaged eMathSmart logo.", "book-junky" ),
+            ),
+
+            // 3. Card Typography & Text Blocks
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Card Title Heading", "book-junky" ),
+                "param_name"  => "title",
+                "value"       => esc_html__( "Digital Learning Program", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Price Label", "book-junky" ),
+                "param_name"  => "price",
+                "value"       => esc_html__( "$9.95", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "card_layout",
+                    "value"   => array( "pricing" )
+                ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Billing Period", "book-junky" ),
+                "param_name"  => "period",
+                "value"       => esc_html__( "/month", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "card_layout",
+                    "value"   => array( "pricing" )
+                ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Badge text Capsule", "book-junky" ),
+                "param_name"  => "badge_text",
+                "value"       => esc_html__( "For Grades 3 & 4", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "card_layout",
+                    "value"   => array( "digital", "pricing" )
+                ),
+            ),
+            array(
+                "type"        => "textarea",
+                "heading"     => esc_html__( "Card Description Content", "book-junky" ),
+                "param_name"  => "description",
+                "value"       => esc_html__( "No problem! Enjoy all Parents’ Club benefits for free, and upgrade to eMathSmart anytime.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "card_layout",
+                    "value"   => array( "not_ready" )
+                ),
+            ),
+
+            // 4. Feature Checklist Repeatable Param Group
+            array(
+                "type"        => "param_group",
+                "heading"     => esc_html__( "Feature Items Checklist", "book-junky" ),
+                "param_name"  => "list_items",
+                "description" => esc_html__( "Dynamically add, edit, reorder, and delete features checklist items.", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "card_layout",
+                    "value"   => array( "digital", "pricing" )
+                ),
+                "params"      => array(
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Feature Item Text", "book-junky" ),
+                        "param_name"  => "item_text",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Source Type", "book-junky" ),
+                        "param_name"  => "icon_source",
+                        "value"       => array(
+                            esc_html__( "Default Checkmark", "book-junky" )            => "default",
+                            esc_html__( "Predefined Brand Outline Icon", "book-junky" ) => "brand",
+                            esc_html__( "WPBakery Icon Picker Library", "book-junky" )   => "library",
+                            esc_html__( "Custom Image / SVG Upload", "book-junky" )    => "custom",
+                        ),
+                        "std"         => "default",
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Predefined Brand Outline Icon", "book-junky" ),
+                        "param_name"  => "brand_icon_type",
+                        "value"       => array(
+                            esc_html__( "Gamepad / Plus (Interactive)", "book-junky" )  => "gamepad",
+                            esc_html__( "Lightbulb (Instant Feedback)", "book-junky" ) => "idea",
+                            esc_html__( "File / Worksheet (Printables)", "book-junky" ) => "file",
+                            esc_html__( "Bar Chart (Progress tracking)", "book-junky" ) => "chart",
+                            esc_html__( "Star (AI learning tools)", "book-junky" )      => "star",
+                            esc_html__( "Shield (Curriculum aligned)", "book-junky" )   => "shield",
+                            esc_html__( "Checkmark Outline", "book-junky" )            => "check",
+                        ),
+                        "std"         => "gamepad",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "brand" )
+                        )
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Library", "book-junky" ),
+                        "param_name"  => "icon_library",
+                        "value"       => array(
+                            esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                            esc_html__( "Linecons", "book-junky" )     => "linecons",
+                        ),
+                        "std"         => "fontawesome",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "library" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Font Awesome Icon Selection", "book-junky" ),
+                        "param_name"  => "icon_fontawesome",
+                        "value"       => "fa fa-check",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "fontawesome" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Linecons Icon Selection", "book-junky" ),
+                        "param_name"  => "icon_linecons",
+                        "value"       => "vc_li vc_li-check",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "type"         => "linecons",
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "linecons" )
+                        )
+                    ),
+                    array(
+                        "type"        => "attach_image",
+                        "heading"     => esc_html__( "Custom Icon SVG/Image", "book-junky" ),
+                        "param_name"  => "custom_icon",
+                        "description" => esc_html__( "Upload an SVG file or pixel graphic as checklist icon.", "book-junky" ),
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "custom" )
+                        )
+                    ),
+                ),
+            ),
+
+            // 5. Footer Content (Conditional on Card Layout & Admin Preference)
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Footer Style", "book-junky" ),
+                "param_name"  => "footer_type",
+                "value"       => array(
+                    esc_html__( "None / Empty Footer", "book-junky" ) => "none",
+                    esc_html__( "CTA Button", "book-junky" )          => "button",
+                    esc_html__( "Graphic Illustration", "book-junky" ) => "graphic",
+                ),
+                "std"         => "button",
+                "description" => esc_html__( "Select what is displayed inside the card footer bottom.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Button Label", "book-junky" ),
+                "param_name"  => "button_text",
+                "value"       => esc_html__( "Start 7-Day Free Trial", "book-junky" ),
+                "dependency"  => array(
+                    "element" => "footer_type",
+                    "value"   => array( "button" )
+                ),
+            ),
+            array(
+                "type"        => "vc_link",
+                "heading"     => esc_html__( "Button Target Action", "book-junky" ),
+                "param_name"  => "button_link",
+                "dependency"  => array(
+                    "element" => "footer_type",
+                    "value"   => array( "button" )
+                ),
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Footer Graphic Illustration", "book-junky" ),
+                "param_name"  => "footer_image",
+                "dependency"  => array(
+                    "element" => "footer_type",
+                    "value"   => array( "graphic" )
+                ),
+                "description" => esc_html__( "Upload custom illustration graphic. Defaults to high-fidelity theme templates graphics.", "book-junky" ),
+            ),
+        )
+    ) );
 }
+
 
 // -----------------------------------------------------------------------------
 // SECTION 2: Shortcode Renderers
@@ -2660,6 +2930,290 @@ function idl_loader_esmart_login_card_shortcode( $atts ) {
     return ob_get_clean();
 }
 
+// Register [emathsmart_plan_card] Shortcode
+add_shortcode( 'emathsmart_plan_card', 'idl_loader_emathsmart_plan_card_shortcode' );
+
+function idl_loader_emathsmart_plan_card_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'card_layout'        => 'digital',
+        'highlighted_border' => '',
+        'best_value'         => '',
+        'brand_type'         => 'image',
+        'logo_image'         => '',
+        'title'              => 'Digital Learning Program',
+        'price'              => '$9.95',
+        'period'             => '/month',
+        'badge_text'         => 'For Grades 3 & 4',
+        'description'        => '',
+        'list_items'         => '',
+        'footer_type'        => 'button',
+        'button_text'        => 'Start 7-Day Free Trial',
+        'button_link'        => '',
+        'footer_image'       => '',
+    ), $atts );
+
+    // Enqueue the modular stylesheets
+    wp_enqueue_style( 'parents-club-plans-base', plugins_url( 'templates/css/parents-club-plans-base.css', __FILE__ ) );
+    
+    $layout = $attributes['card_layout'];
+    if ( 'digital' === $layout ) {
+        wp_enqueue_style( 'parents-club-plan-digital', plugins_url( 'templates/css/parents-club-plan-digital.css', __FILE__ ) );
+    } elseif ( 'pricing' === $layout ) {
+        wp_enqueue_style( 'parents-club-plan-monthly', plugins_url( 'templates/css/parents-club-plan-monthly.css', __FILE__ ) );
+        wp_enqueue_style( 'parents-club-plan-annual', plugins_url( 'templates/css/parents-club-plan-annual.css', __FILE__ ) );
+    } elseif ( 'not_ready' === $layout ) {
+        wp_enqueue_style( 'parents-club-plan-not-ready', plugins_url( 'templates/css/parents-club-plan-not-ready.css', __FILE__ ) );
+    }
+
+    // Process variables
+    $title       = esc_html( $attributes['title'] );
+    $badge_text  = esc_html( $attributes['badge_text'] );
+    $price       = esc_html( $attributes['price'] );
+    $period      = esc_html( $attributes['period'] );
+    $description = wp_kses_post( $attributes['description'] );
+
+    // Parse repeatable checklist items
+    $list_data = array();
+    if ( ! empty( $attributes['list_items'] ) ) {
+        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+            $list_data = vc_param_group_parse_atts( $attributes['list_items'] );
+        } else {
+            $list_data = json_decode( urldecode( $attributes['list_items'] ), true );
+        }
+    }
+
+    // Default features checklist fallback if empty
+    if ( empty( $list_data ) ) {
+        if ( 'pricing' === $layout ) {
+            $list_data = array(
+                array( 'item_text' => 'Full access to eMathSmart', 'icon_source' => 'default' ),
+                array( 'item_text' => 'Interactive exercises & tools', 'icon_source' => 'default' ),
+                array( 'item_text' => 'Printable worksheets', 'icon_source' => 'default' ),
+                array( 'item_text' => 'Progress tracking & reports', 'icon_source' => 'default' ),
+                array( 'item_text' => 'All credits included', 'icon_source' => 'default' ),
+            );
+        } else {
+            $list_data = array(
+                array( 'item_text' => 'Interactive practice & games', 'icon_source' => 'brand', 'brand_icon_type' => 'gamepad' ),
+                array( 'item_text' => 'Instant feedback & hints', 'icon_source' => 'brand', 'brand_icon_type' => 'idea' ),
+                array( 'item_text' => 'Printable worksheets', 'icon_source' => 'brand', 'brand_icon_type' => 'file' ),
+                array( 'item_text' => 'Progress tracking & reports', 'icon_source' => 'brand', 'brand_icon_type' => 'chart' ),
+                array( 'item_text' => 'AI-powered learning tools', 'icon_source' => 'brand', 'brand_icon_type' => 'star' ),
+                array( 'item_text' => 'Curriculum-aligned content', 'icon_source' => 'brand', 'brand_icon_type' => 'shield' ),
+            );
+        }
+    }
+
+    // Closure to render visual icons for checklists
+    $render_item_icon = function( $item ) {
+        $source = isset( $item['icon_source'] ) ? $item['icon_source'] : 'default';
+        
+        if ( 'brand' === $source ) {
+            $brand_type = isset( $item['brand_icon_type'] ) ? $item['brand_icon_type'] : 'check';
+            switch ( $brand_type ) {
+                case 'gamepad':
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect><path d="M6 12h12M12 6v12"></path></svg>';
+                case 'idea':
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"></path><line x1="9" y1="18" x2="15" y2="18"></line><line x1="10" y1="22" x2="14" y2="22"></line></svg>';
+                case 'file':
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>';
+                case 'chart':
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>';
+                case 'star':
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
+                case 'shield':
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>';
+                case 'check':
+                default:
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            }
+        } elseif ( 'library' === $source ) {
+            $lib = isset( $item['icon_library'] ) ? $item['icon_library'] : 'fontawesome';
+            if ( 'fontawesome' === $lib && ! empty( $item['icon_fontawesome'] ) ) {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'fontawesome' );
+                }
+                return '<i class="' . esc_attr( $item['icon_fontawesome'] ) . '" aria-hidden="true"></i>';
+            } elseif ( 'linecons' === $lib && ! empty( $item['icon_linecons'] ) ) {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'linecons' );
+                }
+                return '<i class="' . esc_attr( $item['icon_linecons'] ) . '" aria-hidden="true"></i>';
+            }
+        } elseif ( 'custom' === $source && ! empty( $item['custom_icon'] ) ) {
+            $custom_url = '';
+            if ( is_numeric( $item['custom_icon'] ) ) {
+                $img_src = wp_get_attachment_image_url( absint( $item['custom_icon'] ), 'thumbnail' );
+                if ( $img_src ) {
+                    $custom_url = $img_src;
+                }
+            } else {
+                $custom_url = $item['custom_icon'];
+            }
+            if ( ! empty( $custom_url ) ) {
+                return '<img src="' . esc_url( $custom_url ) . '" class="pc-plan-custom-icon-img" alt="" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;display:inline-block;" />';
+            }
+        }
+        
+        // Default checkmark fallback
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+    };
+
+    ob_start();
+
+    if ( 'not_ready' === $layout ) : ?>
+        <!-- CARD 4: Not Ready for eMathSmart? -->
+        <div class="pc-plan-not-ready">
+            <?php if ( ! empty( $title ) ) : ?>
+                <h3 class="pc-not-ready-title"><?php echo $title; ?></h3>
+            <?php endif; ?>
+            <?php if ( ! empty( $description ) ) : ?>
+                <p class="pc-not-ready-desc"><?php echo $description; ?></p>
+            <?php endif; ?>
+            
+            <?php if ( 'graphic' === $attributes['footer_type'] ) : 
+                $foot_graphic_url = '';
+                if ( ! empty( $attributes['footer_image'] ) ) {
+                    if ( is_numeric( $attributes['footer_image'] ) ) {
+                        $foot_graphic_url = wp_get_attachment_image_url( absint( $attributes['footer_image'] ), 'full' );
+                    } else {
+                        $foot_graphic_url = $attributes['footer_image'];
+                    }
+                }
+                if ( empty( $foot_graphic_url ) ) {
+                    $foot_graphic_url = plugins_url( 'templates/images/not-ready-for-emathsmart.png', __FILE__ );
+                }
+                ?>
+                <div class="pc-not-ready-graphic">
+                    <img src="<?php echo esc_url( $foot_graphic_url ); ?>" alt="<?php echo esc_attr__( 'Not Ready for eMathSmart Illustration', 'book-junky' ); ?>">
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php else : 
+        // pricing vs digital card wrapper classes
+        $card_classes = array( 'pc-plan-card' );
+        if ( 'digital' === $layout ) {
+            $card_classes[] = 'pc-plan-digital';
+        } elseif ( 'pricing' === $layout ) {
+            if ( 'yes' === $attributes['highlighted_border'] ) {
+                $card_classes[] = 'pc-plan-annual';
+            } else {
+                $card_classes[] = 'pc-plan-monthly';
+            }
+        }
+        $card_class_str = implode( ' ', $card_classes );
+        ?>
+        <div class="<?php echo esc_attr( $card_class_str ); ?>">
+            <?php if ( 'pricing' === $layout && 'yes' === $attributes['best_value'] ) : ?>
+                <span class="best-value-badge"><?php esc_html_e( 'Best Value', 'book-junky' ); ?></span>
+            <?php endif; ?>
+
+            <?php if ( 'digital' === $layout ) : ?>
+                <div class="digital-logo-row">
+                    <?php 
+                    $logo_url = '';
+                    if ( 'image' === $attributes['brand_type'] ) {
+                        if ( ! empty( $attributes['logo_image'] ) ) {
+                            if ( is_numeric( $attributes['logo_image'] ) ) {
+                                $logo_url = wp_get_attachment_image_url( absint( $attributes['logo_image'] ), 'full' );
+                            } else {
+                                $logo_url = $attributes['logo_image'];
+                            }
+                        }
+                        if ( empty( $logo_url ) ) {
+                            $logo_url = plugins_url( 'templates/images/eMathSmart_logo_FINAL .png', __FILE__ );
+                        }
+                    }
+                    if ( ! empty( $logo_url ) ) : ?>
+                        <img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php esc_attr_e( 'eMathSmart Logo', 'book-junky' ); ?>" class="digital-brand-logo">
+                    <?php else : ?>
+                        <div class="esmart-text-logo-inline" style="font-family:'Outfit',sans-serif; font-size:24px; font-weight:800; color:#af0128; letter-spacing:-0.5px;">
+                            <span style="color:#f28538;">e</span>MathSmart<span style="font-size:12px;vertical-align:super;">®</span>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ( ! empty( $title ) ) : ?>
+                <h3 class="pc-plan-title"><?php echo $title; ?></h3>
+            <?php endif; ?>
+
+            <?php if ( 'pricing' === $layout && ! empty( $price ) ) : ?>
+                <div class="pc-plan-price">
+                    <?php echo $price; ?>
+                    <?php if ( ! empty( $period ) ) : ?>
+                        <span class="pc-plan-period"><?php echo $period; ?></span>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ( ! empty( $badge_text ) ) : ?>
+                <span class="pc-plan-badge"><?php echo $badge_text; ?></span>
+            <?php endif; ?>
+
+            <?php if ( ! empty( $list_data ) ) : ?>
+                <ul class="pc-plan-list">
+                    <?php foreach ( $list_data as $item ) : 
+                        $item_txt = isset( $item['item_text'] ) ? esc_html( $item['item_text'] ) : '';
+                        if ( empty( $item_txt ) ) {
+                            continue;
+                        }
+                        ?>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <?php echo $render_item_icon( $item ); ?>
+                            </span>
+                            <p><?php echo $item_txt; ?></p>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+
+            <?php 
+            if ( 'button' === $attributes['footer_type'] && ! empty( $attributes['button_text'] ) ) : 
+                $link_url    = '#';
+                $link_title  = esc_html( $attributes['button_text'] );
+                $link_target = '';
+
+                if ( ! empty( $attributes['button_link'] ) ) {
+                    $link_parsed = vc_build_link( $attributes['button_link'] );
+                    if ( ! empty( $link_parsed['url'] ) ) {
+                        $link_url = $link_parsed['url'];
+                    }
+                    if ( ! empty( $link_parsed['title'] ) ) {
+                        $link_title = $link_parsed['title'];
+                    }
+                    if ( ! empty( $link_parsed['target'] ) ) {
+                        $link_target = $link_parsed['target'];
+                    }
+                }
+                ?>
+                <a href="<?php echo esc_url( $link_url ); ?>" class="pc-plan-btn" <?php echo ! empty( $link_target ) ? 'target="' . esc_attr( $link_target ) . '"' : ''; ?>>
+                    <?php echo esc_html( $link_title ); ?>
+                </a>
+            <?php elseif ( 'graphic' === $attributes['footer_type'] ) : 
+                $graphic_url = '';
+                if ( ! empty( $attributes['footer_image'] ) ) {
+                    if ( is_numeric( $attributes['footer_image'] ) ) {
+                        $graphic_url = wp_get_attachment_image_url( absint( $attributes['footer_image'] ), 'full' );
+                    } else {
+                        $graphic_url = $attributes['footer_image'];
+                    }
+                }
+                if ( empty( $graphic_url ) ) {
+                    $graphic_url = plugins_url( 'templates/images/emathsmart-program.png', __FILE__ );
+                }
+                ?>
+                <div class="plan-graphic-container">
+                    <img src="<?php echo esc_url( $graphic_url ); ?>" alt="<?php esc_attr_e( 'eMathSmart Program Illustration', 'book-junky' ); ?>">
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endif;
+
+    return ob_get_clean();
+}
+
 // -----------------------------------------------------------------------------
 // SECTION 3: WPBakery Shortcode Class Binder
 // -----------------------------------------------------------------------------
@@ -2688,4 +3242,9 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     class WPBakeryShortCode_esmart_login_card extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for eMathSmart Gateway Login Card
     }
+
+    class WPBakeryShortCode_emathsmart_plan_card extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for eMathSmart Plan Card
+    }
 }
+

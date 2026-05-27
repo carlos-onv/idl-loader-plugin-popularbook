@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-27] - WPBakery Element: eMathSmart Unified Plan Card
+
+### Added
+- **New Unified WPBakery Element `[emathsmart_plan_card]`** registered inside `idl_loader_register_parents_club_elements()` in `functions-wpbakery-elements.php`.
+  - Supports all 4 custom plans/layout cards in one visual builder element: `Digital Learning`, `Pricing Plan`, and `Alternative Info / Not Ready`.
+  - Conditional settings mapping: checkboxes for **Highlighted Border** and **"Best Value" Badge** (shown only for Pricing Plan layout).
+  - Customizable logo branding option: text eMathSmart® logo or custom uploaded image logo (`attach_image`).
+  - Parameterized title, price, billing period, capsule badge texts, and descriptive texts.
+  - **Dynamic Repeatable Checklist Items (`param_group`)**: Completely equips each checklist item with custom text and multiple icon source types. Administrators can pick standard checks, predefined outline SVG templates (Gamepad, Lightbulb, Worksheet File, Bar Chart, Star, Shield, Checkmark), Font Awesome/Linecons library pickers, or custom SVG/image uploads per feature item.
+  - Conditional bottom/footer elements selector: button CTAs (with WPBakery visual link selector `vc_link`), graphic animations illustration (`attach_image`), or empty.
+- **Shortcode Renderer `idl_loader_emathsmart_plan_card_shortcode()`**: Parses the unified card attributes, handles fallback graphic/logo enqueuing, decodes WPBakery VC Link objects, parses repeatable checklist feature items, and programmatically loads the exact corresponding scoped stylesheets (`parents-club-plans-base.css` + `parents-club-plan-digital.css` or `parents-club-plan-monthly.css`/`parents-club-plan-annual.css` or `parents-club-plan-not-ready.css`) based on card layout selections.
+- **`WPBakeryShortCode_emathsmart_plan_card`** class registered to the visual composer class binder.
+
+### Technical Notes for AI Agents
+- **Shortcode Handle**: `emathsmart_plan_card`
+- **Class Identifier**: `WPBakeryShortCode_emathsmart_plan_card`
+- **Asset Fallbacks**:
+  - eMathSmart Brand Logo: `/wp-content/plugins/idl-loader/templates/images/eMathSmart_logo_FINAL .png` (Note the space in filename).
+  - Digital learning bottom graphic: `/wp-content/plugins/idl-loader/templates/images/emathsmart-program.png`.
+  - Not ready bottom graphic: `/wp-content/plugins/idl-loader/templates/images/not-ready-for-emathsmart.png`.
+
 ## [2026-05-27] - Parents Club Plans Section & Premium Styling
 
 ### Added
