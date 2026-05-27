@@ -15,7 +15,7 @@
     box-shadow: var(--shadow-premium) !important;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
     height: auto !important;
-    min-height: 520px !important;
+    min-height: 470px !important;
     box-sizing: border-box !important;
 }
 
