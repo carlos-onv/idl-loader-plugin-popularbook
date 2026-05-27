@@ -56,11 +56,12 @@ body.page-template-parents-club-template .container {
         max-width: 1360px !important;
     }
 }
-@media (min-width: 1480px) {
+@media (min-width: 1440px) {
     body.page-template-parents-club-template .container {
         max-width: 1400px !important;
     }
 }
+
 
 
 
