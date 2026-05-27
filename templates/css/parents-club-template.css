@@ -8,18 +8,55 @@ body.page-template-parents-club-template {
     overflow-x: hidden !important;
 }
 
-/* Force container wrapper to expand edge-to-edge */
+/* Force page layout wrappers to expand edge-to-edge */
 body.page-template-parents-club-template #main,
-body.page-template-parents-club-template #main .container,
 body.page-template-parents-club-template #main .container-fluid,
 body.page-template-parents-club-template #content {
     max-width: 100% !important;
     width: 100% !important;
-    padding-left: 20px !important;
-    padding-right: 20px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
 }
+
+/* Constrain standard containers responsively and center them */
+body.page-template-parents-club-template .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Responsive Container Breakpoints for Premium Layouts */
+@media (min-width: 576px) {
+    body.page-template-parents-club-template .container {
+        max-width: 540px !important;
+    }
+}
+@media (min-width: 768px) {
+    body.page-template-parents-club-template .container {
+        max-width: 720px !important;
+    }
+}
+@media (min-width: 992px) {
+    body.page-template-parents-club-template .container {
+        max-width: 960px !important;
+    }
+}
+@media (min-width: 1200px) {
+    body.page-template-parents-club-template .container {
+        max-width: 1170px !important;
+    }
+}
+@media (min-width: 1400px) {
+    body.page-template-parents-club-template .container {
+        max-width: 1280px !important;
+    }
+}
+
 
 /* Remove default main section paddings */
 body.page-template-parents-club-template #main {

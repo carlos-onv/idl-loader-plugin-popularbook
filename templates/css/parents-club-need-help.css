@@ -1,0 +1,126 @@
+/**
+ * Parents Club Redesign - Section 6 Need Help CSS
+ * File: parents-club-need-help.css
+ * "Need Help?" contact info card
+ */
+
+#parents-club-section-6 .need-help-panel {
+    flex-shrink: 0;
+    width: 100%;
+    background-color: #f3f4f6;
+    border-radius: 14px;
+    padding: 24px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+@media (min-width: 992px) {
+    #parents-club-section-6 .need-help-panel {
+        width: 280px;
+        min-width: 280px;
+    }
+}
+
+/* Pencil cup illustration — top-right corner */
+#parents-club-section-6 .need-help-illustration {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 90px;
+    height: auto;
+    pointer-events: none;
+}
+
+/* Title */
+#parents-club-section-6 .need-help-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: var(--s6-text-dark) !important;
+    margin-bottom: 4px !important;
+    line-height: 1.2 !important;
+    position: relative; /* sit above illustration */
+    z-index: 1;
+}
+
+/* Subtitle */
+#parents-club-section-6 .need-help-subtitle {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 12.5px !important;
+    font-weight: 400 !important;
+    color: var(--s6-text-muted) !important;
+    margin-bottom: 20px !important;
+    line-height: 1.4 !important;
+}
+
+/* Contact rows */
+#parents-club-section-6 .need-help-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+#parents-club-section-6 .contact-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+/* Red icon circle */
+#parents-club-section-6 .contact-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background-color: var(--s6-brand-red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    margin-top: 1px;
+}
+
+#parents-club-section-6 .contact-icon svg {
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Contact text block */
+#parents-club-section-6 .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+#parents-club-section-6 .contact-label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: var(--s6-text-dark) !important;
+    line-height: 1.3 !important;
+}
+
+#parents-club-section-6 .contact-value {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    color: var(--s6-text-muted) !important;
+    line-height: 1.4 !important;
+}
+
+#parents-club-section-6 .contact-value a {
+    color: var(--s6-brand-red) !important;
+    text-decoration: none !important;
+}
+
+#parents-club-section-6 .contact-value a:hover {
+    text-decoration: underline !important;
+}

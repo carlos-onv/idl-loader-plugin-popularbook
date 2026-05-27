@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-27] - Parents Club Page Container Responsive Breakpoints
+
+### Fixed
+- **Container Sizing and Centering**: Re-engineered wrapper overrides inside [parents-club-template.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-template.css) to isolate outer sections (which continue to stretch fluidly edge-to-edge for premium glassmorphic/gradient backgrounds) from `.container` elements.
+- **Responsive max-width Breakpoints**: Implemented standard responsive breakpoint limits on `.container` elements inside the Parents Club template to ensure optimal desktop reading line-lengths and crisp, centered layout structures:
+  - `min-width: 576px` -> `max-width: 540px`
+  - `min-width: 768px` -> `max-width: 720px`
+  - `min-width: 992px` -> `max-width: 960px`
+  - `min-width: 1200px` -> `max-width: 1170px`
+  - `min-width: 1400px` -> `max-width: 1280px`
+
 ## [2026-05-27] - WPBakery Element: eMathSmart Unified Plan Card
 
 ### Added
