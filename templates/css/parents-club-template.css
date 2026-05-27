@@ -90,3 +90,17 @@ body.page-template-parents-club-template .page-content {
     margin-left: auto !important;
     margin-right: auto !important;
 }
+
+/* Apply custom widths on tablet and desktop screens */
+@media (min-width: 768px) {
+    .col-exact-4 { 
+        width: 33.33333333% !important; 
+    }
+    .col-exact-3-5 { 
+        width: 29.16666667% !important; 
+    }
+    .col-exact-4-5 { 
+        width: 37.50000000% !important; 
+    }
+}
+

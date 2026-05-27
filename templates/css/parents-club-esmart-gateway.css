@@ -3,9 +3,9 @@
     --esmart-blue: #0056b3;
     --text-dark: #333333;
     --text-muted: #666666;
-    --btn-orange: #f28538;
-    --btn-gradient: linear-gradient(135deg, #f59652 0%, #eb731f 100%);
-    --btn-gradient-hover: linear-gradient(135deg, #eb731f 0%, #d85c07 100%);
+    --btn-orange: #ff5a36;
+    --btn-gradient: #ff5a36;
+    --btn-gradient-hover: #e04a28;
     
     font-family: 'Inter', sans-serif;
     background-color: #fafafa;
@@ -65,7 +65,6 @@
     justify-content: center;
     gap: 8px;
     background: var(--btn-orange);
-    background-image: var(--btn-gradient);
     color: #ffffff !important;
     padding: 14px 28px;
     border-radius: 100px;
@@ -75,7 +74,7 @@
     text-decoration: none !important;
     text-transform: uppercase;
     letter-spacing: 0.03em;
-    box-shadow: 0 6px 18px rgba(242, 133, 55, 0.2);
+    box-shadow: 0 6px 18px rgba(255, 90, 54, 0.25);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     border: none;
     cursor: pointer;
@@ -85,9 +84,9 @@
 }
 
 .esmart-login-card .btn-esmart-login:hover {
-    background-image: var(--btn-gradient-hover);
+    background: var(--btn-gradient-hover);
     transform: translateY(-2px);
-    box-shadow: 0 10px 22px rgba(242, 133, 55, 0.3);
+    box-shadow: 0 10px 22px rgba(255, 90, 54, 0.35);
 }
 
 .esmart-login-card .btn-esmart-login svg {

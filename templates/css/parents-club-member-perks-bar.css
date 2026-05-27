@@ -1,131 +1,125 @@
 /**
- * Parents Club Redesign - Section 5 CSS
+ * Parents Club Redesign - Member Perks Bar CSS
  * File: parents-club-member-perks-bar.css
  * "What You Get as a Parents' Club Member" horizontal perks bar
+ * Scoped to .member-perks-card — works standalone and inside WPBakery rows.
  */
 
-#parents-club-section-5,
-#parents-club-section-5 * {
+:root {
+    --perks-brand-red: #af0128;
+    --perks-text-dark: #1a1a1a;
+    --perks-divider: #ddd5d0;
+}
+
+.member-perks-card,
+.member-perks-card * {
     box-sizing: border-box !important;
-    margin: 0;
-    padding: 0;
 }
 
-#parents-club-section-5 {
-    --brand-red: #af0128;
-    --brand-text-dark: #1a1a1a;
-    --brand-text-muted: #555555;
-    --divider-color: #ddd5d0;
-    --bg-card: #fdf6f3;
-
-    font-family: 'Inter', sans-serif;
-    color: var(--brand-text-dark);
-    background-color: #ffffff;
-    padding: 36px 0;
-    width: 100%;
-}
-
-#parents-club-section-5 .container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0 4%;
-}
-
-/* Contained card — background lives here, not on the section */
-#parents-club-section-5 .member-perks-card {
-    background-color: var(--bg-card);
+/* Card container */
+.member-perks-card {
+    background-color: #fdf6f3;
     border-radius: 16px;
     padding: 36px 32px 32px;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
 }
 
-/* Section Title */
-#parents-club-section-5 .member-perks-title {
-    font-family: 'Outfit', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--brand-text-dark);
-    text-align: center;
-    margin-bottom: 28px !important;
-    line-height: 1.3;
+/* Section title */
+.member-perks-card .member-perks-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: var(--perks-text-dark) !important;
+    text-align: center !important;
+    margin: 0 0 28px !important;
+    line-height: 1.3 !important;
 }
 
 @media (min-width: 768px) {
-    #parents-club-section-5 .member-perks-title {
-        font-size: 22px;
+    .member-perks-card .member-perks-title {
+        font-size: 22px !important;
         margin-bottom: 32px !important;
     }
 }
 
-/* Perks Grid — stacked on mobile, horizontal on desktop */
-#parents-club-section-5 .member-perks-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
+/* Perks grid — stacked on mobile, single row on desktop */
+.member-perks-card .member-perks-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 24px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
 }
 
 @media (min-width: 600px) {
-    #parents-club-section-5 .member-perks-grid {
-        flex-direction: row;
-        justify-content: center;
-        align-items: stretch;
-        gap: 0;
+    .member-perks-card .member-perks-grid {
+        flex-direction: row !important;
+        align-items: stretch !important;
+        gap: 0 !important;
     }
 }
 
-/* Individual Perk Item */
-#parents-club-section-5 .member-perk-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    text-align: center;
-    gap: 12px;
-    padding: 0 28px;
-    width: 100%;
+/* Individual perk */
+.member-perks-card .member-perk-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: center !important;
+    gap: 12px !important;
+    padding: 0 24px !important;
+    margin: 0 !important;
+    width: 100% !important;
 }
 
 @media (min-width: 600px) {
-    #parents-club-section-5 .member-perk-item {
-        flex: 1;
-        padding: 0 20px;
-        /* Vertical divider between items, skip first */
-        border-left: 1px solid var(--divider-color) !important;
+    .member-perks-card .member-perk-item {
+        flex: 1 1 0 !important;
+        width: auto !important;
+        border-left: 1px solid var(--perks-divider) !important;
     }
 
-    #parents-club-section-5 .member-perk-item:first-child {
+    .member-perks-card .member-perk-item:first-child {
         border-left: none !important;
     }
 }
 
-/* Icon wrapper */
-#parents-club-section-5 .member-perk-icon {
-    color: var(--brand-red);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+/* Icon */
+.member-perks-card .member-perk-icon {
+    color: var(--perks-brand-red);
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-#parents-club-section-5 .member-perk-icon svg {
-    width: 40px;
-    height: 40px;
-    stroke: currentColor;
-    fill: none;
+.member-perks-card .member-perk-icon svg {
+    width: 40px !important;
+    height: 40px !important;
+    stroke: currentColor !important;
+    fill: none !important;
+    display: block !important;
 }
 
-/* Perk label text */
-#parents-club-section-5 .member-perk-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--brand-text-dark);
-    line-height: 1.45;
-    text-align: center;
+/* Label */
+.member-perks-card .member-perk-label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: var(--perks-text-dark) !important;
+    line-height: 1.45 !important;
+    text-align: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 @media (min-width: 768px) {
-    #parents-club-section-5 .member-perk-label {
-        font-size: 13.5px;
+    .member-perks-card .member-perk-label {
+        font-size: 13.5px !important;
     }
 }
