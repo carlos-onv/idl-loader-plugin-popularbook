@@ -3677,7 +3677,7 @@ function idl_loader_parents_club_member_perks_shortcode( $atts ) {
 
     ob_start();
     ?>
-    <div class="member-perks-card" style="background-color: <?php echo $bg_color; ?>;">
+    <div class="member-perks-card">
         <h2 class="member-perks-title"><?php echo $section_title; ?></h2>
         <div class="member-perks-grid">
             <?php foreach ( $perks as $index => $perk ) :
