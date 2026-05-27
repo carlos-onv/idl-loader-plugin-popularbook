@@ -3420,5 +3420,11 @@ function idl_loader_parents_club_template_styles() {
         wp_enqueue_style( 'parents-club-hero-benefits', plugins_url( 'templates/css/parents-club-hero-benefits.css', __FILE__ ) );
         wp_enqueue_style( 'parents-club-section-1', plugins_url( 'templates/css/section-1.css', __FILE__ ) );
         wp_enqueue_style( 'parents-club-section-2', plugins_url( 'templates/css/section-2.css', __FILE__ ) );
+        wp_enqueue_style( 'parents-club-plans-section', plugins_url( 'templates/css/parents-club-plans-section.css', __FILE__ ) );
+        wp_enqueue_style( 'parents-club-plans-base', plugins_url( 'templates/css/parents-club-plans-base.css', __FILE__ ) );
+        wp_enqueue_style( 'parents-club-plan-digital', plugins_url( 'templates/css/parents-club-plan-digital.css', __FILE__ ) );
+        wp_enqueue_style( 'parents-club-plan-monthly', plugins_url( 'templates/css/parents-club-plan-monthly.css', __FILE__ ) );
+        wp_enqueue_style( 'parents-club-plan-annual', plugins_url( 'templates/css/parents-club-plan-annual.css', __FILE__ ) );
+        wp_enqueue_style( 'parents-club-plan-not-ready', plugins_url( 'templates/css/parents-club-plan-not-ready.css', __FILE__ ) );
     }
 }

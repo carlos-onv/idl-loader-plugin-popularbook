@@ -1,0 +1,62 @@
+/**
+ * Parents Club Redesign - Card 3 (Annual Plan) CSS
+ * File: parents-club-plan-annual.css
+ */
+
+.plan-annual {
+    border: 2px solid #ff5a36;
+}
+
+.plan-annual .plan-title {
+    color: #ff5a36;
+}
+
+.plan-annual .plan-price {
+    color: #0f172a;
+}
+
+/* BEST VALUE Badge */
+.plan-annual .best-value-badge {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff5a36;
+    color: #ffffff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(255, 90, 54, 0.25);
+    letter-spacing: 0.8px;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+/* Capsule badge override */
+.plan-annual .plan-badge {
+    color: #ff5a36;
+    border: 1px solid #ff5a36;
+    background-color: rgba(255, 90, 54, 0.04);
+}
+
+/* List check icons color */
+.plan-annual .plan-item-icon svg {
+    stroke: #ff5a36;
+    stroke-width: 2.8;
+}
+
+/* Outline Button style */
+.plan-annual .plan-btn {
+    border-color: #ff5a36;
+    color: #ff5a36;
+    background-color: transparent;
+}
+
+.plan-annual .plan-btn:hover {
+    background-color: #ff5a36;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(255, 90, 54, 0.3);
+}

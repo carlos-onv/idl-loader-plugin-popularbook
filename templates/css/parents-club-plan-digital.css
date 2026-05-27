@@ -1,0 +1,103 @@
+/**
+ * Parents Club Redesign - Card 1 (Digital Learning Program) CSS
+ * File: parents-club-plan-digital.css
+ */
+
+.plan-digital {
+    border-color: #e2e8f0;
+}
+
+/* Styled text logo */
+.plan-digital .digital-logo-row {
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.plan-digital .digital-text-logo {
+    font-family: 'Outfit', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.plan-digital .digital-text-logo .letter-e {
+    color: #0056b3;
+}
+
+.plan-digital .digital-text-logo .word-math {
+    color: #0066ff;
+}
+
+.plan-digital .digital-text-logo .word-smart {
+    color: #ff3366;
+}
+
+.plan-digital .digital-text-logo .letter-i {
+    font-size: 10px;
+    font-weight: 600;
+    vertical-align: super;
+    margin-left: 2px;
+    color: #64748b;
+}
+
+.plan-digital .plan-title {
+    color: #1e293b;
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+/* Capsule badge override */
+.plan-digital .plan-badge {
+    color: #0066ff;
+    border: 1px solid #0066ff;
+    background-color: rgba(0, 102, 255, 0.04);
+}
+
+/* List check icons color */
+.plan-digital .plan-item-icon svg {
+    stroke: #0066ff;
+    stroke-width: 2.5;
+}
+
+/* Bottom Graphic style */
+.plan-digital .plan-graphic-container {
+    width: 100%;
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-top: 15px;
+    overflow: visible;
+}
+
+.plan-digital .plan-graphic-container img {
+    max-width: 85%;
+    height: auto;
+    object-fit: contain;
+    transition: all 0.5s ease;
+    animation: floatAnimation 6s ease-in-out infinite;
+}
+
+.plan-digital:hover .plan-graphic-container img {
+    transform: scale(1.05);
+}
+
+@keyframes floatAnimation {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}

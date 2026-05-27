@@ -1,0 +1,51 @@
+/**
+ * Parents Club Redesign - Section 4 Plans Layout CSS
+ * File: parents-club-plans-section.css
+ */
+
+#parents-club-section-4,
+#parents-club-section-4 * {
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
+}
+
+#parents-club-section-4 {
+    --brand-text-dark: #1e293b;
+    --brand-text-muted: #64748b;
+    --border-light: #f1f5f9;
+    --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
+    --shadow-hover: 0 20px 40px -15px rgba(0, 0, 0, 0.12), 0 4px 6px rgba(0, 0, 0, 0.04);
+    
+    font-family: 'Inter', sans-serif;
+    color: var(--brand-text-dark);
+    background-color: #ffffff;
+    padding: 40px 0 80px 0;
+    width: 100%;
+}
+
+#parents-club-section-4 .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 4%;
+}
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .plans-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1200px) {
+    .plans-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+}

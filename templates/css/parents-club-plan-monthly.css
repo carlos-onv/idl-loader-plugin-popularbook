@@ -1,0 +1,42 @@
+/**
+ * Parents Club Redesign - Card 2 (Monthly Plan) CSS
+ * File: parents-club-plan-monthly.css
+ */
+
+.plan-monthly {
+    border-color: #cbd5e1;
+}
+
+.plan-monthly .plan-title {
+    color: #0056b3;
+}
+
+.plan-monthly .plan-price {
+    color: #0f172a;
+}
+
+/* Capsule badge override */
+.plan-monthly .plan-badge {
+    color: #0056b3;
+    border: 1px solid #0056b3;
+    background-color: rgba(0, 86, 179, 0.04);
+}
+
+/* List check icons color */
+.plan-monthly .plan-item-icon svg {
+    stroke: #0056b3;
+    stroke-width: 2.8;
+}
+
+/* Outline Button style */
+.plan-monthly .plan-btn {
+    border-color: #0056b3;
+    color: #0056b3;
+    background-color: transparent;
+}
+
+.plan-monthly .plan-btn:hover {
+    background-color: #0056b3;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 86, 179, 0.3);
+}

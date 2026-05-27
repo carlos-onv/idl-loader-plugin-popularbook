@@ -1,0 +1,121 @@
+/**
+ * Parents Club Redesign - Plans Base Card CSS
+ * File: parents-club-plans-base.css
+ * Shared styles for the 3 first plan cards
+ */
+
+.plan-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 35px 24px 30px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-shadow: var(--shadow-premium);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 100%;
+    min-height: 520px;
+}
+
+.plan-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Common Header Styles */
+.plan-card .plan-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.plan-card .plan-price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 38px;
+    font-weight: 800;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    letter-spacing: -1px;
+}
+
+.plan-card .plan-period {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin-left: 4px;
+    letter-spacing: 0;
+}
+
+/* Badge / Capsule */
+.plan-card .plan-badge {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: 100px;
+    margin-bottom: 30px;
+    display: inline-block;
+    text-align: center;
+    line-height: 1;
+}
+
+/* Feature List */
+.plan-card .plan-list {
+    list-style-type: none;
+    width: 100%;
+    padding: 0;
+    margin: 0 0 35px 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.plan-card .plan-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13.5px;
+    line-height: 1.4;
+    color: var(--brand-text-dark);
+    font-weight: 500;
+    text-align: left;
+}
+
+.plan-card .plan-item-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+}
+
+.plan-card .plan-item-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Common Button Style */
+.plan-card .plan-btn {
+    width: 100%;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 20px;
+    border-radius: 100px;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-top: auto;
+    letter-spacing: 0.5px;
+}

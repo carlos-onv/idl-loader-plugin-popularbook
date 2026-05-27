@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-27] - Parents Club Plans Section & Premium Styling
+
+### Added
+- **Plans Section HTML Markup**: Implemented `#parents-club-section-4` section inside `templates/parents-club.html` right below the onboarding step components, containing 4 structured plan cards: eMathSmart Digital Learning Program (Card 1), Monthly Plan (Card 2), Annual Plan (Card 3), and "Not ready for eMathSmart?" (Card 4).
+- **Extremely Modular CSS Styling**: Designed a highly decoupled CSS system to separate layout geometry from dynamic card variations:
+  - `parents-club-plans-section.css`: Manages grid layout columns, gap rules, and responsive media queries.
+  - `parents-club-plans-base.css`: Shared properties (geometry, borders, padding, typographies, checklists, outline buttons) for the 3 first plan cards.
+  - `parents-club-plan-digital.css`: Custom overrides for Card 1 (Grade Level badge, styled text logo, unique vector icons, bottom tablet graphic containment and floating animation).
+  - `parents-club-plan-monthly.css`: Custom overrides for Card 2 (blue colors, blue-bordered badges, checkmarks, and outline button hover states).
+  - `parents-club-plan-annual.css`: Custom overrides for Card 3 (orange colors, highlighted orange border, orange-bordered badges, orange checkmarks, outline button hover states, and absolute center positioning of the **BEST VALUE** banner).
+  - `parents-club-plan-not-ready.css`: Specialized styling for Card 4 (light-grey background, dashed boundary border, centered typographies, and books illustration floating animation).
+- **High-Fidelity Illustration Renders**: Generated and integrated premium, modern 3D renders matching the playful child-portal aesthetics of eMathSmart:
+  - `emathsmart-tablet-illustration.png`: tablet showing progress charts, fresh red apple, and colorful pencil holder.
+  - `parents-club-bag-books-illustration.png`: red Canadian shopping bag, fresh apple, and stack of colorful books.
+- **Native WordPress Asset Loader**: Registered and enqueued the 6 new modular stylesheets in `idl_loader_parents_club_template_styles()` inside the plugin's `functions.php` to run seamlessly inside active WordPress theme layouts.
+
+### Technical Notes for AI Agents
+- **Section ID**: `#parents-club-section-4` with grid class `.plans-grid`.
+- **Card Modular classes**: `.plan-card` (base shared style), `.plan-digital` (Card 1), `.plan-monthly` (Card 2), `.plan-annual` (Card 3), and `.plan-not-ready` (Card 4).
+- **WordPress script handles**: Enqueued conditional to the Parents Club page inside `wp_enqueue_scripts` action hooks.
+
 ## [2026-05-26] - WPBakery Element: eMathSmart Gateway Login Card
 
 ### Added
