@@ -1667,7 +1667,7 @@ function idl_loader_register_parents_club_elements() {
                 "type"        => "colorpicker",
                 "heading"     => esc_html__( "Card Background Colour", "book-junky" ),
                 "param_name"  => "bg_color",
-                "value"       => "#fdf6f3",
+                "value"       => "#fdf9fb",
                 "description" => esc_html__( "Fill colour of the contained perks card. Default is the warm cream from the design.", "book-junky" ),
                 "group"       => esc_html__( "Appearance", "book-junky" ),
             ),
@@ -3601,7 +3601,7 @@ function idl_loader_parents_club_member_perks_shortcode( $atts ) {
         'perk5_line1'   => 'Contests, Giveaways',
         'perk5_line2'   => '& More!',
         'perk5_icon'    => 'gift',
-        'bg_color'      => '#fdf6f3',
+        'bg_color'      => '#fdf9fb',
         'icon_color'    => '#af0128',
     ), $atts );
 
@@ -3677,7 +3677,7 @@ function idl_loader_parents_club_member_perks_shortcode( $atts ) {
 
     ob_start();
     ?>
-    <div class="member-perks-card">
+    <div class="member-perks-card" style="background-color: <?php echo $bg_color; ?>;">
         <h2 class="member-perks-title"><?php echo $section_title; ?></h2>
         <div class="member-perks-grid">
             <?php foreach ( $perks as $index => $perk ) :
