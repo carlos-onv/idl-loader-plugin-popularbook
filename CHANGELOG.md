@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file for both hum
   - `min-width: 1400px` -> `max-width: 1360px` (Expanded to fit wider desktop screen geometry)
   - `min-width: 1440px` -> `max-width: 1400px` (Ultra-wide desktop screen optimization)
 - **Custom Column Widths**: Appended custom column sizing rules (`.col-exact-4`, `.col-exact-3-5`, `.col-exact-4-5`) to apply optimized, pixel-perfect column splits on tablet and desktop screens (`min-width: 768px`).
+- **Brand Logo Sizing**: Increased `.brand-column .brand-logo-wrapper` `max-width` to **`395px`** inside `parents-club-hero-brand.css` for enhanced visual layout spacing.
 
 ## [2026-05-27] - WPBakery Element: eMathSmart Unified Plan Card
 
