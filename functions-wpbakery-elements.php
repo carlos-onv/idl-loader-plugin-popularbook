@@ -2110,6 +2110,14 @@ function idl_loader_register_parents_club_elements() {
                     ),
                 )
             ),
+            array(
+                "type"        => "colorpicker",
+                "heading"     => esc_html__( "Card Background Colour", "book-junky" ),
+                "param_name"  => "bg_color",
+                "value"       => "#fdf9fb",
+                "description" => esc_html__( "Fill colour of the contained Need Help card. Default is #fdf9fb.", "book-junky" ),
+                "group"       => esc_html__( "Appearance", "book-junky" ),
+            ),
         )
     ) );
 }
@@ -3750,10 +3758,12 @@ function idl_loader_parents_club_need_help_shortcode( $atts ) {
         'subtitle'     => 'Our team is here to support you!',
         'illustration' => '',
         'contacts'     => '',
+        'bg_color'     => '#fdf9fb',
     ), $atts );
 
     $title    = esc_html( $attributes['title'] );
     $subtitle = esc_html( $attributes['subtitle'] );
+    $bg_color = esc_attr( $attributes['bg_color'] );
 
     // Enqueue the modular stylesheet
     wp_enqueue_style( 'parents-club-need-help', plugins_url( 'templates/css/parents-club-need-help.css', __FILE__ ) );
@@ -3852,7 +3862,7 @@ function idl_loader_parents_club_need_help_shortcode( $atts ) {
     ob_start();
     ?>
     <div id="parents-club-section-6">
-        <div class="need-help-panel">
+        <div class="need-help-panel" style="background-color: <?php echo $bg_color; ?>;">
             <div class="need-help-body">
                 <?php if ( ! empty( $title ) ) : ?>
                     <h3 class="need-help-title"><?php echo $title; ?></h3>
