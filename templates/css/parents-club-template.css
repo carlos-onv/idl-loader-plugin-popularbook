@@ -53,9 +53,15 @@ body.page-template-parents-club-template .container {
 }
 @media (min-width: 1400px) {
     body.page-template-parents-club-template .container {
-        max-width: 1280px !important;
+        max-width: 1360px !important;
     }
 }
+@media (min-width: 1480px) {
+    body.page-template-parents-club-template .container {
+        max-width: 1400px !important;
+    }
+}
+
 
 
 /* Remove default main section paddings */

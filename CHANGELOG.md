@@ -11,7 +11,8 @@ All notable changes to this project will be documented in this file for both hum
   - `min-width: 768px` -> `max-width: 720px`
   - `min-width: 992px` -> `max-width: 960px`
   - `min-width: 1200px` -> `max-width: 1170px`
-  - `min-width: 1400px` -> `max-width: 1280px`
+  - `min-width: 1400px` -> `max-width: 1360px` (Expanded to fit wider desktop screen geometry)
+  - `min-width: 1480px` -> `max-width: 1400px` (Ultra-wide desktop screen optimization)
 
 ## [2026-05-27] - WPBakery Element: eMathSmart Unified Plan Card
 
