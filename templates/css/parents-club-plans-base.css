@@ -93,7 +93,7 @@
     list-style-type: none !important;
     width: 100% !important;
     padding: 0 !important;
-    margin: 0 0 35px 0 !important;
+    margin: 0 !important;
     flex-grow: 1 !important;
     display: flex !important;
     flex-direction: column !important;
