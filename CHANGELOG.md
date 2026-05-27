@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-27] - eMathSmart Outbound Webhook Fields Alignment
+
+### Changed
+- **Reverted Webhook Field Names (API #5 and API #6):** In [functions-esmart.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-esmart.php), reverted `parentClubParentId` -> `parentId` (Type 1 and Type 2) and `parentClubSubscriptionId` -> `subscribeId` (Type 1) inside `process_subscription_custom()`. This makes outbound webhook payloads 100% compliant with the newly proposed `v1.4` API specification.
+
+### Technical Notes for AI Agents
+- **Validation Status:** A diagnostic execution of `process_subscription_custom()` confirms that the outgoing webhook payload correctly transmits `parentId` and `subscribeId`. The test server currently responds with `parentClubParentId is required` (Code 400), confirming that the local plugin is successfully sending the new field names, and the remote eMathSmart server is awaiting our confirmation email to deploy their matching field updates.
+
 ## [2026-05-27] - Section 6 FAQ and Need Help Redesign
 
 ### Changed
