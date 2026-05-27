@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-27] - WPBakery Element: Parents Club Need Help Panel
+
+### Added
+- **New Modular WPBakery Element `[parents_club_need_help]`** registered inside `idl_loader_register_parents_club_elements()` in `functions-wpbakery-elements.php`.
+  - Parameters include: Panel Title, Panel Subtitle, and Panel Top Illustration image selector (`attach_image`).
+  - **Dynamic Repeatable Contacts List (`param_group`)**: Completely equips administrators to dynamically add, edit, reorder, and remove contact rows visually from the admin builder.
+  - Fully supports selecting/uploading a custom contact icon or SVG image (`attach_image`), leveraging standard Font Awesome or Linecons picker libraries, or fallback outline SVG designs (Email, Phone, Clock/Hours).
+  - Integrates `link` parameter to programmatically wrap values in anchor links (e.g. `mailto:` or `tel:` scopes).
+- **Shortcode Renderer `idl_loader_parents_club_need_help_shortcode()`** registered via `add_shortcode()`:
+  - Conditionally enqueues `templates/css/parents-club-need-help.css` using `wp_enqueue_style()`.
+  - Resolves standard illustration fallbacks (`templates/images/books-pencils.png`).
+  - Scopes output under `#parents-club-section-6` to guarantee that all premium CSS styling applies accurately.
+- **`WPBakeryShortCode_parents_club_need_help`** class added to WPBakery backend class binder.
+
+### Technical Notes for AI Agents
+- **Shortcode Handle**: `parents_club_need_help`
+- **Class Identifier**: `WPBakeryShortCode_parents_club_need_help`
+- **Asset Fallback**: `/wp-content/plugins/idl-loader/templates/images/books-pencils.png`
+
 ## [2026-05-27] - eMathSmart Outbound Webhook Fields Alignment & SSO Logout Fix
 
 ### Changed

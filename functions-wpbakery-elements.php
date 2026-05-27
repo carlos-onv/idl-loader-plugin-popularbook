@@ -1950,6 +1950,168 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
+
+    // Register [parents_club_need_help] Element
+    vc_map( array(
+        "name"        => esc_html__( "Parents Club Need Help", "book-junky" ),
+        "base"        => "parents_club_need_help",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Need Help contact panel with custom modular icons and list items.", "book-junky" ),
+        "params"      => array(
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Panel Title", "book-junky" ),
+                "param_name"  => "title",
+                "value"       => esc_html__( "Need Help?", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Panel Subtitle", "book-junky" ),
+                "param_name"  => "subtitle",
+                "value"       => esc_html__( "Our team is here to support you!", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Panel Top Illustration", "book-junky" ),
+                "param_name"  => "illustration",
+                "description" => esc_html__( "Select an image for the top illustration. Defaults to books-pencils.png if left blank.", "book-junky" ),
+            ),
+            // Repeatable Contacts param_group
+            array(
+                "type"        => "param_group",
+                "heading"     => esc_html__( "Contacts List", "book-junky" ),
+                "param_name"  => "contacts",
+                "description" => esc_html__( "Dynamically add, edit, reorder, and delete contact rows.", "book-junky" ),
+                "value"       => urlencode( json_encode( array(
+                    array(
+                        'label'           => 'Email Us',
+                        'value'           => 'e-info@popularworld.com',
+                        'link'            => 'mailto:e-info@popularworld.com',
+                        'icon_source'     => 'brand',
+                        'brand_icon_type' => 'email',
+                    ),
+                    array(
+                        'label'           => 'Call Us',
+                        'value'           => '905-731-9827',
+                        'link'            => 'tel:9057319827',
+                        'icon_source'     => 'brand',
+                        'brand_icon_type' => 'phone',
+                    ),
+                    array(
+                        'label'           => '',
+                        'value'           => 'Mon–Fri: 9am – 4:30pm EST',
+                        'link'            => '',
+                        'icon_source'     => 'brand',
+                        'brand_icon_type' => 'clock',
+                    ),
+                ) ) ),
+                "params"      => array(
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Contact Label", "book-junky" ),
+                        "param_name"  => "label",
+                        "admin_label" => true,
+                        "description" => esc_html__( "e.g. Email Us or Call Us (can be left blank for hours).", "book-junky" ),
+                    ),
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Contact Value", "book-junky" ),
+                        "param_name"  => "value",
+                        "admin_label" => true,
+                        "description" => esc_html__( "e.g. e-info@popularworld.com or Mon-Fri: 9am - 4:30pm EST.", "book-junky" ),
+                    ),
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Contact Link / Action", "book-junky" ),
+                        "param_name"  => "link",
+                        "description" => esc_html__( "Optional URL or action link (e.g. mailto:e-info@popularworld.com or tel:9057319827).", "book-junky" ),
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Source Type", "book-junky" ),
+                        "param_name"  => "icon_source",
+                        "value"       => array(
+                            esc_html__( "Predefined Brand Outline SVG", "book-junky" ) => "brand",
+                            esc_html__( "WPBakery Icon Picker Library", "book-junky" )  => "library",
+                            esc_html__( "Custom Image / SVG Upload", "book-junky" )   => "custom",
+                        ),
+                        "std"         => "brand",
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Predefined Brand Outline SVG", "book-junky" ),
+                        "param_name"  => "brand_icon_type",
+                        "value"       => array(
+                            esc_html__( "Email Icon", "book-junky" ) => "email",
+                            esc_html__( "Phone Icon", "book-junky" ) => "phone",
+                            esc_html__( "Clock / Hours Icon", "book-junky" ) => "clock",
+                        ),
+                        "std"         => "email",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "brand" )
+                        )
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Library", "book-junky" ),
+                        "param_name"  => "icon_library",
+                        "value"       => array(
+                            esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                            esc_html__( "Linecons", "book-junky" )     => "linecons",
+                        ),
+                        "std"         => "fontawesome",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "library" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Font Awesome Icon Selection", "book-junky" ),
+                        "param_name"  => "icon_fontawesome",
+                        "value"       => "fa fa-envelope-o",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "fontawesome" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Linecons Icon Selection", "book-junky" ),
+                        "param_name"  => "icon_linecons",
+                        "value"       => "vc_li vc_li-mail",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "type"         => "linecons",
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "linecons" )
+                        )
+                    ),
+                    array(
+                        "type"        => "attach_image",
+                        "heading"     => esc_html__( "Custom Icon SVG/Image", "book-junky" ),
+                        "param_name"  => "custom_icon",
+                        "description" => esc_html__( "Upload an SVG file or image to use as custom contact icon.", "book-junky" ),
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "custom" )
+                        )
+                    ),
+                )
+            ),
+        )
+    ) );
 }
 
 
@@ -3573,5 +3735,155 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     class WPBakeryShortCode_parents_club_member_perks extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for Member Perks Bar
     }
+
+    class WPBakeryShortCode_parents_club_need_help extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for Need Help Panel
+    }
+}
+
+// Register [parents_club_need_help] Shortcode
+add_shortcode( 'parents_club_need_help', 'idl_loader_parents_club_need_help_shortcode' );
+
+function idl_loader_parents_club_need_help_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'title'        => 'Need Help?',
+        'subtitle'     => 'Our team is here to support you!',
+        'illustration' => '',
+        'contacts'     => '',
+    ), $atts );
+
+    $title    = esc_html( $attributes['title'] );
+    $subtitle = esc_html( $attributes['subtitle'] );
+
+    // Enqueue the modular stylesheet
+    wp_enqueue_style( 'parents-club-need-help', plugins_url( 'templates/css/parents-club-need-help.css', __FILE__ ) );
+
+    // Illustration URL
+    $illustration_url = '';
+    if ( ! empty( $attributes['illustration'] ) ) {
+        if ( is_numeric( $attributes['illustration'] ) ) {
+            $illustration_url = wp_get_attachment_image_url( absint( $attributes['illustration'] ), 'full' );
+        } else {
+            $illustration_url = $attributes['illustration'];
+        }
+    }
+    if ( empty( $illustration_url ) ) {
+        $illustration_url = plugins_url( 'templates/images/books-pencils.png', __FILE__ );
+    }
+
+    // Helper closure to render dynamic icons matching custom source/library preferences
+    $render_icon = function( $source, $brand_type, $library, $fa_icon, $li_icon, $custom_icon_id ) {
+        if ( $source === 'custom' && ! empty( $custom_icon_id ) ) {
+            $custom_url = '';
+            if ( is_numeric( $custom_icon_id ) ) {
+                $img_src = wp_get_attachment_image_src( $custom_icon_id, 'thumbnail' );
+                if ( $img_src ) {
+                    $custom_url = $img_src[0];
+                }
+            } else {
+                $custom_url = $custom_icon_id;
+            }
+            if ( ! empty( $custom_url ) ) {
+                return '<img src="' . esc_url( $custom_url ) . '" alt="Contact Icon" style="width: 22px; height: 22px; display: block; object-fit: contain;">';
+            }
+        }
+
+        if ( $source === 'library' ) {
+            if ( $library === 'linecons' ) {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'linecons' );
+                }
+                $icon_class = ! empty( $li_icon ) ? esc_attr( $li_icon ) : 'vc_li vc_li-mail';
+                return '<i class="' . $icon_class . '" style="font-size: 20px; color: #af0128; display: inline-flex; align-items: center; justify-content: center; height: 22px; width: 22px;"></i>';
+            } else {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'fontawesome' );
+                }
+                $icon_class = ! empty( $fa_icon ) ? esc_attr( $fa_icon ) : 'fa fa-envelope-o';
+                return '<i class="' . $icon_class . '" style="font-size: 20px; color: #af0128; display: inline-flex; align-items: center; justify-content: center; height: 22px; width: 22px;"></i>';
+            }
+        }
+
+        switch ( $brand_type ) {
+            case 'phone':
+                return '<svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6 6l1.27-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>';
+            case 'clock':
+                return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
+            case 'email':
+            default:
+                return '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="2,4 12,13 22,4"></polyline></svg>';
+        }
+    };
+
+    // Parse dynamic repeatable contacts from param_group
+    $contacts_data = array();
+    if ( ! empty( $attributes['contacts'] ) ) {
+        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+            $contacts_data = vc_param_group_parse_atts( $attributes['contacts'] );
+        } else {
+            $contacts_data = json_decode( urldecode( $attributes['contacts'] ), true );
+        }
+    }
+
+    $active_contacts = array();
+    if ( is_array( $contacts_data ) ) {
+        foreach ( $contacts_data as $contact ) {
+            $value = isset( $contact['value'] ) ? $contact['value'] : '';
+            if ( ! empty( $value ) ) {
+                $label           = isset( $contact['label'] ) ? $contact['label'] : '';
+                $link            = isset( $contact['link'] ) ? $contact['link'] : '';
+                $icon_source     = isset( $contact['icon_source'] ) ? $contact['icon_source'] : 'brand';
+                $brand_icon_type = isset( $contact['brand_icon_type'] ) ? $contact['brand_icon_type'] : 'email';
+                $icon_library    = isset( $contact['icon_library'] ) ? $contact['icon_library'] : 'fontawesome';
+                $fa_icon         = isset( $contact['icon_fontawesome'] ) ? $contact['icon_fontawesome'] : '';
+                $li_icon         = isset( $contact['icon_linecons'] ) ? $contact['icon_linecons'] : '';
+                $custom_icon     = isset( $contact['custom_icon'] ) ? $contact['custom_icon'] : '';
+
+                $active_contacts[] = array(
+                    'label' => esc_html( $label ),
+                    'value' => esc_html( $value ),
+                    'link'  => esc_url( $link ),
+                    'icon'  => $render_icon( $icon_source, $brand_icon_type, $icon_library, $fa_icon, $li_icon, $custom_icon )
+                );
+            }
+        }
+    }
+
+    ob_start();
+    ?>
+    <div id="parents-club-section-6">
+        <div class="need-help-panel">
+            <img src="<?php echo esc_url( $illustration_url ); ?>" alt="" class="need-help-illustration" aria-hidden="true">
+            <?php if ( ! empty( $title ) ) : ?>
+                <h3 class="need-help-title"><?php echo $title; ?></h3>
+            <?php endif; ?>
+            <?php if ( ! empty( $subtitle ) ) : ?>
+                <p class="need-help-subtitle"><?php echo $subtitle; ?></p>
+            <?php endif; ?>
+            <div class="need-help-contacts">
+                <?php foreach ( $active_contacts as $contact ) : ?>
+                    <div class="contact-row">
+                        <div class="contact-icon">
+                            <?php echo $contact['icon']; ?>
+                        </div>
+                        <div class="contact-info">
+                            <?php if ( ! empty( $contact['label'] ) ) : ?>
+                                <span class="contact-label"><?php echo $contact['label']; ?></span>
+                            <?php endif; ?>
+                            <span class="contact-value">
+                                <?php if ( ! empty( $contact['link'] ) ) : ?>
+                                    <a href="<?php echo $contact['link']; ?>"><?php echo $contact['value']; ?></a>
+                                <?php else : ?>
+                                    <?php echo $contact['value']; ?>
+                                <?php endif; ?>
+                            </span>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div><!-- /.need-help-contacts -->
+        </div><!-- /.need-help-panel -->
+    </div><!-- /#parents-club-section-6 -->
+    <?php
+    return ob_get_clean();
 }
 
