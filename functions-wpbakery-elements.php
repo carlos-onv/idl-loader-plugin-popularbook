@@ -2741,118 +2741,115 @@ function idl_loader_parents_club_why_join_shortcode( $atts ) {
 
     ob_start();
     ?>
-    <section id="parents-club-section-2">
-        <div class="container">
-            <div class="feature-bar-wrapper">
-                <!-- Left Title Stack -->
-                <div class="bar-title-block">
-                    <h2><?php echo $section_title; ?></h2>
-                </div>
-                
-                <!-- Right Features Grid -->
-                <div class="bar-features-grid">
-                    <!-- Feature 1: Save More -->
-                    <?php if ( ! empty( $feat1_title ) ) : ?>
-                        <div class="feature-item">
-                            <div class="feature-icon-wrapper">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 11.5a1.5 1.5 0 0 1-.44 1.06l-7.56 7.56a2 2 0 0 1-2.83 0l-5.66-5.66a2 2 0 0 1 0-2.83l7.56-7.56A1.5 1.5 0 0 1 13.13 4H19.5A1.5 1.5 0 0 1 21 5.5v6z"></path>
-                                    <circle cx="16.5" cy="7.5" r="1.5" fill="currentColor"></circle>
-                                    <circle cx="11.5" cy="12.5" r="1"></circle>
-                                </svg>
-                            </div>
-                            <div class="feature-text-block">
-                                <span class="feature-title"><?php echo $feat1_title; ?></span>
-                                <span class="feature-desc"><?php echo $feat1_desc; ?></span>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <!-- Feature 2: Free Resources -->
-                    <?php if ( ! empty( $feat2_title ) ) : ?>
-                        <div class="feature-item">
-                            <div class="feature-icon-wrapper">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                                    <rect x="2" y="7" width="20" height="5"></rect>
-                                    <line x1="12" y1="22" x2="12" y2="7"></line>
-                                    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
-                                    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
-                                </svg>
-                            </div>
-                            <div class="feature-text-block">
-                                <span class="feature-title"><?php echo $feat2_title; ?></span>
-                                <span class="feature-desc"><?php echo $feat2_desc; ?></span>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <!-- Feature 3: Learning Support -->
-                    <?php if ( ! empty( $feat3_title ) ) : ?>
-                        <div class="feature-item">
-                            <div class="feature-icon-wrapper">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="8" r="5"></circle>
-                                    <path d="M3 20c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6"></path>
-                                    <circle cx="12" cy="8" r="1.5" fill="currentColor"></circle>
-                                </svg>
-                            </div>
-                            <div class="feature-text-block">
-                                <span class="feature-title"><?php echo $feat3_title; ?></span>
-                                <span class="feature-desc"><?php echo $feat3_desc; ?></span>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <!-- Feature 4: Special Perks -->
-                    <?php if ( ! empty( $feat4_title ) ) : ?>
-                        <div class="feature-item">
-                            <div class="feature-icon-wrapper">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                </svg>
-                            </div>
-                            <div class="feature-text-block">
-                                <span class="feature-title"><?php echo $feat4_title; ?></span>
-                                <span class="feature-desc"><?php echo $feat4_desc; ?></span>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <!-- Feature 5: Trusted Quality -->
-                    <?php if ( ! empty( $feat5_title ) ) : ?>
-                        <div class="feature-item">
-                            <div class="feature-icon-wrapper">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                                </svg>
-                            </div>
-                            <div class="feature-text-block">
-                                <span class="feature-title"><?php echo $feat5_title; ?></span>
-                                <span class="feature-desc"><?php echo $feat5_desc; ?></span>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <!-- Feature 6: eMathSmart Access -->
-                    <?php if ( ! empty( $feat6_title ) ) : ?>
-                        <div class="feature-item">
-                            <div class="feature-icon-wrapper">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-                                    <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
-                                </svg>
-                            </div>
-                            <div class="feature-text-block">
-                                <span class="feature-title"><?php echo $feat6_title; ?></span>
-                                <span class="feature-desc"><?php echo $feat6_desc; ?></span>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
+    <div class="feature-bar-wrapper">
+        <!-- Left Title Stack -->
+        <div class="bar-title-block">
+            <h2><?php echo $section_title; ?></h2>
         </div>
-    </section>
+        
+        <!-- Right Features Grid -->
+        <div class="bar-features-grid">
+            <!-- Feature 1: Save More -->
+            <?php if ( ! empty( $feat1_title ) ) : ?>
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 11.5a1.5 1.5 0 0 1-.44 1.06l-7.56 7.56a2 2 0 0 1-2.83 0l-5.66-5.66a2 2 0 0 1 0-2.83l7.56-7.56A1.5 1.5 0 0 1 13.13 4H19.5A1.5 1.5 0 0 1 21 5.5v6z"></path>
+                            <circle cx="16.5" cy="7.5" r="1.5" fill="currentColor"></circle>
+                            <circle cx="11.5" cy="12.5" r="1"></circle>
+                        </svg>
+                    </div>
+                    <div class="feature-text-block">
+                        <span class="feature-title"><?php echo $feat1_title; ?></span>
+                        <span class="feature-desc"><?php echo $feat1_desc; ?></span>
+                    </div>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Feature 2: Free Resources -->
+            <?php if ( ! empty( $feat2_title ) ) : ?>
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                            <rect x="2" y="7" width="20" height="5"></rect>
+                            <line x1="12" y1="22" x2="12" y2="7"></line>
+                            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                        </svg>
+                    </div>
+                    <div class="feature-text-block">
+                        <span class="feature-title"><?php echo $feat2_title; ?></span>
+                        <span class="feature-desc"><?php echo $feat2_desc; ?></span>
+                    </div>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Feature 3: Learning Support -->
+            <?php if ( ! empty( $feat3_title ) ) : ?>
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="8" r="5"></circle>
+                            <path d="M3 20c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6"></path>
+                            <circle cx="12" cy="8" r="1.5" fill="currentColor"></circle>
+                        </svg>
+                    </div>
+                    <div class="feature-text-block">
+                        <span class="feature-title"><?php echo $feat3_title; ?></span>
+                        <span class="feature-desc"><?php echo $feat3_desc; ?></span>
+                    </div>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Feature 4: Special Perks -->
+            <?php if ( ! empty( $feat4_title ) ) : ?>
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                    <div class="feature-text-block">
+                        <span class="feature-title"><?php echo $feat4_title; ?></span>
+                        <span class="feature-desc"><?php echo $feat4_desc; ?></span>
+                    </div>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Feature 5: Trusted Quality -->
+            <?php if ( ! empty( $feat5_title ) ) : ?>
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <div class="feature-text-block">
+                        <span class="feature-title"><?php echo $feat5_title; ?></span>
+                        <span class="feature-desc"><?php echo $feat5_desc; ?></span>
+                    </div>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Feature 6: eMathSmart Access -->
+            <?php if ( ! empty( $feat6_title ) ) : ?>
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                            <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+                        </svg>
+                    </div>
+                    <div class="feature-text-block">
+                        <span class="feature-title"><?php echo $feat6_title; ?></span>
+                        <span class="feature-desc"><?php echo $feat6_desc; ?></span>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
     <?php
     return ob_get_clean();
 }
