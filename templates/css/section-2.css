@@ -4,14 +4,7 @@
  * Focuses on the "Why Join Parents' Club?" Horizontal Features Bar
  */
 
-#parents-club-section-2,
-#parents-club-section-2 * {
-    box-sizing: border-box !important;
-    margin: 0;
-    padding: 0;
-}
-
-#parents-club-section-2 {
+.feature-bar-wrapper {
     --brand-red: #af0128;
     --brand-text-dark: #333333;
     --brand-text-muted: #666666;
@@ -21,19 +14,6 @@
     
     font-family: 'Inter', sans-serif;
     color: var(--brand-text-dark);
-    background-color: #ffffff;
-    padding: 20px 0 50px 0; /* Positioned nicely under Section 1 */
-    width: 100%;
-}
-
-#parents-club-section-2 .container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0 4%;
-}
-
-/* Feature Bar Wrap */
-#parents-club-section-2 .feature-bar-wrapper {
     background-color: #fafafa !important;
     border: 1px solid #e5e7eb !important;
     border-radius: 16px;
@@ -43,10 +23,18 @@
     flex-direction: column;
     gap: 30px;
     align-items: center;
+    box-sizing: border-box !important;
+    width: 100%;
+}
+
+.feature-bar-wrapper * {
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
 }
 
 @media (min-width: 992px) {
-    #parents-club-section-2 .feature-bar-wrapper {
+    .feature-bar-wrapper {
         flex-direction: row;
         gap: 0px;
         align-items: center;
@@ -55,13 +43,13 @@
 }
 
 /* Left Title block */
-#parents-club-section-2 .bar-title-block {
+.feature-bar-wrapper .bar-title-block {
     text-align: center;
     width: 100%;
     flex-shrink: 0;
 }
 
-#parents-club-section-2 .bar-title-block h2 {
+.feature-bar-wrapper .bar-title-block h2 {
     font-family: 'Outfit', sans-serif;
     font-size: 20px;
     font-weight: 800;
@@ -70,19 +58,19 @@
 }
 
 @media (min-width: 992px) {
-    #parents-club-section-2 .bar-title-block {
+    .feature-bar-wrapper .bar-title-block {
         width: 180px;
         text-align: left;
         padding-right: 20px;
     }
     
-    #parents-club-section-2 .bar-title-block h2 {
+    .feature-bar-wrapper .bar-title-block h2 {
         font-size: 21px;
     }
 }
 
 /* Features Grid */
-#parents-club-section-2 .bar-features-grid {
+.feature-bar-wrapper .bar-features-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 24px;
@@ -90,14 +78,14 @@
 }
 
 @media (min-width: 480px) and (max-width: 991px) {
-    #parents-club-section-2 .bar-features-grid {
+    .feature-bar-wrapper .bar-features-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 25px 20px;
     }
 }
 
 @media (min-width: 992px) {
-    #parents-club-section-2 .bar-features-grid {
+    .feature-bar-wrapper .bar-features-grid {
         grid-template-columns: repeat(6, 1fr);
         gap: 0;
         flex-grow: 1;
@@ -105,7 +93,7 @@
 }
 
 /* Feature Item */
-#parents-club-section-2 .feature-item {
+.feature-bar-wrapper .feature-item {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -115,7 +103,7 @@
 }
 
 @media (min-width: 992px) {
-    #parents-club-section-2 .feature-item {
+    .feature-bar-wrapper .feature-item {
         border-left: 1px solid #e5e7eb !important;
         padding-left: 20px;
         padding-right: 10px;
@@ -123,7 +111,7 @@
     }
 }
 
-#parents-club-section-2 .feature-icon-wrapper {
+.feature-bar-wrapper .feature-icon-wrapper {
     color: var(--brand-red);
     flex-shrink: 0;
     display: flex;
@@ -131,7 +119,7 @@
     justify-content: center;
 }
 
-#parents-club-section-2 .feature-icon-wrapper svg {
+.feature-bar-wrapper .feature-icon-wrapper svg {
     width: 32px;
     height: 32px;
     stroke: currentColor;
@@ -139,13 +127,13 @@
     fill: none;
 }
 
-#parents-club-section-2 .feature-text-block {
+.feature-bar-wrapper .feature-text-block {
     display: flex;
     flex-direction: column;
     line-height: 1.3;
 }
 
-#parents-club-section-2 .feature-title {
+.feature-bar-wrapper .feature-title {
     font-family: 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 800;
@@ -153,7 +141,7 @@
     margin-bottom: 3px;
 }
 
-#parents-club-section-2 .feature-desc {
+.feature-bar-wrapper .feature-desc {
     font-family: 'Inter', sans-serif;
     font-size: 10.5px;
     color: var(--brand-text-muted);
