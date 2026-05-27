@@ -1,121 +1,145 @@
 /**
  * Parents Club Redesign - Plans Base Card CSS
  * File: parents-club-plans-base.css
- * Shared styles for the 3 first plan cards
+ * Shared styles for the 3 first plan cards with strict theme insulation
  */
 
-.plan-card {
-    background-color: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 20px;
-    padding: 35px 24px 30px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    box-shadow: var(--shadow-premium);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    height: 100%;
-    min-height: 520px;
+.pc-plan-card {
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    padding: 35px 24px 30px 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    position: relative !important;
+    box-shadow: var(--shadow-premium) !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    height: auto !important;
+    min-height: 520px !important;
+    box-sizing: border-box !important;
 }
 
-.plan-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-hover);
+.pc-plan-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: var(--shadow-hover) !important;
+}
+
+/* Reset inner elements to prevent Porto theme absolute overrides */
+.pc-plan-card h3,
+.pc-plan-card div,
+.pc-plan-card span,
+.pc-plan-card ul,
+.pc-plan-card li,
+.pc-plan-card p,
+.pc-plan-card a {
+    position: static !important;
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
 }
 
 /* Common Header Styles */
-.plan-card .plan-title {
-    font-family: 'Outfit', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    text-align: center;
-    line-height: 1.2;
+.pc-plan-card .pc-plan-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    margin-bottom: 12px !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    display: block !important;
+    width: 100% !important;
+    text-transform: none !important;
 }
 
-.plan-card .plan-price {
-    font-family: 'Outfit', sans-serif;
-    font-size: 38px;
-    font-weight: 800;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    letter-spacing: -1px;
+.pc-plan-card .pc-plan-price {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 38px !important;
+    font-weight: 800 !important;
+    margin-bottom: 8px !important;
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: center !important;
+    letter-spacing: -1px !important;
+    width: 100% !important;
 }
 
-.plan-card .plan-period {
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    margin-left: 4px;
-    letter-spacing: 0;
+.pc-plan-card .pc-plan-period {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    margin-left: 4px !important;
+    letter-spacing: 0 !important;
+    color: var(--brand-text-muted) !important;
 }
 
 /* Badge / Capsule */
-.plan-card .plan-badge {
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 6px 18px;
-    border-radius: 100px;
-    margin-bottom: 30px;
-    display: inline-block;
-    text-align: center;
-    line-height: 1;
+.pc-plan-card .pc-plan-badge {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    padding: 6px 18px !important;
+    border-radius: 100px !important;
+    margin-bottom: 30px !important;
+    display: inline-block !important;
+    text-align: center !important;
+    line-height: 1 !important;
+    width: auto !important;
+    height: auto !important;
 }
 
 /* Feature List */
-.plan-card .plan-list {
-    list-style-type: none;
-    width: 100%;
-    padding: 0;
-    margin: 0 0 35px 0;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+.pc-plan-card .pc-plan-list {
+    list-style-type: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 0 35px 0 !important;
+    flex-grow: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
 }
 
-.plan-card .plan-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    font-size: 13.5px;
-    line-height: 1.4;
-    color: var(--brand-text-dark);
-    font-weight: 500;
-    text-align: left;
+.pc-plan-card .pc-plan-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    font-size: 13.5px !important;
+    line-height: 1.45 !important;
+    color: var(--brand-text-dark) !important;
+    font-weight: 500 !important;
+    text-align: left !important;
 }
 
-.plan-card .plan-item-icon {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1px;
+.pc-plan-card .pc-plan-item-icon {
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 1px !important;
 }
 
-.plan-card .plan-item-icon svg {
-    width: 18px;
-    height: 18px;
+.pc-plan-card .pc-plan-item-icon svg {
+    width: 18px !important;
+    height: 18px !important;
+    display: block !important;
 }
 
 /* Common Button Style */
-.plan-card .plan-btn {
-    width: 100%;
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 800;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 14px 20px;
-    border-radius: 100px;
-    text-align: center;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    margin-top: auto;
-    letter-spacing: 0.5px;
+.pc-plan-card .pc-plan-btn {
+    width: 100% !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+    padding: 14px 20px !important;
+    border-radius: 100px !important;
+    text-align: center !important;
+    border: 2px solid transparent !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    margin-top: auto !important;
+    letter-spacing: 0.5px !important;
+    display: block !important;
 }
