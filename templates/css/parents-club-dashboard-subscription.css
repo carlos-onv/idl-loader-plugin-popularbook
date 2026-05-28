@@ -346,3 +346,12 @@
     width: 16px !important;
     height: 16px !important;
 }
+
+/* Dashboard Right Column Container */
+.dashboard-right-col {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    width: 100% !important;
+}
+

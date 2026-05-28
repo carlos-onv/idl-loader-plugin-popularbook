@@ -3426,5 +3426,8 @@ function idl_loader_parents_club_template_styles() {
         wp_enqueue_style( 'parents-club-plan-monthly', plugins_url( 'templates/css/parents-club-plan-monthly.css', __FILE__ ) );
         wp_enqueue_style( 'parents-club-plan-annual', plugins_url( 'templates/css/parents-club-plan-annual.css', __FILE__ ) );
         wp_enqueue_style( 'parents-club-plan-not-ready', plugins_url( 'templates/css/parents-club-plan-not-ready.css', __FILE__ ) );
+        wp_enqueue_style( 'parents-club-dashboard-subscription', plugins_url( 'templates/css/parents-club-dashboard-subscription.css', __FILE__ ) );
+        wp_enqueue_style( 'parents-club-dashboard-coins', plugins_url( 'templates/css/parents-club-dashboard-coins.css', __FILE__ ) );
+        wp_enqueue_style( 'parents-club-dashboard-billing', plugins_url( 'templates/css/parents-club-dashboard-billing.css', __FILE__ ) );
     }
 }
