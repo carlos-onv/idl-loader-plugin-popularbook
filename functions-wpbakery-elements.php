@@ -2000,6 +2000,13 @@ function idl_loader_register_parents_club_elements() {
                 "admin_label" => true,
             ),
             array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "OR Enter Custom Product/Variation ID", "book-junky" ),
+                "param_name"  => "product_id_override",
+                "description" => esc_html__( "Optional. If your subscription is not in the dropdown, manually type the WooCommerce Product/Variation ID here. This takes precedence over the dropdown selection.", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
                 "type"        => "checkbox",
                 "heading"     => esc_html__( "Highlight Border", "book-junky" ),
                 "param_name"  => "highlighted_border",
@@ -4118,6 +4125,7 @@ add_shortcode( 'emathsmart_subscription_product_card', 'idl_loader_emathsmart_su
 function idl_loader_emathsmart_subscription_product_card_shortcode( $atts ) {
     $attributes = shortcode_atts( array(
         'product_id'          => '',
+        'product_id_override' => '',
         'highlighted_border'  => '',
         'best_value'          => '',
         'title'               => '',
@@ -4135,8 +4143,14 @@ function idl_loader_emathsmart_subscription_product_card_shortcode( $atts ) {
     wp_enqueue_style( 'parents-club-plan-annual', plugins_url( 'templates/css/parents-club-plan-annual.css', __FILE__ ) );
 
     // WooCommerce product selection & dynamic loading
-    $product_id = ! empty( $attributes['product_id'] ) ? absint( $attributes['product_id'] ) : 0;
-    $product    = null;
+    $product_id = 0;
+    if ( ! empty( $attributes['product_id_override'] ) ) {
+        $product_id = absint( $attributes['product_id_override'] );
+    } elseif ( ! empty( $attributes['product_id'] ) ) {
+        $product_id = absint( $attributes['product_id'] );
+    }
+    
+    $product = null;
     if ( $product_id && function_exists( 'wc_get_product' ) ) {
         $product = wc_get_product( $product_id );
     }

@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file for both hum
   - Added filter callback hooked into `woocommerce_subscriptions_product_trial_length` to override the trial length from 7 days to 14 days dynamically for eligible old Parents Club members.
 - **New Modular WPBakery Element `[emathsmart_subscription_product_card]`**:
   - Registered the custom element via `vc_map()` with a dynamic dropdown product selector that lists WooCommerce parent subscriptions and child subscription variations (`idl_loader_get_subscription_products()`).
+  - Added a `product_id_override` custom textfield parameter fallback so administrators can manually enter any WooCommerce Product/Variation ID directly, overriding the dropdown selector.
   - Equipped with highlight borders, "Best Value" visual capsules, customizable overrides (Title, Price, Period, Badge text, Button CTA text, and dynamic redirect target), and the WPBakery `param_group` for dynamic visual checklists.
 - **Shortcode Renderer & Class Binder**:
   - Registered shortcode handler `idl_loader_emathsmart_subscription_product_card_shortcode()`.
