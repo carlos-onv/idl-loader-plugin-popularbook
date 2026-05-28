@@ -469,67 +469,7 @@ while ( have_posts() ) : the_post();
             color: #ffffff !important;
         }
 
-        /* Interactive checkout wrapper */
-        #emathsmart-custom-coins-product .checkout-row {
-            text-align: center;
-            max-width: 600px;
-            margin: 10px auto 40px auto;
-        }
 
-        /* Orange Pill Button matching the Portal Buttons */
-        #emathsmart-custom-coins-product .action-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #ff3e1d;
-            background-image: linear-gradient(135deg, #ff5c38 0%, #ff3e1d 100%);
-            color: white !important;
-            padding: 16px 44px;
-            border-radius: 100px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 17px;
-            font-weight: 700;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(255, 62, 29, 0.25);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            width: 100%;
-            max-width: 320px;
-            line-height: 1.2;
-        }
-
-        #emathsmart-custom-coins-product .action-btn:hover {
-            background-color: #ff9500;
-            background-image: linear-gradient(135deg, #ffa61f 0%, #ff9500 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 149, 0, 0.35);
-        }
-
-        #emathsmart-custom-coins-product .action-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Sleek payment trust icons */
-        #emathsmart-custom-coins-product .payment-badges {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-top: 20px;
-            font-size: 13px;
-            color: var(--brand-text-muted);
-        }
-
-        #emathsmart-custom-coins-product .payment-badges svg {
-            height: 18px;
-            opacity: 0.65;
-            transition: opacity 0.3s ease;
-        }
-
-        #emathsmart-custom-coins-product .payment-badges svg:hover {
-            opacity: 0.9;
-        }
 
         /* eMathSmart-themed Product Description Box */
         #emathsmart-custom-coins-product .description-section {
@@ -729,25 +669,7 @@ while ( have_posts() ) : the_post();
                 </div>
             </div>
 
-            <!-- Checkout Action Buttons -->
-            <div class="checkout-row">
-                <div class="payment-badges">
-                    <!-- Inline SVG Icons for Credit Cards -->
-                    <svg viewBox="0 0 36 24" width="28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="36" height="24" rx="3" fill="#0A2540"/>
-                        <path d="M11.6 15.6l1.2-7.2H11l-1.2 7.2h1.8zm3.2 0l1-5.7.5.3c.4.3.9.5 1.5.5.9 0 1.6-.4 1.8-1.2.2-.8-.2-1.3-.9-1.3-.4 0-.8.1-1.1.3l.1-.8h-.8l-1.2 7.2h1.5zm6.8 0l1.2-7.2h-1.6l-.3 1.9c-.2-.3-.6-.6-1.1-.6-1 0-1.9.9-2.1 2-.2 1.1.4 2 1.4 2 .5 0 .9-.2 1.2-.5l-.1.8h1.6zm-15.5 0H7.7l.8-5h1.6l-.3 1.9c.2-.3.6-.6 1.1-.6 1 0 1.9.9-2.1 2-.2 1.1.4 2 1.4 2 .5 0 .9-.2 1.2-.5l-.1.8zm23.6-7.2h-1.7c-.5 0-.9.3-1.1.7l-2.4 5.2-.9-4.8c-.1-.7-.6-1.1-1.3-1.1H21l.1.5c1 .2 1.5.6 1.7 1.4l1.8 7.3h1.7l3-7.2z" fill="white"/>
-                    </svg>
-                    <svg viewBox="0 0 36 24" width="28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="36" height="24" rx="3" fill="#1A1919"/>
-                        <circle cx="15.5" cy="12" r="7" fill="#EB001B"/>
-                        <circle cx="20.5" cy="12" r="7" fill="#F79E1B" fill-opacity="0.8"/>
-                    </svg>
-                    <svg viewBox="0 0 36 24" width="28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="36" height="24" rx="3" fill="#003087"/>
-                        <path d="M12 9.2h2.8c1 0 1.7.2 2 .5.3.3.4.7.3 1.2-.1.8-.7 1.3-1.6 1.3h-2l-.5 2.8H11l1-6zm6.8 0H21c.9 0 1.5.2 1.8.5.2.3.3.6.2 1-.1.7-.6 1.2-1.4 1.2h-1.8l-.5 2.8h-2l1-6z" fill="#0079C1"/>
-                    </svg>
-                </div>
-            </div>
+
 
             <!-- Dynamic Product Description Block -->
             <?php 
@@ -774,7 +696,6 @@ while ( have_posts() ) : the_post();
             if (!wrapper) return;
 
             const cards = wrapper.querySelectorAll('.coin-package-box');
-            const submitBtn = wrapper.querySelector('#emathsmart-submit-btn');
 
             // Find hidden WooCommerce inputs
             const hiddenFormContainer = wrapper.querySelector('#emathsmart-hidden-woo-form');
@@ -819,23 +740,6 @@ while ( have_posts() ) : the_post();
                 });
             });
 
-            // Action button click handler -> triggers native woocommerce submission
-            if (submitBtn && wooSubmitBtn) {
-                submitBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Double check value is set
-                    const selected = wrapper.querySelector('.coin-package-box.selected');
-                    if (selected) {
-                        const val = selected.getAttribute('data-value');
-                        const varId = selected.getAttribute('data-variation-id');
-                        syncSelectedValue(val, varId);
-                    }
-
-                    // Perform programmatic click on hidden native button
-                    wooSubmitBtn.click();
-                });
-            }
 
             function syncSelectedValue(value, variationId) {
                 if (wooSelect) {
