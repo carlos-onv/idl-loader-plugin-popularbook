@@ -1084,8 +1084,15 @@ function emathsmart_is_eligible_parents_club_member( $user_id ) {
         return false;
     }
     
-    // Check if Parents Club member
-    $is_pc_member = get_user_meta( $user_id, 'user_registration_check_box_1661192013', true ) === 'parent_club_member';
+    // Check if Parents Club member (supports both raw string and serialized array formats)
+    $pc_meta = get_user_meta( $user_id, 'user_registration_check_box_1661192013', true );
+    $is_pc_member = false;
+    if ( is_array( $pc_meta ) ) {
+        $is_pc_member = in_array( 'parent_club_member', $pc_meta, true );
+    } else {
+        $is_pc_member = ( $pc_meta === 'parent_club_member' );
+    }
+    
     if ( ! $is_pc_member ) {
         return false;
     }
