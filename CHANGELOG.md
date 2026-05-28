@@ -6,13 +6,17 @@ All notable changes to this project will be documented in this file for both hum
 
 ### Added
 - **New Section: Member Dashboard**: Integrated a high-fidelity visual dashboard section (`#parents-club-dashboard`) right before Section 5 inside [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html).
-- **Component 1: eMathSmart Subscription**: Created dynamic responsive card featuring eMathSmart logo, active badge status, key-value checklist details grid with custom checkmark square inline SVGs, a tablet graphic layout with custom floating circular decorative CSS background blob, a list of what's included, and interactive action CTAs.
+- **Component 1: eMathSmart Subscription**: Created dynamic responsive card featuring eMathSmart logo, active badge status, key-value checklist details grid with custom checkmark square inline SVGs, a tablet graphic layout, a list of what's included, and interactive action CTAs.
 - **Component 2: AI Coins**: Created Coins balance profile section incorporating `coin.png` glow animation, balance labels, and purchase boxes for coin packages equipped with dynamic orange button hover highlights.
 - **Component 3: Billing History**: Created a clean transaction list table with dashed borders, light slate grey dates, and a solid crimson outlined "Download Receipt History" button at the bottom.
 - **Modular Stylesheets**: Structured and saved three new independent CSS files in `templates/css/` to manage elements modularity:
   - [parents-club-dashboard-subscription.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-subscription.css)
   - [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css)
   - [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css)
+
+### Changed & Refined
+- **Sleek CSS Grid Footer Layout**: Transitions `.sub-card-footer` from standard flexbox-wrap to CSS Grid. Implements a responsive 2-and-1 button layout (Row 1: Update Payment Method & Add Another Subscription side-by-side in equal columns; Row 2: Cancel Subscription centered and spanning 100% width) matching the exact high-fidelity mockup specifications. Stacks vertically into 1 column on mobile viewports (`< 600px`).
+- **Logo Asset Encoding**: URL-encoded the remaining trailing-space logo reference (`eMathSmart_logo_FINAL .png` inside Card 1 of the plans section) to `eMathSmart_logo_FINAL%20.png` to avoid browser parsing anomalies.
 
 ### Technical Notes for AI Agents
 - **Section Selector**: `#parents-club-dashboard`

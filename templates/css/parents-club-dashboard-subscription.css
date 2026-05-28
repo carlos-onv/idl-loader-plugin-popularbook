@@ -293,14 +293,13 @@
 
 /* Footer Actions Row */
 .sub-card-footer {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    flex-wrap: wrap !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
     gap: 12px !important;
     border-top: 1px solid #f1f5f9 !important;
     padding-top: 24px !important;
     margin-top: 10px !important;
+    width: 100% !important;
 }
 
 .btn-sub-footer {
@@ -319,8 +318,8 @@
     gap: 8px !important;
     transition: all 0.2s ease !important;
     cursor: pointer !important;
-    flex: 1 1 auto !important;
-    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
 }
 
 .btn-sub-footer:hover {
@@ -334,6 +333,16 @@
 .btn-sub-footer svg {
     width: 16px !important;
     height: 16px !important;
+}
+
+@media (min-width: 600px) {
+    .sub-card-footer {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    
+    .btn-sub-footer:last-child {
+        grid-column: span 2 !important;
+    }
 }
 
 /* Dashboard Right Column Container */
