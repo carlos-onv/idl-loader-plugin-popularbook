@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-28] - eMathSmart Dynamic Subscription Product Card & 14-Day Free Trial Extension
+
+### Added
+- **Dynamic 14-Day Trial Hook & Eligibility Checks**:
+  - Implemented `emathsmart_is_eligible_parents_club_member( $user_id )` to verify if the user has the user meta `'user_registration_check_box_1661192013'` set to `'parent_club_member'` and was registered on or before `2026-05-28` UTC (cutoff of `2026-05-29 00:00:00 UTC`).
+  - Added filter callback hooked into `woocommerce_subscriptions_product_trial_length` to override the trial length from 7 days to 14 days dynamically for eligible old Parents Club members.
+- **New Modular WPBakery Element `[emathsmart_subscription_product_card]`**:
+  - Registered the custom element via `vc_map()` with a dynamic dropdown product selector that lists WooCommerce parent subscriptions and child subscription variations (`idl_loader_get_subscription_products()`).
+  - Equipped with highlight borders, "Best Value" visual capsules, customizable overrides (Title, Price, Period, Badge text, Button CTA text, and dynamic redirect target), and the WPBakery `param_group` for dynamic visual checklists.
+- **Shortcode Renderer & Class Binder**:
+  - Registered shortcode handler `idl_loader_emathsmart_subscription_product_card_shortcode()`.
+  - Contextually enqueues plans layout stylesheets: `parents-club-plans-base`, `parents-club-plan-monthly`, and `parents-club-plan-annual`.
+  - Automatically queries active WooCommerce products, dynamically computes dynamic eligibility visual badges ("14-Day Free Trial" vs "7-Day Free Trial"), and binds the button CTA redirection target dynamically to `/subscription/?add-to-cart-login=PRODUCT_ID`.
+  - Bound `WPBakeryShortCode_emathsmart_subscription_product_card` class within WPBakery's layout renderer.
+
+### Technical Notes for AI Agents
+- **Eligibility Helper**: `emathsmart_is_eligible_parents_club_member()`
+- **Core Filter Hook**: `woocommerce_subscriptions_product_trial_length`
+- **WPBakery Selector Query**: `idl_loader_get_subscription_products()`
+- **Shortcode Handle**: `emathsmart_subscription_product_card`
+- **Class Binder**: `WPBakeryShortCode_emathsmart_subscription_product_card`
+
 ## [2026-05-28] - Parents Club Member Dashboard Integration
 
 ### Added

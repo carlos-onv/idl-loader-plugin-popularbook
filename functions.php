@@ -3428,3 +3428,43 @@ function idl_loader_parents_club_template_styles() {
         wp_enqueue_style( 'parents-club-plan-not-ready', plugins_url( 'templates/css/parents-club-plan-not-ready.css', __FILE__ ) );
     }
 }
+
+/**
+ * Check if a user is a Parents Club member registered on or before May 28th, 2026.
+ */
+function emathsmart_is_eligible_parents_club_member( $user_id ) {
+    if ( ! $user_id ) {
+        return false;
+    }
+    
+    // Check if Parents Club member
+    $is_pc_member = get_user_meta( $user_id, 'user_registration_check_box_1661192013', true ) === 'parent_club_member';
+    if ( ! $is_pc_member ) {
+        return false;
+    }
+    
+    // Check registration date: must be May 28, 2026 or before
+    $user = get_userdata( $user_id );
+    if ( ! $user || empty( $user->user_registered ) ) {
+        return false;
+    }
+    
+    $registered_timestamp = strtotime( $user->user_registered );
+    $cutoff_timestamp     = strtotime( '2026-05-29 00:00:00' ); // Cutoff is the start of May 29, 2026 UTC
+    
+    return $registered_timestamp < $cutoff_timestamp;
+}
+
+/**
+ * Dynamically adjust subscription product trial length for eligible old Parents Club members.
+ */
+add_filter( 'woocommerce_subscriptions_product_trial_length', 'emathsmart_dynamic_trial_length_for_parents_club', 10, 2 );
+function emathsmart_dynamic_trial_length_for_parents_club( $trial_length, $product ) {
+    $user_id = get_current_user_id();
+    if ( $user_id && emathsmart_is_eligible_parents_club_member( $user_id ) ) {
+        if ( $trial_length > 0 ) {
+            return 14;
+        }
+    }
+    return $trial_length;
+}

@@ -11,10 +11,41 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // -----------------------------------------------------------------------------
-// SECTION 1: WPBakery Element Registration (vc_map)
-// -----------------------------------------------------------------------------
+/**
+ * Query and return WooCommerce subscription products and variations in a key-value dropdown format.
+ */
+function idl_loader_get_subscription_products() {
+    if ( ! function_exists( 'wc_get_products' ) ) {
+        return array();
+    }
+    
+    $products = wc_get_products( array(
+        'type'   => array( 'subscription', 'variable-subscription' ),
+        'limit'  => -1,
+        'status' => 'publish',
+    ) );
+    
+    $options = array();
+    $options[ esc_html__( 'Select a subscription product...', 'book-junky' ) ] = '';
+    
+    foreach ( $products as $product ) {
+        $options[ $product->get_name() . ' (#' . $product->get_id() . ')' ] = $product->get_id();
+        
+        if ( $product->is_type( 'variable-subscription' ) ) {
+            $variations = $product->get_children();
+            foreach ( $variations as $var_id ) {
+                $variation = wc_get_product( $var_id );
+                if ( $variation ) {
+                    $options[ '  - ' . $variation->get_name() . ' (#' . $variation->get_id() . ')' ] = $variation->get_id();
+                }
+            }
+        }
+    }
+    return $options;
+}
 
 add_action( 'vc_before_init', 'idl_loader_register_parents_club_elements' );
+
 
 function idl_loader_register_parents_club_elements() {
     if ( ! function_exists( 'vc_map' ) ) {
@@ -1951,6 +1982,176 @@ function idl_loader_register_parents_club_elements() {
         )
     ) );
 
+    // Register [emathsmart_subscription_product_card] Dynamic WooCommerce Element
+    vc_map( array(
+        "name"        => esc_html__( "eMathSmart Subscription Product Card", "book-junky" ),
+        "base"        => "emathsmart_subscription_product_card",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Dynamic subscription product pricing card matching the premium Pricing Plan layout.", "book-junky" ),
+        "params"      => array(
+            // WooCommerce product selection
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Select Subscription Product/Variation", "book-junky" ),
+                "param_name"  => "product_id",
+                "value"       => idl_loader_get_subscription_products(),
+                "description" => esc_html__( "Select the WooCommerce subscription product or specific variation to load dynamically.", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "checkbox",
+                "heading"     => esc_html__( "Highlight Border", "book-junky" ),
+                "param_name"  => "highlighted_border",
+                "value"       => array( esc_html__( "Yes, apply highlighted border (Annual theme)", "book-junky" ) => "yes" ),
+                "description" => esc_html__( "Check this to style the border with the highlighted brand color.", "book-junky" ),
+            ),
+            array(
+                "type"        => "checkbox",
+                "heading"     => esc_html__( "Show 'Best Value' Badge", "book-junky" ),
+                "param_name"  => "best_value",
+                "value"       => array( esc_html__( "Yes, display the Best Value badge", "book-junky" ) => "yes" ),
+                "description" => esc_html__( "Renders the absolute centered badge ribbon above the card header.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Card Title Override", "book-junky" ),
+                "param_name"  => "title",
+                "description" => esc_html__( "Optional. Leave blank to load the WooCommerce product title dynamically.", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Price Override", "book-junky" ),
+                "param_name"  => "price",
+                "description" => esc_html__( "Optional. Leave blank to load WooCommerce product price dynamically (e.g. $9.95).", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Billing Period Override", "book-junky" ),
+                "param_name"  => "period",
+                "description" => esc_html__( "Optional. Leave blank to load WooCommerce product billing period dynamically (e.g. /month).", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Badge text Override", "book-junky" ),
+                "param_name"  => "badge_text",
+                "description" => esc_html__( "Optional. Leave blank to automatically show free trial duration (e.g. 7-Day Free Trial or 14-Day Free Trial based on user eligibility).", "book-junky" ),
+            ),
+            // Repeatable Checklist
+            array(
+                "type"        => "param_group",
+                "heading"     => esc_html__( "Feature Items Checklist", "book-junky" ),
+                "param_name"  => "list_items",
+                "description" => esc_html__( "Dynamically add, edit, reorder, and delete features checklist items.", "book-junky" ),
+                "params"      => array(
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Feature Item Text", "book-junky" ),
+                        "param_name"  => "item_text",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Source Type", "book-junky" ),
+                        "param_name"  => "icon_source",
+                        "value"       => array(
+                            esc_html__( "Default Checkmark", "book-junky" )            => "default",
+                            esc_html__( "Predefined Brand Outline Icon", "book-junky" ) => "brand",
+                            esc_html__( "WPBakery Icon Picker Library", "book-junky" )   => "library",
+                            esc_html__( "Custom Image / SVG Upload", "book-junky" )    => "custom",
+                        ),
+                        "std"         => "default",
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Predefined Brand Outline Icon", "book-junky" ),
+                        "param_name"  => "brand_icon_type",
+                        "value"       => array(
+                            esc_html__( "Gamepad / Plus (Interactive)", "book-junky" )  => "gamepad",
+                            esc_html__( "Lightbulb (Instant Feedback)", "book-junky" ) => "idea",
+                            esc_html__( "File / Worksheet (Printables)", "book-junky" ) => "file",
+                            esc_html__( "Bar Chart (Progress tracking)", "book-junky" ) => "chart",
+                            esc_html__( "Star (AI learning tools)", "book-junky" )      => "star",
+                            esc_html__( "Shield (Curriculum aligned)", "book-junky" )   => "shield",
+                            esc_html__( "Checkmark Outline", "book-junky" )            => "check",
+                        ),
+                        "std"         => "gamepad",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "brand" )
+                        )
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Library", "book-junky" ),
+                        "param_name"  => "icon_library",
+                        "value"       => array(
+                            esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                            esc_html__( "Linecons", "book-junky" )     => "linecons",
+                        ),
+                        "std"         => "fontawesome",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "library" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Font Awesome Icon Selection", "book-junky" ),
+                        "param_name"  => "icon_fontawesome",
+                        "value"       => "fa fa-check",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "fontawesome" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Linecons Icon Selection", "book-junky" ),
+                        "param_name"  => "icon_linecons",
+                        "value"       => "vc_li vc_li-check",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "type"         => "linecons",
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "linecons" )
+                        )
+                    ),
+                    array(
+                        "type"        => "attach_image",
+                        "heading"     => esc_html__( "Custom Icon SVG/Image", "book-junky" ),
+                        "param_name"  => "custom_icon",
+                        "description" => esc_html__( "Upload an SVG file or pixel graphic as checklist icon.", "book-junky" ),
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "custom" )
+                        )
+                    ),
+                ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Button Label Override", "book-junky" ),
+                "param_name"  => "button_text",
+                "description" => esc_html__( "Optional. Leave blank to automatically show 'Start [TRIAL]-Day Free Trial' based on trial days.", "book-junky" ),
+            ),
+            array(
+                "type"        => "vc_link",
+                "heading"     => esc_html__( "Button Custom Link Override", "book-junky" ),
+                "param_name"  => "button_link",
+                "description" => esc_html__( "Optional. Leave blank to automatically route user to empty-cart redirect checkout: /subscription/?add-to-cart-login=PRODUCT_ID", "book-junky" ),
+            ),
+        )
+    ) );
+
     // Register [parents_club_need_help] Element
     vc_map( array(
         "name"        => esc_html__( "Parents Club Need Help", "book-junky" ),
@@ -3747,6 +3948,10 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     class WPBakeryShortCode_parents_club_need_help extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for Need Help Panel
     }
+
+    class WPBakeryShortCode_emathsmart_subscription_product_card extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for dynamic subscription product card
+    }
 }
 
 // Register [parents_club_need_help] Shortcode
@@ -3902,4 +4107,286 @@ function idl_loader_parents_club_need_help_shortcode( $atts ) {
     <?php
     return ob_get_clean();
 }
+
+// -----------------------------------------------------------------------------
+// SECTION 4: [emathsmart_subscription_product_card] Shortcode Handler
+// -----------------------------------------------------------------------------
+
+// Register [emathsmart_subscription_product_card] Shortcode
+add_shortcode( 'emathsmart_subscription_product_card', 'idl_loader_emathsmart_subscription_product_card_shortcode' );
+
+function idl_loader_emathsmart_subscription_product_card_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'product_id'          => '',
+        'highlighted_border'  => '',
+        'best_value'          => '',
+        'title'               => '',
+        'price'               => '',
+        'period'              => '',
+        'badge_text'          => '',
+        'list_items'          => '',
+        'button_text'         => '',
+        'button_link'         => '',
+    ), $atts );
+
+    // Enqueue the modular stylesheets
+    wp_enqueue_style( 'parents-club-plans-base', plugins_url( 'templates/css/parents-club-plans-base.css', __FILE__ ) );
+    wp_enqueue_style( 'parents-club-plan-monthly', plugins_url( 'templates/css/parents-club-plan-monthly.css', __FILE__ ) );
+    wp_enqueue_style( 'parents-club-plan-annual', plugins_url( 'templates/css/parents-club-plan-annual.css', __FILE__ ) );
+
+    // WooCommerce product selection & dynamic loading
+    $product_id = ! empty( $attributes['product_id'] ) ? absint( $attributes['product_id'] ) : 0;
+    $product    = null;
+    if ( $product_id && function_exists( 'wc_get_product' ) ) {
+        $product = wc_get_product( $product_id );
+    }
+
+    // Resolve card Title
+    $title = '';
+    if ( ! empty( $attributes['title'] ) ) {
+        $title = esc_html( $attributes['title'] );
+    } elseif ( $product ) {
+        $title = esc_html( $product->get_name() );
+    }
+
+    // Resolve card Price
+    $price = '';
+    if ( ! empty( $attributes['price'] ) ) {
+        $price = esc_html( $attributes['price'] );
+    } elseif ( $product ) {
+        $price = get_woocommerce_currency_symbol() . number_format( (float) $product->get_price(), 2 );
+    }
+
+    // Resolve billing Period
+    $period = '';
+    if ( ! empty( $attributes['period'] ) ) {
+        $period = esc_html( $attributes['period'] );
+    } elseif ( $product ) {
+        $billing_period   = '';
+        $billing_interval = 1;
+        if ( class_exists( 'WC_Subscriptions_Product' ) ) {
+            $billing_period   = WC_Subscriptions_Product::get_period( $product );
+            $billing_interval = WC_Subscriptions_Product::get_interval( $product );
+        } else {
+            $billing_period   = $product->get_meta( '_subscription_period' );
+            $billing_interval = absint( $product->get_meta( '_subscription_period_interval' ) );
+        }
+        if ( empty( $billing_interval ) ) {
+            $billing_interval = 1;
+        }
+        
+        if ( $billing_period ) {
+            if ( 1 === absint( $billing_interval ) ) {
+                $period = '/' . $billing_period;
+            } else {
+                $period = '/every ' . $billing_interval . ' ' . $billing_period . 's';
+            }
+        }
+    }
+
+    // Resolve dynamic free trial Badge (7-Day vs 14-Day based on Parents Club eligibility)
+    $badge_text = '';
+    if ( ! empty( $attributes['badge_text'] ) ) {
+        $badge_text = esc_html( $attributes['badge_text'] );
+    } elseif ( $product ) {
+        $trial_length = 0;
+        if ( class_exists( 'WC_Subscriptions_Product' ) ) {
+            $trial_length = WC_Subscriptions_Product::get_trial_length( $product );
+        } else {
+            $trial_length = absint( $product->get_meta( '_subscription_trial_length' ) );
+        }
+        
+        // Check eligibility for 14-day free trial extension
+        $user_id     = get_current_user_id();
+        $is_eligible = $user_id && emathsmart_is_eligible_parents_club_member( $user_id );
+        if ( $is_eligible && $trial_length > 0 ) {
+            $trial_length = 14;
+        }
+        
+        if ( $trial_length > 0 ) {
+            $badge_text = sprintf( esc_html__( '%d-Day Free Trial', 'book-junky' ), $trial_length );
+        }
+    }
+
+    // Parse repeatable checklist features
+    $list_data = array();
+    if ( ! empty( $attributes['list_items'] ) ) {
+        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+            $list_data = vc_param_group_parse_atts( $attributes['list_items'] );
+        } else {
+            $list_data = json_decode( urldecode( $attributes['list_items'] ), true );
+        }
+    }
+
+    // Default features checklist fallback if empty
+    if ( empty( $list_data ) ) {
+        $list_data = array(
+            array( 'item_text' => 'Full access to eMathSmart', 'icon_source' => 'default' ),
+            array( 'item_text' => 'Interactive exercises & tools', 'icon_source' => 'default' ),
+            array( 'item_text' => 'Printable worksheets', 'icon_source' => 'default' ),
+            array( 'item_text' => 'Progress tracking & reports', 'icon_source' => 'default' ),
+            array( 'item_text' => 'All credits included', 'icon_source' => 'default' ),
+        );
+    }
+
+    // Closure to render checklist icons dynamically
+    $render_item_icon = function( $item ) {
+        $source = isset( $item['icon_source'] ) ? $item['icon_source'] : 'default';
+        
+        if ( 'brand' === $source ) {
+            $brand_type = isset( $item['brand_icon_type'] ) ? $item['brand_icon_type'] : 'check';
+            switch ( $brand_type ) {
+                case 'gamepad':
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect><path d="M6 12h12M12 6v12"></path></svg>';
+                case 'idea':
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"></path><line x1="9" y1="18" x2="15" y2="18"></line><line x1="10" y1="22" x2="14" y2="22"></line></svg>';
+                case 'file':
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>';
+                case 'chart':
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>';
+                case 'star':
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
+                case 'shield':
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>';
+                case 'check':
+                default:
+                    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            }
+        } elseif ( 'library' === $source ) {
+            $lib = isset( $item['icon_library'] ) ? $item['icon_library'] : 'fontawesome';
+            if ( 'fontawesome' === $lib && ! empty( $item['icon_fontawesome'] ) ) {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'fontawesome' );
+                }
+                return '<i class="' . esc_attr( $item['icon_fontawesome'] ) . '" aria-hidden="true"></i>';
+            } elseif ( 'linecons' === $lib && ! empty( $item['icon_linecons'] ) ) {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'linecons' );
+                }
+                return '<i class="' . esc_attr( $item['icon_linecons'] ) . '" aria-hidden="true"></i>';
+            }
+        } elseif ( 'custom' === $source && ! empty( $item['custom_icon'] ) ) {
+            $custom_url = '';
+            if ( is_numeric( $item['custom_icon'] ) ) {
+                $img_src = wp_get_attachment_image_url( absint( $item['custom_icon'] ), 'thumbnail' );
+                if ( $img_src ) {
+                    $custom_url = $img_src;
+                }
+            } else {
+                $custom_url = $item['custom_icon'];
+            }
+            if ( ! empty( $custom_url ) ) {
+                return '<img src="' . esc_url( $custom_url ) . '" class="pc-plan-custom-icon-img" alt="" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;display:inline-block;" />';
+            }
+        }
+        
+        // Default checkmark fallback
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+    };
+
+    // Resolve Button Label Override / Dynamic CTA button label
+    $button_text = '';
+    if ( ! empty( $attributes['button_text'] ) ) {
+        $button_text = esc_html( $attributes['button_text'] );
+    } else {
+        $trial_length = 0;
+        if ( $product ) {
+            if ( class_exists( 'WC_Subscriptions_Product' ) ) {
+                $trial_length = WC_Subscriptions_Product::get_trial_length( $product );
+            } else {
+                $trial_length = absint( $product->get_meta( '_subscription_trial_length' ) );
+            }
+            
+            $user_id     = get_current_user_id();
+            $is_eligible = $user_id && emathsmart_is_eligible_parents_club_member( $user_id );
+            if ( $is_eligible && $trial_length > 0 ) {
+                $trial_length = 14;
+            }
+        }
+        if ( $trial_length > 0 ) {
+            $button_text = sprintf( esc_html__( 'Start %d-Day Free Trial', 'book-junky' ), $trial_length );
+        } else {
+            $button_text = esc_html__( 'Subscribe Now', 'book-junky' );
+        }
+    }
+
+    // Resolve Button Redirect URL
+    $button_url   = '#';
+    $link_target  = '';
+    $button_title = $button_text;
+
+    if ( ! empty( $attributes['button_link'] ) ) {
+        $link_parsed = vc_build_link( $attributes['button_link'] );
+        if ( ! empty( $link_parsed['url'] ) ) {
+            $button_url = $link_parsed['url'];
+        }
+        if ( ! empty( $link_parsed['title'] ) ) {
+            $button_title = $link_parsed['title'];
+        }
+        if ( ! empty( $link_parsed['target'] ) ) {
+            $link_target = $link_parsed['target'];
+        }
+    } elseif ( $product_id ) {
+        $button_url = home_url( '/subscription/?add-to-cart-login=' . $product_id );
+    }
+
+    // Pricing card class styling configurations
+    $card_classes = array( 'pc-plan-card' );
+    if ( 'yes' === $attributes['highlighted_border'] ) {
+        $card_classes[] = 'pc-plan-annual';
+    } else {
+        $card_classes[] = 'pc-plan-monthly';
+    }
+    $card_class_str = implode( ' ', $card_classes );
+
+    ob_start();
+    ?>
+    <div class="<?php echo esc_attr( $card_class_str ); ?>">
+        <?php if ( 'yes' === $attributes['best_value'] ) : ?>
+            <span class="best-value-badge"><?php esc_html_e( 'Best Value', 'book-junky' ); ?></span>
+        <?php endif; ?>
+
+        <?php if ( ! empty( $title ) ) : ?>
+            <h3 class="pc-plan-title"><?php echo $title; ?></h3>
+        <?php endif; ?>
+
+        <?php if ( ! empty( $price ) ) : ?>
+            <div class="pc-plan-price">
+                <?php echo $price; ?>
+                <?php if ( ! empty( $period ) ) : ?>
+                    <span class="pc-plan-period"><?php echo $period; ?></span>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ( ! empty( $badge_text ) ) : ?>
+            <span class="pc-plan-badge"><?php echo $badge_text; ?></span>
+        <?php endif; ?>
+
+        <?php if ( ! empty( $list_data ) ) : ?>
+            <ul class="pc-plan-list">
+                <?php foreach ( $list_data as $item ) : 
+                    $item_txt = isset( $item['item_text'] ) ? esc_html( $item['item_text'] ) : '';
+                    if ( empty( $item_txt ) ) {
+                        continue;
+                    }
+                    ?>
+                    <li class="pc-plan-item">
+                        <span class="pc-plan-item-icon">
+                            <?php echo $render_item_icon( $item ); ?>
+                        </span>
+                        <p><?php echo $item_txt; ?></p>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+
+        <a href="<?php echo esc_url( $button_url ); ?>" class="pc-plan-btn" <?php echo ! empty( $link_target ) ? 'target="' . esc_attr( $link_target ) . '"' : ''; ?>>
+            <?php echo esc_html( $button_title ); ?>
+        </a>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
 
