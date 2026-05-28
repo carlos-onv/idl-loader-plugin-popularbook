@@ -15,6 +15,13 @@ All notable changes to this project will be documented in this file for both hum
   - [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css)
 
 ### Changed & Refined
+- **Refined AI Coins Card Alignment**: Perfectly aligned the AI Coins component layout to match the exact design mockup:
+  - Removed the boxed border and cream-peach background from `.coins-balance-row` to make it completely transparent.
+  - Eliminated the white circular pop-glow background container and shadow around the coin image (`.coins-balance-icon-wrapper`), rendering the coin icon naturally flush-left.
+  - Aligned the left edges of the title, the coin icon, and the description paragraph (`.coins-card-desc`) flush on the exact same vertical line inside the card padding container.
+  - Hidden the `.coins-divider` line entirely to maintain design simplicity.
+  - Styled `.btn-buy-coins` as a clean, flat button by removing its drop shadow.
+  - Incremented version parameter to `?v=1.3.1` in [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html) to bust aggressive style caches.
 - **Clean Core Functions.php Revert**: Reverted and completely removed all temporary dashboard enqueues from [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php). Since `parents-club.html` serves strictly as a sandbox playground for WPBakery element design, enqueuing them globally is unnecessary. This fully restores `functions.php` to its pristine core baseline.
 - **Stylesheet Cache-Busting Versioning**: Implemented robust version query overrides (`1.3.0`) across all dashboard assets to bypass aggressive client-side browser and server caching:
   - **Static link tags**: Appended `?v=1.3.0` directly to the dashboard `<link>` styles in [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html).

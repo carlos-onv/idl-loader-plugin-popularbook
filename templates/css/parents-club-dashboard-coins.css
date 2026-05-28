@@ -19,42 +19,35 @@
     margin-bottom: 4px !important;
 }
 
-/* Balance display area - Warm Peach Banner Box */
+/* Balance display area - Clean inline display without border or background box */
 .coins-balance-row {
     display: flex !important;
     align-items: center !important;
-    gap: 16px !important;
-    background-color: #fffdf6 !important;
-    border: 1px solid #ffdcb5 !important;
-    border-radius: 12px !important;
-    padding: 18px 24px !important;
-    margin: 4px 0 8px 0 !important;
+    gap: 12px !important;
+    background: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 8px 0 4px 0 !important;
 }
 
-/* Coin wrapper with white background circular pop glow */
+/* Coin wrapper - transparent and flush left */
 .coins-balance-icon-wrapper {
     flex-shrink: 0 !important;
-    width: 46px !important;
-    height: 46px !important;
+    width: 38px !important;
+    height: 38px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background-color: #ffffff !important;
-    border-radius: 50% !important;
-    box-shadow: 0 4px 10px rgba(255, 149, 0, 0.15), inset 0 2px 4px rgba(255,255,255,1) !important;
+    background: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
 }
 
 .coins-balance-image {
     width: 100% !important;
     height: auto !important;
     display: block !important;
-    filter: drop-shadow(0 4px 8px rgba(255,149,0,0.3)) !important;
-    animation: coin-glow 3s ease-in-out infinite alternate !important;
-}
-
-@keyframes coin-glow {
-    0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 4px 8px rgba(255,149,0,0.3)); }
-    100% { transform: scale(1.08) rotate(5deg); filter: drop-shadow(0 6px 14px rgba(255,149,0,0.5)); }
 }
 
 .coins-balance-text {
@@ -83,14 +76,13 @@
     font-size: 13.5px !important;
     line-height: 1.6 !important;
     color: var(--brand-text-muted) !important;
+    margin-top: 4px !important;
     margin-bottom: 8px !important;
 }
 
-/* Elegant horizontal divider line */
+/* Elegant horizontal divider line - Hidden per design specs */
 .coins-divider {
-    border-top: 1.5px solid #eef2f6 !important;
-    margin: 4px 0 16px 0 !important;
-    width: 100% !important;
+    display: none !important;
 }
 
 /* Purchase section */
@@ -150,7 +142,7 @@
     letter-spacing: -0.5px !important;
 }
 
-/* Premium Solid Red-Orange CTA Buy Buttons */
+/* Flat Premium Red-Orange CTA Buy Buttons */
 .btn-buy-coins {
     width: 100% !important;
     background-color: #ff3e1d !important;
@@ -168,10 +160,10 @@
     display: block !important;
     border: none !important;
     cursor: pointer !important;
-    box-shadow: 0 4px 10px rgba(255, 62, 29, 0.15) !important;
+    box-shadow: none !important;
 }
 
 .coin-package-box:hover .btn-buy-coins {
     background-color: #ff9500 !important;
-    box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3) !important;
+    box-shadow: none !important;
 }
