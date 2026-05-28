@@ -382,6 +382,14 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     $post_body['subscribeId'] = $wc_subscription_id; // v1.4 Validator Support
                 }
 
+                // Recalculate signature parameters using all sent fields (satisfying generic remote signature check)
+                $sign_params = [];
+                foreach ($post_body as $k => $v) {
+                    if ($v !== null && $k !== 'signature') {
+                        $sign_params[$k] = (string) $v;
+                    }
+                }
+
             } else if ($subscription_type == 'refund') {
                 $url = "https://test.emathsmart.ca/api/user-center/order/refundNotify";
                 
@@ -398,6 +406,14 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 $post_body['parentId'] = (string) $order->get_user_id();
                 $post_body['refundTimestamp'] = (int) $refundTimestamp;
                 $post_body['timestamp'] = (int) $now;
+
+                // Recalculate signature parameters using all sent fields (satisfying generic remote signature check)
+                $sign_params = [];
+                foreach ($post_body as $k => $v) {
+                    if ($v !== null && $k !== 'signature') {
+                        $sign_params[$k] = (string) $v;
+                    }
+                }
 
             } else if ($subscription_type == 'public_exams') {
                 $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
