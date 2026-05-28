@@ -295,7 +295,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                         'timestamp' => (string) $now,
                         'nonce' => $nonce,
                         'orderId' => (string) $order_id,
-                        'parentClubParentId' => (string) $order->get_user_id(), // v1.3 Staging Support
+                        'parentId' => (string) $order->get_user_id(), // v1.4 Support
                         'type' => '2',
                         'payStatus' => '1',
                         'payAmount' => number_format((float) $order->get_total(), 2, '.', ''),
@@ -309,8 +309,8 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     $post_body['payTimestamp'] = (int) $now;
                     $post_body['additionalPackageQuantity'] = (int) $additional_packages;
                     
-                    // Dual-Key Support: Send both sets of keys to satisfy v1.4 validator + v1.3 signature code
-                    $post_body['parentId'] = (string) $order->get_user_id(); // v1.4 Validator Support
+                    // Dual-Key Support: Send both sets of keys to satisfy validator
+                    $post_body['parentClubParentId'] = (string) $order->get_user_id(); // v1.3 Support
                 } else {
                     // --- TYPE 1 PAYMENT (Subscriptions) ---
                     $wc_subscription_id = (string) $order_id; // Fallback
@@ -358,7 +358,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                         'timestamp' => (string) $now,
                         'nonce' => $nonce,
                         'orderId' => (string) $order_id,
-                        'parentClubParentId' => (string) $order->get_user_id(), // v1.3 Staging Support
+                        'parentId' => (string) $order->get_user_id(), // v1.4 Support
                         'type' => '1',
                         'payStatus' => '1',
                         'payAmount' => number_format((float) $order->get_total(), 2, '.', ''),
@@ -366,7 +366,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                         'expireTimestamp' => (string) $expireTimestamp,
                         'subscriptionType' => (string) $subscriptionType,
                         'trialType' => (string) $trialType,
-                        'parentClubSubscriptionId' => $wc_subscription_id, // v1.3 Staging Support
+                        'subscribeId' => $wc_subscription_id, // v1.4 Support
                     ];
                     $post_body = $sign_params;
                     $post_body['timestamp'] = (int) $now;
@@ -377,17 +377,9 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     $post_body['subscriptionType'] = (int) $subscriptionType;
                     $post_body['trialType'] = (int) $trialType;
                     
-                    // Dual-Key Support: Send both sets of keys to satisfy v1.4 validator + v1.3 signature code
-                    $post_body['parentId'] = (string) $order->get_user_id(); // v1.4 Validator Support
-                    $post_body['subscribeId'] = $wc_subscription_id; // v1.4 Validator Support
-                }
-
-                // Recalculate signature parameters using all sent fields (satisfying generic remote signature check)
-                $sign_params = [];
-                foreach ($post_body as $k => $v) {
-                    if ($v !== null && $k !== 'signature') {
-                        $sign_params[$k] = (string) $v;
-                    }
+                    // Dual-Key Support: Send both sets of keys to satisfy validator
+                    $post_body['parentClubParentId'] = (string) $order->get_user_id(); // v1.3 Support
+                    $post_body['parentClubSubscriptionId'] = $wc_subscription_id; // v1.3 Support
                 }
 
             } else if ($subscription_type == 'refund') {
@@ -399,6 +391,8 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 $sign_params = [
                     'appId'           => 'ParentClub',
                     'orderId'         => (string) $order_id,
+                    'parentId'        => (string) $order->get_user_id(),
+                    'refundTimestamp' => (string) $refundTimestamp,
                     'timestamp'       => (string) $now,
                     'nonce'           => $nonce,
                 ];
@@ -406,14 +400,6 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 $post_body['parentId'] = (string) $order->get_user_id();
                 $post_body['refundTimestamp'] = (int) $refundTimestamp;
                 $post_body['timestamp'] = (int) $now;
-
-                // Recalculate signature parameters using all sent fields (satisfying generic remote signature check)
-                $sign_params = [];
-                foreach ($post_body as $k => $v) {
-                    if ($v !== null && $k !== 'signature') {
-                        $sign_params[$k] = (string) $v;
-                    }
-                }
 
             } else if ($subscription_type == 'public_exams') {
                 $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
