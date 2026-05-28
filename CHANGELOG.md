@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file for both hum
 ## [2026-05-28] - eMathSmart Dynamic Subscription Product Card & 14-Day Free Trial Extension
 
 ### Added
+- **Staging Webhook Sandbox Compatibility Support**:
+  - Adjusted outbound payment notification (`paymentNotify` type = 1 and type = 2) payloads inside `functions-esmart.php` to use v1.3 keys (`parentClubParentId` and `parentClubSubscriptionId`) to match the active eMathSmart staging server schema, ensuring sandbox payments succeed in the test environment.
+  - Kept the new v1.4 keys (`parentId` and `subscribeId`) commented out in the code for easy future updates.
+
 - **Dynamic 14-Day Trial Hook & Eligibility Checks**:
   - Implemented `emathsmart_is_eligible_parents_club_member( $user_id )` to verify if the user has the user meta `'user_registration_check_box_1661192013'` set to `'parent_club_member'` and was registered on or before `2026-05-28` UTC (cutoff of `2026-05-29 00:00:00 UTC`).
   - Added filter callback hooked into `woocommerce_subscriptions_product_trial_length` to override the trial length from 7 days to 14 days dynamically for eligible old Parents Club members.
