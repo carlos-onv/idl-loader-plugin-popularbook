@@ -1117,6 +1117,11 @@ function emathsmart_is_eligible_parents_club_member( $user_id ) {
  */
 add_filter( 'woocommerce_subscriptions_product_trial_length', 'emathsmart_dynamic_trial_length_for_parents_club', 10, 2 );
 function emathsmart_dynamic_trial_length_for_parents_club( $trial_length, $product ) {
+    // Prevent overriding the trial length inside the WordPress Admin dashboard (stops product editor save side-effects)
+    if ( is_admin() ) {
+        return $trial_length;
+    }
+
     $user_id = get_current_user_id();
     if ( $user_id && emathsmart_is_eligible_parents_club_member( $user_id ) ) {
         if ( $trial_length > 0 ) {
