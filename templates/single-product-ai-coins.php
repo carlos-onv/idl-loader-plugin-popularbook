@@ -79,12 +79,27 @@ while ( have_posts() ) : the_post();
         $display_price = $var['display_price'];
         $price_html = wc_price( $display_price );
         
+        // Get variation image from WooCommerce
+        $variation_image_url = '';
+        if ( ! empty( $var['image']['src'] ) ) {
+            $variation_image_url = $var['image']['src'];
+        } else {
+            $var_product = wc_get_product( $var_id );
+            if ( $var_product ) {
+                $image_id = $var_product->get_image_id();
+                if ( $image_id ) {
+                    $variation_image_url = wp_get_attachment_image_url( $image_id, 'woocommerce_thumbnail' );
+                }
+            }
+        }
+        
         $package_variations[] = [
             'id' => $var_id,
             'coins' => $coin_amount,
             'price_html' => $price_html,
             'display_price' => $display_price,
             'attributes' => $var['attributes'],
+            'image_url' => $variation_image_url,
         ];
     }
 
@@ -273,6 +288,21 @@ while ( have_posts() ) : the_post();
             line-height: 1.25 !important;
         }
 
+        #emathsmart-custom-coins-product .coins-center-icon-wrapper {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            margin: 4px auto 12px auto !important;
+            width: 48px !important;
+            height: 48px !important;
+        }
+
+        #emathsmart-custom-coins-product .coins-center-image {
+            width: 100% !important;
+            height: auto !important;
+            display: block !important;
+        }
+
         /* Description text centered */
         #emathsmart-custom-coins-product .coins-card-desc {
             font-family: 'Inter', sans-serif !important;
@@ -337,7 +367,27 @@ while ( have_posts() ) : the_post();
             cursor: pointer !important;
             text-align: center !important;
             position: relative !important;
-            min-height: 180px !important;
+            min-height: 250px !important;
+        }
+
+        #emathsmart-custom-coins-product .coin-package-image-wrapper {
+            width: 70px !important;
+            height: 70px !important;
+            margin-bottom: 12px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+
+        #emathsmart-custom-coins-product .coin-package-image {
+            max-width: 100% !important;
+            max-height: 100% !important;
+            height: auto !important;
+            object-fit: contain !important;
+            display: block !important;
         }
 
         #emathsmart-custom-coins-product .coin-package-box:hover {
@@ -558,6 +608,11 @@ while ( have_posts() ) : the_post();
             <div class="dashboard-card ai-coins-card">
                 <h3 class="coins-card-title">AI Coins</h3>
                 
+                <!-- Centered Coin Image -->
+                <div class="coins-center-icon-wrapper">
+                    <img src="<?php echo $coin_image_url; ?>" alt="AI Coin" class="coins-center-image">
+                </div>
+                
                 <!-- Description -->
                 <p class="coins-card-desc">Use AI coins to chat with your AI helper, and mark worksheets.</p>
                 
@@ -574,6 +629,11 @@ while ( have_posts() ) : the_post();
                         ?>
                             <!-- Pack: <?php echo esc_html($pack['coins']); ?> Coins -->
                             <div class="coin-package-box <?php echo $is_selected; ?>" data-value="<?php echo esc_attr($pack['coins']); ?>" data-variation-id="<?php echo esc_attr($pack['id']); ?>">
+                                <?php if ( ! empty( $pack['image_url'] ) ) : ?>
+                                    <div class="coin-package-image-wrapper">
+                                        <img src="<?php echo esc_url( $pack['image_url'] ); ?>" alt="<?php echo esc_attr( $pack['coins'] ); ?> Coins" class="coin-package-image">
+                                    </div>
+                                <?php endif; ?>
                                 <span class="coin-package-amount"><?php echo esc_html($pack['coins']); ?> Coins</span>
                                 <span class="coin-package-price"><?php echo $pack['price_html']; ?></span>
                                 <button type="button" class="btn-buy-coins">BUY NOW</button>

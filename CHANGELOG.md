@@ -15,6 +15,10 @@ All notable changes to this project will be documented in this file for both hum
   - [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css)
 
 ### Changed & Refined
+- **AI Coins Centerpiece Centering & Variation Images Support**:
+  - Restored and centered the single AI coin image (`coin.png`) directly above the description paragraph in the dynamic single product centerpiece card.
+  - Added programmatic support to load and display the high-fidelity variation images from WooCommerce dynamically inside each package selection box (`.coin-package-box`).
+  - Adjusted the grid package card CSS styling (`min-height: 250px`, `.coin-package-image-wrapper`, `.coin-package-image`) to gracefully accommodate the variation image.
 - **AI Coins Purchase Template Overhaul**: Redesigned the variable product selection template [single-product-ai-coins.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/single-product-ai-coins.php) using the refined dashboard coins aesthetics:
   - Swapped out the 🥉, 🥈, and 🥇 emoji placeholders on the starter, popular, and elite cards for the actual high-fidelity `coin.png` image asset.
   - Formatted and styled the `.coin-icon-wrapper` and `.coin-icon` to be completely transparent, flat, and shadow-free to match the dashboard design alignment.
