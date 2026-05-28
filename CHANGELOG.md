@@ -15,6 +15,9 @@ All notable changes to this project will be documented in this file for both hum
   - [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css)
 
 ### Changed & Refined
+- **Stylesheet Cache-Busting Versioning**: Implemented robust version query overrides (`1.3.0`) across all dashboard assets to bypass aggressive client-side browser and server caching:
+  - **Static link tags**: Appended `?v=1.3.0` directly to the dashboard `<link>` styles in [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html).
+  - **WordPress enqueues**: Passed version string `'1.3.0'` to `wp_enqueue_style` calls inside [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php).
 - **High-Fidelity AI Coins Component Overhaul**: Redesigned the entire `AI Coins` dashboard module inside [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html) and [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css) to perfectly match high-fidelity visual specs:
   - **Warm Peach Balance Banner**: Styled `.coins-balance-row` with a warm peach-cream background (`#fffdf6`) and a distinct peach border (`#ffdcb5`).
   - **White Glow Icon Ring**: Added a circular white background with soft gold glow and drop shadow behind the coin graphic wrapper (`.coins-balance-icon-wrapper`) to make it pop visually.
