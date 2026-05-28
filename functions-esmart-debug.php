@@ -972,13 +972,10 @@ function emathsmart_run_trial_logic_diagnostic()
 
 
 // ============================================================
-// BULK SIGNATURE PROBE TEST
+// BULK SIGNATURE PROBE TEST v2
 // Trigger: https://dev-popularbook.local/?sig_probe=1
-// Purpose: Sends REAL HTTP requests to eMathSmart staging with
-//          a unique orderId per case to find which exact field
-//          subset the server expects in the HMAC signature.
-//          Each case is independent — burned orderIds do NOT
-//          affect other cases.
+// v2 adds: real IDs, historical orderId, alternate secrets,
+//          integer vs string value types, parentId-only combos
 // ============================================================
 add_action('init', 'emathsmart_sig_probe_test');
 function emathsmart_sig_probe_test()
@@ -986,7 +983,7 @@ function emathsmart_sig_probe_test()
     if (!isset($_REQUEST['sig_probe']) || $_REQUEST['sig_probe'] != '1') return;
     if (!current_user_can('manage_options')) wp_die('Unauthorized');
 
-    // ── Helper: compute HMAC-SHA256 base64url ────────────────
+    // ── Helpers ───────────────────────────────────────────────
     function _probe_sig(array $fields, string $secret): array {
         $p = [];
         foreach ($fields as $k => $v) $p[$k] = (string) $v;
@@ -999,7 +996,6 @@ function emathsmart_sig_probe_test()
         return ['sig' => $sig, 'str' => $str];
     }
 
-    // ── Helper: send one REAL request to staging ─────────────
     function _probe_send(array $body, string $url): array {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -1017,255 +1013,361 @@ function emathsmart_sig_probe_test()
         return ['code' => $code, 'http' => $http, 'msg' => $msg, 'raw' => $resp];
     }
 
-    $secret  = 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm';
-    $url     = 'https://test.emathsmart.ca/api/user-center/order/paymentNotify';
+    $known_secret = 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm';
+    $url          = 'https://test.emathsmart.ca/api/user-center/order/paymentNotify';
+    $now          = time();
+    $expire       = $now + (14 * 86400);
 
-    // ── Static test values (NOT from any real WC order/user) ─
-    // orderId: use a random high number per run to avoid "already processed" cache.
-    // Each CASE gets its OWN unique orderId offset so they never share burn fate.
-    $base_oid  = 900000 + (int)(microtime(true) * 10) % 89999; // random-ish base
-    $parent_id = '99';      // dummy parent
-    $sub_id    = '9901';    // dummy subscription
-    $now       = time();
-    $expire    = $now + (14 * 86400);
+    // ── Real values from actual WC order/user ─────────────────
+    $real_parent  = '60793';
+    $real_sub     = '125159';
 
-    // Shared non-signing fields (always sent in body, values stay fixed)
-    $common = [
-        'appId'       => 'ParentClub',
-        'type'        => 1,
-        'payStatus'   => 1,
-        'payAmount'   => '0.00',
-        'payTimestamp'=> $now,
-        'expireTimestamp' => $expire,
-        'subscriptionType' => 1,
-        'trialType'   => 2,
+    // ── Fake / dummy values ───────────────────────────────────
+    $fake_parent  = '99';
+    $fake_sub     = '9901';
+
+    // ── Historical known-good orderId ─────────────────────────
+    $hist_oid     = '116377';
+    $hist_parent  = '1';
+    $hist_sub     = '116378';
+
+    // ── Fresh base orderId (random, offset per case) ──────────
+    $base_oid     = 800000 + (int)(microtime(true) * 10) % 79999;
+
+    // ── Shared common fields (always same) ───────────────────
+    $common_str = [
+        'appId'            => 'ParentClub',
+        'type'             => '1',
+        'payStatus'        => '1',
+        'payAmount'        => '0.00',
+        'payTimestamp'     => (string) $now,
+        'expireTimestamp'  => (string) $expire,
+        'subscriptionType' => '1',
+        'trialType'        => '2',
     ];
 
-    // ── Test matrix: define which fields go into the HMAC ────
-    //    Each case: label, signed_keys (subset), extra_body_keys (body-only)
-    //
-    // Convention for signed_keys: use the KEY NAMES exactly as they appear in the payload.
-    // v1.3 keys: parentClubParentId, parentClubSubscriptionId
-    // v1.4 keys: parentId, subscribeId
-    $cases = [
+    // ── Helper: build body with typed integers ────────────────
+    // json_encode will produce integer values for numeric fields
+    function _typed_body(array $str_body): array {
+        $b = $str_body;
+        foreach (['type','payStatus','payTimestamp','expireTimestamp','subscriptionType','trialType','timestamp'] as $k) {
+            if (isset($b[$k])) $b[$k] = (int) $b[$k];
+        }
+        return $b;
+    }
 
-        // ── A: Only v1.3 parent+sub keys, no v1.4 ────────────────────────────
-        'A_v13_only_no_v14_body' => [
-            'label'        => 'A — Sign: 13 v1.3 fields | Body: NO parentId/subscribeId',
-            'v13_in_body'  => true,
-            'v14_in_body'  => false,
-            'sign_v13'     => true,
-            'sign_v14'     => false,
-        ],
-
-        // ── B: v1.3 in body+sig, v1.4 in body only (excluded from sig) ───────
-        'B_v13_sig_v14_body_only' => [
-            'label'        => 'B — Sign: 13 v1.3 fields | Body: +parentId +subscribeId (body-only)',
-            'v13_in_body'  => true,
-            'v14_in_body'  => true,
-            'sign_v13'     => true,
-            'sign_v14'     => false,
-        ],
-
-        // ── C: v1.4 in body+sig, v1.3 in body only (excluded from sig) ───────
-        'C_v14_sig_v13_body_only' => [
-            'label'        => 'C — Sign: 13 v1.4 fields (parentId/subscribeId) | Body: +v1.3 body-only',
-            'v13_in_body'  => true,
-            'v14_in_body'  => true,
-            'sign_v13'     => false,
-            'sign_v14'     => true,
-        ],
-
-        // ── D: Only v1.4 keys, no v1.3 in body at all ────────────────────────
-        'D_v14_only_no_v13_body' => [
-            'label'        => 'D — Sign: 13 v1.4 fields | Body: NO parentClubParentId/parentClubSubscriptionId',
-            'v13_in_body'  => false,
-            'v14_in_body'  => true,
-            'sign_v13'     => false,
-            'sign_v14'     => true,
-        ],
-
-        // ── E: All 15 fields signed (both v1.3 + v1.4) ───────────────────────
-        'E_all_15_signed' => [
-            'label'        => 'E — Sign: ALL 15 fields (v1.3 + v1.4) | Body: all 15',
-            'v13_in_body'  => true,
-            'v14_in_body'  => true,
-            'sign_v13'     => true,
-            'sign_v14'     => true,
-        ],
-
-        // ── F: Only common fields signed (no parent/sub keys at all) ─────────
-        'F_common_only_no_ids' => [
-            'label'        => 'F — Sign: 8 common fields only (no parentId keys) | Body: NO parent/sub keys',
-            'v13_in_body'  => false,
-            'v14_in_body'  => false,
-            'sign_v13'     => false,
-            'sign_v14'     => false,
-        ],
-
-        // ── G: v1.3 only in body+sig, v1.4 body-only, but v1.3 = parentId values ──
-        // (what if parentClubParentId should equal parentId numerically?)
-        'G_v13_sig_v14_body_aliased' => [
-            'label'        => 'G — Sign: v1.3 fields (aliased: parentClubParentId = parentId value) | Body: +v1.4',
-            'v13_in_body'  => true,
-            'v14_in_body'  => true,
-            'sign_v13'     => true,
-            'sign_v14'     => false,
-            'alias_v13'    => true, // parentClubParentId = parentId value
-        ],
+    // ── Alternate secret keys to brute-force ─────────────────
+    $alt_secrets = [
+        'known'   => $known_secret,
+        'alt_trim'=> trim($known_secret),
+        // eMathSmart may have a staging-only key — common pattern: append env suffix
+        'alt_stg' => $known_secret . '_staging',
+        'alt_dev' => $known_secret . '_dev',
     ];
 
-    // ── HTML output ──────────────────────────────────────────
-    header('Content-Type: text/html; charset=utf-8');
-    echo '<!DOCTYPE html><html><head><meta charset="utf-8">
-    <title>eMathSmart Signature Probe</title>
-    <style>
-        body { font-family: monospace; background: #0d0d0d; color: #e0e0e0; padding: 24px; }
-        h1 { color: #03dac6; }
-        h2 { color: #bb86fc; margin-top: 32px; }
-        .ok   { background: #1b3a1b; border-left: 4px solid #4caf50; padding: 10px 16px; border-radius: 4px; }
-        .fail { background: #3a1b1b; border-left: 4px solid #f44336; padding: 10px 16px; border-radius: 4px; }
-        .info { background: #1a1a2e; border-left: 4px solid #03a9f4; padding: 10px 16px; border-radius: 4px; }
-        pre   { background: #1a1a1a; padding: 12px; border-radius: 4px; font-size: 12px; white-space: pre-wrap; word-break: break-all; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #333; padding: 8px 12px; text-align: left; }
-        th { background: #1a1a1a; color: #bb86fc; }
-        .code-200  { color: #4caf50; font-weight: bold; }
-        .code-err  { color: #f44336; font-weight: bold; }
-        .code-warn { color: #ff9800; font-weight: bold; }
-        .tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; margin: 2px; }
-        .tag-green { background: #1b3a1b; color: #4caf50; border: 1px solid #4caf50; }
-        .tag-red   { background: #3a1b1b; color: #f44336; border: 1px solid #f44336; }
-        .tag-blue  { background: #0d2a3a; color: #03a9f4; border: 1px solid #03a9f4; }
-    </style></head><body>';
+    // ══════════════════════════════════════════════════════════
+    // BATCH 1: REAL IDs — does the server reject fake parent IDs?
+    // Use parentId=60793 (real WC user) with a fresh orderId.
+    // If these pass but Batch 1 (dummy IDs) failed, the server
+    // validates parentId against its DB before checking sig.
+    // ══════════════════════════════════════════════════════════
+    $batch1_label = 'Batch 1: REAL parentId=60793 — same 7 combos as before';
 
-    echo '<h1>🔬 eMathSmart Signature Probe — Bulk Test</h1>';
-    echo '<div class="info" style="margin-bottom:24px;">';
-    echo '<strong>Secret:</strong> <code>' . esc_html($secret) . '</code><br>';
-    echo '<strong>URL:</strong> <code>' . esc_html($url) . '</code><br>';
-    echo '<strong>Base orderId:</strong> <code>' . $base_oid . '</code> (each case +offset)<br>';
-    echo '<strong>parent_id:</strong> <code>' . $parent_id . '</code> | ';
-    echo '<strong>sub_id:</strong> <code>' . $sub_id . '</code><br>';
-    echo '</div>';
+    $batch1_cases = [];
+    $b1_combos = [
+        'R_A_v13_only'        => ['label'=>'RA — v1.3 only signed, v1.3 body',  'v13b'=>true,  'v14b'=>false, 'sv13'=>true,  'sv14'=>false],
+        'R_B_v13sig_v14body'  => ['label'=>'RB — v1.3 signed, v1.4 body-only',  'v13b'=>true,  'v14b'=>true,  'sv13'=>true,  'sv14'=>false],
+        'R_C_v14sig_v13body'  => ['label'=>'RC — v1.4 signed, v1.3 body-only',  'v13b'=>true,  'v14b'=>true,  'sv13'=>false, 'sv14'=>true ],
+        'R_D_v14_only'        => ['label'=>'RD — v1.4 only signed, v1.4 body',  'v13b'=>false, 'v14b'=>true,  'sv13'=>false, 'sv14'=>true ],
+        'R_E_all15'           => ['label'=>'RE — All 15 signed, all 15 body',    'v13b'=>true,  'v14b'=>true,  'sv13'=>true,  'sv14'=>true ],
+    ];
 
-    $results = [];
-
-    foreach ($cases as $case_key => $case) {
-        $oid_offset = array_search($case_key, array_keys($cases));
-        $order_id   = (string)($base_oid + $oid_offset);
-        $nonce      = bin2hex(random_bytes(16));
-
-        // Build body
-        $body = $common;
-        $body['orderId']    = $order_id;
-        $body['timestamp']  = $now;
-        $body['nonce']      = $nonce;
-
-        if ($case['v13_in_body']) {
-            $body['parentClubParentId']       = $parent_id;
-            $body['parentClubSubscriptionId'] = $sub_id;
-        }
-        if ($case['v14_in_body']) {
-            $body['parentId']   = $parent_id;
-            $body['subscribeId']= $sub_id;
-        }
-
-        // Build sign_params
-        $sign = $common;
-        $sign['orderId']   = $order_id;
+    foreach ($b1_combos as $ck => $cc) {
+        $oid   = (string)($base_oid + count($batch1_cases));
+        $nonce = bin2hex(random_bytes(16));
+        $sign  = $common_str;
+        $sign['orderId']   = $oid;
         $sign['timestamp'] = (string) $now;
         $sign['nonce']     = $nonce;
+        if ($cc['sv13']) { $sign['parentClubParentId'] = $real_parent; $sign['parentClubSubscriptionId'] = $real_sub; }
+        if ($cc['sv14']) { $sign['parentId'] = $real_parent; $sign['subscribeId'] = $real_sub; }
 
-        // Stringify sign params
-        foreach ($sign as $k => $v) $sign[$k] = (string) $v;
+        $body = $common_str;
+        $body['orderId']   = $oid;
+        $body['timestamp'] = (string) $now;
+        $body['nonce']     = $nonce;
+        if ($cc['v13b']) { $body['parentClubParentId'] = $real_parent; $body['parentClubSubscriptionId'] = $real_sub; }
+        if ($cc['v14b']) { $body['parentId'] = $real_parent; $body['subscribeId'] = $real_sub; }
 
-        if ($case['sign_v13']) {
-            $sign['parentClubParentId']       = $parent_id;
-            $sign['parentClubSubscriptionId'] = $sub_id;
-        }
-        if ($case['sign_v14']) {
-            $sign['parentId']    = $parent_id;
-            $sign['subscribeId'] = $sub_id;
-        }
+        $probe = _probe_sig($sign, $known_secret);
+        $typed = _typed_body($body);
+        $typed['signature'] = $probe['sig'];
 
-        $probe = _probe_sig($sign, $secret);
-        $body['signature'] = $probe['sig'];
-
-        // Send it
-        $res = _probe_send($body, $url);
-
-        $results[$case_key] = [
-            'case'    => $case,
-            'order_id'=> $order_id,
-            'nonce'   => $nonce,
-            'sign_str'=> $probe['str'],
-            'sig'     => $probe['sig'],
-            'body'    => $body,
-            'res'     => $res,
+        $batch1_cases[$ck] = [
+            'label'    => "[{$cc['label']}]",
+            'order_id' => $oid,
+            'nonce'    => $nonce,
+            'sign_str' => $probe['str'],
+            'sig'      => $probe['sig'],
+            'body'     => $typed,
+            'res'      => _probe_send($typed, $url),
         ];
     }
 
-    // ── Summary Table ────────────────────────────────────────
-    echo '<h2>📊 Results Summary</h2>';
-    echo '<table>';
-    echo '<tr><th>#</th><th>Case</th><th>orderId</th><th>Signed Fields</th><th>Body Fields</th><th>API Code</th><th>Message</th></tr>';
-    foreach ($results as $key => $r) {
-        $code = $r['res']['code'];
-        $cls  = ($code === 200) ? 'code-200' : (($code === 40101 || $code === 40201) ? 'code-warn' : 'code-err');
-        $win  = ($code === 200 || $code === 40101 || $code === 40201 || $code === 40202) ? '✅' : '❌';
+    // ══════════════════════════════════════════════════════════
+    // BATCH 2: HISTORICAL orderId=116377 (known-good)
+    // Send the exact same payload that worked before, then add
+    // parentId to it and see if it still passes or gets 20306.
+    // 40101 = already processed = signature DID pass.
+    // 20306 = signature rejected = adding parentId broke signing.
+    // ══════════════════════════════════════════════════════════
+    $batch2_cases = [];
+    $hist_nonce_A = bin2hex(random_bytes(16));
+    $hist_nonce_B = bin2hex(random_bytes(16));
+    $hist_nonce_C = bin2hex(random_bytes(16));
+    $hist_expire  = $now + (365 * 86400);
 
-        $signed_tags = '';
-        if ($r['case']['sign_v13']) $signed_tags .= '<span class="tag tag-blue">v1.3 keys</span>';
-        if ($r['case']['sign_v14']) $signed_tags .= '<span class="tag tag-blue">v1.4 keys</span>';
-        if (!$r['case']['sign_v13'] && !$r['case']['sign_v14']) $signed_tags .= '<span class="tag tag-red">common only</span>';
+    // H1: exact v1.3 only (as the original successful call)
+    $h1_sign = array_merge($common_str, [
+        'orderId'                  => $hist_oid,
+        'timestamp'                => (string)$now,
+        'nonce'                    => $hist_nonce_A,
+        'parentClubParentId'       => $hist_parent,
+        'parentClubSubscriptionId' => $hist_sub,
+    ]);
+    $h1_body = _typed_body($h1_sign);
+    $h1_probe = _probe_sig($h1_sign, $known_secret);
+    $h1_body['signature'] = $h1_probe['sig'];
 
-        $body_tags = '';
-        if ($r['case']['v13_in_body']) $body_tags .= '<span class="tag tag-green">v1.3</span>';
-        if ($r['case']['v14_in_body']) $body_tags .= '<span class="tag tag-green">v1.4</span>';
-        if (!$r['case']['v13_in_body'] && !$r['case']['v14_in_body']) $body_tags .= '<span class="tag tag-red">none</span>';
+    $batch2_cases['H1_hist_v13_only'] = [
+        'label'    => '[H1] Historical orderId + v1.3 only (original working format)',
+        'order_id' => $hist_oid,
+        'nonce'    => $hist_nonce_A,
+        'sign_str' => $h1_probe['str'],
+        'sig'      => $h1_probe['sig'],
+        'body'     => $h1_body,
+        'res'      => _probe_send($h1_body, $url),
+    ];
 
-        echo "<tr>";
-        echo "<td>$win</td>";
-        echo "<td><strong>" . esc_html($key) . "</strong><br><small>" . esc_html($r['case']['label']) . "</small></td>";
-        echo "<td><code>{$r['order_id']}</code></td>";
-        echo "<td>$signed_tags</td>";
-        echo "<td>$body_tags</td>";
-        echo "<td class='$cls'>$code</td>";
-        echo "<td>" . esc_html($r['res']['msg']) . "</td>";
-        echo "</tr>";
+    // H2: historical orderId + add parentId to body (v1.3 signed)
+    $h2_sign = $h1_sign;
+    $h2_sign['nonce'] = $hist_nonce_B;
+    $h2_body = _typed_body($h2_sign);
+    $h2_body['parentId']   = $hist_parent;  // added to body only
+    $h2_body['subscribeId'] = $hist_sub;    // added to body only
+    $h2_probe = _probe_sig($h2_sign, $known_secret);
+    $h2_body['signature'] = $h2_probe['sig'];
+
+    $batch2_cases['H2_hist_v13sig_v14body'] = [
+        'label'    => '[H2] Historical orderId + v1.3 signed + parentId/subscribeId body-only',
+        'order_id' => $hist_oid,
+        'nonce'    => $hist_nonce_B,
+        'sign_str' => $h2_probe['str'],
+        'sig'      => $h2_probe['sig'],
+        'body'     => $h2_body,
+        'res'      => _probe_send($h2_body, $url),
+    ];
+
+    // H3: historical orderId + ALL 15 signed
+    $h3_sign = array_merge($h2_sign, ['parentId'=>$hist_parent, 'subscribeId'=>$hist_sub]);
+    $h3_sign['nonce'] = $hist_nonce_C;
+    $h3_body = _typed_body($h3_sign);
+    $h3_probe = _probe_sig($h3_sign, $known_secret);
+    $h3_body['signature'] = $h3_probe['sig'];
+
+    $batch2_cases['H3_hist_all15'] = [
+        'label'    => '[H3] Historical orderId + ALL 15 fields signed',
+        'order_id' => $hist_oid,
+        'nonce'    => $hist_nonce_C,
+        'sign_str' => $h3_probe['str'],
+        'sig'      => $h3_probe['sig'],
+        'body'     => $h3_body,
+        'res'      => _probe_send($h3_body, $url),
+    ];
+
+    // ══════════════════════════════════════════════════════════
+    // BATCH 3: ALTERNATE SECRET KEYS
+    // Use one known-good field set (real IDs, v1.3 signed only)
+    // but brute-force 4 different secret key candidates.
+    // If any passes, we know the real secret has changed.
+    // ══════════════════════════════════════════════════════════
+    $batch3_cases = [];
+    $alt_sec_list = [
+        'SEC_known'    => $known_secret,
+        'SEC_nocomma'  => str_replace(',', '', $known_secret),    // remove comma
+        'SEC_noeq'     => str_replace('=', '', $known_secret),    // remove equal sign
+        'SEC_lower'    => strtolower($known_secret),
+        'SEC_upper'    => strtoupper($known_secret),
+    ];
+
+    foreach ($alt_sec_list as $sk => $sec) {
+        $oid   = (string)($base_oid + 50 + count($batch3_cases));
+        $nonce = bin2hex(random_bytes(16));
+        $sign  = array_merge($common_str, [
+            'orderId'                  => $oid,
+            'timestamp'                => (string)$now,
+            'nonce'                    => $nonce,
+            'parentClubParentId'       => $real_parent,
+            'parentClubSubscriptionId' => $real_sub,
+            'parentId'                 => $real_parent,
+            'subscribeId'              => $real_sub,
+        ]);
+        $probe = _probe_sig($sign, $sec);
+        $body  = _typed_body($sign);
+        $body['signature'] = $probe['sig'];
+
+        $batch3_cases[$sk] = [
+            'label'    => "[{$sk}] Secret: " . substr($sec, 0, 20) . '…',
+            'order_id' => $oid,
+            'nonce'    => $nonce,
+            'sign_str' => $probe['str'],
+            'sig'      => $probe['sig'],
+            'body'     => $body,
+            'res'      => _probe_send($body, $url),
+            'secret'   => $sec,
+        ];
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // BATCH 4: INTEGER TYPES in body
+    // What if the server json_encodes integers as "1" not 1?
+    // Test Case B (v1.3 signed, v1.4 body-only) but with string
+    // typed integers in the JSON body.
+    // ══════════════════════════════════════════════════════════
+    $batch4_cases = [];
+
+    // T1: All values as strings in body (no typed integers)
+    $t1_oid   = (string)($base_oid + 100);
+    $t1_nonce = bin2hex(random_bytes(16));
+    $t1_sign  = array_merge($common_str, [
+        'orderId'                  => $t1_oid,
+        'timestamp'                => (string)$now,
+        'nonce'                    => $t1_nonce,
+        'parentClubParentId'       => $real_parent,
+        'parentClubSubscriptionId' => $real_sub,
+    ]);
+    $t1_probe = _probe_sig($t1_sign, $known_secret);
+    // Body: ALL strings (no typed integers)
+    $t1_body = $t1_sign;
+    $t1_body['parentId']    = $real_parent;
+    $t1_body['subscribeId'] = $real_sub;
+    $t1_body['signature']   = $t1_probe['sig'];
+    $batch4_cases['T1_all_strings'] = [
+        'label'    => '[T1] v1.3 signed, v1.4 body-only, ALL VALUES ARE STRINGS in JSON',
+        'order_id' => $t1_oid,
+        'nonce'    => $t1_nonce,
+        'sign_str' => $t1_probe['str'],
+        'sig'      => $t1_probe['sig'],
+        'body'     => $t1_body,
+        'res'      => _probe_send($t1_body, $url),
+    ];
+
+    // T2: payAmount as float 0.0 (not string "0.00")
+    $t2_oid   = (string)($base_oid + 101);
+    $t2_nonce = bin2hex(random_bytes(16));
+    $t2_sign  = array_merge($common_str, [
+        'orderId'                  => $t2_oid,
+        'timestamp'                => (string)$now,
+        'nonce'                    => $t2_nonce,
+        'parentClubParentId'       => $real_parent,
+        'parentClubSubscriptionId' => $real_sub,
+    ]);
+    $t2_probe = _probe_sig($t2_sign, $known_secret);
+    $t2_body  = _typed_body($t2_sign);
+    $t2_body['payAmount']   = 0.0;        // float instead of string
+    $t2_body['parentId']    = $real_parent;
+    $t2_body['subscribeId'] = $real_sub;
+    $t2_body['signature']   = $t2_probe['sig'];
+    $batch4_cases['T2_payAmount_float'] = [
+        'label'    => '[T2] v1.3 signed, payAmount=0.0 (float), v1.4 body-only',
+        'order_id' => $t2_oid,
+        'nonce'    => $t2_nonce,
+        'sign_str' => $t2_probe['str'],
+        'sig'      => $t2_probe['sig'],
+        'body'     => $t2_body,
+        'res'      => _probe_send($t2_body, $url),
+    ];
+
+    // ══════════════════════════════════════════════════════════
+    // RENDER
+    // ══════════════════════════════════════════════════════════
+    header('Content-Type: text/html; charset=utf-8');
+    echo '<!DOCTYPE html><html><head><meta charset="utf-8">
+    <title>eMathSmart Sig Probe v2</title>
+    <style>
+        body { font-family: monospace; background: #0d0d0d; color: #e0e0e0; padding: 24px; }
+        h1 { color: #03dac6; } h2 { color: #bb86fc; margin-top: 32px; }
+        h3 { color: #ffb74d; } 
+        .ok   { background:#1b3a1b; border-left:4px solid #4caf50; padding:10px 16px; border-radius:4px; margin-bottom:14px; }
+        .fail { background:#3a1b1b; border-left:4px solid #f44336; padding:10px 16px; border-radius:4px; margin-bottom:14px; }
+        .warn { background:#3a2e0a; border-left:4px solid #ff9800; padding:10px 16px; border-radius:4px; margin-bottom:14px; }
+        .info { background:#1a1a2e; border-left:4px solid #03a9f4; padding:10px 16px; border-radius:4px; margin-bottom:14px; }
+        pre { background:#1a1a1a; padding:12px; border-radius:4px; font-size:11px; white-space:pre-wrap; word-break:break-all; }
+        table { border-collapse:collapse; width:100%; margin-bottom:12px; }
+        th,td { border:1px solid #333; padding:6px 10px; text-align:left; font-size:12px; }
+        th { background:#1a1a1a; color:#bb86fc; }
+        .c200 { color:#4caf50; font-weight:bold; }
+        .cerr { color:#f44336; font-weight:bold; }
+        .cwrn { color:#ff9800; font-weight:bold; }
+    </style></head><body>';
+
+    echo '<h1>🔬 eMathSmart Signature Probe v2</h1>';
+    echo '<div class="info"><strong>Known secret:</strong> <code>' . esc_html($known_secret) . '</code><br>';
+    echo '<strong>Real parent:</strong> ' . $real_parent . ' | <strong>Real sub:</strong> ' . $real_sub . '<br>';
+    echo '<strong>Historical orderId:</strong> ' . $hist_oid . ' | <strong>base_oid:</strong> ' . $base_oid . '</div>';
+
+    $all_batches = [
+        'Batch 1 — Real IDs (parentId=60793) — Does fake ID cause the failure?' => $batch1_cases,
+        'Batch 2 — Historical orderId=116377 — Does adding parentId break known-good signature?' => $batch2_cases,
+        'Batch 3 — Alternate Secret Keys — Has the staging secret changed?' => $batch3_cases,
+        'Batch 4 — Value Types — Does integer vs string affect signing?' => $batch4_cases,
+    ];
+
+    // Summary table
+    echo '<h2>📊 Summary</h2>';
+    echo '<table><tr><th>✓</th><th>Batch</th><th>Case</th><th>orderId</th><th>Code</th><th>Message</th></tr>';
+    foreach ($all_batches as $batch_label => $cases) {
+        foreach ($cases as $ck => $r) {
+            $code = $r['res']['code'];
+            $win  = in_array($code, [200, 40101, 40201, 40202]);
+            $cls  = $win ? 'c200' : ($code === 400 ? 'cwrn' : 'cerr');
+            $icon = $win ? '✅' : ($code === 400 ? '⚠️' : '❌');
+            echo "<tr><td>$icon</td><td><small>" . esc_html($batch_label) . "</small></td>";
+            echo "<td><code>" . esc_html($ck) . "</code><br><small>" . esc_html($r['label']) . "</small></td>";
+            echo "<td><code>{$r['order_id']}</code></td>";
+            echo "<td class='$cls'>$code</td>";
+            echo "<td>" . esc_html($r['res']['msg']) . "</td></tr>";
+        }
     }
     echo '</table>';
 
-    // ── Per-case detail ──────────────────────────────────────
-    echo '<h2>🔍 Per-Case Detail</h2>';
-    foreach ($results as $key => $r) {
-        $code = $r['res']['code'];
-        $win  = ($code === 200 || $code === 40101 || $code === 40201 || $code === 40202);
-        $cls  = $win ? 'ok' : 'fail';
-        $icon = $win ? '✅' : '❌';
+    // Per-batch detail
+    foreach ($all_batches as $batch_label => $cases) {
+        echo '<h2>' . esc_html($batch_label) . '</h2>';
+        foreach ($cases as $ck => $r) {
+            $code = $r['res']['code'];
+            $win  = in_array($code, [200, 40101, 40201, 40202]);
+            $cls  = $win ? 'ok' : ($code === 400 ? 'warn' : 'fail');
+            $icon = $win ? '✅' : ($code === 400 ? '⚠️' : '❌');
 
-        echo "<div class='$cls' style='margin-bottom:20px;'>";
-        echo "<h3 style='margin-top:0;'>$icon " . esc_html($key) . " — Code: <strong>$code</strong></h3>";
-        echo "<p><em>" . esc_html($r['case']['label']) . "</em></p>";
-
-        echo '<table style="margin-bottom:8px;">';
-        echo '<tr><th>Detail</th><th>Value</th></tr>';
-        echo '<tr><td>orderId</td><td><code>' . esc_html($r['order_id']) . '</code></td></tr>';
-        echo '<tr><td>nonce</td><td><code>' . esc_html($r['nonce']) . '</code></td></tr>';
-        echo '<tr><td>Signing string</td><td><code style="word-break:break-all;">' . esc_html($r['sign_str']) . '</code></td></tr>';
-        echo '<tr><td>Signature</td><td><code>' . esc_html($r['sig']) . '</code></td></tr>';
-        echo '</table>';
-
-        echo '<strong>Request Payload:</strong>';
-        echo '<pre>' . esc_html(json_encode($r['body'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)) . '</pre>';
-        echo '<strong>Response:</strong>';
-        echo '<pre>' . esc_html($r['res']['raw']) . '</pre>';
-        echo '</div>';
+            echo "<div class='$cls'>";
+            echo "<h3 style='margin-top:0;'>$icon <code>" . esc_html($ck) . "</code> — Code: <strong>$code</strong></h3>";
+            echo "<p>" . esc_html($r['label']) . "</p>";
+            echo '<table><tr><th>Detail</th><th>Value</th></tr>';
+            echo '<tr><td>orderId</td><td><code>' . esc_html($r['order_id']) . '</code></td></tr>';
+            echo '<tr><td>nonce</td><td><code>' . esc_html($r['nonce']) . '</code></td></tr>';
+            if (isset($r['secret'])) echo '<tr><td>Secret used</td><td><code>' . esc_html($r['secret']) . '</code></td></tr>';
+            echo '<tr><td>Signing string</td><td><code style="word-break:break-all;">' . esc_html($r['sign_str']) . '</code></td></tr>';
+            echo '<tr><td>Signature</td><td><code>' . esc_html($r['sig']) . '</code></td></tr>';
+            echo '</table>';
+            echo '<strong>Body:</strong><pre>' . esc_html(json_encode($r['body'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)) . '</pre>';
+            echo '<strong>Response:</strong><pre>' . esc_html($r['res']['raw']) . '</pre>';
+            echo '</div>';
+        }
     }
 
-    echo '<hr style="border-color:#333; margin: 40px 0;">';
-    echo '<p style="color:#666; font-size:12px;">Probe completed. Each case used a unique orderId. No WC orders were modified.</p>';
+    echo '<hr style="border-color:#333;margin:40px 0;">';
+    echo '<p style="color:#666;font-size:11px;">Probe v2 complete. Fresh orderIds used per case. No WC orders modified.</p>';
     echo '</body></html>';
     exit;
 }
-
