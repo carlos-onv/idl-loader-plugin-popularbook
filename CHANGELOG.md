@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-28] - AI Coins Selection Page Overhaul & Parents Club Section 4 Styling
+
+### Changed
+- **Premium Section 4 Card Overhaul**: Completely redesigned the Starter, Popular, and Elite tutor package selection cards inside [single-product-ai-coins.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/single-product-ai-coins.php) to align with Parents' Club Section 4 pricing plans layout:
+  - Cards now utilize premium Outfit and Inter typography and high-end borders (`border: 1px solid #e2e8f0; border-radius: 20px;`) with a light, clean container.
+  - Hover triggers a smooth 8px vertical lift translation and premium soft box-shadows (`--shadow-hover`).
+  - Active selected cards show a crisp 2.5px solid border and soft color glow shadows matched to the card's theme color.
+- **Dynamic Themed Accent Styling**:
+  - **Starter Bundle (100 coins)**: Themed with a Deep Azure Blue accent (`#0066ff`).
+  - **Popular Challenge (500 coins)**: Themed with a Bright Coral Orange accent (`#ff5a36`) and features a floating absolute-centered **BEST VALUE** badge at the top card boundary.
+  - **Elite Tutor Bundle (1000 coins)**: Themed with a Premium Indigo/Purple accent (`#7c3aed`) to convey exclusive concept support.
+- **Colored Features Checklists**: Replaced flat description paragraphs on each card with detailed `.pc-plan-list` bullet features checklists featuring custom inline SVG checkmark vectors dynamically colored to match each card's theme accent.
+- **Sleek Interactive Outline Buttons**: Positioned a clean outline select button (`.pc-plan-btn.select-btn`) at the bottom of each card. The buttons dynamically fill completely with their accent color on hover, and transition into locked active solid fills when the corresponding card is selected.
+- **Dynamic Selection Indicators & Labels**:
+  - Relocated the `.select-indicator` checkbox to the top-left corner of each card to prevent visual button conflicts.
+  - Upgraded the DOM event listener script to bubble card selections and dynamically rewrite the button text inside the cards to show active selection labels (e.g. *"Starter Selected ✓"*, *"Popular Selected ✓"*, *"Elite Selected ✓"*).
+
+### Technical Notes for AI Agents
+- **Target File**: `/wp-content/plugins/idl-loader/templates/single-product-ai-coins.php`
+- **Interactive JS Bindings**: JavaScript selection binds to both `.package-card` click bubbles and `.select-btn` buttons, programmatically mapping selections to the hidden native WooCommerce attributes form select (`select[name="attribute_pa_coins"]`) to preserve WooCommerce variable pricing, cart validation logic, and automated single-item cart rules.
+
 ## [2026-05-27] - WPBakery Element: Parents Club Need Help Panel
 
 ### Added

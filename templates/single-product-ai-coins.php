@@ -86,12 +86,14 @@ while ( have_posts() ) : the_post();
 
         #emathsmart-custom-coins-product {
             --body-bg: #fde4ba;
-            --text-dark: #5a3e2b;
-            --text-muted: #8a6f59;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
             --primary-btn: #f28538;
             --primary-btn-hover: #e07427;
             --container-bg: #ffffff;
-            --card-border-selected: #f28637;
+            --border-light: #f1f5f9;
+            --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+            --shadow-hover: 0 20px 40px -15px rgba(0, 0, 0, 0.12), 0 4px 6px rgba(0, 0, 0, 0.04);
 
             font-family: 'Outfit', 'Inter', sans-serif;
             background-color: var(--body-bg);
@@ -156,7 +158,7 @@ while ( have_posts() ) : the_post();
             font-family: 'Outfit', sans-serif;
             font-size: 38px;
             font-weight: 800;
-            color: var(--text-dark);
+            color: #0f172a;
             margin-bottom: 12px;
             letter-spacing: -0.02em;
         }
@@ -169,73 +171,75 @@ while ( have_posts() ) : the_post();
             line-height: 1.5;
         }
 
-        /* Selection Grid - Friendly Cards */
+        /* Packages Grid - Responsive columns matching Section 4 layout */
         #emathsmart-custom-coins-product .packages-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
+            grid-template-columns: 1fr;
+            gap: 30px;
             margin-bottom: 50px;
+            width: 100%;
         }
 
+        @media (min-width: 768px) {
+            #emathsmart-custom-coins-product .packages-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            #emathsmart-custom-coins-product .packages-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px;
+            }
+        }
+
+        /* Package Card - Base styling matching .pc-plan-card */
         #emathsmart-custom-coins-product .package-card {
-            background-color: #fffcf7;
-            border: 2px solid #ffe6cf;
-            border-radius: 20px;
-            padding: 35px 24px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 6px 18px rgba(90, 62, 43, 0.02);
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-            overflow: hidden;
-            color: var(--text-dark);
+            background-color: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 20px !important;
+            padding: 40px 24px 30px 24px !important;
+            position: relative !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            box-shadow: var(--shadow-premium) !important;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            height: auto !important;
+            min-height: 520px !important;
+            cursor: pointer !important;
+            overflow: visible !important;
+            color: var(--text-dark) !important;
+            box-sizing: border-box !important;
         }
 
-        /* Hover animation */
+        /* Hover lift animation */
         #emathsmart-custom-coins-product .package-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-btn);
-            box-shadow: 0 12px 30px rgba(90, 62, 43, 0.05);
+            transform: translateY(-8px) !important;
+            box-shadow: var(--shadow-hover) !important;
+            border-color: #cbd5e1 !important;
         }
 
-        /* Active Plan Card Styling: Golden/Yellow Gradient from Screenshot */
+        /* Scoped theme variable settings */
+        #emathsmart-custom-coins-product .package-card.theme-starter {
+            --card-accent: #0066ff;
+            --card-accent-rgb: 0, 102, 255;
+        }
+
+        #emathsmart-custom-coins-product .package-card.theme-popular {
+            --card-accent: #ff5a36;
+            --card-accent-rgb: 255, 90, 54;
+        }
+
+        #emathsmart-custom-coins-product .package-card.theme-elite {
+            --card-accent: #7c3aed;
+            --card-accent-rgb: 124, 58, 237;
+        }
+
+        /* Active/Selected package styles: thick colored border + subtle glow */
         #emathsmart-custom-coins-product .package-card.selected {
-            background: linear-gradient(135deg, #ffdc8f 0%, #fdb558 100%);
-            border-color: var(--card-border-selected);
-            box-shadow: 0 10px 25px rgba(242, 134, 55, 0.2);
-        }
-
-        /* Card Gloss Reflection to match subscription card sheens */
-        #emathsmart-custom-coins-product .package-card.selected::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.28) 0%, transparent 100%);
-            pointer-events: none;
-        }
-
-        /* Best Value Floating Badge styled like Status Pills */
-        #emathsmart-custom-coins-product .popular-tag {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #ffffff;
-            border: 1px solid var(--primary-btn);
-            color: var(--primary-btn);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            z-index: 3;
-            box-shadow: 0 2px 6px rgba(242, 133, 55, 0.1);
+            border: 2.5px solid var(--card-accent) !important;
+            box-shadow: 0 15px 35px -10px rgba(var(--card-accent-rgb), 0.18), 0 20px 40px -15px rgba(0, 0, 0, 0.08) !important;
         }
 
         /* Card Elements */
@@ -247,17 +251,17 @@ while ( have_posts() ) : the_post();
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
-            background: #ffffff;
-            border: 2px solid #ffe6cf;
-            box-shadow: inset 0 2px 4px rgba(90,62,43,0.02);
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
             transition: all 0.3s ease;
             z-index: 2;
         }
 
         #emathsmart-custom-coins-product .package-card.selected .coin-icon-wrapper {
             background: #ffffff;
-            border-color: var(--primary-btn);
-            box-shadow: 0 4px 12px rgba(242, 133, 55, 0.15);
+            border-color: var(--card-accent);
+            box-shadow: 0 4px 12px rgba(var(--card-accent-rgb), 0.15);
         }
 
         #emathsmart-custom-coins-product .package-card:hover .coin-icon-wrapper {
@@ -266,91 +270,194 @@ while ( have_posts() ) : the_post();
 
         #emathsmart-custom-coins-product .coin-icon {
             font-size: 32px;
-            filter: drop-shadow(0 2px 4px rgba(90, 62, 43, 0.08));
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
         }
 
-        #emathsmart-custom-coins-product .card-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 6px;
-            z-index: 2;
+        /* Titles and Price - Outfit Font */
+        #emathsmart-custom-coins-product .pc-plan-title {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 21px !important;
+            font-weight: 700 !important;
+            color: #0f172a !important;
+            margin-bottom: 12px !important;
+            text-align: center !important;
+            line-height: 1.2 !important;
+            display: block !important;
+            width: 100% !important;
+            text-transform: none !important;
+            position: static !important;
         }
 
         #emathsmart-custom-coins-product .coin-quantity {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
             font-family: 'Outfit', sans-serif;
-            color: var(--text-dark);
+            color: #0f172a;
             margin-bottom: 12px;
             z-index: 2;
         }
 
-        #emathsmart-custom-coins-product .card-desc {
-            font-size: 13.5px;
-            color: var(--text-muted);
-            line-height: 1.45;
-            margin-bottom: 20px;
-            flex-grow: 1;
-            z-index: 2;
+        #emathsmart-custom-coins-product .pc-plan-price {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 36px !important;
+            font-weight: 800 !important;
+            margin-bottom: 16px !important;
+            display: flex !important;
+            align-items: baseline !important;
+            justify-content: center !important;
+            letter-spacing: -1px !important;
+            color: #0f172a !important;
+            width: 100% !important;
+            position: static !important;
         }
 
-        #emathsmart-custom-coins-product .package-card.selected .card-desc {
-            color: #634935;
+        #emathsmart-custom-coins-product .price-free {
+            font-size: 13.5px !important;
+            color: #10b981 !important;
+            font-weight: 700 !important;
+            background: rgba(16, 185, 129, 0.08) !important;
+            padding: 4px 10px !important;
+            border-radius: 6px !important;
         }
 
-        #emathsmart-custom-coins-product .card-divider {
-            width: 100%;
-            height: 1px;
-            background: rgba(90, 62, 43, 0.06);
-            margin-bottom: 15px;
-            z-index: 2;
+        /* Capsule Badge */
+        #emathsmart-custom-coins-product .pc-plan-badge {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            padding: 6px 16px !important;
+            border-radius: 100px !important;
+            margin-bottom: 16px !important;
+            display: inline-block !important;
+            text-align: center !important;
+            line-height: 1 !important;
+            width: auto !important;
+            height: auto !important;
+            border: 1px solid var(--card-accent) !important;
+            color: var(--card-accent) !important;
+            background-color: rgba(var(--card-accent-rgb), 0.04) !important;
+            text-transform: uppercase !important;
+            position: static !important;
         }
 
-        #emathsmart-custom-coins-product .package-card.selected .card-divider {
-            background: rgba(90, 62, 43, 0.1);
+        /* Floating Badge (Best Value) matching Section 4 */
+        #emathsmart-custom-coins-product .best-value-badge {
+            position: absolute !important;
+            top: -16px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            background-color: #ff5a36 !important;
+            color: #ffffff !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            text-transform: uppercase !important;
+            padding: 6px 18px !important;
+            border-radius: 6px !important;
+            box-shadow: 0 4px 12px rgba(255, 90, 54, 0.25) !important;
+            letter-spacing: 0.8px !important;
+            z-index: 10 !important;
+            white-space: nowrap !important;
+            line-height: 1 !important;
+            display: inline-block !important;
+            border: 1px solid #ffffff !important;
+            height: auto !important;
+            width: auto !important;
         }
 
-        /* Dynamic WooCommerce Price mapping */
-        #emathsmart-custom-coins-product .card-price {
-            font-family: 'Outfit', sans-serif;
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--text-dark);
-            z-index: 2;
+        /* Features List - pc-plan-list */
+        #emathsmart-custom-coins-product .pc-plan-list {
+            list-style-type: none !important;
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 0 25px 0 !important;
+            flex-grow: 1 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            position: static !important;
         }
 
-        #emathsmart-custom-coins-product .card-price .price-free {
-            font-size: 14px;
-            color: #10b981;
-            font-weight: 700;
-            background: rgba(16, 185, 129, 0.08);
-            padding: 4px 10px;
-            border-radius: 6px;
+        #emathsmart-custom-coins-product .pc-plan-item {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            font-size: 13.5px !important;
+            line-height: 1.45 !important;
+            color: #334155 !important;
+            font-weight: 500 !important;
+            text-align: left !important;
+            position: static !important;
         }
 
-        /* Selection Indicator Checkbox */
+        #emathsmart-custom-coins-product .pc-plan-item-icon {
+            flex-shrink: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-top: 1px !important;
+            position: static !important;
+        }
+
+        #emathsmart-custom-coins-product .pc-plan-item-icon svg {
+            width: 16px !important;
+            height: 16px !important;
+            display: block !important;
+            stroke: var(--card-accent) !important;
+            stroke-width: 2.8 !important;
+            position: static !important;
+        }
+
+        /* Sleek Outline Button inside card */
+        #emathsmart-custom-coins-product .pc-plan-btn {
+            width: 100% !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 12.5px !important;
+            font-weight: 800 !important;
+            text-transform: uppercase !important;
+            text-decoration: none !important;
+            padding: 14px 10px !important;
+            border-radius: 8px !important;
+            text-align: center !important;
+            border: 1.5px solid var(--card-accent) !important;
+            color: var(--card-accent) !important;
+            background-color: transparent !important;
+            transition: all 0.3s ease !important;
+            cursor: pointer !important;
+            margin-top: auto !important;
+            letter-spacing: 0.5px !important;
+            display: block !important;
+            white-space: nowrap !important;
+            position: static !important;
+        }
+
+        #emathsmart-custom-coins-product .pc-plan-btn:hover {
+            background-color: var(--card-accent) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 15px rgba(var(--card-accent-rgb), 0.2) !important;
+        }
+
+        /* Selection Indicator Checkbox moved to Top-Left */
         #emathsmart-custom-coins-product .select-indicator {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            border: 2px solid rgba(90,62,43,0.18);
-            background-color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 2;
+            position: absolute !important;
+            top: 20px !important;
+            left: 20px !important;
+            width: 22px !important;
+            height: 22px !important;
+            border-radius: 50% !important;
+            border: 2px solid #cbd5e1 !important;
+            background-color: #ffffff !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.3s ease !important;
+            z-index: 2 !important;
         }
 
         #emathsmart-custom-coins-product .package-card.selected .select-indicator {
-            border-color: #ffffff;
-            background-color: var(--primary-btn);
-            box-shadow: 0 0 0 2px var(--primary-btn);
+            border-color: #ffffff !important;
+            background-color: var(--card-accent) !important;
+            box-shadow: 0 0 0 2px var(--card-accent) !important;
         }
 
         #emathsmart-custom-coins-product .select-indicator::after {
@@ -364,6 +471,24 @@ while ( have_posts() ) : the_post();
 
         #emathsmart-custom-coins-product .package-card.selected .select-indicator::after {
             opacity: 1;
+        }
+
+        /* Solid Active fills for button when card is selected */
+        #emathsmart-custom-coins-product .package-card.selected .pc-plan-btn {
+            background-color: var(--card-accent) !important;
+            color: #ffffff !important;
+            border-color: var(--card-accent) !important;
+            box-shadow: 0 4px 15px rgba(var(--card-accent-rgb), 0.25) !important;
+        }
+
+        /* Divider inside card - kept subtle */
+        #emathsmart-custom-coins-product .card-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.05);
+            margin: 15px 0;
+            z-index: 2;
+            position: static !important;
         }
 
         /* Interactive checkout wrapper */
@@ -441,7 +566,7 @@ while ( have_posts() ) : the_post();
             font-family: 'Outfit', sans-serif;
             font-size: 28px;
             font-weight: 800;
-            color: var(--text-dark);
+            color: #0f172a;
             margin-top: 0;
             margin-bottom: 20px;
             letter-spacing: -0.01em;
@@ -451,7 +576,7 @@ while ( have_posts() ) : the_post();
             font-family: 'Outfit', sans-serif;
             font-size: 20px;
             font-weight: 700;
-            color: var(--text-dark);
+            color: #0f172a;
             margin-top: 30px;
             margin-bottom: 15px;
         }
@@ -459,7 +584,7 @@ while ( have_posts() ) : the_post();
         #emathsmart-custom-coins-product .description-section p {
             font-size: 15px;
             line-height: 1.6;
-            color: var(--text-dark);
+            color: #334155;
             margin-bottom: 20px;
         }
 
@@ -479,7 +604,7 @@ while ( have_posts() ) : the_post();
         }
 
         #emathsmart-custom-coins-product .description-section li strong {
-            color: var(--text-dark);
+            color: #0f172a;
         }
 
         /* Friendly orange stars as list bullet icons */
@@ -514,7 +639,7 @@ while ( have_posts() ) : the_post();
 
         #emathsmart-custom-coins-product .description-section blockquote li {
             margin-bottom: 8px;
-            color: var(--text-dark);
+            color: #0f172a;
         }
 
         #emathsmart-custom-coins-product .description-section blockquote li::before {
@@ -560,10 +685,10 @@ while ( have_posts() ) : the_post();
             <div class="product-header">
                 <div class="badge">eMathSmart Integration</div>
                 <h1 class="coins-title">AI Personalized Tutoring Coins</h1>
-                <p class="coins-sub">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                <p class="coins-sub">Purchase interactive tutoring coins to unlock advanced personalized support, step-by-step interactive guidance, and real-time concept feedback within the eMathSmart learning portal.</p>
             </div>
 
-            <!-- Custom Packages Selection Grid -->
+            <!-- Custom Packages Selection Grid matching Section 4 plans-grid -->
             <div class="packages-grid">
                 
                 <!-- Package 1: 100 Coins (Starter) -->
@@ -581,15 +706,61 @@ while ( have_posts() ) : the_post();
                     }
                 }
                 ?>
-                <div class="package-card theme-starter" data-value="100">
+                <div class="package-card pc-plan-card theme-starter" data-value="100">
                     <div class="coin-icon-wrapper">
                         <span class="coin-icon">🥉</span>
                     </div>
-                    <h3 class="card-title">Starter Bundle</h3>
+                    
+                    <span class="pc-plan-badge">Starter Pack</span>
+                    <h3 class="pc-plan-title">Starter Bundle</h3>
                     <div class="coin-quantity">100 Coins</div>
-                    <p class="card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    
+                    <ul class="pc-plan-list">
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>100 AI Interactive Coins</p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>Access to AI Personalized Tutor</p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>Step-by-Step Math Solutions</p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>Progress reports for parents</p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>Coins never expire (Rollover)</p>
+                        </li>
+                    </ul>
+                    
                     <div class="card-divider"></div>
-                    <div class="card-price"><?php echo $price_html_100; ?></div>
+                    <div class="pc-plan-price"><?php echo $price_html_100; ?></div>
+                    <button type="button" class="pc-plan-btn select-btn">Select Starter</button>
                     <div class="select-indicator"></div>
                 </div>
 
@@ -607,16 +778,71 @@ while ( have_posts() ) : the_post();
                     }
                 }
                 ?>
-                <div class="package-card theme-popular selected" data-value="500">
-                    <div class="popular-tag">Best Value</div>
+                <div class="package-card pc-plan-card theme-popular selected" data-value="500">
+                    <span class="best-value-badge">Best Value</span>
+                    
                     <div class="coin-icon-wrapper">
                         <span class="coin-icon">🥈</span>
                     </div>
-                    <h3 class="card-title">Popular challenge</h3>
+                    
+                    <span class="pc-plan-badge">Popular Choice</span>
+                    <h3 class="pc-plan-title">Popular Challenge</h3>
                     <div class="coin-quantity">500 Coins</div>
-                    <p class="card-desc">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    
+                    <ul class="pc-plan-list">
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>500 AI Interactive Coins</p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p><strong>Popular choice for monthly practice</strong></p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>Access to AI Personalized Tutor</p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>Instant step-by-step guidance</p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>Full progress & parent reports</p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>Coins never expire (Rollover)</p>
+                        </li>
+                    </ul>
+                    
                     <div class="card-divider"></div>
-                    <div class="card-price"><?php echo $price_html_500; ?></div>
+                    <div class="pc-plan-price"><?php echo $price_html_500; ?></div>
+                    <button type="button" class="pc-plan-btn select-btn">Select Popular</button>
                     <div class="select-indicator"></div>
                 </div>
 
@@ -634,15 +860,69 @@ while ( have_posts() ) : the_post();
                     }
                 }
                 ?>
-                <div class="package-card theme-elite" data-value="1000">
+                <div class="package-card pc-plan-card theme-elite" data-value="1000">
                     <div class="coin-icon-wrapper">
                         <span class="coin-icon">🥇</span>
                     </div>
-                    <h3 class="card-title">Elite Tutor Bundle</h3>
+                    
+                    <span class="pc-plan-badge">Max Savings Pack</span>
+                    <h3 class="pc-plan-title">Elite Tutor Bundle</h3>
                     <div class="coin-quantity">1000 Coins</div>
-                    <p class="card-desc">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                    
+                    <ul class="pc-plan-list">
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>1000 AI Interactive Coins</p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p><strong>Best for intensive learning & support</strong></p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>Priority access to AI Tutor</p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>In-depth concept explanations</p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>Advanced progress insights</p>
+                        </li>
+                        <li class="pc-plan-item">
+                            <span class="pc-plan-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <p>Coins never expire (Rollover)</p>
+                        </li>
+                    </ul>
+                    
                     <div class="card-divider"></div>
-                    <div class="card-price"><?php echo $price_html_1000; ?></div>
+                    <div class="pc-plan-price"><?php echo $price_html_1000; ?></div>
+                    <button type="button" class="pc-plan-btn select-btn">Select Elite</button>
                     <div class="select-indicator"></div>
                 </div>
 
@@ -680,7 +960,6 @@ while ( have_posts() ) : the_post();
                     <?php echo apply_filters( 'the_content', $description ); ?>
                 </div>
             <?php endif; ?>
-
 
         </div>
 
@@ -755,6 +1034,21 @@ while ( have_posts() ) : the_post();
                 
                 // Dispatch change event so WooCommerce JS binds properly and resolves price/variation ID
                 wooSelect.dispatchEvent(new Event('change', { bubbles: true }));
+
+                // Update select-btn text dynamically
+                cards.forEach(card => {
+                    const btn = card.querySelector('.select-btn');
+                    if (!btn) return;
+                    const val = card.getAttribute('data-value');
+                    const isSelected = card.classList.contains('selected');
+                    if (val === '100') {
+                        btn.textContent = isSelected ? 'Starter Selected ✓' : 'Select Starter';
+                    } else if (val === '500') {
+                        btn.textContent = isSelected ? 'Popular Selected ✓' : 'Select Popular';
+                    } else if (val === '1000') {
+                        btn.textContent = isSelected ? 'Elite Selected ✓' : 'Select Elite';
+                    }
+                });
             }
         });
     </script>
