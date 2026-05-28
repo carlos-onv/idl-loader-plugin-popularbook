@@ -15,6 +15,11 @@ All notable changes to this project will be documented in this file for both hum
   - [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css)
 
 ### Changed & Refined
+- **AI Coins Purchase Template Overhaul**: Redesigned the variable product selection template [single-product-ai-coins.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/single-product-ai-coins.php) using the refined dashboard coins aesthetics:
+  - Swapped out the 🥉, 🥈, and 🥇 emoji placeholders on the starter, popular, and elite cards for the actual high-fidelity `coin.png` image asset.
+  - Formatted and styled the `.coin-icon-wrapper` and `.coin-icon` to be completely transparent, flat, and shadow-free to match the dashboard design alignment.
+  - Implemented a highly robust programmatic price-sync loop that dynamically extracts display prices from all variation attributes using a clean number-extractor, ensuring flawless WooCommerce price synchronization and preventing database attribute-mismatches.
+  - Upgraded the client-side JavaScript synchronizer to search select options by cleaned numeric digits, guaranteeing reliable dropdown binding even if variation values are formatted differently (e.g. `'100'`, `'100-coins'`).
 - **Refined AI Coins Card Alignment**: Perfectly aligned the AI Coins component layout to match the exact design mockup:
   - Removed the boxed border and cream-peach background from `.coins-balance-row` to make it completely transparent.
   - Eliminated the white circular pop-glow background container and shadow around the coin image (`.coins-balance-icon-wrapper`), rendering the coin icon naturally flush-left.

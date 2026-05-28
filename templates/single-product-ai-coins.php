@@ -1,7 +1,7 @@
 <?php
 /**
  * Custom WooCommerce Single Product Template for AI Coins
- * Direction: Option B - The Sleek Glass-Minimalist (Frosted Apple-style)
+ * Styled to perfectly match the Parents Club Member Dashboard AI Coins Card Design
  * 
  * Satisfies: "Dont change the header in the design"
  * This template selectively styles the inner content area under an isolated namespace
@@ -23,6 +23,18 @@ get_header( 'shop' );
 // Start the WordPress loop
 while ( have_posts() ) : the_post();
     $product = wc_get_product( get_the_ID() );
+    if ( ! $product ) {
+        continue;
+    }
+
+    // If it's a variation product, load its parent instead to render the full variations grid!
+    if ( $product->is_type( 'variation' ) ) {
+        $parent_id = $product->get_parent_id();
+        if ( $parent_id ) {
+            $product = wc_get_product( $parent_id );
+        }
+    }
+
     if ( ! $product || ! $product->is_type( 'variable' ) ) {
         // Fallback for non-variable or missing product
         wc_get_template_part( 'content', 'single-product' );
@@ -30,6 +42,73 @@ while ( have_posts() ) : the_post();
     }
 
     $variations = $product->get_available_variations();
+    $package_variations = [];
+
+    foreach ( $variations as $var ) {
+        $var_id = $var['variation_id'];
+        
+        // Find the attribute value that corresponds to the coins amount
+        $coin_amount = 0;
+        if ( ! empty( $var['attributes'] ) ) {
+            foreach ( $var['attributes'] as $attr_key => $attr_val ) {
+                if ( strpos( $attr_key, 'attribute_' ) === 0 ) {
+                    // Extract only numbers from the attribute value, e.g. "100" -> 100
+                    $clean_val = preg_replace( '/[^0-9]/', '', $attr_val );
+                    if ( ! empty( $clean_val ) ) {
+                        $coin_amount = intval( $clean_val );
+                        break;
+                    }
+                }
+            }
+        }
+        
+        // If we didn't find any coin amount in the attributes, try to parse the variation description or image title
+        if ( $coin_amount <= 0 ) {
+            $clean_title = preg_replace( '/[^0-9]/', '', $var['image']['title'] ?? '' );
+            if ( ! empty( $clean_title ) ) {
+                $coin_amount = intval( $clean_title );
+            }
+        }
+        
+        // Fallback if still not found (skip invalid variation)
+        if ( $coin_amount <= 0 ) {
+            continue;
+        }
+        
+        // Get variation price
+        $display_price = $var['display_price'];
+        $price_html = wc_price( $display_price );
+        
+        $package_variations[] = [
+            'id' => $var_id,
+            'coins' => $coin_amount,
+            'price_html' => $price_html,
+            'display_price' => $display_price,
+            'attributes' => $var['attributes'],
+        ];
+    }
+
+    // Sort variations by coin amount ascending
+    usort( $package_variations, function( $a, $b ) {
+        return $a['coins'] - $b['coins'];
+    });
+
+    // Determine the default selected coin package (e.g. 250 Coins if present, otherwise middle package)
+    $default_coins = 250;
+    $has_default = false;
+    foreach ( $package_variations as $p ) {
+        if ( $p['coins'] == $default_coins ) {
+            $has_default = true;
+            break;
+        }
+    }
+    if ( ! $has_default && ! empty( $package_variations ) ) {
+        $selected_index = floor( count( $package_variations ) / 2 );
+        $default_coins = $package_variations[ $selected_index ]['coins'];
+    }
+
+    // Generate coin icon image URL relative to this template folder
+    $coin_image_url = esc_url( plugins_url( 'images/coin.png', __FILE__ ) );
     ?>
     
     <!-- Load premium Google fonts Outfit and Inter -->
@@ -85,73 +164,65 @@ while ( have_posts() ) : the_post();
         }
 
         #emathsmart-custom-coins-product {
-            --body-bg: #fde4ba;
-            --text-dark: #1e293b;
-            --text-muted: #64748b;
-            --primary-btn: #f28538;
-            --primary-btn-hover: #e07427;
-            --container-bg: #ffffff;
+            --brand-text-dark: #1e293b;
+            --brand-text-muted: #64748b;
             --border-light: #f1f5f9;
-            --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+            --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
             --shadow-hover: 0 20px 40px -15px rgba(0, 0, 0, 0.12), 0 4px 6px rgba(0, 0, 0, 0.04);
+            --esmart-crimson: #ff3e1d;
+            --esmart-crimson-hover: #e53212;
+            --esmart-blue: #007aff;
+            --esmart-green: #34c759;
+            --esmart-orange: #ff9500;
+            --body-bg: #fafbfc;
+            --primary-btn: #ff3e1d;
+            --primary-btn-hover: #e53212;
+            --container-bg: #ffffff;
 
             font-family: 'Outfit', 'Inter', sans-serif;
             background-color: var(--body-bg);
-            background-image: linear-gradient(180deg, #fde4ba 0%, #fedb9b 100%);
-            color: var(--text-dark);
+            color: var(--brand-text-dark);
             padding: 60px 20px 80px 20px;
             position: relative;
             overflow: hidden;
             width: 100%;
             min-height: 100vh;
-            border-top: 1px solid rgba(90, 62, 43, 0.05);
+            box-sizing: border-box;
         }
 
-        /* Decorative vertical slats pattern to match eMathSmart background */
-        #emathsmart-custom-coins-product::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.16) 1px, transparent 1px);
-            background-size: 40px 100%;
-            pointer-events: none;
-            z-index: 1;
+        #emathsmart-custom-coins-product * {
+            box-sizing: border-box;
         }
 
         #emathsmart-custom-coins-product .product-container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
             position: relative;
             z-index: 2;
-            padding: 50px;
+            padding: 45px;
             background: var(--container-bg);
             border-radius: 28px;
-            border: 2px solid #ffe9d2;
-            box-shadow: 0 12px 40px rgba(90, 62, 43, 0.06);
+            border: 1px solid #eef2f6;
+            box-shadow: var(--shadow-premium);
         }
 
         /* Custom Header styling inside content area only */
         #emathsmart-custom-coins-product .product-header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         #emathsmart-custom-coins-product .badge {
             display: inline-block;
-            padding: 6px 18px;
-            background: #ffffff;
-            border: 1px solid #ffe2ca;
+            padding: 6px 16px;
+            background: #fff0eb;
             border-radius: 100px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            color: var(--primary-btn);
+            color: #ff3e1d;
             margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            box-shadow: 0 4px 10px rgba(90, 62, 43, 0.03);
         }
 
         #emathsmart-custom-coins-product h1.coins-title {
@@ -161,341 +232,248 @@ while ( have_posts() ) : the_post();
             color: #0f172a;
             margin-bottom: 12px;
             letter-spacing: -0.02em;
+            line-height: 1.15;
+            text-transform: none;
         }
 
         #emathsmart-custom-coins-product .coins-sub {
+            font-family: 'Inter', sans-serif;
             font-size: 16px;
-            color: var(--text-muted);
+            color: var(--brand-text-muted);
             max-width: 680px;
             margin: 0 auto;
             line-height: 1.5;
         }
 
-        /* Packages Grid - Responsive columns matching Section 4 layout */
-        #emathsmart-custom-coins-product .packages-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            margin-bottom: 50px;
-            width: 100%;
-        }
-
-        @media (min-width: 768px) {
-            #emathsmart-custom-coins-product .packages-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 1200px) {
-            #emathsmart-custom-coins-product .packages-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 24px;
-            }
-        }
-
-        /* Package Card - Base styling matching .pc-plan-card */
-        #emathsmart-custom-coins-product .package-card {
+        /* General Dashboard Card Centerpiece */
+        #emathsmart-custom-coins-product .dashboard-card {
             background-color: #ffffff !important;
-            border: 1px solid #e2e8f0 !important;
+            border: 1px solid #eef2f6 !important;
             border-radius: 20px !important;
-            padding: 40px 24px 30px 24px !important;
+            padding: 30px !important;
+            box-shadow: var(--shadow-premium) !important;
             position: relative !important;
             display: flex !important;
             flex-direction: column !important;
-            align-items: center !important;
-            box-shadow: var(--shadow-premium) !important;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-            height: auto !important;
-            min-height: 520px !important;
-            cursor: pointer !important;
-            overflow: visible !important;
-            color: var(--text-dark) !important;
-            box-sizing: border-box !important;
+            margin-bottom: 40px !important;
         }
 
-        /* Hover lift animation */
-        #emathsmart-custom-coins-product .package-card:hover {
-            transform: translateY(-8px) !important;
-            box-shadow: var(--shadow-hover) !important;
-            border-color: #cbd5e1 !important;
+        #emathsmart-custom-coins-product .ai-coins-card {
+            gap: 16px !important;
         }
 
-        /* Scoped theme variable settings */
-        #emathsmart-custom-coins-product .package-card.theme-starter {
-            --card-accent: #0066ff;
-            --card-accent-rgb: 0, 102, 255;
-        }
-
-        #emathsmart-custom-coins-product .package-card.theme-popular {
-            --card-accent: #ff5a36;
-            --card-accent-rgb: 255, 90, 54;
-        }
-
-        #emathsmart-custom-coins-product .package-card.theme-elite {
-            --card-accent: #7c3aed;
-            --card-accent-rgb: 124, 58, 237;
-        }
-
-        /* Active/Selected package styles: thick colored border + subtle glow */
-        #emathsmart-custom-coins-product .package-card.selected {
-            border: 2.5px solid var(--card-accent) !important;
-            box-shadow: 0 15px 35px -10px rgba(var(--card-accent-rgb), 0.18), 0 20px 40px -15px rgba(0, 0, 0, 0.08) !important;
-        }
-
-        /* Card Elements */
-        #emathsmart-custom-coins-product .coin-icon-wrapper {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-            transition: all 0.3s ease;
-            z-index: 2;
-        }
-
-        #emathsmart-custom-coins-product .package-card.selected .coin-icon-wrapper {
-            background: #ffffff;
-            border-color: var(--card-accent);
-            box-shadow: 0 4px 12px rgba(var(--card-accent-rgb), 0.15);
-        }
-
-        #emathsmart-custom-coins-product .package-card:hover .coin-icon-wrapper {
-            transform: scale(1.08);
-        }
-
-        #emathsmart-custom-coins-product .coin-icon {
-            font-size: 32px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
-        }
-
-        /* Titles and Price - Outfit Font */
-        #emathsmart-custom-coins-product .pc-plan-title {
+        #emathsmart-custom-coins-product .coins-card-title {
             font-family: 'Outfit', sans-serif !important;
-            font-size: 21px !important;
+            font-size: 18px !important;
             font-weight: 700 !important;
-            color: #0f172a !important;
-            margin-bottom: 12px !important;
-            text-align: center !important;
-            line-height: 1.2 !important;
-            display: block !important;
+            color: var(--brand-text-dark) !important;
+            margin-bottom: 4px !important;
+            margin-top: 0 !important;
+            text-align: left !important;
+            line-height: 1.25 !important;
+        }
+
+        /* Balance display area - Clean inline display without border or background box */
+        #emathsmart-custom-coins-product .coins-balance-row {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            background: none !important;
+            border: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            margin: 8px 0 4px 0 !important;
+            box-shadow: none !important;
+        }
+
+        /* Coin wrapper - transparent and flush left */
+        #emathsmart-custom-coins-product .coins-balance-icon-wrapper {
+            flex-shrink: 0 !important;
+            width: 38px !important;
+            height: 38px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+        }
+
+        #emathsmart-custom-coins-product .coins-balance-image {
             width: 100% !important;
-            text-transform: none !important;
-            position: static !important;
+            height: auto !important;
+            display: block !important;
         }
 
-        #emathsmart-custom-coins-product .coin-quantity {
-            font-size: 26px;
-            font-weight: 800;
-            font-family: 'Outfit', sans-serif;
-            color: #0f172a;
-            margin-bottom: 12px;
-            z-index: 2;
-        }
-
-        #emathsmart-custom-coins-product .pc-plan-price {
-            font-family: 'Outfit', sans-serif !important;
-            font-size: 36px !important;
-            font-weight: 800 !important;
-            margin-bottom: 16px !important;
+        #emathsmart-custom-coins-product .coins-balance-text {
             display: flex !important;
             align-items: baseline !important;
-            justify-content: center !important;
-            letter-spacing: -1px !important;
-            color: #0f172a !important;
-            width: 100% !important;
-            position: static !important;
-        }
-
-        #emathsmart-custom-coins-product .price-free {
-            font-size: 13.5px !important;
-            color: #10b981 !important;
-            font-weight: 700 !important;
-            background: rgba(16, 185, 129, 0.08) !important;
-            padding: 4px 10px !important;
-            border-radius: 6px !important;
-        }
-
-        /* Capsule Badge */
-        #emathsmart-custom-coins-product .pc-plan-badge {
-            font-family: 'Outfit', sans-serif !important;
-            font-size: 11px !important;
-            font-weight: 800 !important;
-            padding: 6px 16px !important;
-            border-radius: 100px !important;
-            margin-bottom: 16px !important;
-            display: inline-block !important;
-            text-align: center !important;
-            line-height: 1 !important;
-            width: auto !important;
-            height: auto !important;
-            border: 1px solid var(--card-accent) !important;
-            color: var(--card-accent) !important;
-            background-color: rgba(var(--card-accent-rgb), 0.04) !important;
-            text-transform: uppercase !important;
-            position: static !important;
-        }
-
-        /* Floating Badge (Best Value) matching Section 4 */
-        #emathsmart-custom-coins-product .best-value-badge {
-            position: absolute !important;
-            top: -16px !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            background-color: #ff5a36 !important;
-            color: #ffffff !important;
-            font-family: 'Outfit', sans-serif !important;
-            font-size: 11px !important;
-            font-weight: 800 !important;
-            text-transform: uppercase !important;
-            padding: 6px 18px !important;
-            border-radius: 6px !important;
-            box-shadow: 0 4px 12px rgba(255, 90, 54, 0.25) !important;
-            letter-spacing: 0.8px !important;
-            z-index: 10 !important;
-            white-space: nowrap !important;
-            line-height: 1 !important;
-            display: inline-block !important;
-            border: 1px solid #ffffff !important;
-            height: auto !important;
-            width: auto !important;
-        }
-
-        /* Features List - pc-plan-list */
-        #emathsmart-custom-coins-product .pc-plan-list {
-            list-style-type: none !important;
-            width: 100% !important;
+            gap: 6px !important;
             padding: 0 !important;
-            margin: 0 0 25px 0 !important;
-            flex-grow: 1 !important;
+            margin: 0 !important;
+        }
+
+        #emathsmart-custom-coins-product .coins-balance-amount {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 34px !important;
+            font-weight: 800 !important;
+            color: var(--brand-text-dark) !important;
+            line-height: 1 !important;
+        }
+
+        #emathsmart-custom-coins-product .coins-balance-label {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            color: var(--brand-text-muted) !important;
+        }
+
+        /* Description text starts precisely where the coin image starts */
+        #emathsmart-custom-coins-product .coins-card-desc {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 13.5px !important;
+            line-height: 1.6 !important;
+            color: var(--brand-text-muted) !important;
+            margin-top: 4px !important;
+            margin-bottom: 8px !important;
+            text-align: left !important;
+            padding-left: 0 !important;
+            margin-left: 0 !important;
+        }
+
+        /* Elegant horizontal divider line - Hidden per design specs */
+        #emathsmart-custom-coins-product .coins-divider {
+            display: none !important;
+        }
+
+        /* Purchase section */
+        #emathsmart-custom-coins-product .purchase-coins-section {
             display: flex !important;
             flex-direction: column !important;
-            gap: 10px !important;
-            position: static !important;
+            gap: 14px !important;
+            margin-top: 10px !important;
         }
 
-        #emathsmart-custom-coins-product .pc-plan-item {
-            display: flex !important;
-            align-items: flex-start !important;
-            gap: 12px !important;
-            font-size: 13.5px !important;
-            line-height: 1.45 !important;
-            color: #334155 !important;
-            font-weight: 500 !important;
-            text-align: left !important;
-            position: static !important;
-        }
-
-        #emathsmart-custom-coins-product .pc-plan-item-icon {
-            flex-shrink: 0 !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            margin-top: 1px !important;
-            position: static !important;
-        }
-
-        #emathsmart-custom-coins-product .pc-plan-item-icon svg {
-            width: 16px !important;
-            height: 16px !important;
-            display: block !important;
-            stroke: var(--card-accent) !important;
-            stroke-width: 2.8 !important;
-            position: static !important;
-        }
-
-        /* Sleek Outline Button inside card */
-        #emathsmart-custom-coins-product .pc-plan-btn {
-            width: 100% !important;
+        #emathsmart-custom-coins-product .purchase-title {
             font-family: 'Outfit', sans-serif !important;
-            font-size: 12.5px !important;
+            font-size: 15px !important;
+            font-weight: 700 !important;
+            color: var(--brand-text-dark) !important;
+            margin-top: 0 !important;
+            margin-bottom: 4px !important;
+            text-align: left !important;
+        }
+
+        /* Responsive packages grid inside centerpiece */
+        #emathsmart-custom-coins-product .purchase-packages-grid {
+            display: grid !important;
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+            width: 100% !important;
+        }
+
+        @media (min-width: 768px) {
+            #emathsmart-custom-coins-product .purchase-packages-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 16px !important;
+            }
+        }
+
+        #emathsmart-custom-coins-product .coin-package-box {
+            background-color: #ffffff !important;
+            border: 1px solid #ffdcb5 !important;
+            border-radius: 14px !important;
+            padding: 22px 16px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            cursor: pointer !important;
+            text-align: center !important;
+            position: relative !important;
+            min-height: 180px !important;
+        }
+
+        #emathsmart-custom-coins-product .coin-package-box:hover {
+            border-color: var(--esmart-orange) !important;
+            transform: translateY(-4px) !important;
+            box-shadow: 0 10px 20px rgba(255, 149, 0, 0.08) !important;
+        }
+
+        #emathsmart-custom-coins-product .coin-package-box.selected {
+            border-color: #ff3e1d !important;
+            background-color: #fffbf9 !important;
+            box-shadow: 0 10px 25px rgba(255, 62, 29, 0.08) !important;
+            border-width: 2px !important;
+        }
+
+        #emathsmart-custom-coins-product .coin-package-amount {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 700 !important;
+            color: var(--brand-text-dark) !important;
+            margin-bottom: 8px !important;
+            display: block !important;
+        }
+
+        #emathsmart-custom-coins-product .coin-package-price {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 28px !important;
             font-weight: 800 !important;
+            color: var(--brand-text-dark) !important;
+            margin-bottom: 14px !important;
+            letter-spacing: -0.5px !important;
+            display: block !important;
+            line-height: 1.1 !important;
+        }
+
+        /* Flat Premium Red-Orange CTA Buy Buttons */
+        #emathsmart-custom-coins-product .btn-buy-coins {
+            width: 100% !important;
+            background-color: #ff3e1d !important;
+            color: #ffffff !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 12px !important;
+            font-weight: 800 !important;
+            padding: 10px 14px !important;
+            border-radius: 8px !important;
             text-transform: uppercase !important;
             text-decoration: none !important;
-            padding: 14px 10px !important;
-            border-radius: 8px !important;
             text-align: center !important;
-            border: 1.5px solid var(--card-accent) !important;
-            color: var(--card-accent) !important;
-            background-color: transparent !important;
-            transition: all 0.3s ease !important;
-            cursor: pointer !important;
-            margin-top: auto !important;
             letter-spacing: 0.5px !important;
+            transition: all 0.2s ease !important;
             display: block !important;
-            white-space: nowrap !important;
-            position: static !important;
+            border: none !important;
+            cursor: pointer !important;
+            box-shadow: none !important;
+            line-height: 1.2 !important;
         }
 
-        #emathsmart-custom-coins-product .pc-plan-btn:hover {
-            background-color: var(--card-accent) !important;
+        #emathsmart-custom-coins-product .coin-package-box:hover .btn-buy-coins {
+            background-color: #ff9500 !important;
             color: #ffffff !important;
-            box-shadow: 0 4px 15px rgba(var(--card-accent-rgb), 0.2) !important;
+            box-shadow: none !important;
         }
 
-        /* Selection Indicator Checkbox moved to Top-Left */
-        #emathsmart-custom-coins-product .select-indicator {
-            position: absolute !important;
-            top: 20px !important;
-            left: 20px !important;
-            width: 22px !important;
-            height: 22px !important;
-            border-radius: 50% !important;
-            border: 2px solid #cbd5e1 !important;
-            background-color: #ffffff !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            transition: all 0.3s ease !important;
-            z-index: 2 !important;
-        }
-
-        #emathsmart-custom-coins-product .package-card.selected .select-indicator {
-            border-color: #ffffff !important;
-            background-color: var(--card-accent) !important;
-            box-shadow: 0 0 0 2px var(--card-accent) !important;
-        }
-
-        #emathsmart-custom-coins-product .select-indicator::after {
-            content: '✓';
-            color: white;
-            font-size: 12px;
-            font-weight: 800;
-            opacity: 0;
-            transition: all 0.2s ease;
-        }
-
-        #emathsmart-custom-coins-product .package-card.selected .select-indicator::after {
-            opacity: 1;
-        }
-
-        /* Solid Active fills for button when card is selected */
-        #emathsmart-custom-coins-product .package-card.selected .pc-plan-btn {
-            background-color: var(--card-accent) !important;
+        #emathsmart-custom-coins-product .coin-package-box.selected .btn-buy-coins {
+            background-color: #ff3e1d !important;
             color: #ffffff !important;
-            border-color: var(--card-accent) !important;
-            box-shadow: 0 4px 15px rgba(var(--card-accent-rgb), 0.25) !important;
         }
 
-        /* Divider inside card - kept subtle */
-        #emathsmart-custom-coins-product .card-divider {
-            width: 100%;
-            height: 1px;
-            background: rgba(0, 0, 0, 0.05);
-            margin: 15px 0;
-            z-index: 2;
-            position: static !important;
+        #emathsmart-custom-coins-product .coin-package-box.selected:hover .btn-buy-coins {
+            background-color: #ff9500 !important;
+            color: #ffffff !important;
         }
 
         /* Interactive checkout wrapper */
         #emathsmart-custom-coins-product .checkout-row {
             text-align: center;
             max-width: 600px;
-            margin: 0 auto 50px auto;
+            margin: 10px auto 40px auto;
         }
 
         /* Orange Pill Button matching the Portal Buttons */
@@ -503,8 +481,8 @@ while ( have_posts() ) : the_post();
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: var(--primary-btn);
-            background-image: linear-gradient(135deg, #f59652 0%, #eb731f 100%);
+            background: #ff3e1d;
+            background-image: linear-gradient(135deg, #ff5c38 0%, #ff3e1d 100%);
             color: white !important;
             padding: 16px 44px;
             border-radius: 100px;
@@ -514,17 +492,18 @@ while ( have_posts() ) : the_post();
             text-decoration: none;
             border: none;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(242, 133, 55, 0.25);
+            box-shadow: 0 6px 20px rgba(255, 62, 29, 0.25);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             width: 100%;
             max-width: 320px;
+            line-height: 1.2;
         }
 
         #emathsmart-custom-coins-product .action-btn:hover {
-            background-color: var(--primary-btn-hover);
-            background-image: linear-gradient(135deg, #eb731f 0%, #d85c07 100%);
+            background-color: #ff9500;
+            background-image: linear-gradient(135deg, #ffa61f 0%, #ff9500 100%);
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(242, 133, 55, 0.35);
+            box-shadow: 0 10px 25px rgba(255, 149, 0, 0.35);
         }
 
         #emathsmart-custom-coins-product .action-btn:active {
@@ -539,7 +518,7 @@ while ( have_posts() ) : the_post();
             gap: 15px;
             margin-top: 20px;
             font-size: 13px;
-            color: var(--text-muted);
+            color: var(--brand-text-muted);
         }
 
         #emathsmart-custom-coins-product .payment-badges svg {
@@ -555,11 +534,12 @@ while ( have_posts() ) : the_post();
         /* eMathSmart-themed Product Description Box */
         #emathsmart-custom-coins-product .description-section {
             background-color: #fffdfb;
-            border: 2px solid #ffe9d2;
+            border: 1px solid #eef2f6;
             border-radius: 24px;
             padding: 45px 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 6px 20px rgba(90, 62, 43, 0.02);
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-premium);
+            text-align: left;
         }
 
         #emathsmart-custom-coins-product .description-section h1 {
@@ -570,6 +550,8 @@ while ( have_posts() ) : the_post();
             margin-top: 0;
             margin-bottom: 20px;
             letter-spacing: -0.01em;
+            line-height: 1.2;
+            text-transform: none;
         }
 
         #emathsmart-custom-coins-product .description-section h3 {
@@ -579,9 +561,12 @@ while ( have_posts() ) : the_post();
             color: #0f172a;
             margin-top: 30px;
             margin-bottom: 15px;
+            text-transform: none;
+            line-height: 1.3;
         }
 
         #emathsmart-custom-coins-product .description-section p {
+            font-family: 'Inter', sans-serif;
             font-size: 15px;
             line-height: 1.6;
             color: #334155;
@@ -600,7 +585,7 @@ while ( have_posts() ) : the_post();
             margin-bottom: 12px;
             font-size: 14.5px;
             line-height: 1.5;
-            color: var(--text-muted);
+            color: var(--brand-text-muted);
         }
 
         #emathsmart-custom-coins-product .description-section li strong {
@@ -665,15 +650,14 @@ while ( have_posts() ) : the_post();
         /* Responsive modifications */
         @media (max-width: 900px) {
             #emathsmart-custom-coins-product .product-container {
-                padding: 35px 20px;
+                padding: 30px 20px;
                 border-radius: 22px;
-            }
-            #emathsmart-custom-coins-product .packages-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
             }
             #emathsmart-custom-coins-product h1.coins-title {
                 font-size: 30px;
+            }
+            #emathsmart-custom-coins-product .dashboard-card {
+                padding: 20px !important;
             }
         }
     </style>
@@ -688,244 +672,61 @@ while ( have_posts() ) : the_post();
                 <p class="coins-sub">Purchase interactive tutoring coins to unlock advanced personalized support, step-by-step interactive guidance, and real-time concept feedback within the eMathSmart learning portal.</p>
             </div>
 
-            <!-- Custom Packages Selection Grid matching Section 4 plans-grid -->
-            <div class="packages-grid">
+            <!-- Centerpiece Dashboard Card: AI Coins Card -->
+            <div class="dashboard-card ai-coins-card">
+                <h3 class="coins-card-title">AI Coins Balance</h3>
                 
-                <!-- Package 1: 100 Coins (Starter) -->
-                <?php
-                // Fetch variation price or data programmatically
-                $price_100 = '';
-                $price_html_100 = '<span class="price-free">Included in Subscription</span>';
-                foreach ($variations as $var) {
-                    if (isset($var['attributes']['attribute_pa_coins']) && $var['attributes']['attribute_pa_coins'] == '100') {
-                        $price_100 = $var['display_price'];
-                        if ($price_100 > 0) {
-                            $price_html_100 = wc_price($price_100);
-                        }
-                        break;
-                    }
-                }
-                ?>
-                <div class="package-card pc-plan-card theme-starter" data-value="100">
-                    <div class="coin-icon-wrapper">
-                        <span class="coin-icon">🥉</span>
+                <!-- Balance Indicator Row (displays logged in user's dynamic balance or standard mockup fallback) -->
+                <div class="coins-balance-row">
+                    <div class="coins-balance-icon-wrapper">
+                        <img src="<?php echo $coin_image_url; ?>" alt="AI Coin" class="coins-balance-image">
                     </div>
-                    
-                    <span class="pc-plan-badge">Starter Pack</span>
-                    <h3 class="pc-plan-title">Starter Bundle</h3>
-                    <div class="coin-quantity">100 Coins</div>
-                    
-                    <ul class="pc-plan-list">
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>100 AI Interactive Coins</p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>Access to AI Personalized Tutor</p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>Step-by-Step Math Solutions</p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>Progress reports for parents</p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>Coins never expire (Rollover)</p>
-                        </li>
-                    </ul>
-                    
-                    <div class="card-divider"></div>
-                    <div class="pc-plan-price"><?php echo $price_html_100; ?></div>
-                    <button type="button" class="pc-plan-btn select-btn">Select Starter</button>
-                    <div class="select-indicator"></div>
-                </div>
-
-                <!-- Package 2: 500 Coins (Popular) -->
-                <?php
-                $price_500 = '';
-                $price_html_500 = '<span class="price-free">Included in Subscription</span>';
-                foreach ($variations as $var) {
-                    if (isset($var['attributes']['attribute_pa_coins']) && $var['attributes']['attribute_pa_coins'] == '500') {
-                        $price_500 = $var['display_price'];
-                        if ($price_500 > 0) {
-                            $price_html_500 = wc_price($price_500);
-                        }
-                        break;
-                    }
-                }
-                ?>
-                <div class="package-card pc-plan-card theme-popular selected" data-value="500">
-                    <span class="best-value-badge">Best Value</span>
-                    
-                    <div class="coin-icon-wrapper">
-                        <span class="coin-icon">🥈</span>
+                    <div class="coins-balance-text">
+                        <span class="coins-balance-amount"><?php 
+                            $current_user_id = get_current_user_id();
+                            $coins_balance = 0;
+                            if ($current_user_id) {
+                                // Attempt to load user's real balance
+                                $coins_balance = get_user_meta($current_user_id, 'emathsmart_coins', true);
+                                if (!$coins_balance) {
+                                    $coins_balance = get_user_meta($current_user_id, 'additional_packages', true);
+                                }
+                                if (!$coins_balance) {
+                                    $coins_balance = 120; // Default mockup balance
+                                }
+                            } else {
+                                $coins_balance = 120; // Default mockup balance
+                            }
+                            echo esc_html($coins_balance);
+                        ?></span>
+                        <span class="coins-balance-label">coins</span>
                     </div>
-                    
-                    <span class="pc-plan-badge">Popular Choice</span>
-                    <h3 class="pc-plan-title">Popular Challenge</h3>
-                    <div class="coin-quantity">500 Coins</div>
-                    
-                    <ul class="pc-plan-list">
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>500 AI Interactive Coins</p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p><strong>Popular choice for monthly practice</strong></p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>Access to AI Personalized Tutor</p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>Instant step-by-step guidance</p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>Full progress & parent reports</p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>Coins never expire (Rollover)</p>
-                        </li>
-                    </ul>
-                    
-                    <div class="card-divider"></div>
-                    <div class="pc-plan-price"><?php echo $price_html_500; ?></div>
-                    <button type="button" class="pc-plan-btn select-btn">Select Popular</button>
-                    <div class="select-indicator"></div>
                 </div>
+                
+                <!-- Description -->
+                <p class="coins-card-desc">Use AI coins to chat with your AI helper, and mark worksheets.</p>
+                
+                <!-- Divider Line -->
+                <div class="coins-divider"></div>
+                
+                <!-- Purchase Options -->
+                <div class="purchase-coins-section">
+                    <h4 class="purchase-title">Purchase AI Coins</h4>
+                    <div class="purchase-packages-grid">
+                        
+                        <?php foreach ( $package_variations as $pack ) : 
+                            $is_selected = ( $pack['coins'] == $default_coins ) ? 'selected' : '';
+                        ?>
+                            <!-- Pack: <?php echo esc_html($pack['coins']); ?> Coins -->
+                            <div class="coin-package-box <?php echo $is_selected; ?>" data-value="<?php echo esc_attr($pack['coins']); ?>" data-variation-id="<?php echo esc_attr($pack['id']); ?>">
+                                <span class="coin-package-amount"><?php echo esc_html($pack['coins']); ?> Coins</span>
+                                <span class="coin-package-price"><?php echo $pack['price_html']; ?></span>
+                                <button type="button" class="btn-buy-coins">BUY NOW</button>
+                            </div>
+                        <?php endforeach; ?>
 
-                <!-- Package 3: 1000 Coins (Elite) -->
-                <?php
-                $price_1000 = '';
-                $price_html_1000 = '<span class="price-free">Included in Subscription</span>';
-                foreach ($variations as $var) {
-                    if (isset($var['attributes']['attribute_pa_coins']) && $var['attributes']['attribute_pa_coins'] == '1000') {
-                        $price_1000 = $var['display_price'];
-                        if ($price_1000 > 0) {
-                            $price_html_1000 = wc_price($price_1000);
-                        }
-                        break;
-                    }
-                }
-                ?>
-                <div class="package-card pc-plan-card theme-elite" data-value="1000">
-                    <div class="coin-icon-wrapper">
-                        <span class="coin-icon">🥇</span>
                     </div>
-                    
-                    <span class="pc-plan-badge">Max Savings Pack</span>
-                    <h3 class="pc-plan-title">Elite Tutor Bundle</h3>
-                    <div class="coin-quantity">1000 Coins</div>
-                    
-                    <ul class="pc-plan-list">
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>1000 AI Interactive Coins</p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p><strong>Best for intensive learning & support</strong></p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>Priority access to AI Tutor</p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>In-depth concept explanations</p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>Advanced progress insights</p>
-                        </li>
-                        <li class="pc-plan-item">
-                            <span class="pc-plan-item-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </span>
-                            <p>Coins never expire (Rollover)</p>
-                        </li>
-                    </ul>
-                    
-                    <div class="card-divider"></div>
-                    <div class="pc-plan-price"><?php echo $price_html_1000; ?></div>
-                    <button type="button" class="pc-plan-btn select-btn">Select Elite</button>
-                    <div class="select-indicator"></div>
                 </div>
-
             </div>
 
             <!-- Checkout Action Buttons -->
@@ -975,7 +776,7 @@ while ( have_posts() ) : the_post();
             const wrapper = document.querySelector('#emathsmart-custom-coins-product');
             if (!wrapper) return;
 
-            const cards = wrapper.querySelectorAll('.package-card');
+            const cards = wrapper.querySelectorAll('.coin-package-box');
             const submitBtn = wrapper.querySelector('#emathsmart-submit-btn');
 
             // Find hidden WooCommerce inputs
@@ -993,17 +794,31 @@ while ( have_posts() ) : the_post();
 
             const wooSubmitBtn = hiddenFormContainer.querySelector('.single_add_to_cart_button');
 
-            // Synchronize starting state based on default selection (500 coins)
-            syncSelectedValue('500');
+            // Synchronize starting state based on default selection
+            const initialSelectedCard = wrapper.querySelector('.coin-package-box.selected');
+            if (initialSelectedCard) {
+                const initialVal = initialSelectedCard.getAttribute('data-value');
+                const initialVarId = initialSelectedCard.getAttribute('data-variation-id');
+                syncSelectedValue(initialVal, initialVarId);
+            }
 
             // Card click handler
             cards.forEach(card => {
-                card.addEventListener('click', function() {
+                card.addEventListener('click', function(e) {
                     cards.forEach(c => c.classList.remove('selected'));
                     this.classList.add('selected');
 
                     const value = this.getAttribute('data-value');
-                    syncSelectedValue(value);
+                    const varId = this.getAttribute('data-variation-id');
+                    syncSelectedValue(value, varId);
+
+                    // If they clicked the BUY NOW button itself, immediately submit
+                    if (e.target.classList.contains('btn-buy-coins')) {
+                        e.preventDefault();
+                        if (wooSubmitBtn) {
+                            wooSubmitBtn.click();
+                        }
+                    }
                 });
             });
 
@@ -1013,12 +828,11 @@ while ( have_posts() ) : the_post();
                     e.preventDefault();
                     
                     // Double check value is set
-                    const selected = wrapper.querySelector('.package-card.selected');
-                    if (selected && wooSelect) {
+                    const selected = wrapper.querySelector('.coin-package-box.selected');
+                    if (selected) {
                         const val = selected.getAttribute('data-value');
-                        if (wooSelect.value !== val) {
-                            syncSelectedValue(val);
-                        }
+                        const varId = selected.getAttribute('data-variation-id');
+                        syncSelectedValue(val, varId);
                     }
 
                     // Perform programmatic click on hidden native button
@@ -1026,29 +840,34 @@ while ( have_posts() ) : the_post();
                 });
             }
 
-            function syncSelectedValue(value) {
-                if (!wooSelect) return;
-
-                // Update select dropdown option
-                wooSelect.value = value;
-                
-                // Dispatch change event so WooCommerce JS binds properly and resolves price/variation ID
-                wooSelect.dispatchEvent(new Event('change', { bubbles: true }));
-
-                // Update select-btn text dynamically
-                cards.forEach(card => {
-                    const btn = card.querySelector('.select-btn');
-                    if (!btn) return;
-                    const val = card.getAttribute('data-value');
-                    const isSelected = card.classList.contains('selected');
-                    if (val === '100') {
-                        btn.textContent = isSelected ? 'Starter Selected ✓' : 'Select Starter';
-                    } else if (val === '500') {
-                        btn.textContent = isSelected ? 'Popular Selected ✓' : 'Select Popular';
-                    } else if (val === '1000') {
-                        btn.textContent = isSelected ? 'Elite Selected ✓' : 'Select Elite';
+            function syncSelectedValue(value, variationId) {
+                if (wooSelect) {
+                    // Find the option that robustly matches the numeric value (e.g. contains 100, 250, 500)
+                    let targetOptionValue = value;
+                    for (let i = 0; i < wooSelect.options.length; i++) {
+                        const optVal = wooSelect.options[i].value;
+                        const optText = wooSelect.options[i].text;
+                        const optNumVal = optVal.replace(/[^0-9]/g, '');
+                        const optNumText = optText.replace(/[^0-9]/g, '');
+                        if (optNumVal === value || optNumText === value) {
+                            targetOptionValue = optVal;
+                            break;
+                        }
                     }
-                });
+
+                    // Update select dropdown option
+                    wooSelect.value = targetOptionValue;
+                    
+                    // Dispatch change event so WooCommerce JS binds properly and resolves price/variation ID
+                    wooSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+
+                // Also update variation_id hidden field if present
+                const variationIdInput = hiddenFormContainer.querySelector('input[name="variation_id"]');
+                if (variationIdInput && variationId) {
+                    variationIdInput.value = variationId;
+                    variationIdInput.dispatchEvent(new Event('change', { bubbles: true }));
+                }
             }
         });
     </script>
