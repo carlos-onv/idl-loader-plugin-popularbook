@@ -7,7 +7,8 @@
 .ai-coins-card {
     display: flex !important;
     flex-direction: column !important;
-    gap: 20px !important;
+    gap: 16px !important;
+    padding: 30px !important;
 }
 
 .coins-card-title {
@@ -18,24 +19,29 @@
     margin-bottom: 4px !important;
 }
 
-/* Balance display area */
+/* Balance display area - Warm Peach Banner Box */
 .coins-balance-row {
     display: flex !important;
     align-items: center !important;
     gap: 16px !important;
-    background-color: #fffbf0 !important;
-    border: 1px solid #ffecb3 !important;
+    background-color: #fffdf6 !important;
+    border: 1px solid #ffdcb5 !important;
     border-radius: 12px !important;
-    padding: 16px 20px !important;
+    padding: 18px 24px !important;
+    margin: 4px 0 8px 0 !important;
 }
 
+/* Coin wrapper with white background circular pop glow */
 .coins-balance-icon-wrapper {
     flex-shrink: 0 !important;
-    width: 44px !important;
-    height: 44px !important;
+    width: 46px !important;
+    height: 46px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    background-color: #ffffff !important;
+    border-radius: 50% !important;
+    box-shadow: 0 4px 10px rgba(255, 149, 0, 0.15), inset 0 2px 4px rgba(255,255,255,1) !important;
 }
 
 .coins-balance-image {
@@ -59,31 +65,39 @@
 
 .coins-balance-amount {
     font-family: 'Outfit', sans-serif !important;
-    font-size: 32px !important;
+    font-size: 34px !important;
     font-weight: 800 !important;
     color: var(--brand-text-dark) !important;
     line-height: 1 !important;
 }
 
 .coins-balance-label {
+    font-family: 'Inter', sans-serif !important;
     font-size: 14px !important;
     font-weight: 600 !important;
     color: var(--brand-text-muted) !important;
 }
 
 .coins-card-desc {
-    font-size: 12.5px !important;
-    line-height: 1.5 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13.5px !important;
+    line-height: 1.6 !important;
     color: var(--brand-text-muted) !important;
+    margin-bottom: 8px !important;
+}
+
+/* Elegant horizontal divider line */
+.coins-divider {
+    border-top: 1.5px solid #eef2f6 !important;
+    margin: 4px 0 16px 0 !important;
+    width: 100% !important;
 }
 
 /* Purchase section */
 .purchase-coins-section {
-    border-top: 1px solid #f1f5f9 !important;
-    padding-top: 20px !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 12px !important;
+    gap: 14px !important;
 }
 
 .purchase-title {
@@ -101,9 +115,9 @@
 
 .coin-package-box {
     background-color: #ffffff !important;
-    border: 1px solid #ffe8cc !important;
-    border-radius: 12px !important;
-    padding: 16px 12px !important;
+    border: 1px solid #ffdcb5 !important;
+    border-radius: 14px !important;
+    padding: 22px 16px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -129,33 +143,35 @@
 
 .coin-package-price {
     font-family: 'Outfit', sans-serif !important;
-    font-size: 26px !important;
+    font-size: 28px !important;
     font-weight: 800 !important;
     color: var(--brand-text-dark) !important;
     margin-bottom: 12px !important;
     letter-spacing: -0.5px !important;
 }
 
+/* Premium Solid Red-Orange CTA Buy Buttons */
 .btn-buy-coins {
     width: 100% !important;
-    background-color: var(--esmart-crimson) !important;
+    background-color: #ff3e1d !important;
     color: #ffffff !important;
     font-family: 'Outfit', sans-serif !important;
-    font-size: 11px !important;
+    font-size: 12px !important;
     font-weight: 800 !important;
-    padding: 8px 6px !important;
-    border-radius: 6px !important;
+    padding: 10px 14px !important;
+    border-radius: 8px !important;
     text-transform: uppercase !important;
     text-decoration: none !important;
     text-align: center !important;
-    letter-spacing: 0.3px !important;
+    letter-spacing: 0.5px !important;
     transition: all 0.2s ease !important;
     display: block !important;
     border: none !important;
     cursor: pointer !important;
+    box-shadow: 0 4px 10px rgba(255, 62, 29, 0.15) !important;
 }
 
 .coin-package-box:hover .btn-buy-coins {
-    background-color: var(--esmart-orange) !important;
-    box-shadow: 0 4px 10px rgba(255, 149, 0, 0.25) !important;
+    background-color: #ff9500 !important;
+    box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3) !important;
 }

@@ -15,6 +15,11 @@ All notable changes to this project will be documented in this file for both hum
   - [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css)
 
 ### Changed & Refined
+- **High-Fidelity AI Coins Component Overhaul**: Redesigned the entire `AI Coins` dashboard module inside [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html) and [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css) to perfectly match high-fidelity visual specs:
+  - **Warm Peach Balance Banner**: Styled `.coins-balance-row` with a warm peach-cream background (`#fffdf6`) and a distinct peach border (`#ffdcb5`).
+  - **White Glow Icon Ring**: Added a circular white background with soft gold glow and drop shadow behind the coin graphic wrapper (`.coins-balance-icon-wrapper`) to make it pop visually.
+  - **Spacious Divider Line**: Integrated a distinct `.coins-divider` element with solid light border-top and spacious vertical margins to cleanly isolate the balance section from the purchase container.
+  - **Premium Solid Buy Buttons**: Overhauled purchase card boxes with spacious padding and warm peach borders, and styled `.btn-buy-coins` to be taller, with `8px` rounded corners, and colored in bold vivid brand red-orange (`#ff3e1d`) transitioning into bright orange (`#ff9500`) on hover.
 - **Sleek CSS Grid Footer Layout**: Transitions `.sub-card-footer` from standard flexbox-wrap to CSS Grid. Implements a responsive 2-and-1 button layout (Row 1: Update Payment Method & Add Another Subscription side-by-side in equal columns; Row 2: Cancel Subscription centered and spanning 100% width) matching the exact high-fidelity mockup specifications. Stacks vertically into 1 column on mobile viewports (`< 600px`).
 - **Logo Asset Encoding**: URL-encoded the remaining trailing-space logo reference (`eMathSmart_logo_FINAL .png` inside Card 1 of the plans section) to `eMathSmart_logo_FINAL%20.png` to avoid browser parsing anomalies.
 
