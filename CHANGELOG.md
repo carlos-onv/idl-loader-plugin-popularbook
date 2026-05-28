@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file for both hum
 - **Dynamic 14-Day Trial Hook & Eligibility Checks**:
   - Implemented `emathsmart_is_eligible_parents_club_member( $user_id )` to verify if the user has the user meta `'user_registration_check_box_1661192013'` set to `'parent_club_member'` and was registered on or before `2026-05-28` UTC (cutoff of `2026-05-29 00:00:00 UTC`).
   - Added filter callback hooked into `woocommerce_subscriptions_product_trial_length` to override the trial length from 7 days to 14 days dynamically for eligible old Parents Club members.
+  - Relocated eligibility check and WooCommerce subscriptions filter code from `functions.php` to `functions-esmart.php` for consolidated management.
 - **New Modular WPBakery Element `[emathsmart_subscription_product_card]`**:
   - Registered the custom element via `vc_map()` with a dynamic dropdown product selector that lists WooCommerce parent subscriptions and child subscription variations (`idl_loader_get_subscription_products()`).
   - Added a `product_id_override` custom textfield parameter fallback so administrators can manually enter any WooCommerce Product/Variation ID directly, overriding the dropdown selector.
