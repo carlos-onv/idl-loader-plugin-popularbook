@@ -18,6 +18,10 @@ All notable changes to this project will be documented in this file for both hum
   - Automatically queries active WooCommerce products, dynamically computes dynamic eligibility visual badges ("14-Day Free Trial" vs "7-Day Free Trial"), and binds the button CTA redirection target dynamically to `/subscription/?add-to-cart-login=PRODUCT_ID`.
   - Bound `WPBakeryShortCode_emathsmart_subscription_product_card` class within WPBakery's layout renderer.
 
+### Changed
+- **WooCommerce Product Configuration**:
+  - Corrected the default database subscription trial length meta field `_subscription_trial_length` of the Yearly Subscription product (`116578`) from `14` days to `7` days to match standard trials. This prevents guests/ineligible users from receiving 14 days, ensuring only eligible old Parents Club members dynamically receive the 14-day trial extension.
+
 ### Technical Notes for AI Agents
 - **Eligibility Helper**: `emathsmart_is_eligible_parents_club_member()`
 - **Core Filter Hook**: `woocommerce_subscriptions_product_trial_length`

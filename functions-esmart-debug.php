@@ -872,3 +872,102 @@ function emathsmart_run_type2_test()
     }
 }
 
+/**
+ * 14-DAY TRIAL LOGIC DIAGNOSTIC SUITE
+ * URL Trigger: https://dev-popularbook.local/?test_trial_logic=1
+ */
+add_action('init', 'emathsmart_run_trial_logic_diagnostic');
+function emathsmart_run_trial_logic_diagnostic()
+{
+    if (isset($_REQUEST['test_trial_logic']) && $_REQUEST['test_trial_logic'] == '1') {
+        if (!current_user_can('manage_options')) {
+            wp_die('Unauthorized');
+        }
+
+        echo "<body style='background:#121212; color:#e0e0e0; font-family:sans-serif; padding:40px; line-height:1.6;'>";
+        echo "<h1 style='color:#bb86fc;'>eMathSmart 14-Day Free Trial Eligibility Diagnostic Suite</h1>";
+        echo "<p style='color:#03dac6;'>Simulating user registration cases and calculating dynamic free trial lengths...</p>";
+
+        function run_diag_for_user($registered_date, $is_member, $label) {
+            $username = 'dummy_diag_user_' . rand(1000, 9999);
+            $user_id = wp_create_user($username, 'password123', $username . '@example.com');
+            if (is_wp_error($user_id)) {
+                echo "<p style='color:#cf6679;'>Failed to create test user: " . esc_html($user_id->get_error_message()) . "</p>";
+                return;
+            }
+
+            global $wpdb;
+            $wpdb->update(
+                $wpdb->users,
+                array( 'user_registered' => $registered_date ),
+                array( 'ID' => $user_id )
+            );
+            
+            clean_user_cache($user_id);
+            
+            if ($is_member) {
+                update_user_meta( $user_id, 'user_registration_check_box_1661192013', 'parent_club_member' );
+            } else {
+                update_user_meta( $user_id, 'user_registration_check_box_1661192013', 'regular_member' );
+            }
+
+            wp_set_current_user($user_id);
+
+            $eligible = emathsmart_is_eligible_parents_club_member($user_id);
+            
+            $product_monthly = wc_get_product( 116372 );
+            $product_yearly = wc_get_product( 116578 );
+            
+            $trial_len_monthly = $product_monthly ? WC_Subscriptions_Product::get_trial_length( $product_monthly ) : 'N/A';
+            $price_str_monthly = $product_monthly ? WC_Subscriptions_Product::get_price_string( $product_monthly ) : 'N/A';
+            
+            $trial_len_yearly = $product_yearly ? WC_Subscriptions_Product::get_trial_length( $product_yearly ) : 'N/A';
+            $price_str_yearly = $product_yearly ? WC_Subscriptions_Product::get_price_string( $product_yearly ) : 'N/A';
+
+            echo "<div style='background:#1e1e1e; border:1px solid #333; padding:20px; border-radius:8px; margin-bottom:20px;'>";
+            echo "<h3 style='color:#03dac6; margin-top:0;'>Scenario: " . esc_html($label) . "</h3>";
+            echo "<table cellpadding='6' style='width:100%; border-collapse:collapse;'>";
+            echo "<tr><td style='width:250px; color:#a0a0a0;'>Dummy User Name:</td><td><strong>" . esc_html($username) . "</strong></td></tr>";
+            echo "<tr><td style='color:#a0a0a0;'>Registration Date (UTC):</td><td>" . esc_html($registered_date) . "</td></tr>";
+            echo "<tr><td style='color:#a0a0a0;'>Is Parents Club Member:</td><td>" . ($is_member ? "<span style='color:#4caf50;'>YES</span>" : "<span style='color:#cf6679;'>NO</span>") . "</td></tr>";
+            echo "<tr><td style='color:#a0a0a0;'>System Eligibility:</td><td>" . ($eligible ? "<span style='background:#1b5e20; color:#c8e6c9; padding:2px 8px; border-radius:4px; font-weight:bold;'>ELIGIBLE (14-DAY)</span>" : "<span style='background:#b71c1c; color:#ffcdd2; padding:2px 8px; border-radius:4px; font-weight:bold;'>INELIGIBLE (7-DAY)</span>") . "</td></tr>";
+            echo "<tr><td style='color:#a0a0a0;'>Monthly Sub Trial:</td><td><strong>" . esc_html($trial_len_monthly) . " days</strong></td></tr>";
+            echo "<tr><td style='color:#a0a0a0;'>Monthly Price String:</td><td><small>" . wp_kses_post($price_str_monthly) . "</small></td></tr>";
+            echo "<tr><td style='color:#a0a0a0;'>Yearly Sub Trial:</td><td><strong>" . esc_html($trial_len_yearly) . " days</strong></td></tr>";
+            echo "<tr><td style='color:#a0a0a0;'>Yearly Price String:</td><td><small>" . wp_kses_post($price_str_yearly) . "</small></td></tr>";
+            echo "</table>";
+            echo "</div>";
+
+            wp_delete_user($user_id);
+        }
+
+        echo "<h2>Simulated Scenarios</h2>";
+
+        run_diag_for_user('2026-05-28 23:59:59', true, 'Eligible Old Member (Registered before cutoff date May 29, 2026 UTC)');
+        run_diag_for_user('2026-05-30 00:00:00', true, 'Ineligible New Member (Registered after cutoff date May 29, 2026 UTC)');
+        run_diag_for_user('2026-05-28 12:00:00', false, 'Ineligible Old Regular User (Not Parents Club member)');
+
+        // Guest check
+        wp_set_current_user(0);
+        $product_monthly = wc_get_product( 116372 );
+        $trial_len_monthly = $product_monthly ? WC_Subscriptions_Product::get_trial_length( $product_monthly ) : 'N/A';
+        $price_str_monthly = $product_monthly ? WC_Subscriptions_Product::get_price_string( $product_monthly ) : 'N/A';
+        
+        echo "<div style='background:#1e1e1e; border:1px solid #333; padding:20px; border-radius:8px; margin-bottom:20px;'>";
+        echo "<h3 style='color:#03dac6; margin-top:0;'>Scenario: Guest / Not Logged In</h3>";
+        echo "<table cellpadding='6' style='width:100%; border-collapse:collapse;'>";
+        echo "<tr><td style='width:250px; color:#a0a0a0;'>User State:</td><td><strong>Guest (Logged Out)</strong></td></tr>";
+        echo "<tr><td style='color:#a0a0a0;'>System Eligibility:</td><td><span style='background:#b71c1c; color:#ffcdd2; padding:2px 8px; border-radius:4px; font-weight:bold;'>INELIGIBLE (7-DAY)</span></td></tr>";
+        echo "<tr><td style='color:#a0a0a0;'>Monthly Sub Trial:</td><td><strong>" . esc_html($trial_len_monthly) . " days</strong></td></tr>";
+        echo "<tr><td style='color:#a0a0a0;'>Monthly Price String:</td><td><small>" . wp_kses_post($price_str_monthly) . "</small></td></tr>";
+        echo "</table>";
+        echo "</div>";
+
+        echo "<hr style='border:none; border-top:1px solid #333; margin:40px 0;'>";
+        echo "<p style='color:#888; font-size:12px;'>Diagnostic suite completed. All test dummy accounts automatically cleaned up.</p>";
+        echo "</body>";
+        exit;
+    }
+}
+
+
