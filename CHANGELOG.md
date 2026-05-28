@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-28] - Parents Club Member Dashboard Integration
+
+### Added
+- **New Section: Member Dashboard**: Integrated a high-fidelity visual dashboard section (`#parents-club-dashboard`) right before Section 5 inside [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html).
+- **Component 1: eMathSmart Subscription**: Created dynamic responsive card featuring eMathSmart logo, active badge status, key-value checklist details grid with custom checkmark square inline SVGs, a tablet graphic layout with custom floating circular decorative CSS background blob, a list of what's included, and interactive action CTAs.
+- **Component 2: AI Coins**: Created Coins balance profile section incorporating `coin.png` glow animation, balance labels, and purchase boxes for coin packages equipped with dynamic orange button hover highlights.
+- **Component 3: Billing History**: Created a clean transaction list table with dashed borders, light slate grey dates, and a solid crimson outlined "Download Receipt History" button at the bottom.
+- **Modular Stylesheets**: Structured and saved three new independent CSS files in `templates/css/` to manage elements modularity:
+  - [parents-club-dashboard-subscription.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-subscription.css)
+  - [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css)
+  - [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css)
+
+### Technical Notes for AI Agents
+- **Section Selector**: `#parents-club-dashboard`
+- **Asset Fallbacks**:
+  - Tablet active banner: `/wp-content/plugins/idl-loader/templates/images/subscription-active.png`
+  - Balance coin icon: `/wp-content/plugins/idl-loader/templates/images/coin.png`
+- **Theme Insulation**: Applied highly specific rules and strict use of `!important` to prevent Book Junky/Porto layout styles bleed on the frontend components.
+
 ## [2026-05-28] - AI Coins Selection Page Overhaul & Parents Club Section 4 Styling
 
 ### Changed

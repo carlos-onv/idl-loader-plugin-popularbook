@@ -40,6 +40,11 @@
     <link rel="stylesheet" href="css/parents-club-plan-annual.css">
     <link rel="stylesheet" href="css/parents-club-plan-not-ready.css">
     
+    <!-- Link to Dashboard CSS Files -->
+    <link rel="stylesheet" href="css/parents-club-dashboard-subscription.css">
+    <link rel="stylesheet" href="css/parents-club-dashboard-coins.css">
+    <link rel="stylesheet" href="css/parents-club-dashboard-billing.css">
+    
     <style>
         /* Standalone staging body wrapper adjustments */
         body {
@@ -717,6 +722,304 @@
             </div>
         </section>
     </div>
+
+        <!-- Section: Member Dashboard -->
+        <section id="parents-club-dashboard">
+            <div class="container">
+                <div class="dashboard-grid">
+                    
+                    <!-- COMPONENT 1: eMathSmart Subscription -->
+                    <div class="dashboard-card emathsmart-sub-card">
+                        
+                        <!-- Card Header -->
+                        <div class="sub-card-header">
+                            <div class="sub-header-left">
+                                <div class="sub-card-logo">
+                                    <span class="logo-e">e</span><span class="logo-math">Math</span><span class="logo-smart">Smart</span>
+                                </div>
+                                <span class="badge-active">Active</span>
+                            </div>
+                            <a href="#go-to-emathsmart" class="btn-goto-esmart">
+                                Go to eMathSmart
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </a>
+                        </div>
+                        
+                        <!-- Subtitle -->
+                        <h2 class="sub-card-subtitle">Your eMathSmart Subscription</h2>
+                        
+                        <!-- Inner Grid Content -->
+                        <div class="sub-content-grid">
+                            
+                            <!-- Column 1: Tablet Graphic with CSS bounce blob -->
+                            <div class="sub-graphic-col">
+                                <div class="sub-tablet-wrapper">
+                                    <img src="images/subscription-active.png" alt="eMathSmart Tablet Illustration" class="sub-tablet-image">
+                                </div>
+                                <div class="sub-graphic-blob"></div>
+                            </div>
+                            
+                            <!-- Column 2: Key-Value Details List -->
+                            <div class="sub-details-col">
+                                <!-- Type -->
+                                <div class="detail-row">
+                                    <div class="detail-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </div>
+                                    <span class="detail-key">Subscription Type</span>
+                                    <span class="detail-val">eMathSmart Annual</span>
+                                </div>
+                                
+                                <!-- Plan -->
+                                <div class="detail-row">
+                                    <div class="detail-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </div>
+                                    <span class="detail-key">Plan</span>
+                                    <span class="detail-val">Full Access Plan</span>
+                                </div>
+                                
+                                <!-- Status -->
+                                <div class="detail-row">
+                                    <div class="detail-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </div>
+                                    <span class="detail-key">Status</span>
+                                    <span class="detail-val">On Free Trial <span class="badge-trial">On Free Trial</span></span>
+                                </div>
+                                
+                                <!-- Trial Ends -->
+                                <div class="detail-row">
+                                    <div class="detail-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </div>
+                                    <span class="detail-key">Trial Ends</span>
+                                    <span class="detail-val blue-highlight">June 15, 2025 (7 days left)</span>
+                                </div>
+                                
+                                <!-- Next Billing Date -->
+                                <div class="detail-row">
+                                    <div class="detail-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </div>
+                                    <span class="detail-key">Next Billing Date</span>
+                                    <span class="detail-val">June 15, 2025</span>
+                                </div>
+                                
+                                <!-- Billing Cycle -->
+                                <div class="detail-row">
+                                    <div class="detail-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </div>
+                                    <span class="detail-key">Billing Cycle</span>
+                                    <span class="detail-val">$69.95 / year</span>
+                                </div>
+                                
+                                <!-- Payment Method -->
+                                <div class="detail-row">
+                                    <div class="detail-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                                        </svg>
+                                    </div>
+                                    <span class="detail-key">Payment Method</span>
+                                    <span class="detail-val"><strong>VISA</strong> ending in 4242<br><span style="font-size: 11.5px; color: var(--brand-text-muted); font-weight: 500;">Next Charge: June 15, 2026</span></span>
+                                </div>
+                                
+                                <!-- Access -->
+                                <div class="detail-row">
+                                    <div class="detail-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                    </div>
+                                    <span class="detail-key">Access</span>
+                                    <span class="detail-val">Grade 3</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Column 3: What's Included Card Panel -->
+                            <div class="sub-included-col">
+                                <h3 class="included-title">What's Included</h3>
+                                <ul class="included-list">
+                                    <li class="included-item">
+                                        <span class="included-check">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                        Full access to eMathSmart
+                                    </li>
+                                    <li class="included-item">
+                                        <span class="included-check">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                        Interactive exercises & tools
+                                    </li>
+                                    <li class="included-item">
+                                        <span class="included-check">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                        Printable worksheets
+                                    </li>
+                                    <li class="included-item">
+                                        <span class="included-check">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                        Progress tracking & reports
+                                    </li>
+                                    <li class="included-item">
+                                        <span class="included-check">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </span>
+                                        AI credits included every year
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Card Footer actions row -->
+                        <div class="sub-card-footer">
+                            <a href="#update-payment" class="btn-sub-footer">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                </svg>
+                                Update Payment Method
+                            </a>
+                            <a href="#add-subscription" class="btn-sub-footer">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                                Add Another Subscription
+                            </a>
+                            <a href="#cancel-subscription" class="btn-sub-footer">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                                </svg>
+                                Cancel Subscription
+                            </a>
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- RIGHT COLUMN: Stacked Components -->
+                    <div class="dashboard-right-col">
+                        
+                        <!-- COMPONENT 2: AI Coins -->
+                        <div class="dashboard-card ai-coins-card">
+                            <h3 class="coins-card-title">AI Coins Balance</h3>
+                            
+                            <!-- Balance Indicator Row -->
+                            <div class="coins-balance-row">
+                                <div class="coins-balance-icon-wrapper">
+                                    <img src="images/coin.png" alt="AI Coin" class="coins-balance-image">
+                                </div>
+                                <div class="coins-balance-text">
+                                    <span class="coins-balance-amount">120</span>
+                                    <span class="coins-balance-label">coins</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Description -->
+                            <p class="coins-card-desc">Use AI coins to chat with your AI helper, and mark worksheets.</p>
+                            
+                            <!-- Purchase options -->
+                            <div class="purchase-coins-section">
+                                <h4 class="purchase-title">Purchase AI Coins</h4>
+                                <div class="purchase-packages-grid">
+                                    <!-- Pack 1 -->
+                                    <div class="coin-package-box">
+                                        <span class="coin-package-amount">100 Coins</span>
+                                        <span class="coin-package-price">$5.99</span>
+                                        <button class="btn-buy-coins">BUY NOW</button>
+                                    </div>
+                                    <!-- Pack 2 -->
+                                    <div class="coin-package-box">
+                                        <span class="coin-package-amount">250 Coins</span>
+                                        <span class="coin-package-price">$9.99</span>
+                                        <button class="btn-buy-coins">BUY NOW</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- COMPONENT 3: Billing History -->
+                        <div class="dashboard-card billing-history-card">
+                            <div class="billing-header-row">
+                                <h3 class="billing-card-title">Billing History</h3>
+                                <a href="#view-all-receipts" class="link-view-all">View all</a>
+                            </div>
+                            
+                            <!-- Receipts list -->
+                            <div class="receipts-list">
+                                <div class="receipt-row">
+                                    <span class="receipt-date">May 15, 2024</span>
+                                    <span class="receipt-plan">Annual Plan</span>
+                                    <span class="receipt-price">$69.95</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-date">May 15, 2023</span>
+                                    <span class="receipt-plan">Annual Plan</span>
+                                    <span class="receipt-price">$69.95</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-date">May 15, 2022</span>
+                                    <span class="receipt-plan">Annual Plan</span>
+                                    <span class="receipt-price">$69.95</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-date">May 15, 2021</span>
+                                    <span class="receipt-plan">Annual Plan</span>
+                                    <span class="receipt-price">$59.95</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Download button -->
+                            <a href="#download-history" class="btn-download-history">
+                                <span>Download Receipt History</span>
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </div>
+                        
+                    </div><!-- /.dashboard-right-col -->
+                    
+                </div><!-- /.dashboard-grid -->
+            </div><!-- /.container -->
+        </section>
 
         <!-- Section 5: What You Get as a Parents' Club Member -->
         <section id="parents-club-section-5">

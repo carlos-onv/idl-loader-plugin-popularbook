@@ -1,0 +1,161 @@
+/**
+ * Parents Club Redesign - Member Dashboard: AI Coins Component
+ * File: parents-club-dashboard-coins.css
+ * Theme insulation applied to prevent Porto/WordPress overrides
+ */
+
+.ai-coins-card {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+}
+
+.coins-card-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: var(--brand-text-dark) !important;
+    margin-bottom: 4px !important;
+}
+
+/* Balance display area */
+.coins-balance-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    background-color: #fffbf0 !important;
+    border: 1px solid #ffecb3 !important;
+    border-radius: 12px !important;
+    padding: 16px 20px !important;
+}
+
+.coins-balance-icon-wrapper {
+    flex-shrink: 0 !important;
+    width: 44px !important;
+    height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.coins-balance-image {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    filter: drop-shadow(0 4px 8px rgba(255,149,0,0.3)) !important;
+    animation: coin-glow 3s ease-in-out infinite alternate !important;
+}
+
+@keyframes coin-glow {
+    0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 4px 8px rgba(255,149,0,0.3)); }
+    100% { transform: scale(1.08) rotate(5deg); filter: drop-shadow(0 6px 14px rgba(255,149,0,0.5)); }
+}
+
+.coins-balance-text {
+    display: flex !important;
+    align-items: baseline !important;
+    gap: 6px !important;
+}
+
+.coins-balance-amount {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 32px !important;
+    font-weight: 800 !important;
+    color: var(--brand-text-dark) !important;
+    line-height: 1 !important;
+}
+
+.coins-balance-label {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: var(--brand-text-muted) !important;
+}
+
+.coins-card-desc {
+    font-size: 12.5px !important;
+    line-height: 1.5 !important;
+    color: var(--brand-text-muted) !important;
+}
+
+/* Purchase section */
+.purchase-coins-section {
+    border-top: 1px solid #f1f5f9 !important;
+    padding-top: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.purchase-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: var(--brand-text-dark) !important;
+}
+
+.purchase-packages-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+}
+
+.coin-package-box {
+    background-color: #ffffff !important;
+    border: 1px solid #ffe8cc !important;
+    border-radius: 12px !important;
+    padding: 16px 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer !important;
+    text-align: center !important;
+}
+
+.coin-package-box:hover {
+    border-color: var(--esmart-orange) !important;
+    transform: translateY(-4px) !important;
+    box-shadow: 0 10px 20px rgba(255, 149, 0, 0.08) !important;
+}
+
+.coin-package-amount {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    color: var(--brand-text-dark) !important;
+    margin-bottom: 6px !important;
+}
+
+.coin-package-price {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    color: var(--brand-text-dark) !important;
+    margin-bottom: 12px !important;
+    letter-spacing: -0.5px !important;
+}
+
+.btn-buy-coins {
+    width: 100% !important;
+    background-color: var(--esmart-crimson) !important;
+    color: #ffffff !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    padding: 8px 6px !important;
+    border-radius: 6px !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    letter-spacing: 0.3px !important;
+    transition: all 0.2s ease !important;
+    display: block !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+.coin-package-box:hover .btn-buy-coins {
+    background-color: var(--esmart-orange) !important;
+    box-shadow: 0 4px 10px rgba(255, 149, 0, 0.25) !important;
+}

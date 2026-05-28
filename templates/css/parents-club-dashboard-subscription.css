@@ -1,0 +1,348 @@
+/**
+ * Parents Club Redesign - Member Dashboard: eMathSmart Subscription Component
+ * File: parents-club-dashboard-subscription.css
+ * Theme insulation applied to prevent Porto/WordPress overrides
+ */
+
+#parents-club-dashboard,
+#parents-club-dashboard * {
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
+}
+
+#parents-club-dashboard {
+    --brand-text-dark: #1e293b;
+    --brand-text-muted: #64748b;
+    --border-light: #f1f5f9;
+    --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
+    --shadow-hover: 0 20px 40px -15px rgba(0, 0, 0, 0.12), 0 4px 6px rgba(0, 0, 0, 0.04);
+    --esmart-crimson: #ff3e1d;
+    --esmart-crimson-hover: #e53212;
+    --esmart-blue: #007aff;
+    --esmart-green: #34c759;
+    --esmart-orange: #ff9500;
+    
+    font-family: 'Inter', sans-serif !important;
+    color: var(--brand-text-dark) !important;
+    background-color: #fafbfc !important;
+    padding: 60px 0 80px 0 !important;
+    width: 100% !important;
+}
+
+#parents-club-dashboard .container {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    padding: 0 4% !important;
+}
+
+/* Dashboard Grid Layout */
+.dashboard-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+    width: 100% !important;
+}
+
+@media (min-width: 1100px) {
+    .dashboard-grid {
+        grid-template-columns: 1.7fr 1.05fr !important;
+        gap: 24px !important;
+    }
+}
+
+/* General Dashboard Card */
+.dashboard-card {
+    background-color: #ffffff !important;
+    border: 1px solid #eef2f6 !important;
+    border-radius: 20px !important;
+    padding: 30px !important;
+    box-shadow: var(--shadow-premium) !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+}
+
+/* Subscription Card Custom Styles */
+.emathsmart-sub-card {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+}
+
+/* Card Header */
+.sub-card-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    padding-bottom: 20px !important;
+}
+
+.sub-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+/* Styled text logo for eMathSmart */
+.sub-card-logo {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 32px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+}
+.sub-card-logo .logo-e { color: #007aff !important; }
+.sub-card-logo .logo-math { color: #ff3e1d !important; }
+.sub-card-logo .logo-smart { color: #34c759 !important; }
+
+.badge-active {
+    background-color: #e6f7ed !important;
+    color: #1f8b4c !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    padding: 6px 14px !important;
+    border-radius: 100px !important;
+    letter-spacing: 0.2px !important;
+}
+
+.btn-goto-esmart {
+    background-color: var(--esmart-crimson) !important;
+    color: #ffffff !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    padding: 10px 22px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 4px 12px rgba(255, 62, 29, 0.2) !important;
+}
+
+.btn-goto-esmart:hover {
+    background-color: var(--esmart-crimson-hover) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(255, 62, 29, 0.3) !important;
+}
+
+.sub-card-subtitle {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: var(--brand-text-dark) !important;
+    text-align: center !important;
+    margin-top: -8px !important;
+}
+
+/* Three-column Sub Content Grid */
+.sub-content-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+}
+
+@media (min-width: 768px) {
+    .sub-content-grid {
+        grid-template-columns: 1.1fr 1.6fr 1.3fr !important;
+        align-items: center !important;
+    }
+}
+
+/* Tablet / Graphic column */
+.sub-graphic-col {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: relative !important;
+    padding: 20px 0 !important;
+}
+
+.sub-tablet-wrapper {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 200px !important;
+    z-index: 2 !important;
+}
+
+.sub-tablet-image {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1)) !important;
+}
+
+/* Decorative CSS blob background */
+.sub-graphic-blob {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 180px !important;
+    height: 180px !important;
+    background: radial-gradient(circle, rgba(255,149,0,0.2) 0%, rgba(255,149,0,0.05) 70%) !important;
+    border-radius: 38% 62% 63% 37% / 41% 44% 56% 59% !important;
+    animation: blob-bounce 8s ease-in-out infinite both alternate !important;
+    z-index: 1 !important;
+}
+
+@keyframes blob-bounce {
+    0% { border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%; transform: translate(-50%, -50%) rotate(0deg); }
+    100% { border-radius: 65% 35% 45% 55% / 55% 35% 65% 45%; transform: translate(-50%, -50%) rotate(180deg); }
+}
+
+/* Key-value checklist grid */
+.sub-details-col {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.detail-row {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    font-size: 13.5px !important;
+    line-height: 1.5 !important;
+}
+
+.detail-icon {
+    flex-shrink: 0 !important;
+    width: 18px !important;
+    height: 18px !important;
+    background-color: #fff0eb !important;
+    border: 1px solid #ffd6cc !important;
+    border-radius: 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 1px !important;
+    color: var(--esmart-crimson) !important;
+}
+
+.detail-icon svg {
+    width: 12px !important;
+    height: 12px !important;
+}
+
+.detail-key {
+    font-weight: 500 !important;
+    color: var(--brand-text-muted) !important;
+    flex-shrink: 0 !important;
+    width: 130px !important;
+}
+
+.detail-val {
+    font-weight: 600 !important;
+    color: var(--brand-text-dark) !important;
+}
+
+.detail-val .badge-trial {
+    background-color: #e6f0fa !important;
+    color: var(--esmart-blue) !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    display: inline-block !important;
+    margin-left: 6px !important;
+}
+
+.detail-val.blue-highlight {
+    color: var(--esmart-blue) !important;
+}
+
+/* What's Included Card */
+.sub-included-col {
+    background-color: #fffcf8 !important;
+    border: 1px solid #ffe8cc !important;
+    border-radius: 12px !important;
+    padding: 18px !important;
+}
+
+.included-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #e07a00 !important;
+    margin-bottom: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.included-list {
+    list-style: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+
+.included-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: var(--brand-text-dark) !important;
+}
+
+.included-check {
+    flex-shrink: 0 !important;
+    width: 16px !important;
+    height: 16px !important;
+    background-color: #ffe6e6 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--esmart-crimson) !important;
+}
+
+.included-check svg {
+    width: 10px !important;
+    height: 10px !important;
+}
+
+/* Footer Actions Row */
+.sub-card-footer {
+    display: flex !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    border-top: 1px solid #f1f5f9 !important;
+    padding-top: 20px !important;
+    margin-top: 8px !important;
+}
+
+.btn-sub-footer {
+    background-color: #ffffff !important;
+    border: 1px solid #ffd6cc !important;
+    border-radius: 8px !important;
+    padding: 10px 16px !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    color: var(--esmart-crimson) !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+}
+
+.btn-sub-footer:hover {
+    background-color: #fff5f2 !important;
+    border-color: var(--esmart-crimson) !important;
+    transform: translateY(-1px) !important;
+}
+
+.btn-sub-footer svg {
+    width: 16px !important;
+    height: 16px !important;
+}

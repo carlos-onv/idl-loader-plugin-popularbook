@@ -1,0 +1,114 @@
+/**
+ * Parents Club Redesign - Member Dashboard: Billing History Component
+ * File: parents-club-dashboard-billing.css
+ * Theme insulation applied to prevent Porto/WordPress overrides
+ */
+
+.billing-history-card {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+
+.billing-header-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+}
+
+.billing-card-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: var(--brand-text-dark) !important;
+}
+
+.link-view-all {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    color: var(--esmart-crimson) !important;
+    text-decoration: underline !important;
+    transition: color 0.2s ease !important;
+    cursor: pointer !important;
+}
+
+.link-view-all:hover {
+    color: var(--esmart-crimson-hover) !important;
+}
+
+/* Billing Receipts List */
+.receipts-list {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    margin: 4px 0 !important;
+}
+
+.receipt-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 10px 0 !important;
+    border-bottom: 1px dashed #e2e8f0 !important;
+    font-size: 13px !important;
+    color: var(--brand-text-dark) !important;
+    font-weight: 500 !important;
+}
+
+.receipt-row:last-child {
+    border-bottom: none !important;
+}
+
+.receipt-date {
+    color: var(--brand-text-muted) !important;
+    width: 90px !important;
+    flex-shrink: 0 !important;
+}
+
+.receipt-plan {
+    flex-grow: 1 !important;
+    font-weight: 600 !important;
+}
+
+.receipt-price {
+    font-weight: 700 !important;
+    color: var(--brand-text-dark) !important;
+    text-align: right !important;
+}
+
+/* Download receipt button at the bottom */
+.btn-download-history {
+    width: 100% !important;
+    background-color: #ffffff !important;
+    border: 1.5px solid var(--esmart-crimson) !important;
+    border-radius: 8px !important;
+    padding: 12px 10px !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+    color: var(--esmart-crimson) !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    margin-top: 6px !important;
+}
+
+.btn-download-history:hover {
+    background-color: #fff5f2 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(255, 62, 29, 0.1) !important;
+}
+
+.btn-download-history svg {
+    width: 16px !important;
+    height: 16px !important;
+    stroke-width: 2.2 !important;
+}
