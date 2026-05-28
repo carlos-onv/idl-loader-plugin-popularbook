@@ -731,10 +731,7 @@ while ( have_posts() ) : the_post();
 
             <!-- Checkout Action Buttons -->
             <div class="checkout-row">
-                <button type="button" class="action-btn" id="emathsmart-submit-btn">Secure Checkout</button>
-                
                 <div class="payment-badges">
-                    <span>🔒 Secured by SSL</span>
                     <!-- Inline SVG Icons for Credit Cards -->
                     <svg viewBox="0 0 36 24" width="28" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="36" height="24" rx="3" fill="#0A2540"/>
