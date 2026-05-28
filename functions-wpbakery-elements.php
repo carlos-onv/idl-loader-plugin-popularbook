@@ -4203,22 +4203,29 @@ function idl_loader_emathsmart_subscription_product_card_shortcode( $atts ) {
     if ( ! empty( $attributes['badge_text'] ) ) {
         $badge_text = esc_html( $attributes['badge_text'] );
     } elseif ( $product ) {
-        $trial_length = 0;
-        if ( class_exists( 'WC_Subscriptions_Product' ) ) {
-            $trial_length = WC_Subscriptions_Product::get_trial_length( $product );
-        } else {
-            $trial_length = absint( $product->get_meta( '_subscription_trial_length' ) );
-        }
+        // Get the baseline trial length configured in the database (e.g. 7 days)
+        $db_trial_length = absint( $product->get_meta( '_subscription_trial_length' ) );
         
         // Check eligibility for 14-day free trial extension
         $user_id     = get_current_user_id();
         $is_eligible = $user_id && emathsmart_is_eligible_parents_club_member( $user_id );
-        if ( $is_eligible && $trial_length > 0 ) {
-            $trial_length = 14;
+        
+        $filtered_trial_length = $db_trial_length;
+        if ( class_exists( 'WC_Subscriptions_Product' ) ) {
+            $filtered_trial_length = WC_Subscriptions_Product::get_trial_length( $product );
+        } elseif ( $is_eligible && $db_trial_length > 0 ) {
+            $filtered_trial_length = 14;
         }
         
-        if ( $trial_length > 0 ) {
-            $badge_text = sprintf( esc_html__( '%d-Day Free Trial', 'book-junky' ), $trial_length );
+        if ( $is_eligible && $db_trial_length > 0 && $filtered_trial_length > $db_trial_length ) {
+            // Display baseline WooCommerce trial crossed out and new trial next to it
+            $badge_text = sprintf(
+                '<span class="pc-plan-badge-crossed" style="text-decoration: line-through; opacity: 0.6; margin-right: 8px; font-weight: 500;">%d-Day Free Trial</span>%d-Day Free Trial',
+                $db_trial_length,
+                $filtered_trial_length
+            );
+        } elseif ( $filtered_trial_length > 0 ) {
+            $badge_text = sprintf( esc_html__( '%d-Day Free Trial', 'book-junky' ), $filtered_trial_length );
         }
     }
 
