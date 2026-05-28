@@ -5,10 +5,10 @@ All notable changes to this project will be documented in this file for both hum
 ## [2026-05-28] - eMathSmart Dynamic Subscription Product Card & 14-Day Free Trial Extension
 
 ### Added
-- **Staging Webhook Sandbox Compatibility Support**:
-  - Implemented Dual-Key support inside outbound payment notifications (`paymentNotify` type = 1 and type = 2) and refund notifications (`refundNotify`) inside `functions-esmart.php`.
-  - To satisfy a remote staging server validation mismatch where the JSON schema validator expects the new v1.4 keys (`parentId` and `subscribeId`) but the signature verification code is generic and hashes all fields present in the JSON body, the payload transmits BOTH sets of keys in the request body (15 keys total) and signs all of them.
-  - Overwriting the signed parameters with the complete request payload right before signing ensures the generated signature perfectly matches the remote staging server's dynamic verification calculation, guaranteeing both schema validation and signature verification pass successfully!
+- **Staging Webhook Sandbox Compatibility Support (API #5 paymentNotify)**:
+  - Implemented Dual-Key support: the JSON body transmits both v1.3 keys (`parentClubParentId`, `parentClubSubscriptionId`) and v1.4 keys (`parentId`, `subscribeId`) to satisfy the schema validator.
+  - **Critical signing rule (verified via live testing):** `parentId` and `subscribeId` must be sent in the JSON body but **must NOT appear in the HMAC plaintext**. The HMAC is computed only over the 13 v1.3 fields. Including them in the signature triggers error `20306` on the staging server.
+  - This mirrors the already-documented API #6 rule (`parentId` and `refundTimestamp` are body-only fields excluded from signing). Error code `20306` is eMathSmart's custom code meaning "signature field exclusion rule violated" — it is not in the public spec.
 
 
 - **Dynamic 14-Day Trial Hook & Eligibility Checks**:
