@@ -269,69 +269,11 @@ while ( have_posts() ) : the_post();
             color: var(--brand-text-dark) !important;
             margin-bottom: 4px !important;
             margin-top: 0 !important;
-            text-align: left !important;
+            text-align: center !important;
             line-height: 1.25 !important;
         }
 
-        /* Balance display area - Clean inline display without border or background box */
-        #emathsmart-custom-coins-product .coins-balance-row {
-            display: flex !important;
-            align-items: center !important;
-            gap: 12px !important;
-            background: none !important;
-            border: none !important;
-            border-radius: 0 !important;
-            padding: 0 !important;
-            margin: 8px 0 4px 0 !important;
-            box-shadow: none !important;
-        }
-
-        /* Coin wrapper - transparent and flush left */
-        #emathsmart-custom-coins-product .coins-balance-icon-wrapper {
-            flex-shrink: 0 !important;
-            width: 38px !important;
-            height: 38px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            background: none !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            border: none !important;
-        }
-
-        #emathsmart-custom-coins-product .coins-balance-image {
-            width: 100% !important;
-            height: auto !important;
-            display: block !important;
-        }
-
-        #emathsmart-custom-coins-product .coins-balance-text {
-            display: flex !important;
-            align-items: baseline !important;
-            gap: 6px !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-
-        #emathsmart-custom-coins-product .coins-balance-amount {
-            font-family: 'Outfit', sans-serif !important;
-            font-size: 34px !important;
-            font-weight: 800 !important;
-            color: var(--brand-text-dark) !important;
-            line-height: 1 !important;
-        }
-
-        #emathsmart-custom-coins-product .coins-balance-label {
-            font-family: 'Inter', sans-serif !important;
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            color: var(--brand-text-muted) !important;
-        }
-
-        /* Description text starts precisely where the coin image starts */
+        /* Description text centered */
         #emathsmart-custom-coins-product .coins-card-desc {
             font-family: 'Inter', sans-serif !important;
             font-size: 13.5px !important;
@@ -339,7 +281,7 @@ while ( have_posts() ) : the_post();
             color: var(--brand-text-muted) !important;
             margin-top: 4px !important;
             margin-bottom: 8px !important;
-            text-align: left !important;
+            text-align: center !important;
             padding-left: 0 !important;
             margin-left: 0 !important;
         }
@@ -614,34 +556,7 @@ while ( have_posts() ) : the_post();
 
             <!-- Centerpiece Dashboard Card: AI Coins Card -->
             <div class="dashboard-card ai-coins-card">
-                <h3 class="coins-card-title">AI Coins Balance</h3>
-                
-                <!-- Balance Indicator Row (displays logged in user's dynamic balance or standard mockup fallback) -->
-                <div class="coins-balance-row">
-                    <div class="coins-balance-icon-wrapper">
-                        <img src="<?php echo $coin_image_url; ?>" alt="AI Coin" class="coins-balance-image">
-                    </div>
-                    <div class="coins-balance-text">
-                        <span class="coins-balance-amount"><?php 
-                            $current_user_id = get_current_user_id();
-                            $coins_balance = 0;
-                            if ($current_user_id) {
-                                // Attempt to load user's real balance
-                                $coins_balance = get_user_meta($current_user_id, 'emathsmart_coins', true);
-                                if (!$coins_balance) {
-                                    $coins_balance = get_user_meta($current_user_id, 'additional_packages', true);
-                                }
-                                if (!$coins_balance) {
-                                    $coins_balance = 120; // Default mockup balance
-                                }
-                            } else {
-                                $coins_balance = 120; // Default mockup balance
-                            }
-                            echo esc_html($coins_balance);
-                        ?></span>
-                        <span class="coins-balance-label">coins</span>
-                    </div>
-                </div>
+                <h3 class="coins-card-title">AI Coins</h3>
                 
                 <!-- Description -->
                 <p class="coins-card-desc">Use AI coins to chat with your AI helper, and mark worksheets.</p>

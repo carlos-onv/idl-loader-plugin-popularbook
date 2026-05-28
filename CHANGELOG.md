@@ -21,10 +21,10 @@ All notable changes to this project will be documented in this file for both hum
   - Implemented a highly robust programmatic price-sync loop that dynamically extracts display prices from all variation attributes using a clean number-extractor, ensuring flawless WooCommerce price synchronization and preventing database attribute-mismatches.
   - Upgraded the client-side JavaScript synchronizer to search select options by cleaned numeric digits, guaranteeing reliable dropdown binding even if variation values are formatted differently (e.g. `'100'`, `'100-coins'`).
 - **AI Coins Page Actions Refinement**: Removed the redundant "Secure Checkout" button, the "Secured by SSL" trust text badge, and the credit card logo SVGs completely from the single product page [single-product-ai-coins.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/single-product-ai-coins.php). Additionally, cleaned up all unused checkout-related CSS classes (`.checkout-row`, `.action-btn`, `.payment-badges`) and obsolete JavaScript `submitBtn` variables/event listeners to keep the codebase perfectly pristine. Letting users purchase packages seamlessly and directly via the high-fidelity package cards.
-- **Refined AI Coins Card Alignment**: Perfectly aligned the AI Coins component layout to match the exact design mockup:
-  - Removed the boxed border and cream-peach background from `.coins-balance-row` to make it completely transparent.
-  - Eliminated the white circular pop-glow background container and shadow around the coin image (`.coins-balance-icon-wrapper`), rendering the coin icon naturally flush-left.
-  - Aligned the left edges of the title, the coin icon, and the description paragraph (`.coins-card-desc`) flush on the exact same vertical line inside the card padding container.
+- **Refined AI Coins Card Centering & Cleanup**: Redesigned and simplified the centerpiece card structure in [single-product-ai-coins.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/single-product-ai-coins.php):
+  - Changed the centerpiece card title from "AI Coins Balance" to "AI Coins" (removing the word "Balance").
+  - Centered both the card title (`.coins-card-title`) and the card description (`.coins-card-desc`) perfectly inside the container using `text-align: center !important`.
+  - Completely removed the dynamic balance indicator row displaying the "120 coins" amount and coin icon, cleaning up all corresponding unused CSS selectors.
   - Hidden the `.coins-divider` line entirely to maintain design simplicity.
   - Styled `.btn-buy-coins` as a clean, flat button by removing its drop shadow.
   - Incremented version parameter to `?v=1.3.1` in [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html) to bust aggressive style caches.
