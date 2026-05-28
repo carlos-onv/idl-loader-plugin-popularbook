@@ -971,3 +971,301 @@ function emathsmart_run_trial_logic_diagnostic()
 }
 
 
+// ============================================================
+// BULK SIGNATURE PROBE TEST
+// Trigger: https://dev-popularbook.local/?sig_probe=1
+// Purpose: Sends REAL HTTP requests to eMathSmart staging with
+//          a unique orderId per case to find which exact field
+//          subset the server expects in the HMAC signature.
+//          Each case is independent — burned orderIds do NOT
+//          affect other cases.
+// ============================================================
+add_action('init', 'emathsmart_sig_probe_test');
+function emathsmart_sig_probe_test()
+{
+    if (!isset($_REQUEST['sig_probe']) || $_REQUEST['sig_probe'] != '1') return;
+    if (!current_user_can('manage_options')) wp_die('Unauthorized');
+
+    // ── Helper: compute HMAC-SHA256 base64url ────────────────
+    function _probe_sig(array $fields, string $secret): array {
+        $p = [];
+        foreach ($fields as $k => $v) $p[$k] = (string) $v;
+        ksort($p);
+        $pairs = [];
+        foreach ($p as $k => $v) $pairs[] = "$k=$v";
+        $str = implode('&', $pairs);
+        $hash = hash_hmac('sha256', $str, $secret, true);
+        $sig  = rtrim(strtr(base64_encode($hash), '+/', '-_'), '=');
+        return ['sig' => $sig, 'str' => $str];
+    }
+
+    // ── Helper: send one REAL request to staging ─────────────
+    function _probe_send(array $body, string $url): array {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body, JSON_UNESCAPED_UNICODE));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 12);
+        $resp   = curl_exec($ch);
+        $http   = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $err    = curl_error($ch);
+        curl_close($ch);
+        $dec    = json_decode($resp, true);
+        $code   = isset($dec['code']) ? (int) $dec['code'] : 0;
+        $msg    = $dec['message'] ?? $err;
+        return ['code' => $code, 'http' => $http, 'msg' => $msg, 'raw' => $resp];
+    }
+
+    $secret  = 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm';
+    $url     = 'https://test.emathsmart.ca/api/user-center/order/paymentNotify';
+
+    // ── Static test values (NOT from any real WC order/user) ─
+    // orderId: use a random high number per run to avoid "already processed" cache.
+    // Each CASE gets its OWN unique orderId offset so they never share burn fate.
+    $base_oid  = 900000 + (int)(microtime(true) * 10) % 89999; // random-ish base
+    $parent_id = '99';      // dummy parent
+    $sub_id    = '9901';    // dummy subscription
+    $now       = time();
+    $expire    = $now + (14 * 86400);
+
+    // Shared non-signing fields (always sent in body, values stay fixed)
+    $common = [
+        'appId'       => 'ParentClub',
+        'type'        => 1,
+        'payStatus'   => 1,
+        'payAmount'   => '0.00',
+        'payTimestamp'=> $now,
+        'expireTimestamp' => $expire,
+        'subscriptionType' => 1,
+        'trialType'   => 2,
+    ];
+
+    // ── Test matrix: define which fields go into the HMAC ────
+    //    Each case: label, signed_keys (subset), extra_body_keys (body-only)
+    //
+    // Convention for signed_keys: use the KEY NAMES exactly as they appear in the payload.
+    // v1.3 keys: parentClubParentId, parentClubSubscriptionId
+    // v1.4 keys: parentId, subscribeId
+    $cases = [
+
+        // ── A: Only v1.3 parent+sub keys, no v1.4 ────────────────────────────
+        'A_v13_only_no_v14_body' => [
+            'label'        => 'A — Sign: 13 v1.3 fields | Body: NO parentId/subscribeId',
+            'v13_in_body'  => true,
+            'v14_in_body'  => false,
+            'sign_v13'     => true,
+            'sign_v14'     => false,
+        ],
+
+        // ── B: v1.3 in body+sig, v1.4 in body only (excluded from sig) ───────
+        'B_v13_sig_v14_body_only' => [
+            'label'        => 'B — Sign: 13 v1.3 fields | Body: +parentId +subscribeId (body-only)',
+            'v13_in_body'  => true,
+            'v14_in_body'  => true,
+            'sign_v13'     => true,
+            'sign_v14'     => false,
+        ],
+
+        // ── C: v1.4 in body+sig, v1.3 in body only (excluded from sig) ───────
+        'C_v14_sig_v13_body_only' => [
+            'label'        => 'C — Sign: 13 v1.4 fields (parentId/subscribeId) | Body: +v1.3 body-only',
+            'v13_in_body'  => true,
+            'v14_in_body'  => true,
+            'sign_v13'     => false,
+            'sign_v14'     => true,
+        ],
+
+        // ── D: Only v1.4 keys, no v1.3 in body at all ────────────────────────
+        'D_v14_only_no_v13_body' => [
+            'label'        => 'D — Sign: 13 v1.4 fields | Body: NO parentClubParentId/parentClubSubscriptionId',
+            'v13_in_body'  => false,
+            'v14_in_body'  => true,
+            'sign_v13'     => false,
+            'sign_v14'     => true,
+        ],
+
+        // ── E: All 15 fields signed (both v1.3 + v1.4) ───────────────────────
+        'E_all_15_signed' => [
+            'label'        => 'E — Sign: ALL 15 fields (v1.3 + v1.4) | Body: all 15',
+            'v13_in_body'  => true,
+            'v14_in_body'  => true,
+            'sign_v13'     => true,
+            'sign_v14'     => true,
+        ],
+
+        // ── F: Only common fields signed (no parent/sub keys at all) ─────────
+        'F_common_only_no_ids' => [
+            'label'        => 'F — Sign: 8 common fields only (no parentId keys) | Body: NO parent/sub keys',
+            'v13_in_body'  => false,
+            'v14_in_body'  => false,
+            'sign_v13'     => false,
+            'sign_v14'     => false,
+        ],
+
+        // ── G: v1.3 only in body+sig, v1.4 body-only, but v1.3 = parentId values ──
+        // (what if parentClubParentId should equal parentId numerically?)
+        'G_v13_sig_v14_body_aliased' => [
+            'label'        => 'G — Sign: v1.3 fields (aliased: parentClubParentId = parentId value) | Body: +v1.4',
+            'v13_in_body'  => true,
+            'v14_in_body'  => true,
+            'sign_v13'     => true,
+            'sign_v14'     => false,
+            'alias_v13'    => true, // parentClubParentId = parentId value
+        ],
+    ];
+
+    // ── HTML output ──────────────────────────────────────────
+    header('Content-Type: text/html; charset=utf-8');
+    echo '<!DOCTYPE html><html><head><meta charset="utf-8">
+    <title>eMathSmart Signature Probe</title>
+    <style>
+        body { font-family: monospace; background: #0d0d0d; color: #e0e0e0; padding: 24px; }
+        h1 { color: #03dac6; }
+        h2 { color: #bb86fc; margin-top: 32px; }
+        .ok   { background: #1b3a1b; border-left: 4px solid #4caf50; padding: 10px 16px; border-radius: 4px; }
+        .fail { background: #3a1b1b; border-left: 4px solid #f44336; padding: 10px 16px; border-radius: 4px; }
+        .info { background: #1a1a2e; border-left: 4px solid #03a9f4; padding: 10px 16px; border-radius: 4px; }
+        pre   { background: #1a1a1a; padding: 12px; border-radius: 4px; font-size: 12px; white-space: pre-wrap; word-break: break-all; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #333; padding: 8px 12px; text-align: left; }
+        th { background: #1a1a1a; color: #bb86fc; }
+        .code-200  { color: #4caf50; font-weight: bold; }
+        .code-err  { color: #f44336; font-weight: bold; }
+        .code-warn { color: #ff9800; font-weight: bold; }
+        .tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; margin: 2px; }
+        .tag-green { background: #1b3a1b; color: #4caf50; border: 1px solid #4caf50; }
+        .tag-red   { background: #3a1b1b; color: #f44336; border: 1px solid #f44336; }
+        .tag-blue  { background: #0d2a3a; color: #03a9f4; border: 1px solid #03a9f4; }
+    </style></head><body>';
+
+    echo '<h1>🔬 eMathSmart Signature Probe — Bulk Test</h1>';
+    echo '<div class="info" style="margin-bottom:24px;">';
+    echo '<strong>Secret:</strong> <code>' . esc_html($secret) . '</code><br>';
+    echo '<strong>URL:</strong> <code>' . esc_html($url) . '</code><br>';
+    echo '<strong>Base orderId:</strong> <code>' . $base_oid . '</code> (each case +offset)<br>';
+    echo '<strong>parent_id:</strong> <code>' . $parent_id . '</code> | ';
+    echo '<strong>sub_id:</strong> <code>' . $sub_id . '</code><br>';
+    echo '</div>';
+
+    $results = [];
+
+    foreach ($cases as $case_key => $case) {
+        $oid_offset = array_search($case_key, array_keys($cases));
+        $order_id   = (string)($base_oid + $oid_offset);
+        $nonce      = bin2hex(random_bytes(16));
+
+        // Build body
+        $body = $common;
+        $body['orderId']    = $order_id;
+        $body['timestamp']  = $now;
+        $body['nonce']      = $nonce;
+
+        if ($case['v13_in_body']) {
+            $body['parentClubParentId']       = $parent_id;
+            $body['parentClubSubscriptionId'] = $sub_id;
+        }
+        if ($case['v14_in_body']) {
+            $body['parentId']   = $parent_id;
+            $body['subscribeId']= $sub_id;
+        }
+
+        // Build sign_params
+        $sign = $common;
+        $sign['orderId']   = $order_id;
+        $sign['timestamp'] = (string) $now;
+        $sign['nonce']     = $nonce;
+
+        // Stringify sign params
+        foreach ($sign as $k => $v) $sign[$k] = (string) $v;
+
+        if ($case['sign_v13']) {
+            $sign['parentClubParentId']       = $parent_id;
+            $sign['parentClubSubscriptionId'] = $sub_id;
+        }
+        if ($case['sign_v14']) {
+            $sign['parentId']    = $parent_id;
+            $sign['subscribeId'] = $sub_id;
+        }
+
+        $probe = _probe_sig($sign, $secret);
+        $body['signature'] = $probe['sig'];
+
+        // Send it
+        $res = _probe_send($body, $url);
+
+        $results[$case_key] = [
+            'case'    => $case,
+            'order_id'=> $order_id,
+            'nonce'   => $nonce,
+            'sign_str'=> $probe['str'],
+            'sig'     => $probe['sig'],
+            'body'    => $body,
+            'res'     => $res,
+        ];
+    }
+
+    // ── Summary Table ────────────────────────────────────────
+    echo '<h2>📊 Results Summary</h2>';
+    echo '<table>';
+    echo '<tr><th>#</th><th>Case</th><th>orderId</th><th>Signed Fields</th><th>Body Fields</th><th>API Code</th><th>Message</th></tr>';
+    foreach ($results as $key => $r) {
+        $code = $r['res']['code'];
+        $cls  = ($code === 200) ? 'code-200' : (($code === 40101 || $code === 40201) ? 'code-warn' : 'code-err');
+        $win  = ($code === 200 || $code === 40101 || $code === 40201 || $code === 40202) ? '✅' : '❌';
+
+        $signed_tags = '';
+        if ($r['case']['sign_v13']) $signed_tags .= '<span class="tag tag-blue">v1.3 keys</span>';
+        if ($r['case']['sign_v14']) $signed_tags .= '<span class="tag tag-blue">v1.4 keys</span>';
+        if (!$r['case']['sign_v13'] && !$r['case']['sign_v14']) $signed_tags .= '<span class="tag tag-red">common only</span>';
+
+        $body_tags = '';
+        if ($r['case']['v13_in_body']) $body_tags .= '<span class="tag tag-green">v1.3</span>';
+        if ($r['case']['v14_in_body']) $body_tags .= '<span class="tag tag-green">v1.4</span>';
+        if (!$r['case']['v13_in_body'] && !$r['case']['v14_in_body']) $body_tags .= '<span class="tag tag-red">none</span>';
+
+        echo "<tr>";
+        echo "<td>$win</td>";
+        echo "<td><strong>" . esc_html($key) . "</strong><br><small>" . esc_html($r['case']['label']) . "</small></td>";
+        echo "<td><code>{$r['order_id']}</code></td>";
+        echo "<td>$signed_tags</td>";
+        echo "<td>$body_tags</td>";
+        echo "<td class='$cls'>$code</td>";
+        echo "<td>" . esc_html($r['res']['msg']) . "</td>";
+        echo "</tr>";
+    }
+    echo '</table>';
+
+    // ── Per-case detail ──────────────────────────────────────
+    echo '<h2>🔍 Per-Case Detail</h2>';
+    foreach ($results as $key => $r) {
+        $code = $r['res']['code'];
+        $win  = ($code === 200 || $code === 40101 || $code === 40201 || $code === 40202);
+        $cls  = $win ? 'ok' : 'fail';
+        $icon = $win ? '✅' : '❌';
+
+        echo "<div class='$cls' style='margin-bottom:20px;'>";
+        echo "<h3 style='margin-top:0;'>$icon " . esc_html($key) . " — Code: <strong>$code</strong></h3>";
+        echo "<p><em>" . esc_html($r['case']['label']) . "</em></p>";
+
+        echo '<table style="margin-bottom:8px;">';
+        echo '<tr><th>Detail</th><th>Value</th></tr>';
+        echo '<tr><td>orderId</td><td><code>' . esc_html($r['order_id']) . '</code></td></tr>';
+        echo '<tr><td>nonce</td><td><code>' . esc_html($r['nonce']) . '</code></td></tr>';
+        echo '<tr><td>Signing string</td><td><code style="word-break:break-all;">' . esc_html($r['sign_str']) . '</code></td></tr>';
+        echo '<tr><td>Signature</td><td><code>' . esc_html($r['sig']) . '</code></td></tr>';
+        echo '</table>';
+
+        echo '<strong>Request Payload:</strong>';
+        echo '<pre>' . esc_html(json_encode($r['body'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)) . '</pre>';
+        echo '<strong>Response:</strong>';
+        echo '<pre>' . esc_html($r['res']['raw']) . '</pre>';
+        echo '</div>';
+    }
+
+    echo '<hr style="border-color:#333; margin: 40px 0;">';
+    echo '<p style="color:#666; font-size:12px;">Probe completed. Each case used a unique orderId. No WC orders were modified.</p>';
+    echo '</body></html>';
+    exit;
+}
+
