@@ -88,16 +88,12 @@
     gap: 12px !important;
 }
 
-/* Styled text logo for eMathSmart */
-.sub-card-logo {
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 32px !important;
-    font-weight: 800 !important;
-    letter-spacing: -0.5px !important;
+/* Image logo for eMathSmart */
+.sub-card-logo-img {
+    height: 38px !important;
+    width: auto !important;
+    display: block !important;
 }
-.sub-card-logo .logo-e { color: #007aff !important; }
-.sub-card-logo .logo-math { color: #ff3e1d !important; }
-.sub-card-logo .logo-smart { color: #34c759 !important; }
 
 .badge-active {
     background-color: #e6f7ed !important;
@@ -177,25 +173,7 @@
     filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1)) !important;
 }
 
-/* Decorative CSS blob background */
-.sub-graphic-blob {
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 220px !important;
-    height: 220px !important;
-    background: #ffa834 !important;
-    opacity: 0.9 !important;
-    border-radius: 43% 57% 41% 59% / 57% 46% 54% 43% !important;
-    animation: blob-bounce 12s ease-in-out infinite both alternate !important;
-    z-index: 1 !important;
-}
 
-@keyframes blob-bounce {
-    0% { border-radius: 43% 57% 41% 59% / 57% 46% 54% 43%; transform: translate(-50%, -50%) rotate(0deg); }
-    100% { border-radius: 65% 35% 55% 45% / 48% 68% 32% 52%; transform: translate(-50%, -50%) rotate(45deg); }
-}
 
 /* Key-value checklist grid */
 .sub-details-col {
