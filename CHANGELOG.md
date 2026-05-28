@@ -6,8 +6,9 @@ All notable changes to this project will be documented in this file for both hum
 
 ### Added
 - **Staging Webhook Sandbox Compatibility Support**:
-  - Adjusted outbound payment notification (`paymentNotify` type = 1 and type = 2) payloads inside `functions-esmart.php` to use v1.3 keys (`parentClubParentId` and `parentClubSubscriptionId`) to match the active eMathSmart staging server schema, ensuring sandbox payments succeed in the test environment.
-  - Kept the new v1.4 keys (`parentId` and `subscribeId`) commented out in the code for easy future updates.
+  - Implemented Dual-Key support inside outbound payment notifications (`paymentNotify` type = 1 and type = 2) payloads inside `functions-esmart.php`.
+  - To satisfy a remote staging server validation mismatch where the JSON schema validator expects the new v1.4 keys (`parentId` and `subscribeId`) but the signature verification code still expects the old v1.3 keys (`parentClubParentId` and `parentClubSubscriptionId`), the payload now transmits BOTH sets of keys in the request body, while the signature is calculated strictly using the v1.3 keys. This guarantees sandbox payments succeed in the test environment.
+
 
 - **Dynamic 14-Day Trial Hook & Eligibility Checks**:
   - Implemented `emathsmart_is_eligible_parents_club_member( $user_id )` to verify if the user has the user meta `'user_registration_check_box_1661192013'` set to `'parent_club_member'` and was registered on or before `2026-05-28` UTC (cutoff of `2026-05-29 00:00:00 UTC`).
