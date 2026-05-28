@@ -6,8 +6,9 @@ All notable changes to this project will be documented in this file for both hum
 
 ### Added
 - **Staging Webhook Sandbox Compatibility Support**:
-  - Implemented Dual-Key support inside outbound payment notifications (`paymentNotify` type = 1 and type = 2) payloads inside `functions-esmart.php`.
-  - To satisfy a remote staging server validation mismatch where the JSON schema validator expects the new v1.4 keys (`parentId` and `subscribeId`) but the signature verification code still expects the old v1.3 keys (`parentClubParentId` and `parentClubSubscriptionId`), the payload now transmits BOTH sets of keys in the request body, while the signature is calculated strictly using the v1.3 keys. This guarantees sandbox payments succeed in the test environment.
+  - Implemented Dual-Key support inside outbound payment notifications (`paymentNotify` type = 1 and type = 2) and refund notifications (`refundNotify`) inside `functions-esmart.php`.
+  - To satisfy a remote staging server validation mismatch where the JSON schema validator expects the new v1.4 keys (`parentId` and `subscribeId`) but the signature verification code expects the old v1.3 keys (`parentClubParentId` and `parentClubSubscriptionId`), the payload transmits BOTH sets of keys in the request body.
+  - Since the remote staging server's signature verification extracts and hashes all non-null fields from the JSON body dynamically, the outbound plugin now dynamically recalculates `$sign_params` based on all sent fields (both v1.3 and v1.4 keys) right before signing. This successfully avoids signature mismatches while satisfying the validation schema!
 
 
 - **Dynamic 14-Day Trial Hook & Eligibility Checks**:
