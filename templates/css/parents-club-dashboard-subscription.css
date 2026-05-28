@@ -162,15 +162,20 @@
 .sub-tablet-wrapper {
     position: relative !important;
     width: 100% !important;
-    max-width: 200px !important;
+    max-width: 250px !important;
     z-index: 2 !important;
+    transition: transform 0.4s ease !important;
+}
+
+.sub-tablet-wrapper:hover {
+    transform: scale(1.03) rotate(-1deg) !important;
 }
 
 .sub-tablet-image {
     width: 100% !important;
     height: auto !important;
     display: block !important;
-    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1)) !important;
+    filter: drop-shadow(0 15px 30px rgba(0,0,0,0.12)) !important;
 }
 
 
@@ -179,7 +184,7 @@
 .sub-details-col {
     display: flex !important;
     flex-direction: column !important;
-    gap: 12px !important;
+    gap: 16px !important;
 }
 
 .detail-row {
@@ -250,7 +255,6 @@
     font-weight: 700 !important;
     color: #e07a00 !important;
     margin-bottom: 12px !important;
-    text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
 }
 
@@ -290,35 +294,41 @@
 /* Footer Actions Row */
 .sub-card-footer {
     display: flex !important;
-    justify-content: flex-start !important;
+    justify-content: space-between !important;
+    align-items: center !important;
     flex-wrap: wrap !important;
     gap: 12px !important;
     border-top: 1px solid #f1f5f9 !important;
-    padding-top: 20px !important;
-    margin-top: 8px !important;
+    padding-top: 24px !important;
+    margin-top: 10px !important;
 }
 
 .btn-sub-footer {
     background-color: #ffffff !important;
-    border: 1px solid #ffd6cc !important;
+    border: 1.5px solid #ff5a1d !important;
     border-radius: 8px !important;
-    padding: 10px 16px !important;
+    padding: 10px 18px !important;
     font-family: 'Outfit', sans-serif !important;
-    font-size: 13.5px !important;
+    font-size: 13px !important;
     font-weight: 700 !important;
-    color: var(--esmart-crimson) !important;
+    color: #ff5a1d !important;
     text-decoration: none !important;
     display: inline-flex !important;
     align-items: center !important;
+    justify-content: center !important;
     gap: 8px !important;
     transition: all 0.2s ease !important;
     cursor: pointer !important;
+    flex: 1 1 auto !important;
+    max-width: 100% !important;
 }
 
 .btn-sub-footer:hover {
     background-color: #fff5f2 !important;
-    border-color: var(--esmart-crimson) !important;
-    transform: translateY(-1px) !important;
+    border-color: #e54a10 !important;
+    color: #e54a10 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(255, 90, 29, 0.1) !important;
 }
 
 .btn-sub-footer svg {
