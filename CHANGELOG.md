@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file for both hum
   - Registered `[emathsmart_continue_button]`, `[emathsmart_logout_link]`, and `[emathsmart_logout_url]` helper shortcodes to provide dynamically-computed SSO continuation buttons, account switching logouts, and raw secure logout URLs (complete with active WordPress security nonces and query redirection targets) that can be pasted directly into WPBakery button link fields.
 
 ### Changed
+- **Scoped eMathSmart Login Form Endpoint Overrides**:
+  - Hooked into both `lostpassword_url` (WordPress/WooCommerce) and `register_url` filters (`emathsmart_scoped_lostpassword_url` & `emathsmart_scoped_register_url`) to force correct absolute endpoints (`/my-account/lost-password/` and `/parents-club/` respectively) **exclusively** on the `/emathsmart-login` page. This prevents WPBakery login widgets from generating broken relative paths.
 - **Redesigned eMathSmart Continue Button**:
   - Upgraded the visual styling of the `[emathsmart_continue_button]` shortcode output to a warm peach-orange color palette (`background: #f9954b`, `border-radius: 22px`, `color: #FFFFFF`) with full CSS hover states (transitioning smoothly to a white background with a peach outline and text color).
 - **Optimized Frontend Redirection Script Scope**:

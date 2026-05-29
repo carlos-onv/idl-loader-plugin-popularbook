@@ -1306,3 +1306,26 @@ function emathsmart_logout_url_shortcode() {
 
     return wp_logout_url( $logout_redirect );
 }
+
+/**
+ * Scoped Lost Password URL override for the /emathsmart-login page
+ */
+add_filter( 'lostpassword_url', 'emathsmart_scoped_lostpassword_url', 999999, 1 );
+add_filter( 'woocommerce_lostpassword_url', 'emathsmart_scoped_lostpassword_url', 999999, 1 );
+function emathsmart_scoped_lostpassword_url( $lostpassword_url ) {
+    if ( ! is_admin() && ( is_page( 'emathsmart-login' ) || ( ! empty( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], '/emathsmart-login' ) !== false ) ) ) {
+        return home_url( '/my-account/lost-password/' );
+    }
+    return $lostpassword_url;
+}
+
+/**
+ * Scoped Registration URL override for the /emathsmart-login page
+ */
+add_filter( 'register_url', 'emathsmart_scoped_register_url', 999999, 1 );
+function emathsmart_scoped_register_url( $register_url ) {
+    if ( ! is_admin() && ( is_page( 'emathsmart-login' ) || ( ! empty( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], '/emathsmart-login' ) !== false ) ) ) {
+        return home_url( '/parents-club/' );
+    }
+    return $register_url;
+}
