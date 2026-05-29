@@ -14,8 +14,8 @@ All notable changes to this project will be documented in this file for both hum
   - Registered `[emathsmart_continue_button]`, `[emathsmart_logout_link]`, and `[emathsmart_logout_url]` helper shortcodes to provide dynamically-computed SSO continuation buttons, account switching logouts, and raw secure logout URLs (complete with active WordPress security nonces and query redirection targets) that can be pasted directly into WPBakery button link fields.
 
 ### Changed
-- **Client-Side Registration Link Rewrite**:
-  - Extended the `emathsmart_inject_redirect_to_js` client-side script to automatically scan and rewrite any anchor links containing the text "Register now" (case-insensitive) to point securely to the Parents' Club sign-up landing page (`/parents-club/`). This dynamically bypasses WPBakery login widget relative paths that default to the current page.
+- **Robust Client-Side Registration Link Rewrite**:
+  - Refined the `emathsmart_inject_redirect_to_js` client-side script to use a highly robust checking pattern that matches absolute, relative, and query-parameter based registration URLs (e.g. `?action=register` or `/wp-login.php?action=register`) and directly targets WPEverest User Registration Pro containers (`.user-registration-register` and `.register`). This guarantees the "Register now" link is successfully rewritten to the Parents' Club sign-up landing page (`/parents-club/`) under all conditions on the `/emathsmart-login` page.
 - **Scoped eMathSmart Login Form Endpoint Overrides**:
   - Hooked into both `lostpassword_url` (WordPress/WooCommerce) and `register_url` filters (`emathsmart_scoped_lostpassword_url` & `emathsmart_scoped_register_url`) to force correct absolute endpoints (`/my-account/lost-password/` and `/parents-club/` respectively) **exclusively** on the `/emathsmart-login` page. This prevents WPBakery login widgets from generating broken relative paths.
 - **Redesigned eMathSmart Continue Button**:

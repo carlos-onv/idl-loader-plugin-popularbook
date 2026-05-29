@@ -1191,10 +1191,23 @@ function emathsmart_inject_redirect_to_js() {
     ?>
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
-        // 1. Always force "Register now" links on this page to point to Parents' Club
+        // 1. Always force registration links on this page to point to Parents' Club
         var links = document.querySelectorAll("a");
         links.forEach(function(link) {
-            if (link.textContent && link.textContent.toLowerCase().indexOf("register now") !== -1) {
+            var text = (link.textContent || link.innerText || "").toLowerCase();
+            var href = (link.getAttribute("href") || "").toLowerCase();
+            
+            // Check if text or href suggests this is a registration or sign up link
+            var isRegisterText = text.indexOf("register") !== -1 || text.indexOf("sign up") !== -1 || text.indexOf("signup") !== -1 || text.indexOf("join") !== -1 || text.indexOf("member") !== -1 || text.indexOf("create account") !== -1 || text.indexOf("create an account") !== -1;
+            var isRegisterHref = href.indexOf("register") !== -1 || href.indexOf("signup") !== -1 || href.indexOf("sign-up") !== -1 || href.indexOf("action=register") !== -1;
+            
+            // Exclude links that already point to the correct parents-club page to avoid redundant execution
+            var isAlreadyCorrect = href.indexOf("/parents-club/") !== -1;
+            
+            // Target links inside a .user-registration-register container as well
+            var isInsideRegisterContainer = link.closest(".user-registration-register") !== null || link.closest(".register") !== null;
+
+            if ((isRegisterText || isRegisterHref || isInsideRegisterContainer) && !isAlreadyCorrect) {
                 link.setAttribute("href", "<?php echo esc_url( home_url( '/parents-club/' ) ); ?>");
             }
         });
