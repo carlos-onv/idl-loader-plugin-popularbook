@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file for both hum
   - Features the high-quality cropped `parents-club-cta-tablet.png` illustration of a mother and child using a tablet on the left.
   - Features a clean solid crimson background (`#af0128`) containing dynamic title and description text on the right (with a forced `<br>` line break after *'trusted resources,'* to match the visual reference exactly).
   - Includes a vertical stack of two high-fidelity buttons: a white solid button (*"Join Parents' Club - It's Free!"*) and a rich eMathSmart themed orange button (*"Explore eMathSmart"*).
+- **New Modular WPBakery Element `[parents_club_cta_banner]`**:
+  - Registered the custom element `parents_club_cta_banner` inside `functions-wpbakery-elements.php` under the *'eMathSmart Elements'* visual builder category.
+  - Equipped with full parameterization: Left Banner Image selector (`attach_image`), Banner Title (`textfield`), Banner Description (`textarea`), and button label and custom target mappings (`vc_link` parameter type) for both the white and orange CTA action buttons.
+  - Added shortcode renderer handler `idl_loader_parents_club_cta_banner_shortcode` which dynamically enqueues its modular stylesheet, resolves image assets with custom-uploaded options, builds custom visual composer links, and formats description line-breaks safely.
+  - Registered helper binder class `WPBakeryShortCode_parents_club_cta_banner` for backend page layout mapping.
 - **Dedicated Modular Stylesheet**:
   - Created a new standalone stylesheet [parents-club-cta-banner.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-cta-banner.css) to manage all styling, hover transitions, and viewport-specific layouts of the new CTA banner.
   - Linked the new stylesheet contextually inside the `<head>` of the [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html) file.

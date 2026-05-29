@@ -2328,6 +2328,61 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
+
+    // Register [parents_club_cta_banner] Element
+    vc_map( array(
+        "name"        => esc_html__( "Parents Club Support CTA Banner", "book-junky" ),
+        "base"        => "parents_club_cta_banner",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Full-width promotional CTA banner with mother and child image, text, and two action buttons.", "book-junky" ),
+        "params"      => array(
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Left Banner Image", "book-junky" ),
+                "param_name"  => "banner_image",
+                "description" => esc_html__( "Select an image for the left side of the banner. Defaults to parents-club-cta-tablet.png if left blank.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Banner Title", "book-junky" ),
+                "param_name"  => "title",
+                "value"       => esc_html__( "Ready to Support Your Child's Success?", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "textarea",
+                "heading"     => esc_html__( "Banner Description", "book-junky" ),
+                "param_name"  => "description",
+                "value"       => "Join 40,000+ Canadian parents and get trusted resources,\nworkbook savings, and learning support — for free!",
+                "description" => esc_html__( "Enter the text description.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Button 1 Label (White)", "book-junky" ),
+                "param_name"  => "btn1_text",
+                "value"       => esc_html__( "Join Parents' Club – It's Free!", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "vc_link",
+                "heading"     => esc_html__( "Button 1 Link (White)", "book-junky" ),
+                "param_name"  => "btn1_link",
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Button 2 Label (Orange)", "book-junky" ),
+                "param_name"  => "btn2_text",
+                "value"       => esc_html__( "Explore eMathSmart", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "vc_link",
+                "heading"     => esc_html__( "Button 2 Link (Orange)", "book-junky" ),
+                "param_name"  => "btn2_link",
+            ),
+        )
+    ) );
 }
 
 
@@ -3959,6 +4014,10 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     class WPBakeryShortCode_emathsmart_subscription_product_card extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for dynamic subscription product card
     }
+
+    class WPBakeryShortCode_parents_club_cta_banner extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for CTA Banner component
+    }
 }
 
 // Register [parents_club_need_help] Shortcode
@@ -4406,6 +4465,112 @@ function idl_loader_emathsmart_subscription_product_card_shortcode( $atts ) {
             <?php echo esc_html( $button_title ); ?>
         </a>
     </div>
+    <?php
+    return ob_get_clean();
+}
+
+// -----------------------------------------------------------------------------
+// SECTION 5: [parents_club_cta_banner] Shortcode Handler
+// -----------------------------------------------------------------------------
+
+// Register [parents_club_cta_banner] Shortcode
+add_shortcode( 'parents_club_cta_banner', 'idl_loader_parents_club_cta_banner_shortcode' );
+
+function idl_loader_parents_club_cta_banner_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'banner_image' => '',
+        'title'        => esc_html__( "Ready to Support Your Child's Success?", "book-junky" ),
+        'description'  => "Join 40,000+ Canadian parents and get trusted resources,\nworkbook savings, and learning support — for free!",
+        'btn1_text'    => esc_html__( "Join Parents' Club – It's Free!", "book-junky" ),
+        'btn1_link'    => '',
+        'btn2_text'    => esc_html__( "Explore eMathSmart", "book-junky" ),
+        'btn2_link'    => '',
+    ), $atts );
+
+    // Enqueue the modular stylesheet natively
+    wp_enqueue_style( 'parents-club-cta-banner', plugins_url( 'templates/css/parents-club-cta-banner.css', __FILE__ ) );
+
+    // Resolve Banner Image URL
+    $image_url = '';
+    if ( ! empty( $attributes['banner_image'] ) ) {
+        if ( is_numeric( $attributes['banner_image'] ) ) {
+            $image_url = wp_get_attachment_image_url( absint( $attributes['banner_image'] ), 'full' );
+        } else {
+            $image_url = $attributes['banner_image'];
+        }
+    }
+    if ( empty( $image_url ) ) {
+        $image_url = plugins_url( 'templates/images/parents-club-cta-tablet.png', __FILE__ );
+    }
+
+    // Resolve Button 1 (White) VC Link
+    $btn1_title  = $attributes['btn1_text'];
+    $btn1_url    = '#signup';
+    $btn1_target = '';
+    if ( ! empty( $attributes['btn1_link'] ) && function_exists( 'vc_build_link' ) ) {
+        $link_data = vc_build_link( $attributes['btn1_link'] );
+        if ( ! empty( $link_data['url'] ) ) {
+            $btn1_url = $link_data['url'];
+        }
+        if ( ! empty( $link_data['title'] ) ) {
+            $btn1_title = $link_data['title'];
+        }
+        if ( ! empty( $link_data['target'] ) ) {
+            $btn1_target = $link_data['target'];
+        }
+    }
+
+    // Resolve Button 2 (Orange) VC Link
+    $btn2_title  = $attributes['btn2_text'];
+    $btn2_url    = '#parents-club-section-4';
+    $btn2_target = '';
+    if ( ! empty( $attributes['btn2_link'] ) && function_exists( 'vc_build_link' ) ) {
+        $link_data = vc_build_link( $attributes['btn2_link'] );
+        if ( ! empty( $link_data['url'] ) ) {
+            $btn2_url = $link_data['url'];
+        }
+        if ( ! empty( $link_data['title'] ) ) {
+            $btn2_title = $link_data['title'];
+        }
+        if ( ! empty( $link_data['target'] ) ) {
+            $btn2_target = $link_data['target'];
+        }
+    }
+
+    // Prepare line breaks in description
+    $description = nl2br( esc_html( $attributes['description'] ) );
+    // Support basic inline HTML if tags were already passed as characters
+    $description = str_replace( array( '&lt;br&gt;', '&lt;br /&gt;' ), '<br>', $description );
+
+    ob_start();
+    ?>
+    <section id="parents-club-cta-banner">
+        <div class="cta-banner-wrapper">
+            <!-- Left: Image Column -->
+            <div class="cta-banner-image-col">
+                <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $attributes['title'] ); ?>">
+            </div>
+            <!-- Right: Content Column with Text & Buttons -->
+            <div class="cta-banner-content-col">
+                <div class="cta-banner-text">
+                    <h2><?php echo esc_html( $attributes['title'] ); ?></h2>
+                    <p><?php echo $description; ?></p>
+                </div>
+                <div class="cta-banner-actions">
+                    <?php if ( ! empty( $btn1_title ) ) : ?>
+                        <a href="<?php echo esc_url( $btn1_url ); ?>" class="btn-join-club" <?php echo ! empty( $btn1_target ) ? 'target="' . esc_attr( $btn1_target ) . '"' : ''; ?>>
+                            <?php echo esc_html( $btn1_title ); ?>
+                        </a>
+                    <?php endif; ?>
+                    <?php if ( ! empty( $btn2_title ) ) : ?>
+                        <a href="<?php echo esc_url( $btn2_url ); ?>" class="btn-explore-emath" <?php echo ! empty( $btn2_target ) ? 'target="' . esc_attr( $btn2_target ) . '"' : ''; ?>>
+                            <?php echo esc_html( $btn2_title ); ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </section>
     <?php
     return ob_get_clean();
 }
