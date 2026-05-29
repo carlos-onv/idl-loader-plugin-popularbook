@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file for both hum
 ### Added
 - **Premium Support CTA Section (Section 5-b)**:
   - Integrated the HTML markup for a new horizontal promotional CTA banner (`#parents-club-cta-banner`) in [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html) placed dynamically before Section 6 (FAQ + Need Help).
-  - Features the high-quality cropped `ParentClub2.jpg` illustration of a mother and child using a tablet on the left.
+  - Features the high-quality cropped `parents-club-cta-tablet.png` illustration of a mother and child using a tablet on the left.
   - Features a clean solid crimson background (`#af0128`) containing dynamic title and description text on the right.
   - Includes a vertical stack of two high-fidelity buttons: a white solid button (*"Join Parents' Club - It's Free!"*) and a rich eMathSmart themed orange button (*"Explore eMathSmart"*).
 - **Dedicated Modular Stylesheet**:
