@@ -1164,9 +1164,10 @@ function emathsmart_custom_oauth_login_url( $login_url, $redirect, $force_reauth
     }
 
     if ( $is_oauth ) {
-        // Redirect to /parents-club#login with redirect_to preserved
-        $custom_login_page = home_url( '/parents-club#login' );
-        return add_query_arg( 'redirect_to', urlencode( $redirect ), $custom_login_page );
+        // Build URL ensuring query parameters are placed BEFORE the hash fragment
+        $custom_login_page = home_url( '/parents-club' );
+        $final_url = add_query_arg( 'redirect_to', urlencode( $redirect ), $custom_login_page );
+        return $final_url . '#login';
     }
     return $login_url;
 }

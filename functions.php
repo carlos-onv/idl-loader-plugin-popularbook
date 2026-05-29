@@ -1606,6 +1606,12 @@ function required_checkout_fields() {
 
             function um_pc_default_page_user_login()
             {
+                // If there is an explicit redirect_to parameter in the request (e.g. from eMathSmart OAuth), respect it
+                if ( ! empty( $_REQUEST['redirect_to'] ) ) {
+                    $redirect_to = esc_url_raw( $_REQUEST['redirect_to'] );
+                    wp_redirect( $redirect_to );
+                    exit;
+                }
 
                 $user_id = um_user("ID");
 

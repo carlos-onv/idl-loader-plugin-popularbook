@@ -7,15 +7,20 @@ All notable changes to this project will be documented in this file for both hum
 ### Added
 - **Dynamic eMathSmart OAuth Guest Redirect**:
   - Implemented the `emathsmart_custom_oauth_login_url` callback filter hooked into `login_url` to capture unauthenticated SSO authorization requests containing `/oauth/authorize`.
-  - Automatically redirects unauthorized guests coming from the eMathSmart portal to `/parents-club#login` instead of the default `/wp-login.php`, while preserving the critical `redirect_to` destination parameter to successfully resume the SSO session upon login.
+  - Automatically redirects unauthorized guests coming from the eMathSmart portal to `/parents-club?redirect_to=...#login` instead of the default `/wp-login.php`, while preserving the critical `redirect_to` destination parameter to successfully resume the SSO session upon login.
 
 ### Changed
+- **URL Query & Hash Anchor Order Correction**:
+  - Fixed standard redirection URL construction structure: moved the `redirect_to` query parameter *before* the client-side hash element (`/parents-club?redirect_to=...#login` instead of `/parents-club#login?redirect_to=...`). This ensures that the web server successfully receives and reads the `$_REQUEST['redirect_to']` parameters while the browser still correctly triggers the client-side scrolling anchor.
+- **Bypassed Ultimate Member Redirection Hijacking**:
+  - Updated the custom callback handler `um_pc_default_page_user_login()` inside `functions.php` to immediately detect and prioritize outgoing SSO redirects. This stops Ultimate Member from hijacking the post-login destination and forcing Parents' Club members to the main `/parents-club` dashboard when they arrive from an external OAuth flow.
 - **Robust Redirect Matching & Ultra-High Hook Priority**:
   - Upgraded `login_url` hook priority to `999999` to successfully bypass other active URL-obfuscation and page redirection plugins (like WP Hide & Security Enhancer which rewrites `wp-login.php` to `portal.php`).
   - Added a fallback comparison against the `$redirect` parameter inside `emathsmart_custom_oauth_login_url` to ensure redirects are captured even if the server environment rewrites standard `$_SERVER['REQUEST_URI']` queries during internally routed OAuth 2.0 authorization requests.
 
 ### Technical Notes for AI Agents
 - **Redirect Filter Handler**: `emathsmart_custom_oauth_login_url` in `/wp-content/plugins/idl-loader/functions-esmart.php`
+- **UM Login Hook Override**: `um_pc_default_page_user_login` in `/wp-content/plugins/idl-loader/functions.php`
 
 ## [2026-05-28] - eMathSmart Dynamic Subscription Product Card & 14-Day Free Trial Extension
 
