@@ -1191,6 +1191,15 @@ function emathsmart_inject_redirect_to_js() {
     ?>
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
+        // 1. Always force "Register now" links on this page to point to Parents' Club
+        var links = document.querySelectorAll("a");
+        links.forEach(function(link) {
+            if (link.textContent && link.textContent.toLowerCase().indexOf("register now") !== -1) {
+                link.setAttribute("href", "<?php echo esc_url( home_url( '/parents-club/' ) ); ?>");
+            }
+        });
+
+        // 2. Form binder for redirect_to parameter
         var urlParams = new URLSearchParams(window.location.search);
         var redirectTo = urlParams.get('redirect_to');
         
