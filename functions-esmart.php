@@ -1251,7 +1251,33 @@ function emathsmart_continue_button_shortcode( $atts ) {
 
     $label = ! empty( $atts['label'] ) ? esc_html( $atts['label'] ) : __( 'Continue to eMathSmart ➔', 'book-junky' );
 
-    return '<a href="' . esc_url( $redirect_to ) . '" class="btn-emathsmart-continue" style="display: inline-block; background: #ff3e1d; color: #fff; padding: 14px 28px; border-radius: 8px; font-weight: bold; text-decoration: none; font-family: \'Outfit\', Arial, sans-serif; font-size: 15px; margin: 15px 0; transition: background 0.2s ease; box-shadow: 0 4px 6px rgba(255, 62, 29, 0.15);">' . $label . '</a>';
+    $html = '';
+    // Custom scoped style block to seamlessly support CSS hover transitions
+    $html .= '<style type="text/css">';
+    $html .= '.btn-emathsmart-continue {';
+    $html .= '  display: inline-block;';
+    $html .= '  background: #f9954b;';
+    $html .= '  border-radius: 22px;';
+    $html .= '  color: #FFFFFF !important;';
+    $html .= '  border: 1px solid #f9954b;';
+    $html .= '  padding: 14px 28px;';
+    $html .= '  font-weight: bold;';
+    $html .= '  text-decoration: none;';
+    $html .= '  font-family: \'Outfit\', Arial, sans-serif;';
+    $html .= '  font-size: 15px;';
+    $html .= '  margin: 15px 0;';
+    $html .= '  transition: all 0.2s ease-in-out;';
+    $html .= '}';
+    $html .= '.btn-emathsmart-continue:hover {';
+    $html .= '  background-color: #FFFFFF !important;';
+    $html .= '  color: #f9954b !important;';
+    $html .= '  border: 1px solid #f9954b;';
+    $html .= '}';
+    $html .= '</style>';
+
+    $html .= '<a href="' . esc_url( $redirect_to ) . '" class="btn-emathsmart-continue">' . $label . '</a>';
+
+    return $html;
 }
 
 /**

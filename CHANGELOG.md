@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file for both hum
   - Registered `[emathsmart_continue_button]`, `[emathsmart_logout_link]`, and `[emathsmart_logout_url]` helper shortcodes to provide dynamically-computed SSO continuation buttons, account switching logouts, and raw secure logout URLs (complete with active WordPress security nonces and query redirection targets) that can be pasted directly into WPBakery button link fields.
 
 ### Changed
+- **Redesigned eMathSmart Continue Button**:
+  - Upgraded the visual styling of the `[emathsmart_continue_button]` shortcode output to a warm peach-orange color palette (`background: #f9954b`, `border-radius: 22px`, `color: #FFFFFF`) with full CSS hover states (transitioning smoothly to a white background with a peach outline and text color).
 - **Optimized Frontend Redirection Script Scope**:
   - Scoped the client-side JavaScript injection hook (`emathsmart_inject_redirect_to_js`) to load and run exclusively on the dedicated `/emathsmart-login` page or when an active OAuth authorize query is present, ensuring a 100% clean footprint on standard frontend pages.
 - **Redirection Target Destination**:
