@@ -2,9 +2,17 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-05-29] - Custom eMathSmart OAuth Redirect & Troubleshooting Support
+## [2026-05-29] - Custom eMathSmart OAuth Redirect, Troubleshooting Support & Sandbox CTA Section
 
 ### Added
+- **Premium Support CTA Section (Section 5-b)**:
+  - Integrated the HTML markup for a new horizontal promotional CTA banner (`#parents-club-cta-banner`) in [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html) placed dynamically before Section 6 (FAQ + Need Help).
+  - Features the high-quality cropped `ParentClub2.jpg` illustration of a mother and child using a tablet on the left.
+  - Features a clean solid crimson background (`#af0128`) containing dynamic title and description text on the right.
+  - Includes a vertical stack of two high-fidelity buttons: a white solid button (*"Join Parents' Club - It's Free!"*) and a rich eMathSmart themed orange button (*"Explore eMathSmart"*).
+- **Dedicated Modular Stylesheet**:
+  - Created a new standalone stylesheet [parents-club-cta-banner.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-cta-banner.css) to manage all styling, hover transitions, and viewport-specific layouts of the new CTA banner.
+  - Linked the new stylesheet contextually inside the `<head>` of the [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html) file.
 - **Dynamic eMathSmart OAuth Guest Redirect**:
   - Implemented the `emathsmart_custom_oauth_login_url` callback filter hooked into `login_url` to capture unauthenticated SSO authorization requests containing `/oauth/authorize`.
   - Automatically redirects unauthorized guests coming from the eMathSmart portal to the dedicated `/emathsmart-login` page instead of the default `/wp-login.php` or `/parents-club#login`, while preserving the critical `redirect_to` destination parameter to successfully resume the SSO session upon login.

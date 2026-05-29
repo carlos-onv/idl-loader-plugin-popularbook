@@ -1,0 +1,209 @@
+/**
+ * Parents Club Redesign - Section CTA Banner CSS
+ * File: parents-club-cta-banner.css
+ */
+
+#parents-club-cta-banner {
+    width: 100%;
+    background-color: #af0128; /* Primary Crimson Red */
+    margin: 60px 0;
+    box-shadow: 0 12px 36px rgba(175, 1, 40, 0.12);
+    box-sizing: border-box;
+}
+
+#parents-club-cta-banner * {
+    box-sizing: border-box !important;
+}
+
+.cta-banner-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: stretch;
+    min-height: 155px;
+}
+
+/* Left Image Column */
+.cta-banner-image-col {
+    width: 25%;
+    min-width: 230px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.cta-banner-image-col img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* Right Content Column */
+.cta-banner-content-col {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 50px;
+    gap: 40px;
+    background-color: #af0128; /* Matches container */
+}
+
+/* Text Stack */
+.cta-banner-text {
+    flex: 1;
+    color: #ffffff;
+    text-align: left;
+}
+
+.cta-banner-text h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 27px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #ffffff;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+}
+
+.cta-banner-text p {
+    font-family: 'Inter', sans-serif;
+    font-size: 14.5px;
+    font-weight: 400;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+}
+
+/* Stacked Buttons Column */
+.cta-banner-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 280px;
+}
+
+/* White Join Button */
+.cta-banner-actions .btn-join-club {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    color: #af0128 !important;
+    text-decoration: none !important;
+    text-align: center;
+    padding: 13px 20px;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    border: none;
+}
+
+.cta-banner-actions .btn-join-club:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Orange Explore Button */
+.cta-banner-actions .btn-explore-emath {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ff5a36; /* eMathSmart Theme Orange */
+    color: #ffffff !important;
+    text-decoration: none !important;
+    text-align: center;
+    padding: 13px 20px;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 12px rgba(255, 90, 54, 0.2);
+    cursor: pointer;
+    border: none;
+}
+
+.cta-banner-actions .btn-explore-emath:hover {
+    background-color: #e04a28; /* Darker orange hover */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 90, 54, 0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .cta-banner-content-col {
+        padding: 25px 35px;
+        gap: 30px;
+    }
+    .cta-banner-text h2 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 991px) {
+    #parents-club-cta-banner {
+        margin: 40px 0;
+    }
+    
+    .cta-banner-wrapper {
+        flex-direction: column;
+    }
+    
+    .cta-banner-image-col {
+        width: 100%;
+        height: 250px;
+    }
+    
+    .cta-banner-content-col {
+        flex-direction: column;
+        padding: 40px 30px;
+        gap: 25px;
+        text-align: center;
+    }
+    
+    .cta-banner-text {
+        text-align: center;
+    }
+    
+    .cta-banner-text h2 {
+        font-size: 25px;
+    }
+    
+    .cta-banner-actions {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .cta-banner-image-col {
+        height: 200px;
+    }
+    
+    .cta-banner-content-col {
+        padding: 30px 20px;
+    }
+    
+    .cta-banner-text h2 {
+        font-size: 22px;
+    }
+    
+    .cta-banner-text p {
+        font-size: 13.5px;
+    }
+}
