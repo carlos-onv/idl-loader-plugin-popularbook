@@ -1177,6 +1177,17 @@ function emathsmart_custom_oauth_login_url( $login_url, $redirect, $force_reauth
  */
 add_action( 'wp_footer', 'emathsmart_inject_redirect_to_js', 9999 );
 function emathsmart_inject_redirect_to_js() {
+    // Only load the script on the eMathSmart login page or during active eMathSmart OAuth flows
+    $is_oauth = false;
+    if ( is_page( 'emathsmart-login' ) ) {
+        $is_oauth = true;
+    } elseif ( ! empty( $_GET['redirect_to'] ) && strpos( $_GET['redirect_to'], '/oauth/authorize' ) !== false ) {
+        $is_oauth = true;
+    }
+
+    if ( ! $is_oauth ) {
+        return;
+    }
     ?>
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {

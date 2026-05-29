@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file for both hum
   - Added a client-side JavaScript injection hook (`emathsmart_inject_redirect_to_js`) in `wp_footer` that automatically captures the `redirect_to` parameter from the URL and binds/injects it to any active login forms on the page (supporting WPBakery custom forms, WooCommerce, Ultimate Member, WPEverest, etc.). This ensures that no matter what login element is used in `/emathsmart-login`, the redirection back to eMathSmart completes successfully on form submission.
 
 ### Changed
+- **Optimized Frontend Redirection Script Scope**:
+  - Scoped the client-side JavaScript injection hook (`emathsmart_inject_redirect_to_js`) to load and run exclusively on the dedicated `/emathsmart-login` page or when an active OAuth authorize query is present, ensuring a 100% clean footprint on standard frontend pages.
 - **Redirection Target Destination**:
   - Updated the eMathSmart guest SSO redirect URL target from `/parents-club?redirect_to=...#login` to `/emathsmart-login?redirect_to=...`, allowing users to land on a clean, dedicated eMathSmart login page.
 - **URL Query & Hash Anchor Order Correction**:
