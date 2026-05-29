@@ -7,11 +7,13 @@ All notable changes to this project will be documented in this file for both hum
 ### Added
 - **Dynamic eMathSmart OAuth Guest Redirect**:
   - Implemented the `emathsmart_custom_oauth_login_url` callback filter hooked into `login_url` to capture unauthenticated SSO authorization requests containing `/oauth/authorize`.
-  - Automatically redirects unauthorized guests coming from the eMathSmart portal to `/parents-club?redirect_to=...#login` instead of the default `/wp-login.php`, while preserving the critical `redirect_to` destination parameter to successfully resume the SSO session upon login.
+  - Automatically redirects unauthorized guests coming from the eMathSmart portal to the dedicated `/emathsmart-login` page instead of the default `/wp-login.php` or `/parents-club#login`, while preserving the critical `redirect_to` destination parameter to successfully resume the SSO session upon login.
 
 ### Changed
+- **Redirection Target Destination**:
+  - Updated the eMathSmart guest SSO redirect URL target from `/parents-club?redirect_to=...#login` to `/emathsmart-login?redirect_to=...`, allowing users to land on a clean, dedicated eMathSmart login page.
 - **URL Query & Hash Anchor Order Correction**:
-  - Fixed standard redirection URL construction structure: moved the `redirect_to` query parameter *before* the client-side hash element (`/parents-club?redirect_to=...#login` instead of `/parents-club#login?redirect_to=...`). This ensures that the web server successfully receives and reads the `$_REQUEST['redirect_to']` parameters while the browser still correctly triggers the client-side scrolling anchor.
+  - Fixed standard redirection URL construction structure: moved the `redirect_to` query parameter *before* any client-side hash elements to ensure the web server successfully receives and reads the `$_REQUEST['redirect_to']` parameters.
 - **Bypassed Ultimate Member Redirection Hijacking**:
   - Updated the custom callback handler `um_pc_default_page_user_login()` inside `functions.php` to immediately detect and prioritize outgoing SSO redirects. This stops Ultimate Member from hijacking the post-login destination and forcing Parents' Club members to the main `/parents-club` dashboard when they arrive from an external OAuth flow.
 - **Robust Redirect Matching & Ultra-High Hook Priority**:
