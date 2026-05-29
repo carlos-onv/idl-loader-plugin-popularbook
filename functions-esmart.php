@@ -1237,3 +1237,46 @@ function emathsmart_inject_redirect_to_js() {
     </script>
     <?php
 }
+
+/**
+ * Shortcode to render a dynamic redirection button for logged-in users returning to eMathSmart
+ * Usage: [emathsmart_continue_button label="Launch eMathSmart Portal"]
+ */
+add_shortcode( 'emathsmart_continue_button', 'emathsmart_continue_button_shortcode' );
+function emathsmart_continue_button_shortcode( $atts ) {
+    $redirect_to = ! empty( $_GET['redirect_to'] ) ? esc_url_raw( $_GET['redirect_to'] ) : '';
+    if ( empty( $redirect_to ) ) {
+        $redirect_to = 'https://test.emathsmart.ca'; // Fallback
+    }
+
+    $label = ! empty( $atts['label'] ) ? esc_html( $atts['label'] ) : __( 'Continue to eMathSmart ➔', 'book-junky' );
+
+    return '<a href="' . esc_url( $redirect_to ) . '" class="btn-emathsmart-continue" style="display: inline-block; background: #ff3e1d; color: #fff; padding: 14px 28px; border-radius: 8px; font-weight: bold; text-decoration: none; font-family: \'Outfit\', Arial, sans-serif; font-size: 15px; margin: 15px 0; transition: background 0.2s ease; box-shadow: 0 4px 6px rgba(255, 62, 29, 0.15);">' . $label . '</a>';
+}
+
+/**
+ * Shortcode to render a clean logout link that preserves the eMathSmart redirect parameters
+ * Usage: [emathsmart_logout_link]
+ */
+add_shortcode( 'emathsmart_logout_link', 'emathsmart_logout_link_shortcode' );
+function emathsmart_logout_link_shortcode() {
+    $logout_url = emathsmart_logout_url_shortcode();
+    return '<a href="' . esc_url( $logout_url ) . '" style="color: #c90000; text-decoration: underline; font-weight: bold;">' . __( 'Log Out', 'book-junky' ) . '</a>';
+}
+
+/**
+ * Shortcode to output ONLY the raw dynamic logout URL with security nonce
+ * Usage inside button link field: [emathsmart_logout_url]
+ */
+add_shortcode( 'emathsmart_logout_url', 'emathsmart_logout_url_shortcode' );
+function emathsmart_logout_url_shortcode() {
+    $redirect_to = ! empty( $_GET['redirect_to'] ) ? esc_url_raw( $_GET['redirect_to'] ) : '';
+    
+    // Redirect back to emathsmart-login page with redirect_to preserved after logging out
+    $logout_redirect = home_url( '/emathsmart-login' );
+    if ( ! empty( $redirect_to ) ) {
+        $logout_redirect = add_query_arg( 'redirect_to', urlencode( $redirect_to ), $logout_redirect );
+    }
+
+    return wp_logout_url( $logout_redirect );
+}
