@@ -1169,3 +1169,60 @@ function emathsmart_custom_oauth_login_url( $login_url, $redirect, $force_reauth
     }
     return $login_url;
 }
+
+/**
+ * Universal Frontend Redirection Binder:
+ * Automatically captures redirect_to from the URL and binds/injects it to any active login forms
+ * on the page (supports WPBakery custom forms, WooCommerce, Ultimate Member, WPEverest, etc.).
+ */
+add_action( 'wp_footer', 'emathsmart_inject_redirect_to_js', 9999 );
+function emathsmart_inject_redirect_to_js() {
+    ?>
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var redirectTo = urlParams.get('redirect_to');
+        
+        if (redirectTo) {
+            // Safe URL decode
+            try {
+                var decoded = decodeURIComponent(redirectTo);
+                if (decoded.indexOf('http') === 0 || decoded.indexOf('/') === 0) {
+                    redirectTo = decoded;
+                }
+            } catch (e) {}
+
+            // Find all forms with a password field (standard login/registration forms)
+            var forms = document.querySelectorAll("form");
+            forms.forEach(function(form) {
+                if (form.querySelector('input[type="password"]')) {
+                    // 1. Force action URL query argument to preserve redirect_to during POST submissions
+                    var action = form.getAttribute("action") || window.location.href;
+                    var actionUrl = action.split('#')[0];
+                    var hash = action.split('#')[1] ? '#' + action.split('#')[1] : '';
+                    
+                    if (actionUrl.indexOf("redirect_to") === -1) {
+                        var separator = actionUrl.indexOf("?") !== -1 ? "&" : "?";
+                        form.setAttribute("action", actionUrl + separator + "redirect_to=" + encodeURIComponent(redirectTo) + hash);
+                    }
+
+                    // 2. Set value on any existing redirection inputs, or dynamically inject a hidden field
+                    var redirectFields = form.querySelectorAll('input[name="redirect"], input[name="redirect_to"], input[name="url"], input[name="_wp_http_referer"]');
+                    if (redirectFields.length > 0) {
+                        redirectFields.forEach(function(field) {
+                            field.value = redirectTo;
+                        });
+                    } else {
+                        var input = document.createElement("input");
+                        input.type = "hidden";
+                        input.name = "redirect_to";
+                        input.value = redirectTo;
+                        form.appendChild(input);
+                    }
+                }
+            });
+        }
+    });
+    </script>
+    <?php
+}

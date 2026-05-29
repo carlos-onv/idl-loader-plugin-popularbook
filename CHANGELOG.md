@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file for both hum
 - **Dynamic eMathSmart OAuth Guest Redirect**:
   - Implemented the `emathsmart_custom_oauth_login_url` callback filter hooked into `login_url` to capture unauthenticated SSO authorization requests containing `/oauth/authorize`.
   - Automatically redirects unauthorized guests coming from the eMathSmart portal to the dedicated `/emathsmart-login` page instead of the default `/wp-login.php` or `/parents-club#login`, while preserving the critical `redirect_to` destination parameter to successfully resume the SSO session upon login.
+- **Universal Frontend Redirection Binder**:
+  - Added a client-side JavaScript injection hook (`emathsmart_inject_redirect_to_js`) in `wp_footer` that automatically captures the `redirect_to` parameter from the URL and binds/injects it to any active login forms on the page (supporting WPBakery custom forms, WooCommerce, Ultimate Member, WPEverest, etc.). This ensures that no matter what login element is used in `/emathsmart-login`, the redirection back to eMathSmart completes successfully on form submission.
 
 ### Changed
 - **Redirection Target Destination**:
