@@ -381,12 +381,15 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     $post_body['trialType'] = (int) $trialType;
                     
                     // Dual-Key Support: v1.4 keys go in the JSON body but are EXCLUDED from HMAC signature.
-                    // Including parentId/subscribeId in the signature triggers error 20306 on the staging server.
-                    // $sign_params stays as the 13 v1.3-only fields set above. Only $post_body gets them.
-                    $post_body['parentId'] = (string) $order->get_user_id(); // v1.4 body-only
-                    $post_body['subscribeId'] = $wc_subscription_id;         // v1.4 body-only
+                    // Signing with all 13 v1.3 fields (parentClubParentId + parentClubSubscriptionId).
+                    // The server detects v1.4 mode only when BOTH parentId AND subscriptionId are present
+                    // in the body — it then strips them from its own HMAC recomputation and verifies
+                    // against the 13 v1.3 fields, which matches our signature.
+                    // NOTE: field name is subscriptionId (not subscribeId) — confirmed by probe B7_B 200 OK.
+                    $post_body['parentId']       = (string) $order->get_user_id(); // v1.4 body-only
+                    $post_body['subscriptionId'] = $wc_subscription_id;            // v1.4 body-only (was subscribeId — wrong)
                 }
-                // NOTE: $sign_params is intentionally NOT updated here — parentId/subscribeId must
+                // NOTE: $sign_params is intentionally NOT updated here — parentId/subscriptionId must
                 // be excluded from the HMAC plaintext per eMathSmart API #5 signing rules.
 
             } else if ($subscription_type == 'refund') {
@@ -1145,4 +1148,18 @@ function emathsmart_dynamic_trial_length_for_parents_club( $trial_length, $produ
         }
     }
     return $trial_length;
+}
+
+/**
+ * Redirect unauthorized eMathSmart guests to /parents-club#login instead of wp-login.php
+ */
+add_filter( 'login_url', 'emathsmart_custom_oauth_login_url', 99, 3 );
+function emathsmart_custom_oauth_login_url( $login_url, $redirect, $force_reauth ) {
+    // Only intercept when the login request is coming from the eMathSmart OAuth flow
+    if ( strpos( $_SERVER['REQUEST_URI'], '/oauth/authorize' ) !== false ) {
+        // Redirect to /parents-club#login with redirect_to preserved
+        $custom_login_page = home_url( '/parents-club#login' );
+        return add_query_arg( 'redirect_to', urlencode( $redirect ), $custom_login_page );
+    }
+    return $login_url;
 }

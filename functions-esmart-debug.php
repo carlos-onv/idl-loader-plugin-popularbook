@@ -1289,6 +1289,364 @@ function emathsmart_sig_probe_test()
     ];
 
     // ══════════════════════════════════════════════════════════
+    // BATCH 5: INTEGER PARENT IDs — fix the 400 "parentClubParentId is required"
+    // R_A signature passes (v1.3 only) but 400 fires.
+    // Body sends parentClubParentId as STRING. Server may require INTEGER.
+    // ══════════════════════════════════════════════════════════
+    $batch5_cases = [];
+
+    // B5_A: v1.3 signed, v1.3 body, parentClubParentId/Sub as INTEGERS
+    $b5a_oid   = (string)($base_oid + 200);
+    $b5a_nonce = bin2hex(random_bytes(16));
+    $b5a_sign  = array_merge($common_str, [
+        'orderId'                  => $b5a_oid,
+        'timestamp'                => (string)$now,
+        'nonce'                    => $b5a_nonce,
+        'parentClubParentId'       => $real_parent,
+        'parentClubSubscriptionId' => $real_sub,
+    ]);
+    $b5a_probe = _probe_sig($b5a_sign, $known_secret);
+    $b5a_body  = _typed_body($b5a_sign);
+    $b5a_body['parentClubParentId']       = (int)$real_parent;  // integer!
+    $b5a_body['parentClubSubscriptionId'] = (int)$real_sub;     // integer!
+    $b5a_body['signature'] = $b5a_probe['sig'];
+    $batch5_cases['B5_A_int_parents'] = [
+        'label'    => '[B5A] v1.3 signed, v1.3 body, parentClubParentId/Sub as INTEGER',
+        'order_id' => $b5a_oid,
+        'nonce'    => $b5a_nonce,
+        'sign_str' => $b5a_probe['str'],
+        'sig'      => $b5a_probe['sig'],
+        'body'     => $b5a_body,
+        'res'      => _probe_send($b5a_body, $url),
+    ];
+
+    // B5_B: same + orderId as integer in body
+    $b5b_oid   = (string)($base_oid + 201);
+    $b5b_nonce = bin2hex(random_bytes(16));
+    $b5b_sign  = array_merge($common_str, [
+        'orderId'                  => $b5b_oid,
+        'timestamp'                => (string)$now,
+        'nonce'                    => $b5b_nonce,
+        'parentClubParentId'       => $real_parent,
+        'parentClubSubscriptionId' => $real_sub,
+    ]);
+    $b5b_probe = _probe_sig($b5b_sign, $known_secret);
+    $b5b_body  = _typed_body($b5b_sign);
+    $b5b_body['parentClubParentId']       = (int)$real_parent;
+    $b5b_body['parentClubSubscriptionId'] = (int)$real_sub;
+    $b5b_body['orderId']                  = (int)$b5b_oid;  // orderId as integer too
+    $b5b_body['signature'] = $b5b_probe['sig'];
+    $batch5_cases['B5_B_int_parents_int_oid'] = [
+        'label'    => '[B5B] v1.3 signed, parentClubParentId/Sub + orderId all as INTEGER',
+        'order_id' => $b5b_oid,
+        'nonce'    => $b5b_nonce,
+        'sign_str' => $b5b_probe['str'],
+        'sig'      => $b5b_probe['sig'],
+        'body'     => $b5b_body,
+        'res'      => _probe_send($b5b_body, $url),
+    ];
+
+    // B5_C: v1.3 signed, body has v1.3 (int) + v1.4 body-only (int)
+    // Does adding parentId/subscribeId as INT still trigger 20306?
+    $b5c_oid   = (string)($base_oid + 202);
+    $b5c_nonce = bin2hex(random_bytes(16));
+    $b5c_sign  = array_merge($common_str, [
+        'orderId'                  => $b5c_oid,
+        'timestamp'                => (string)$now,
+        'nonce'                    => $b5c_nonce,
+        'parentClubParentId'       => $real_parent,
+        'parentClubSubscriptionId' => $real_sub,
+    ]);
+    $b5c_probe = _probe_sig($b5c_sign, $known_secret);
+    $b5c_body  = _typed_body($b5c_sign);
+    $b5c_body['parentClubParentId']       = (int)$real_parent;
+    $b5c_body['parentClubSubscriptionId'] = (int)$real_sub;
+    $b5c_body['parentId']                 = (int)$real_parent;  // v1.4, body-only, int
+    $b5c_body['subscribeId']              = (int)$real_sub;     // v1.4, body-only, int
+    $b5c_body['signature'] = $b5c_probe['sig'];
+    $batch5_cases['B5_C_v14body_as_int'] = [
+        'label'    => '[B5C] v1.3 signed, body has v1.3+v1.4 ALL AS INT — does 20306 persist?',
+        'order_id' => $b5c_oid,
+        'nonce'    => $b5c_nonce,
+        'sign_str' => $b5c_probe['str'],
+        'sig'      => $b5c_probe['sig'],
+        'body'     => $b5c_body,
+        'res'      => _probe_send($b5c_body, $url),
+    ];
+
+    // ══════════════════════════════════════════════════════════
+    // BATCH 6: FIELD EXCLUSION FROM SIGNING (API #9 pattern)
+    // show_api9_live code excluded expireTimestamp + type from signing.
+    // Test if API #5 payment endpoint uses the same exclusion rule.
+    // All cases use integer parentClubParentId to avoid the 400.
+    // ══════════════════════════════════════════════════════════
+    $batch6_cases = [];
+
+    // Helper: full v1.3 body with integer parent IDs
+    function _b6_body(array $base, string $oid, string $nonce, int $now_ts, string $real_parent, string $real_sub): array {
+        $b = _typed_body(array_merge($base, [
+            'orderId'                  => $oid,
+            'timestamp'                => (string)$now_ts,
+            'nonce'                    => $nonce,
+            'parentClubParentId'       => $real_parent,
+            'parentClubSubscriptionId' => $real_sub,
+        ]));
+        $b['parentClubParentId']       = (int)$real_parent;
+        $b['parentClubSubscriptionId'] = (int)$real_sub;
+        return $b;
+    }
+
+    // B6_A: v1.3 signed WITHOUT expireTimestamp, integer parent IDs
+    $b6a_oid   = (string)($base_oid + 300);
+    $b6a_nonce = bin2hex(random_bytes(16));
+    $b6a_sign  = array_merge($common_str, [
+        'orderId'                  => $b6a_oid,
+        'timestamp'                => (string)$now,
+        'nonce'                    => $b6a_nonce,
+        'parentClubParentId'       => $real_parent,
+        'parentClubSubscriptionId' => $real_sub,
+    ]);
+    unset($b6a_sign['expireTimestamp']);
+    $b6a_probe = _probe_sig($b6a_sign, $known_secret);
+    $b6a_body  = _b6_body($common_str, $b6a_oid, $b6a_nonce, $now, $real_parent, $real_sub);
+    $b6a_body['signature'] = $b6a_probe['sig'];
+    $batch6_cases['B6_A_no_expire'] = [
+        'label'    => '[B6A] v1.3 signed WITHOUT expireTimestamp (API#9 pattern), int parent IDs',
+        'order_id' => $b6a_oid,
+        'nonce'    => $b6a_nonce,
+        'sign_str' => $b6a_probe['str'],
+        'sig'      => $b6a_probe['sig'],
+        'body'     => $b6a_body,
+        'res'      => _probe_send($b6a_body, $url),
+    ];
+
+    // B6_B: v1.3 signed WITHOUT expireTimestamp AND type
+    $b6b_oid   = (string)($base_oid + 301);
+    $b6b_nonce = bin2hex(random_bytes(16));
+    $b6b_sign  = array_merge($common_str, [
+        'orderId'                  => $b6b_oid,
+        'timestamp'                => (string)$now,
+        'nonce'                    => $b6b_nonce,
+        'parentClubParentId'       => $real_parent,
+        'parentClubSubscriptionId' => $real_sub,
+    ]);
+    unset($b6b_sign['expireTimestamp'], $b6b_sign['type']);
+    $b6b_probe = _probe_sig($b6b_sign, $known_secret);
+    $b6b_body  = _b6_body($common_str, $b6b_oid, $b6b_nonce, $now, $real_parent, $real_sub);
+    $b6b_body['signature'] = $b6b_probe['sig'];
+    $batch6_cases['B6_B_no_expire_no_type'] = [
+        'label'    => '[B6B] v1.3 signed WITHOUT expireTimestamp+type (full API#9 pattern), int parent IDs',
+        'order_id' => $b6b_oid,
+        'nonce'    => $b6b_nonce,
+        'sign_str' => $b6b_probe['str'],
+        'sig'      => $b6b_probe['sig'],
+        'body'     => $b6b_body,
+        'res'      => _probe_send($b6b_body, $url),
+    ];
+
+    // B6_C: minimal signing — only appId, orderId, nonce, timestamp,
+    //        parentClubParentId, parentClubSubscriptionId, payAmount, payStatus, payTimestamp
+    $b6c_oid   = (string)($base_oid + 302);
+    $b6c_nonce = bin2hex(random_bytes(16));
+    $b6c_sign  = [
+        'appId'                    => 'ParentClub',
+        'orderId'                  => $b6c_oid,
+        'nonce'                    => $b6c_nonce,
+        'timestamp'                => (string)$now,
+        'parentClubParentId'       => $real_parent,
+        'parentClubSubscriptionId' => $real_sub,
+        'payAmount'                => '0.00',
+        'payStatus'                => '1',
+        'payTimestamp'             => (string)$now,
+    ];
+    $b6c_probe = _probe_sig($b6c_sign, $known_secret);
+    $b6c_body  = _b6_body($common_str, $b6c_oid, $b6c_nonce, $now, $real_parent, $real_sub);
+    $b6c_body['signature'] = $b6c_probe['sig'];
+    $batch6_cases['B6_C_minimal_sign'] = [
+        'label'    => '[B6C] MINIMAL signing: appId+orderId+nonce+ts+parentIDs+pay3 only (9 fields)',
+        'order_id' => $b6c_oid,
+        'nonce'    => $b6c_nonce,
+        'sign_str' => $b6c_probe['str'],
+        'sig'      => $b6c_probe['sig'],
+        'body'     => $b6c_body,
+        'res'      => _probe_send($b6c_body, $url),
+    ];
+
+    // B6_D: v1.3 signed WITHOUT subscriptionType, trialType, type, expireTimestamp
+    // Strip all "subscription context" fields from signing — maybe server ignores them
+    $b6d_oid   = (string)($base_oid + 303);
+    $b6d_nonce = bin2hex(random_bytes(16));
+    $b6d_sign  = [
+        'appId'                    => 'ParentClub',
+        'orderId'                  => $b6d_oid,
+        'nonce'                    => $b6d_nonce,
+        'timestamp'                => (string)$now,
+        'parentClubParentId'       => $real_parent,
+        'parentClubSubscriptionId' => $real_sub,
+        'payAmount'                => '0.00',
+        'payStatus'                => '1',
+        'payTimestamp'             => (string)$now,
+        'subscriptionType'         => '1',
+        'trialType'                => '2',
+    ];
+    $b6d_probe = _probe_sig($b6d_sign, $known_secret);
+    $b6d_body  = _b6_body($common_str, $b6d_oid, $b6d_nonce, $now, $real_parent, $real_sub);
+    $b6d_body['signature'] = $b6d_probe['sig'];
+    $batch6_cases['B6_D_no_type_no_expire'] = [
+        'label'    => '[B6D] Signed: no type, no expireTimestamp — 11 fields',
+        'order_id' => $b6d_oid,
+        'nonce'    => $b6d_nonce,
+        'sign_str' => $b6d_probe['str'],
+        'sig'      => $b6d_probe['sig'],
+        'body'     => $b6d_body,
+        'res'      => _probe_send($b6d_body, $url),
+    ];
+
+    // ══════════════════════════════════════════════════════════
+    // BATCH 7: subscriptionId vs subscribeId — wrong field name?
+    // API #9 uses `subscriptionId`. Probe has been using `subscribeId`.
+    // Maybe v1.4 for API #5 also uses `subscriptionId` not `subscribeId`.
+    // All cases below send parentId + subscriptionId (the API#9 convention).
+    // ══════════════════════════════════════════════════════════
+    $batch7_cases = [];
+
+    // Base sign fields (v1.3 without parent fields — we'll add them per-case)
+    $b7_base = [
+        'appId'            => 'ParentClub',
+        'type'             => '1',
+        'payStatus'        => '1',
+        'payAmount'        => '0.00',
+        'payTimestamp'     => (string)$now,
+        'expireTimestamp'  => (string)$expire,
+        'subscriptionType' => '1',
+        'trialType'        => '2',
+    ];
+
+    // B7_A: v1.4 signed with parentId + subscriptionId (NOT subscribeId), matching body
+    $b7a_oid   = (string)($base_oid + 400);
+    $b7a_nonce = bin2hex(random_bytes(16));
+    $b7a_sign  = array_merge($b7_base, [
+        'orderId'        => $b7a_oid,
+        'timestamp'      => (string)$now,
+        'nonce'          => $b7a_nonce,
+        'parentId'       => $real_parent,
+        'subscriptionId' => $real_sub,   // subscriptionId, not subscribeId!
+    ]);
+    $b7a_probe = _probe_sig($b7a_sign, $known_secret);
+    $b7a_body  = _typed_body($b7a_sign);
+    // Body: parentId + subscriptionId only (no v1.3 names)
+    $b7a_body['signature'] = $b7a_probe['sig'];
+    $batch7_cases['B7_A_v14_subscriptionId'] = [
+        'label'    => '[B7A] v1.4 signed: parentId+subscriptionId (API#9 convention), v1.4 body only',
+        'order_id' => $b7a_oid,
+        'nonce'    => $b7a_nonce,
+        'sign_str' => $b7a_probe['str'],
+        'sig'      => $b7a_probe['sig'],
+        'body'     => $b7a_body,
+        'res'      => _probe_send($b7a_body, $url),
+    ];
+
+    // B7_B: v1.3 signed (13 fields), body has v1.3 + parentId + subscriptionId (body-only)
+    $b7b_oid   = (string)($base_oid + 401);
+    $b7b_nonce = bin2hex(random_bytes(16));
+    $b7b_sign  = array_merge($b7_base, [
+        'orderId'                  => $b7b_oid,
+        'timestamp'                => (string)$now,
+        'nonce'                    => $b7b_nonce,
+        'parentClubParentId'       => $real_parent,
+        'parentClubSubscriptionId' => $real_sub,
+    ]);
+    $b7b_probe = _probe_sig($b7b_sign, $known_secret);
+    $b7b_body  = _typed_body($b7b_sign);
+    $b7b_body['parentId']       = $real_parent;  // body-only
+    $b7b_body['subscriptionId'] = $real_sub;     // subscriptionId, not subscribeId!
+    $b7b_body['signature'] = $b7b_probe['sig'];
+    $batch7_cases['B7_B_v13sig_subscriptionId_body'] = [
+        'label'    => '[B7B] v1.3 signed, body adds parentId+subscriptionId (body-only, API#9 name)',
+        'order_id' => $b7b_oid,
+        'nonce'    => $b7b_nonce,
+        'sign_str' => $b7b_probe['str'],
+        'sig'      => $b7b_probe['sig'],
+        'body'     => $b7b_body,
+        'res'      => _probe_send($b7b_body, $url),
+    ];
+
+    // B7_C: v1.4 signed with parentId ONLY (no subscription field at all), body parentId only
+    // Tests whether subscriptionId is required for signing at all
+    $b7c_oid   = (string)($base_oid + 402);
+    $b7c_nonce = bin2hex(random_bytes(16));
+    $b7c_sign  = array_merge($b7_base, [
+        'orderId'   => $b7c_oid,
+        'timestamp' => (string)$now,
+        'nonce'     => $b7c_nonce,
+        'parentId'  => $real_parent,
+        // No subscription ID in signing at all
+    ]);
+    $b7c_probe = _probe_sig($b7c_sign, $known_secret);
+    $b7c_body  = _typed_body($b7c_sign);
+    $b7c_body['signature'] = $b7c_probe['sig'];
+    $batch7_cases['B7_C_v14_parentId_only'] = [
+        'label'    => '[B7C] v1.4 signed: parentId only (no subscriptionId), body has parentId only',
+        'order_id' => $b7c_oid,
+        'nonce'    => $b7c_nonce,
+        'sign_str' => $b7c_probe['str'],
+        'sig'      => $b7c_probe['sig'],
+        'body'     => $b7c_body,
+        'res'      => _probe_send($b7c_body, $url),
+    ];
+
+    // B7_D: v1.3 signed (13 fields), body-only adds parentId only (NO subscribeId or subscriptionId)
+    // Does parentId alone (body-only) break the sig? + does it fix the 400?
+    $b7d_oid   = (string)($base_oid + 403);
+    $b7d_nonce = bin2hex(random_bytes(16));
+    $b7d_sign  = array_merge($b7_base, [
+        'orderId'                  => $b7d_oid,
+        'timestamp'                => (string)$now,
+        'nonce'                    => $b7d_nonce,
+        'parentClubParentId'       => $real_parent,
+        'parentClubSubscriptionId' => $real_sub,
+    ]);
+    $b7d_probe = _probe_sig($b7d_sign, $known_secret);
+    $b7d_body  = _typed_body($b7d_sign);
+    $b7d_body['parentId'] = $real_parent;  // body-only, no subscriptionId
+    $b7d_body['signature'] = $b7d_probe['sig'];
+    $batch7_cases['B7_D_v13sig_parentId_only_body'] = [
+        'label'    => '[B7D] v1.3 signed, body adds parentId only (no subscribeId/subscriptionId)',
+        'order_id' => $b7d_oid,
+        'nonce'    => $b7d_nonce,
+        'sign_str' => $b7d_probe['str'],
+        'sig'      => $b7d_probe['sig'],
+        'body'     => $b7d_body,
+        'res'      => _probe_send($b7d_body, $url),
+    ];
+
+    // B7_E: v1.4 signed: parentId + subscriptionId + parentClubParentId + parentClubSubscriptionId
+    //        (ALL 4 parent-related fields in signing + body)
+    $b7e_oid   = (string)($base_oid + 404);
+    $b7e_nonce = bin2hex(random_bytes(16));
+    $b7e_sign  = array_merge($b7_base, [
+        'orderId'                  => $b7e_oid,
+        'timestamp'                => (string)$now,
+        'nonce'                    => $b7e_nonce,
+        'parentId'                 => $real_parent,
+        'subscriptionId'           => $real_sub,
+        'parentClubParentId'       => $real_parent,
+        'parentClubSubscriptionId' => $real_sub,
+    ]);
+    $b7e_probe = _probe_sig($b7e_sign, $known_secret);
+    $b7e_body  = _typed_body($b7e_sign);
+    $b7e_body['signature'] = $b7e_probe['sig'];
+    $batch7_cases['B7_E_all4_parentFields'] = [
+        'label'    => '[B7E] ALL 4 parent fields signed + body: parentId+subscriptionId+parentClubParentId+parentClubSubscriptionId',
+        'order_id' => $b7e_oid,
+        'nonce'    => $b7e_nonce,
+        'sign_str' => $b7e_probe['str'],
+        'sig'      => $b7e_probe['sig'],
+        'body'     => $b7e_body,
+        'res'      => _probe_send($b7e_body, $url),
+    ];
+
+    // ══════════════════════════════════════════════════════════
     // RENDER
     // ══════════════════════════════════════════════════════════
     header('Content-Type: text/html; charset=utf-8');
@@ -1321,6 +1679,9 @@ function emathsmart_sig_probe_test()
         'Batch 2 — Historical orderId=116377 — Does adding parentId break known-good signature?' => $batch2_cases,
         'Batch 3 — Alternate Secret Keys — Has the staging secret changed?' => $batch3_cases,
         'Batch 4 — Value Types — Does integer vs string affect signing?' => $batch4_cases,
+        'Batch 5 — Integer Parent IDs — Fix the 400 "parentClubParentId is required"?' => $batch5_cases,
+        'Batch 6 — Field Exclusion from Signing — API#9 excluded expireTimestamp+type. Does API#5?' => $batch6_cases,
+        'Batch 7 — subscriptionId vs subscribeId — wrong v1.4 field name? (API#9 uses subscriptionId)' => $batch7_cases,
     ];
 
     // Summary table

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-05-29] - Custom eMathSmart OAuth Redirect & Troubleshooting Support
+
+### Added
+- **Dynamic eMathSmart OAuth Guest Redirect**:
+  - Implemented the `emathsmart_custom_oauth_login_url` callback filter hooked into `login_url` to capture unauthenticated SSO authorization requests containing `/oauth/authorize`.
+  - Automatically redirects unauthorized guests coming from the eMathSmart portal to `/parents-club#login` instead of the default `/wp-login.php`, while preserving the critical `redirect_to` destination parameter to successfully resume the SSO session upon login.
+
+### Technical Notes for AI Agents
+- **Redirect Filter Handler**: `emathsmart_custom_oauth_login_url` in `/wp-content/plugins/idl-loader/functions-esmart.php`
+
 ## [2026-05-28] - eMathSmart Dynamic Subscription Product Card & 14-Day Free Trial Extension
 
 ### Added
