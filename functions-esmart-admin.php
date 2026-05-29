@@ -18,7 +18,141 @@ function emathsmart_add_logs_page() {
         'emathsmart-logs',
         'emathsmart_render_logs_page'
     );
+    add_submenu_page(
+        'woocommerce',
+        'eMathSmart Settings',
+        'eMathSmart Settings',
+        'manage_options',
+        'emathsmart-settings',
+        'emathsmart_render_settings_page'
+    );
 }
+
+/**
+ * eMathSmart Settings Page — API Secret Key Manager
+ * Allows updating the HMAC secret key from WP admin without file changes.
+ * Navigate to: WooCommerce → eMathSmart Settings
+ */
+function emathsmart_render_settings_page() {
+    if (!current_user_can('manage_options')) {
+        wp_die(__('You do not have sufficient permissions.'));
+    }
+
+    $saved  = false;
+    $error  = '';
+    $notice = '';
+
+    // Handle save
+    if (isset($_POST['emathsmart_save_settings']) && check_admin_referer('emathsmart_settings_nonce')) {
+        $new_key = isset($_POST['emathsmart_api_secret']) ? trim(sanitize_text_field($_POST['emathsmart_api_secret'])) : '';
+        if (strlen($new_key) < 8) {
+            $error = 'Secret key is too short (minimum 8 characters).';
+        } else {
+            update_option('emathsmart_api_secret', $new_key);
+            $saved = true;
+            $notice = 'API secret key updated successfully. Next payment notification will use the new key.';
+        }
+    }
+
+    // Handle reset to default
+    if (isset($_POST['emathsmart_reset_secret']) && check_admin_referer('emathsmart_settings_nonce')) {
+        delete_option('emathsmart_api_secret');
+        $saved  = true;
+        $notice = 'API secret key reset to built-in default.';
+    }
+
+    $current_key  = get_option('emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm');
+    $default_key  = 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm';
+    $is_default   = ($current_key === $default_key);
+    $key_hash     = substr(hash('sha256', $current_key), 0, 16);
+    ?>
+    <style>
+        .esmart-settings-wrap { max-width: 700px; margin: 30px 0; }
+        .esmart-settings-card { background: #fff; border: 1px solid #ccd0d4; border-radius: 4px; padding: 28px 32px; margin-bottom: 20px; }
+        .esmart-settings-card h2 { margin: 0 0 6px; font-size: 18px; }
+        .esmart-settings-card p.desc { color: #666; margin: 0 0 24px; font-size: 13px; }
+        .esmart-field-row { margin-bottom: 20px; }
+        .esmart-field-row label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; }
+        .esmart-field-row input[type=text] { width: 100%; font-family: monospace; font-size: 13px; padding: 8px 10px; border: 1px solid #8c8f94; border-radius: 3px; }
+        .esmart-key-meta { background: #f8f9fa; border: 1px solid #e1e1e1; border-radius: 4px; padding: 12px 16px; font-size: 12px; font-family: monospace; margin-bottom: 20px; }
+        .esmart-key-meta span { display: block; margin-bottom: 4px; color: #555; }
+        .esmart-key-meta strong { color: #23282d; }
+        .esmart-badge-default { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+        .esmart-badge-custom  { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+        .esmart-badge-error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+        .esmart-alert { background: #d4edda; border-left: 4px solid #28a745; padding: 12px 16px; margin-bottom: 20px; border-radius: 0 4px 4px 0; font-size: 13px; }
+        .esmart-alert.error { background: #f8d7da; border-left-color: #dc3545; }
+        .esmart-action-row { display: flex; gap: 12px; align-items: center; }
+    </style>
+
+    <div class="wrap esmart-settings-wrap">
+        <h1 style="margin-bottom:4px;">⚙️ eMathSmart Settings</h1>
+        <p style="color:#666; margin-bottom:24px;">Manage integration configuration for the eMathSmart API.</p>
+
+        <?php if ($saved && $notice): ?>
+            <div class="esmart-alert"><?php echo esc_html($notice); ?></div>
+        <?php endif; ?>
+        <?php if ($error): ?>
+            <div class="esmart-alert error"><?php echo esc_html($error); ?></div>
+        <?php endif; ?>
+
+        <div class="esmart-settings-card">
+            <h2>🔑 API Secret Key</h2>
+            <p class="desc">
+                Used to sign all outbound HMAC-SHA256 webhook payloads sent to eMathSmart (paymentNotify, refundNotify, publicExams).
+                If eMathSmart rotates the staging or production secret, paste the new key here — no file upload required.
+            </p>
+
+            <div class="esmart-key-meta">
+                <span>Status: <?php echo $is_default
+                    ? '<span class="esmart-badge-default">✓ Using built-in default key</span>'
+                    : '<span class="esmart-badge-custom">★ Custom key active</span>'; ?></span>
+                <span>SHA-256 fingerprint (first 16 chars): <strong><?php echo esc_html($key_hash); ?>…</strong></span>
+                <span>Key length: <strong><?php echo strlen($current_key); ?> characters</strong></span>
+            </div>
+
+            <form method="post">
+                <?php wp_nonce_field('emathsmart_settings_nonce'); ?>
+                <div class="esmart-field-row">
+                    <label for="esmart_secret_input">Secret Key</label>
+                    <input type="text"
+                           id="esmart_secret_input"
+                           name="emathsmart_api_secret"
+                           value="<?php echo esc_attr($current_key); ?>"
+                           autocomplete="off"
+                           spellcheck="false"
+                           placeholder="Paste new secret key from eMathSmart here">
+                </div>
+                <div class="esmart-action-row">
+                    <button type="submit" name="emathsmart_save_settings" class="button button-primary">Save Key</button>
+                    <?php if (!$is_default): ?>
+                        <button type="submit" name="emathsmart_reset_secret"
+                                class="button button-link-delete"
+                                onclick="return confirm('Reset to built-in default key?')"
+                                style="color:#d63638;">
+                            Reset to Default
+                        </button>
+                    <?php endif; ?>
+                </div>
+            </form>
+        </div>
+
+        <div class="esmart-settings-card" style="border-left: 4px solid #d63638;">
+            <h2 style="color:#d63638;">🚨 Current Status: Staging Server Secret Key Mismatch</h2>
+            <p style="margin:0; font-size:13px; color:#444;">
+                As of <strong>May 28, 2026</strong>, the eMathSmart <strong>staging server was upgraded to v1.4</strong>.
+                The new server now requires <code>parentId</code> in every request body, and uses a <strong>new HMAC secret key</strong>
+                that has not yet been provided to us.<br><br>
+                <strong>All 15 field-subset combinations and 5 secret key variants return <code>20306 Invalid webhook signature</code>.</strong><br><br>
+                ✅ Contact eMathSmart (Jatin) and request: <em>"Please provide the current staging API secret key for the ParentClub appId — 
+                the key was rotated during the v1.4 server update and our webhook integration is returning 20306."</em><br><br>
+                Once you receive the new key, paste it in the field above and click Save.
+            </p>
+        </div>
+    </div>
+    <?php
+}
+
 
 /**
  * Schedule daily cleanup of old logs (30 days)

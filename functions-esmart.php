@@ -163,7 +163,10 @@ function emathsmart_get_public_exam_links($order_id) {
         }
     }
 
-    $secret = "yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm";
+    // Secret key is managed via WP admin: eMathSmart Settings > API Secret Key
+    // Fallback to known key if option is not set.
+    $secret = get_option('emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm');
+
     $user_id = $order->get_user_id();
 
     // Signature excludes expireTimestamp
@@ -436,7 +439,10 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 return;
             }
 
-            $secret = "yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm";
+            // Secret key is managed via WP admin: eMathSmart Settings > API Secret Key
+            // Update via admin when eMathSmart provides a new key — no file upload needed.
+            $secret = get_option('emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm');
+
             
             // DEBUG OVERRIDE: Allow test suite to poison the request
             if (isset($GLOBALS['emathsmart_debug_override'])) {

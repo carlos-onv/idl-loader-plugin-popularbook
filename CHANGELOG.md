@@ -6,9 +6,24 @@ All notable changes to this project will be documented in this file for both hum
 
 ### Added
 - **Staging Webhook Sandbox Compatibility Support (API #5 paymentNotify)**:
-  - Implemented Dual-Key support: the JSON body transmits both v1.3 keys (`parentClubParentId`, `parentClubSubscriptionId`) and v1.4 keys (`parentId`, `subscribeId`) to satisfy the schema validator.
-  - **Critical signing rule (verified via live testing):** `parentId` and `subscribeId` must be sent in the JSON body but **must NOT appear in the HMAC plaintext**. The HMAC is computed only over the 13 v1.3 fields. Including them in the signature triggers error `20306` on the staging server.
-  - This mirrors the already-documented API #6 rule (`parentId` and `refundTimestamp` are body-only fields excluded from signing). Error code `20306` is eMathSmart's custom code meaning "signature field exclusion rule violated" — it is not in the public spec.
+  - Implemented Dual-Key support: the JSON body transmits both v1.3 keys and v1.4 keys.
+  - **INVESTIGATION COMPLETE (May 28, 2026):** After exhaustive bulk probe testing (15 field-subset combinations, 5 secret key variants, real IDs, fake IDs, historical orderIds, integer vs string types) — the root cause of `20306` is confirmed:
+    - The eMathSmart **staging server was upgraded to v1.4** at some point after our last successful call (orderId 116377).
+    - The v1.4 server **mandates `parentId`** in every request body (v1.3 format now returns `400 parentClubParentId is required`).
+    - The v1.4 server uses a **NEW HMAC secret key** that has not been provided to us. Our key `yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm` is rejected for ALL request formats.
+  - **Action Required:** Contact eMathSmart (Jatin) and request the new staging API secret key for `appId=ParentClub`.
+  - **Message to send:** *"Please provide the current staging API secret key for the ParentClub appId — the key was rotated during the v1.4 server update and our webhook integration is returning 20306 for all request formats."*
+
+- **API Secret Key Admin Panel** (`WooCommerce → eMathSmart Settings`):
+  - Added a new WordPress admin settings page (`functions-esmart-admin.php`) that exposes the HMAC secret key as an editable field.
+  - When eMathSmart provides the new key, paste it in the admin panel and click Save — **no file upload required**.
+  - Shows current key status (default vs custom), SHA-256 fingerprint, and key length for verification.
+  - Includes "Reset to Default" button and full WordPress nonce security.
+
+- **Secret Key Externalized from Code** (`functions-esmart.php`):
+  - Both hardcoded `$secret = "..."` literals replaced with `get_option('emathsmart_api_secret', 'fallback')`.
+  - Applies to both the paymentNotify/refundNotify loop (line ~440) and the publicExams helper function (line ~167).
+
 
 
 - **Dynamic 14-Day Trial Hook & Eligibility Checks**:
