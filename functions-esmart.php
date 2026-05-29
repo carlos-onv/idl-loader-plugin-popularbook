@@ -1153,10 +1153,17 @@ function emathsmart_dynamic_trial_length_for_parents_club( $trial_length, $produ
 /**
  * Redirect unauthorized eMathSmart guests to /parents-club#login instead of wp-login.php
  */
-add_filter( 'login_url', 'emathsmart_custom_oauth_login_url', 99, 3 );
+add_filter( 'login_url', 'emathsmart_custom_oauth_login_url', 999999, 3 );
 function emathsmart_custom_oauth_login_url( $login_url, $redirect, $force_reauth ) {
-    // Only intercept when the login request is coming from the eMathSmart OAuth flow
-    if ( strpos( $_SERVER['REQUEST_URI'], '/oauth/authorize' ) !== false ) {
+    // Detect if this login request is originating from the eMathSmart OAuth flow
+    $is_oauth = false;
+    if ( ! empty( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], '/oauth/authorize' ) !== false ) {
+        $is_oauth = true;
+    } elseif ( ! empty( $redirect ) && strpos( $redirect, '/oauth/authorize' ) !== false ) {
+        $is_oauth = true;
+    }
+
+    if ( $is_oauth ) {
         // Redirect to /parents-club#login with redirect_to preserved
         $custom_login_page = home_url( '/parents-club#login' );
         return add_query_arg( 'redirect_to', urlencode( $redirect ), $custom_login_page );
