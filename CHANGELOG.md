@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-01] - AI Coins Gated Redirect Update
+
+### Changed
+- **Gated Access Redirection Target**:
+  - Modified `emathsmart_gate_ai_coins_access` to redirect unauthenticated/logged-out users attempting to visit the restricted `/product/ai-coins/` page (or its variations) to the custom eMathSmart login gateway `/emathsmart-login` instead of the general `/parents-club` landing page.
+  - The redirection successfully preserves the `restricted_access=ai-coins` and `reason=not_logged_in` parameters.
+- **Custom Restricted Access Warning Notice**:
+  - Extended the `the_content` notice renderer `emathsmart_display_gated_notice_on_parents_club` to run on the `/emathsmart-login` page.
+  - Custom-tailored the notice text when viewed on `/emathsmart-login` to read: *"AI Coins are exclusively available to active subscribers. Please log in below to access the purchase page."*
+
 ## [2026-05-29] - Custom eMathSmart OAuth Redirect, Troubleshooting Support & Sandbox CTA Section
 
 ### Added
