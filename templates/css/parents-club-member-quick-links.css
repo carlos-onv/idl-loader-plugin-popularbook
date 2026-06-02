@@ -16,19 +16,19 @@
 }
 
 .quick-links-bar {
-    --brand-red: #af0128;
+    --brand-red: #b30026;
     --brand-red-hover: #960122;
     --bg-light: #f8fafc;
     --border-color: #f1f5f9;
-    --text-color: #0f172a;
+    --text-color: #0c1a30;
     
     display: flex;
     align-items: center;
     background-color: var(--bg-light);
     border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 24px 32px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
+    border-radius: 24px;
+    padding: 28px 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
     font-family: 'Inter', sans-serif;
 }
 
@@ -38,30 +38,29 @@
 
 .quick-links-title-wrapper {
     flex-shrink: 0;
-    padding-right: 28px;
 }
 
 .quick-links-title {
     font-family: 'Outfit', sans-serif;
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 23px;
+    font-weight: 800;
     color: var(--text-color);
     margin: 0;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
 }
 
 .quick-links-divider {
-    width: 1px;
-    height: 48px;
-    background-color: #cbd5e1;
-    margin: 0 32px 0 0;
+    width: 1.5px;
+    height: 36px;
+    background-color: #e2e8f0;
+    margin: 0 36px;
     flex-shrink: 0;
 }
 
 .quick-links-buttons {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 24px;
     width: 100%;
 }
 
@@ -71,20 +70,23 @@
     justify-content: space-between;
     background-color: var(--brand-red);
     color: #ffffff;
-    padding: 16px 24px;
-    border-radius: 12px;
+    padding: 16px 28px;
+    border-radius: 14px;
     text-decoration: none;
     font-family: 'Outfit', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 12px rgba(175, 1, 40, 0.15);
+    font-size: 15.5px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 20px rgba(179, 0, 38, 0.16);
 }
 
 .quick-link-btn:hover {
     background-color: var(--brand-red-hover);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(175, 1, 40, 0.25);
+    box-shadow: 0 12px 24px rgba(179, 0, 38, 0.26);
     color: #ffffff;
     text-decoration: none;
 }
@@ -112,7 +114,7 @@
     width: 16px;
     height: 16px;
     stroke: currentColor;
-    stroke-width: 3;
+    stroke-width: 3.5;
 }
 
 /* Responsiveness */
@@ -125,8 +127,7 @@
     }
     
     .quick-links-title-wrapper {
-        padding-right: 0;
-        margin-bottom: 16px;
+        margin-bottom: 20px;
     }
     
     .quick-links-divider {
@@ -135,12 +136,11 @@
     
     .quick-links-buttons {
         grid-template-columns: 1fr;
-        gap: 12px;
-        margin-top: 8px;
+        gap: 14px;
     }
     
     .quick-link-btn {
-        padding: 14px 20px;
+        padding: 16px 24px;
         justify-content: center;
     }
     
