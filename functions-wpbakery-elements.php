@@ -2383,6 +2383,160 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
+
+    // Register [parents_club_member_welcome] Element
+    vc_map( array(
+        "name"        => esc_html__( "Parents Club Member Welcome", "book-junky" ),
+        "base"        => "parents_club_member_welcome",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Welcome card showing logged-in user name, subtitle, custom background, and checklist attributes.", "book-junky" ),
+        "params"      => array(
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Title Template", "book-junky" ),
+                "param_name"  => "title_template",
+                "value"       => "Hi, {user_name}! [wave]\nWelcome back!",
+                "description" => esc_html__( "Use {user_name} to insert the user's name, and [wave] for the waving hand emoji.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Subtitle", "book-junky" ),
+                "param_name"  => "subtitle",
+                "value"       => esc_html__( "We’re here to support your child’s learning journey.", "book-junky" ),
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Background Image", "book-junky" ),
+                "param_name"  => "bg_image",
+                "description" => esc_html__( "Upload/select a custom background image override. If left blank, the default ParentClub2.jpg is loaded.", "book-junky" ),
+            ),
+            array(
+                "type"        => "param_group",
+                "heading"     => esc_html__( "Checklist Attributes", "book-junky" ),
+                "param_name"  => "attributes",
+                "description" => esc_html__( "Add, remove, and reorder welcome attributes visually.", "book-junky" ),
+                "value"       => urlencode( json_encode( array(
+                    array(
+                        'bold_text'       => '40,000+',
+                        'subtext'         => 'Canadian Parents',
+                        'icon_source'     => 'brand',
+                        'brand_icon_type' => 'users',
+                    ),
+                    array(
+                        'bold_text'       => 'Curriculum-',
+                        'subtext'         => 'Aligned',
+                        'icon_source'     => 'brand',
+                        'brand_icon_type' => 'maple_star',
+                    ),
+                    array(
+                        'bold_text'       => 'Trusted',
+                        'subtext'         => 'Since 1994',
+                        'icon_source'     => 'brand',
+                        'brand_icon_type' => 'shield',
+                    ),
+                ) ) ),
+                "params"      => array(
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Bold Text", "book-junky" ),
+                        "param_name"  => "bold_text",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Subtext", "book-junky" ),
+                        "param_name"  => "subtext",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Source", "book-junky" ),
+                        "param_name"  => "icon_source",
+                        "value"       => array(
+                            esc_html__( "Predefined Brand Outline", "book-junky" )  => "brand",
+                            esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                            esc_html__( "Custom Image Upload", "book-junky" )        => "custom",
+                        ),
+                        "std"         => "brand",
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Predefined Brand Outline Icon", "book-junky" ),
+                        "param_name"  => "brand_icon_type",
+                        "value"       => array(
+                            esc_html__( "Users Icon", "book-junky" )                => "users",
+                            esc_html__( "Curriculum Star (Maple)", "book-junky" )    => "maple_star",
+                            esc_html__( "Shield Icon", "book-junky" )               => "shield",
+                            esc_html__( "Tag Icon (Price Tag)", "book-junky" )      => "tag",
+                            esc_html__( "parenting Tips (Lightbulb)", "book-junky" ) => "idea",
+                            esc_html__( "Offers (Gift Box)", "book-junky" )         => "gift",
+                            esc_html__( "Worksheets (File)", "book-junky" )         => "file",
+                            esc_html__( "eMathSmart portal (Computer)", "book-junky" ) => "computer",
+                        ),
+                        "std"         => "users",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "brand" )
+                        )
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Library", "book-junky" ),
+                        "param_name"  => "icon_library",
+                        "value"       => array(
+                            esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                            esc_html__( "Linecons", "book-junky" )     => "linecons",
+                        ),
+                        "std"         => "fontawesome",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "library" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Font Awesome Icon", "book-junky" ),
+                        "param_name"  => "icon_fontawesome",
+                        "value"       => "fa fa-user",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "fontawesome" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Linecons Icon", "book-junky" ),
+                        "param_name"  => "icon_linecons",
+                        "value"       => "vc_li vc_li-user",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "type"         => "linecons",
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "linecons" )
+                        )
+                    ),
+                    array(
+                        "type"        => "attach_image",
+                        "heading"     => esc_html__( "Custom Icon Image", "book-junky" ),
+                        "param_name"  => "custom_icon",
+                        "description" => esc_html__( "Upload an SVG or image to use as a custom icon.", "book-junky" ),
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "custom" )
+                        )
+                    ),
+                )
+            ),
+        )
+    ) );
 }
 
 
@@ -4018,6 +4172,10 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     class WPBakeryShortCode_parents_club_cta_banner extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for CTA Banner component
     }
+
+    class WPBakeryShortCode_parents_club_member_welcome extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for Member Welcome component
+    }
 }
 
 // Register [parents_club_need_help] Shortcode
@@ -4571,6 +4729,237 @@ function idl_loader_parents_club_cta_banner_shortcode( $atts ) {
             </div>
         </div>
     </section>
+    <?php
+    return ob_get_clean();
+}
+
+
+// -----------------------------------------------------------------------------
+// SECTION 6: [parents_club_member_welcome] Shortcode Handler
+// -----------------------------------------------------------------------------
+
+// Register [parents_club_member_welcome] Shortcode
+add_shortcode( 'parents_club_member_welcome', 'idl_loader_parents_club_member_welcome_shortcode' );
+
+function idl_loader_parents_club_member_welcome_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'title_template' => "Hi, {user_name}! [wave]\nWelcome back!",
+        'subtitle'       => "We’re here to support your child’s learning journey.",
+        'bg_image'       => '',
+        'attributes'     => '',
+    ), $atts );
+
+    // Enqueue the modular stylesheet natively
+    wp_enqueue_style( 'parents-club-member-welcome', plugins_url( 'templates/css/parents-club-member-welcome.css', __FILE__ ) );
+
+    // Fetch logged-in user name
+    $current_user = wp_get_current_user();
+    $user_name = '';
+    if ( $current_user && $current_user->ID ) {
+        $user_name = $current_user->user_firstname;
+        if ( empty( $user_name ) ) {
+            $user_name = $current_user->display_name;
+        }
+    }
+    if ( empty( $user_name ) ) {
+        $user_name = esc_html__( 'Member', 'book-junky' );
+    }
+
+    // Process title template
+    $wave_html = '<span class="wave">👋</span>';
+    $title = $attributes['title_template'];
+    $title = str_replace( '{user_name}', esc_html( $user_name ), $title );
+    $title = str_replace( '[wave]', $wave_html, $title );
+    $title = nl2br( esc_html( $title ) );
+    // Allow the wave span to be rendered as HTML by reversing the esc_html for it
+    $title = str_replace( esc_html( $wave_html ), $wave_html, $title );
+
+    $subtitle = esc_html( $attributes['subtitle'] );
+
+    // Custom background styling if custom image uploaded
+    $welcome_id = uniqid( 'welcome-card-' );
+    $custom_style = '';
+    if ( ! empty( $attributes['bg_image'] ) ) {
+        $image_url = '';
+        if ( is_numeric( $attributes['bg_image'] ) ) {
+            $image_url = wp_get_attachment_image_url( absint( $attributes['bg_image'] ), 'full' );
+        } else {
+            $image_url = $attributes['bg_image'];
+        }
+        if ( ! empty( $image_url ) ) {
+            $custom_style = "<style>
+                #{$welcome_id} {
+                    background-image: linear-gradient(to right, #ffffff 0%, #ffffff 40%, rgba(255, 255, 255, 0.95) 55%, rgba(255, 255, 255, 0) 80%), url('" . esc_url( $image_url ) . "') !important;
+                }
+                @media (max-width: 768px) {
+                    #{$welcome_id} {
+                        background-image: linear-gradient(to bottom, #ffffff 0%, #ffffff 50%, rgba(255, 255, 255, 0.9) 65%, rgba(255, 255, 255, 0) 100%), url('" . esc_url( $image_url ) . "') !important;
+                    }
+                }
+            </style>";
+        }
+    }
+
+    // Helper closure to render attribute icons
+    $render_attr_icon = function( $source, $brand_type, $library, $fa_icon, $li_icon, $custom_icon_id ) {
+        if ( $source === 'custom' && ! empty( $custom_icon_id ) ) {
+            $custom_url = '';
+            if ( is_numeric( $custom_icon_id ) ) {
+                $img_src = wp_get_attachment_image_src( $custom_icon_id, 'thumbnail' );
+                if ( $img_src ) {
+                    $custom_url = $img_src[0];
+                }
+            } else {
+                $custom_url = $custom_icon_id;
+            }
+            if ( ! empty( $custom_url ) ) {
+                return '<img src="' . esc_url( $custom_url ) . '" alt="Attribute Icon" style="width: 22px; height: 22px; display: block; object-fit: contain;">';
+            }
+        }
+
+        if ( $source === 'library' ) {
+            if ( $library === 'linecons' ) {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'linecons' );
+                }
+                $icon_class = ! empty( $li_icon ) ? esc_attr( $li_icon ) : 'vc_li vc_li-user';
+                return '<i class="' . $icon_class . '" style="font-size: 22px; display: inline-flex; align-items: center; justify-content: center; height: 22px; width: 22px;"></i>';
+            } else {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'fontawesome' );
+                }
+                $icon_class = ! empty( $fa_icon ) ? esc_attr( $fa_icon ) : 'fa fa-user';
+                return '<i class="' . $icon_class . '" style="font-size: 22px; display: inline-flex; align-items: center; justify-content: center; height: 22px; width: 22px;"></i>';
+            }
+        }
+
+        switch ( $brand_type ) {
+            case 'maple_star':
+                return '<svg viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16.361,31h-0.72v-6.592l-7.596,0.949c-0.124,0.015-0.245-0.034-0.323-0.129
+        c-0.079-0.096-0.103-0.225-0.063-0.343l0.917-2.753l-7.792-5.845c-0.107-0.081-0.161-0.213-0.14-0.346s0.115-0.242,0.242-0.284
+        l2.606-0.869L1.678,11.16c-0.063-0.126-0.047-0.277,0.041-0.386s0.23-0.16,0.368-0.124l3.677,0.919l0.895-2.684
+        c0.039-0.119,0.137-0.208,0.259-0.237C7.039,8.62,7.167,8.656,7.255,8.744l4.126,4.125L9.649,5.078
+        c-0.028-0.126,0.014-0.259,0.11-0.345c0.097-0.087,0.234-0.115,0.355-0.074l2.727,0.909l2.852-4.752c0.13-0.217,0.487-0.217,0.617,0
+        l2.852,4.752l2.727-0.909c0.126-0.041,0.259-0.013,0.355,0.074c0.097,0.086,0.139,0.219,0.11,0.345l-1.731,7.793l4.125-4.125
+        c0.088-0.088,0.215-0.125,0.338-0.096c0.121,0.029,0.219,0.118,0.259,0.237l0.895,2.684l3.677-0.919
+        c0.133-0.033,0.28,0.014,0.368,0.124c0.088,0.109,0.104,0.26,0.041,0.386L28.51,14.79l2.606,0.869
+        c0.127,0.042,0.22,0.151,0.241,0.284c0.021,0.133-0.032,0.265-0.14,0.346l-7.792,5.844l0.918,2.754
+        c0.039,0.118,0.015,0.247-0.063,0.343c-0.077,0.096-0.192,0.146-0.323,0.129l-7.596-0.949V31z"/>
+                           </svg>';
+            case 'shield':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>';
+            case 'tag':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                        </svg>';
+            case 'idea':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="19.78" y1="4.22" x2="18.36" y2="5.64"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"></path>
+                            <line x1="9" y1="18" x2="15" y2="18"></line>
+                            <line x1="10" y1="22" x2="14" y2="22"></line>
+                        </svg>';
+            case 'gift':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                            <rect x="2" y="7" width="20" height="5"></rect>
+                            <line x1="12" y1="22" x2="12" y2="7"></line>
+                            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                        </svg>';
+            case 'file':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>';
+            case 'computer':
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>';
+            case 'users':
+            default:
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>';
+        }
+    };
+
+    // Parse checklist attributes
+    $attributes_data = array();
+    if ( ! empty( $attributes['attributes'] ) ) {
+        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+            $attributes_data = vc_param_group_parse_atts( $attributes['attributes'] );
+        } else {
+            $attributes_data = json_decode( urldecode( $attributes['attributes'] ), true );
+        }
+    }
+
+    $active_attributes = array();
+    if ( is_array( $attributes_data ) ) {
+        foreach ( $attributes_data as $item ) {
+            $bold_text = isset( $item['bold_text'] ) ? $item['bold_text'] : '';
+            if ( ! empty( $bold_text ) ) {
+                $subtext         = isset( $item['subtext'] ) ? $item['subtext'] : '';
+                $icon_source     = isset( $item['icon_source'] ) ? $item['icon_source'] : 'brand';
+                $brand_icon_type = isset( $item['brand_icon_type'] ) ? $item['brand_icon_type'] : 'users';
+                $icon_library    = isset( $item['icon_library'] ) ? $item['icon_library'] : 'fontawesome';
+                $fa_icon         = isset( $item['icon_fontawesome'] ) ? $item['icon_fontawesome'] : '';
+                $li_icon         = isset( $item['icon_linecons'] ) ? $item['icon_linecons'] : '';
+                $custom_icon     = isset( $item['custom_icon'] ) ? $item['custom_icon'] : '';
+
+                $active_attributes[] = array(
+                    'bold_text' => esc_html( $bold_text ),
+                    'subtext'   => esc_html( $subtext ),
+                    'icon'      => $render_attr_icon( $icon_source, $brand_icon_type, $icon_library, $fa_icon, $li_icon, $custom_icon )
+                );
+            }
+        }
+    }
+
+    ob_start();
+    echo $custom_style;
+    ?>
+    <div id="<?php echo esc_attr( $welcome_id ); ?>" class="member-welcome-column">
+        <div class="member-welcome-content">
+            <h1 class="member-welcome-title"><?php echo $title; ?></h1>
+            <?php if ( ! empty( $subtitle ) ) : ?>
+                <p class="member-welcome-subtitle"><?php echo $subtitle; ?></p>
+            <?php endif; ?>
+        </div>
+        
+        <?php if ( ! empty( $active_attributes ) ) : ?>
+            <div class="member-attribute-list">
+                <?php foreach ( $active_attributes as $attr ) : ?>
+                    <div class="attribute-item">
+                        <div class="attribute-icon">
+                            <?php echo $attr['icon']; ?>
+                        </div>
+                        <div class="attribute-text">
+                            <strong><?php echo $attr['bold_text']; ?></strong>
+                            <?php if ( ! empty( $attr['subtext'] ) ) : ?>
+                                <span><?php echo $attr['subtext']; ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
     <?php
     return ob_get_clean();
 }

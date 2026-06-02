@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file for both hum
 ## [2026-06-02] - Member Hero Section & parents-club_member.html Template Staging
 
 ### Added
+- **Parents Club Member Welcome Element**:
+  - Registered a new custom WPBakery element `parents_club_member_welcome` (under "eMathSmart Elements" category) based on the `#member-welcome-column` dashboard section layout.
+  - Dynamically fetches and outputs the logged-in user's first name, falling back to the display name, or a default name if logged out.
+  - Implemented full parameterization for the title template (with support for `{user_name}` and `[wave]` for the waving hand emoji 👋) and subtitle.
+  - Equipped with background image modularity (`attach_image` background field) with responsive gradient overlays.
+  - Equipped checklist badge attributes with a dynamic, repeatable `param_group` container supporting bold texts, subtexts, and a selection of brand SVG icons, standard picker libraries, or custom upload assets.
+  - Contextually enqueues `parents-club-member-welcome.css` to keep stylesheet footprints clean.
 - **Member Quick Links Section**:
   - Integrated high-fidelity "Quick Links" section (`#parents-club-member-quick-links`) between Member Hero and Member Dashboard sections inside [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html).
   - Features a rounded horizontal bar with a light grey/slate background, vertical divider line, and three vivid brand red buttons ("Our Canadian Teachers", "Learning Tips", and "Free Worksheets") with right-facing chevrons.
