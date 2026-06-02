@@ -19,12 +19,18 @@ All notable changes to this project will be documented in this file for both hum
   - Created [parents-club-member-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-benefits.css) to style the red benefits card (tuned with a high-fidelity `24px` border-radius).
   - Copied and adapted the `.benefits-column` layout into a clean flexbox container that stretches to align with the welcome card on desktop.
   - Configured a responsive two-column grid list of benefits with hover zoom/slide transitions, transparent circular outline icons, and updated Benefit 3 to use the standard document icon.
+- **Member Support CTA Banner**:
+  - Integrated the Support CTA banner in the member staging template [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html) (Section 5-b).
+  - Custom-tailored banner copy and action buttons ("Shop Workbooks" and "Go to Dashboard") for active, logged-in Parents' Club members.
+- **Dedicated Member CTA Banner CSS**:
+  - Created [parents-club-member-cta-banner.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-cta-banner.css) to style the member Support CTA banner section modularly and support responsive layouts.
 
 ### Technical Notes for AI Agents
 - **Staging Files**:
   - HTML Sandbox mockup: `/wp-content/plugins/idl-loader/templates/parents-club_member.html`
   - Welcome CSS: `/wp-content/plugins/idl-loader/templates/css/parents-club-member-welcome.css`
   - Benefits CSS: `/wp-content/plugins/idl-loader/templates/css/parents-club-member-benefits.css`
+  - Member CTA Banner CSS: `/wp-content/plugins/idl-loader/templates/css/parents-club-member-cta-banner.css`
 - **Design Guidelines**:
   - Element 1 (`.member-welcome-column`) displays a wave animation on the waving hand emoji 👋.
   - Element 2 (`.member-benefits-column`) uses a solid crimson red background (`#af0128`) and features a two-column grid layout for list items.
