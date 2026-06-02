@@ -1,0 +1,154 @@
+/**
+ * Parents Club Redesign - Member Quick Links CSS
+ * File: parents-club-member-quick-links.css
+ */
+
+#parents-club-member-quick-links {
+    padding: 0 0 40px 0;
+    background-color: #ffffff;
+    width: 100%;
+}
+
+#parents-club-member-quick-links .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.quick-links-bar {
+    --brand-red: #af0128;
+    --brand-red-hover: #960122;
+    --bg-light: #f8fafc;
+    --border-color: #f1f5f9;
+    --text-color: #0f172a;
+    
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 24px 32px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
+    font-family: 'Inter', sans-serif;
+}
+
+.quick-links-bar * {
+    box-sizing: border-box !important;
+}
+
+.quick-links-title-wrapper {
+    flex-shrink: 0;
+    padding-right: 28px;
+}
+
+.quick-links-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.quick-links-divider {
+    width: 1px;
+    height: 48px;
+    background-color: #cbd5e1;
+    margin: 0 32px 0 0;
+    flex-shrink: 0;
+}
+
+.quick-links-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+.quick-link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--brand-red);
+    color: #ffffff;
+    padding: 16px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(175, 1, 40, 0.15);
+}
+
+.quick-link-btn:hover {
+    background-color: var(--brand-red-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(175, 1, 40, 0.25);
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.quick-link-btn .btn-text {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.quick-link-btn .btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+    transition: transform 0.2s ease;
+}
+
+.quick-link-btn:hover .btn-icon {
+    transform: translateX(3px);
+}
+
+.quick-link-btn .btn-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 3;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    .quick-links-bar {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 32px 24px;
+    }
+    
+    .quick-links-title-wrapper {
+        padding-right: 0;
+        margin-bottom: 16px;
+    }
+    
+    .quick-links-divider {
+        display: none;
+    }
+    
+    .quick-links-buttons {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 8px;
+    }
+    
+    .quick-link-btn {
+        padding: 14px 20px;
+        justify-content: center;
+    }
+    
+    .quick-link-btn .btn-text {
+        flex-grow: 0;
+    }
+    
+    .quick-link-btn .btn-icon {
+        margin-left: 12px;
+    }
+}
