@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file for both hum
 - **Member Quick Links Section**:
   - Integrated high-fidelity "Quick Links" section (`#parents-club-member-quick-links`) between Member Hero and Member Dashboard sections inside [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html).
   - Features a rounded horizontal bar with a light grey/slate background, vertical divider line, and three vivid brand red buttons ("Our Canadian Teachers", "Learning Tips", and "Free Worksheets") with right-facing chevrons.
+- **Section Layout Reordering & Plans Section Integration**:
+  - Relocated Section 2 (`#parents-club-section-2`: Why Join Features Bar) from the bottom of the template to sit immediately after the new Quick Links section.
+  - Copied and integrated Section 4 (`#parents-club-section-4`: eMathSmart Plans Card Section) from [parents-club.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club.html) to sit immediately after Section 2.
+  - Configured layout to leverage already linked plans CSS files contextually.
 - **Dedicated Quick Links CSS**:
   - Created and refined [parents-club-member-quick-links.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-quick-links.css) to style the section.
   - Implemented high-fidelity details: Outfit typography (`font-weight: 800` for main title, `700` for button labels), `#b30026` button fill matching the design color, precise custom shadows (`rgba(179, 0, 38, 0.16)`), and SVG chevron stroke widths.
