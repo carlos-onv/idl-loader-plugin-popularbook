@@ -8,9 +8,12 @@ All notable changes to this project will be documented in this file for both hum
 - **New HTML Template**:
   - Created [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html) sandbox mockup for logged-in parents.
   - Replaced the landing-page sign-up/login hero section with the new member-specific welcome and benefits section layout.
+  - Replaced welcome card markup structure: moved `.member-attribute-list` outside of `.member-welcome-content` to enable Flexbox's `justify-content: space-between` to push the attributes checklist to the bottom boundary of the welcome card.
 - **Dedicated Welcome & Brand Component CSS**:
   - Created [parents-club-member-welcome.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-welcome.css) to style the welcome card (tuned with a high-fidelity `24px` border-radius).
-  - Implemented responsive horizontal/vertical overlays with linear gradients that mask `ParentClub2.jpg` to show the father and child writing on the right while leaving the text completely readable on a solid white background on the left.
+  - Switched background scaling from `background-size: cover` to `background-size: auto 100%` to solve the vertical cropping zoom bug, restoring full visibility of the kid, father, and learning environment.
+  - Refined horizontal linear-gradient overlay parameters to fade the left portion (covering the out-of-focus mother) and blend seamlessly into the card's solid white background.
+  - Tightened welcome header `line-height` to `1.1` and subtitle `line-height` to `1.45` for precise typographical balance.
   - Copied and integrated the Canadian parents, curriculum-aligned, and trusted badge attributes from the landing page.
 - **Dedicated Benefits Card Component CSS**:
   - Created [parents-club-member-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-benefits.css) to style the red benefits card (tuned with a high-fidelity `24px` border-radius).
