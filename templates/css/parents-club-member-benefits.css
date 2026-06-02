@@ -1,0 +1,121 @@
+/**
+ * Parents Club Redesign - Member Benefits Column CSS
+ * File: parents-club-member-benefits.css
+ */
+
+.member-benefits-column {
+    --brand-red: #af0128;
+    --brand-red-hover: #960122;
+    
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: var(--brand-red);
+    color: #ffffff;
+    border-radius: 16px;
+    padding: 40px 32px;
+    box-shadow: 0 10px 30px rgba(175, 1, 40, 0.15);
+}
+
+.member-benefits-column * {
+    box-sizing: border-box !important;
+}
+
+.member-benefits-column h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 32px 0;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+    letter-spacing: -0.01em;
+}
+
+/* Two-column grid list inside crimson card */
+.member-benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 576px) {
+    .member-benefits-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px 24px;
+    }
+}
+
+.member-benefits-column .benefit-bullet {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s ease;
+}
+
+.member-benefits-column .benefit-bullet:hover {
+    transform: translateX(4px);
+}
+
+.member-benefits-column .bullet-icon-wrapper {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1.5px solid #ffffff !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.member-benefits-column .benefit-bullet:hover .bullet-icon-wrapper {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    transform: scale(1.05);
+}
+
+.member-benefits-column .bullet-icon-wrapper svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.2px;
+}
+
+.member-benefits-column .bullet-content {
+    display: block !important;
+}
+
+.member-benefits-column .bullet-content p {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
+    margin: 0;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    .member-benefits-column {
+        padding: 36px 24px;
+        height: auto;
+    }
+    
+    .member-benefits-column h3 {
+        font-size: 22px;
+        margin-bottom: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .member-benefits-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}

@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-02] - Member Hero Section & parents-club_member.html Template Staging
+
+### Added
+- **New HTML Template**:
+  - Created [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html) sandbox mockup for logged-in parents.
+  - Replaced the landing-page sign-up/login hero section with the new member-specific welcome and benefits section layout.
+- **Dedicated Welcome & Brand Component CSS**:
+  - Created [parents-club-member-welcome.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-welcome.css) to style the welcome card.
+  - Implemented responsive horizontal/vertical overlays with linear gradients that mask `ParentClub2.jpg` to show the father and child writing on the right while leaving the text completely readable on a solid white background on the left.
+  - Copied and integrated the Canadian parents, curriculum-aligned, and trusted badge attributes from the landing page.
+- **Dedicated Benefits Card Component CSS**:
+  - Created [parents-club-member-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-benefits.css) to style the red benefits card.
+  - Copied and adapted the `.benefits-column` layout into a clean flexbox container that stretches to align with the welcome card on desktop.
+  - Configured a responsive two-column grid list of benefits with hover zoom/slide transitions, transparent circular outline icons, and updated Benefit 3 to use the standard document icon.
+
+### Technical Notes for AI Agents
+- **Staging Files**:
+  - HTML Sandbox mockup: `/wp-content/plugins/idl-loader/templates/parents-club_member.html`
+  - Welcome CSS: `/wp-content/plugins/idl-loader/templates/css/parents-club-member-welcome.css`
+  - Benefits CSS: `/wp-content/plugins/idl-loader/templates/css/parents-club-member-benefits.css`
+- **Design Guidelines**:
+  - Element 1 (`.member-welcome-column`) displays a wave animation on the waving hand emoji 👋.
+  - Element 2 (`.member-benefits-column`) uses a solid crimson red background (`#af0128`) and features a two-column grid layout for list items.
+
 ## [2026-06-01] - AI Coins Gated Redirect Update
 
 ### Changed
