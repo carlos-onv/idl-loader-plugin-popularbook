@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-03] - Welcome Element Wave Tag Support
+
+### Fixed
+- **Welcome Element Wave Placeholder**: Support both `{wave}` and `[wave]` placeholders in the welcome title template to ensure the animated waving hand emoji renders correctly on the front end.
+
 ## [2026-06-02] - Member Hero Section & parents-club_member.html Template Staging
 
 ### Added

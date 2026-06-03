@@ -2397,7 +2397,7 @@ function idl_loader_register_parents_club_elements() {
                 "heading"     => esc_html__( "Title Template", "book-junky" ),
                 "param_name"  => "title_template",
                 "value"       => "Hi, {user_name}! [wave]\nWelcome back!",
-                "description" => esc_html__( "Use {user_name} to insert the user's name, and [wave] for the waving hand emoji.", "book-junky" ),
+                "description" => esc_html__( "Use {user_name} to insert the user's name, and {wave} or [wave] for the waving hand emoji.", "book-junky" ),
             ),
             array(
                 "type"        => "textfield",
@@ -4769,7 +4769,7 @@ function idl_loader_parents_club_member_welcome_shortcode( $atts ) {
     $wave_html = '<span class="wave">👋</span>';
     $title = $attributes['title_template'];
     $title = str_replace( '{user_name}', esc_html( $user_name ), $title );
-    $title = str_replace( '[wave]', $wave_html, $title );
+    $title = str_replace( array( '[wave]', '{wave}' ), $wave_html, $title );
     $title = nl2br( esc_html( $title ) );
     // Allow the wave span to be rendered as HTML by reversing the esc_html for it
     $title = str_replace( esc_html( $wave_html ), $wave_html, $title );
