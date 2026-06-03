@@ -2537,6 +2537,125 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
+
+    // Register [parents_club_member_quick_links] Element
+    vc_map( array(
+        "name"        => esc_html__( "Parents Club Member Quick Links", "book-junky" ),
+        "base"        => "parents_club_member_quick_links",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Quick links horizontal bar section showing title and a list of customizable quick link buttons.", "book-junky" ),
+        "params"      => array(
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Section Title", "book-junky" ),
+                "param_name"  => "title",
+                "value"       => esc_html__( "Quick Links", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "param_group",
+                "heading"     => esc_html__( "Quick Link Buttons", "book-junky" ),
+                "param_name"  => "buttons",
+                "description" => esc_html__( "Add, remove, and reorder quick link buttons visually.", "book-junky" ),
+                "value"       => urlencode( json_encode( array(
+                    array(
+                        'btn_text'    => 'Our Canadian Teachers',
+                        'btn_link'    => '#canadian-teachers',
+                        'icon_source' => 'default',
+                    ),
+                    array(
+                        'btn_text'    => 'Learning Tips',
+                        'btn_link'    => '#learning-tips',
+                        'icon_source' => 'default',
+                    ),
+                    array(
+                        'btn_text'    => 'Free Worksheets',
+                        'btn_link'    => '#free-worksheets',
+                        'icon_source' => 'default',
+                    ),
+                ) ) ),
+                "params"      => array(
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Button Text", "book-junky" ),
+                        "param_name"  => "btn_text",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "vc_link",
+                        "heading"     => esc_html__( "Button Link", "book-junky" ),
+                        "param_name"  => "btn_link",
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Source", "book-junky" ),
+                        "param_name"  => "icon_source",
+                        "value"       => array(
+                            esc_html__( "Predefined Chevron Right SVG", "book-junky" ) => "default",
+                            esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                            esc_html__( "Custom Image/SVG Upload", "book-junky" )      => "custom",
+                            esc_html__( "No Icon", "book-junky" )                      => "none",
+                        ),
+                        "std"         => "default",
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Library", "book-junky" ),
+                        "param_name"  => "icon_library",
+                        "value"       => array(
+                            esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                            esc_html__( "Linecons", "book-junky" )     => "linecons",
+                        ),
+                        "std"         => "fontawesome",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "library" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Font Awesome Icon", "book-junky" ),
+                        "param_name"  => "icon_fontawesome",
+                        "value"       => "fa fa-angle-right",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "fontawesome" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Linecons Icon", "book-junky" ),
+                        "param_name"  => "icon_linecons",
+                        "value"       => "vc_li vc_li-chevron-right",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "type"         => "linecons",
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "linecons" )
+                        )
+                    ),
+                    array(
+                        "type"        => "attach_image",
+                        "heading"     => esc_html__( "Custom Icon Image", "book-junky" ),
+                        "param_name"  => "custom_icon",
+                        "description" => esc_html__( "Upload an SVG or image to use as a custom icon inside the button.", "book-junky" ),
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "custom" )
+                        )
+                    ),
+                )
+            ),
+        )
+    ) );
 }
 
 
@@ -4176,6 +4295,10 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     class WPBakeryShortCode_parents_club_member_welcome extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for Member Welcome component
     }
+
+    class WPBakeryShortCode_parents_club_member_quick_links extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for Member Quick Links component
+    }
 }
 
 // Register [parents_club_need_help] Shortcode
@@ -4960,6 +5083,170 @@ function idl_loader_parents_club_member_welcome_shortcode( $atts ) {
             </div>
         <?php endif; ?>
     </div>
+    <?php
+    return ob_get_clean();
+}
+
+
+// -----------------------------------------------------------------------------
+// SECTION 7: [parents_club_member_quick_links] Shortcode Handler
+// -----------------------------------------------------------------------------
+
+// Register [parents_club_member_quick_links] Shortcode
+add_shortcode( 'parents_club_member_quick_links', 'idl_loader_parents_club_member_quick_links_shortcode' );
+
+function idl_loader_parents_club_member_quick_links_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'title'   => 'Quick Links',
+        'buttons' => '',
+    ), $atts );
+
+    // Enqueue the modular stylesheet natively
+    wp_enqueue_style( 'parents-club-member-quick-links', plugins_url( 'templates/css/parents-club-member-quick-links.css', __FILE__ ) );
+
+    $title = esc_html( $attributes['title'] );
+
+    // Helper closure to render button icons
+    $render_btn_icon = function( $source, $library, $fa_icon, $li_icon, $custom_icon_id ) {
+        if ( $source === 'none' ) {
+            return '';
+        }
+        if ( $source === 'custom' && ! empty( $custom_icon_id ) ) {
+            $custom_url = '';
+            if ( is_numeric( $custom_icon_id ) ) {
+                $img_src = wp_get_attachment_image_src( $custom_icon_id, 'thumbnail' );
+                if ( $img_src ) {
+                    $custom_url = $img_src[0];
+                }
+            } else {
+                $custom_url = $custom_icon_id;
+            }
+            if ( ! empty( $custom_url ) ) {
+                return '<span class="btn-icon"><img src="' . esc_url( $custom_url ) . '" alt="" style="width: 16px; height: 16px; display: block; object-fit: contain;"></span>';
+            }
+        }
+
+        if ( $source === 'library' ) {
+            if ( $library === 'linecons' ) {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'linecons' );
+                }
+                $icon_class = ! empty( $li_icon ) ? esc_attr( $li_icon ) : 'vc_li vc_li-chevron-right';
+                return '<span class="btn-icon"><i class="' . $icon_class . '" style="font-size: 14px; color: currentColor; display: inline-flex; align-items: center; justify-content: center;"></i></span>';
+            } else {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'fontawesome' );
+                }
+                $icon_class = ! empty( $fa_icon ) ? esc_attr( $fa_icon ) : 'fa fa-angle-right';
+                return '<span class="btn-icon"><i class="' . $icon_class . '" style="font-size: 14px; color: currentColor; display: inline-flex; align-items: center; justify-content: center;"></i></span>';
+            }
+        }
+
+        // Default right chevron
+        return '<span class="btn-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </span>';
+    };
+
+    // Parse buttons param group
+    $buttons_data = array();
+    if ( ! empty( $attributes['buttons'] ) ) {
+        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+            $buttons_data = vc_param_group_parse_atts( $attributes['buttons'] );
+        } else {
+            $buttons_data = json_decode( urldecode( $attributes['buttons'] ), true );
+        }
+    }
+
+    // Default fallback
+    if ( empty( $buttons_data ) ) {
+        $buttons_data = array(
+            array(
+                'btn_text'    => 'Our Canadian Teachers',
+                'btn_link'    => '#canadian-teachers',
+                'icon_source' => 'default',
+            ),
+            array(
+                'btn_text'    => 'Learning Tips',
+                'btn_link'    => '#learning-tips',
+                'icon_source' => 'default',
+            ),
+            array(
+                'btn_text'    => 'Free Worksheets',
+                'btn_link'    => '#free-worksheets',
+                'icon_source' => 'default',
+            ),
+        );
+    }
+
+    $rendered_buttons = array();
+    if ( is_array( $buttons_data ) ) {
+        foreach ( $buttons_data as $btn ) {
+            $btn_text        = isset( $btn['btn_text'] ) ? $btn['btn_text'] : '';
+            $btn_link        = isset( $btn['btn_link'] ) ? $btn['btn_link'] : '';
+            $icon_source     = isset( $btn['icon_source'] ) ? $btn['icon_source'] : 'default';
+            $icon_library    = isset( $btn['icon_library'] ) ? $btn['icon_library'] : 'fontawesome';
+            $fa_icon         = isset( $btn['icon_fontawesome'] ) ? $btn['icon_fontawesome'] : '';
+            $li_icon         = isset( $btn['icon_linecons'] ) ? $btn['icon_linecons'] : '';
+            $custom_icon     = isset( $btn['custom_icon'] ) ? $btn['custom_icon'] : '';
+
+            $btn_url    = '#';
+            $btn_title  = $btn_text;
+            $btn_target = '';
+
+            if ( ! empty( $btn_link ) ) {
+                if ( strpos( $btn_link, 'url:' ) !== false || strpos( $btn_link, 'title:' ) !== false ) {
+                    $link_data = vc_build_link( $btn_link );
+                    $btn_url   = isset( $link_data['url'] ) ? $link_data['url'] : '#';
+                    $btn_target = isset( $link_data['target'] ) ? $link_data['target'] : '';
+                    if ( empty( $btn_title ) && ! empty( $link_data['title'] ) ) {
+                        $btn_title = $link_data['title'];
+                    }
+                } else {
+                    $btn_url = $btn_link;
+                }
+            }
+
+            if ( empty( $btn_title ) ) {
+                continue;
+            }
+
+            $rendered_buttons[] = array(
+                'url'    => esc_url( $btn_url ),
+                'title'  => esc_html( $btn_title ),
+                'target' => esc_attr( $btn_target ),
+                'icon'   => $render_btn_icon( $icon_source, $icon_library, $fa_icon, $li_icon, $custom_icon )
+            );
+        }
+    }
+
+    ob_start();
+    ?>
+    <section id="parents-club-member-quick-links">
+        <div class="container">
+            <div class="quick-links-bar">
+                <?php if ( ! empty( $title ) ) : ?>
+                    <div class="quick-links-title-wrapper">
+                        <h2 class="quick-links-title"><?php echo $title; ?></h2>
+                    </div>
+                    <div class="quick-links-divider"></div>
+                <?php endif; ?>
+                
+                <?php if ( ! empty( $rendered_buttons ) ) : ?>
+                    <div class="quick-links-buttons">
+                        <?php foreach ( $rendered_buttons as $button ) : ?>
+                            <a href="<?php echo $button['url']; ?>" class="quick-link-btn" <?php echo ! empty( $button['target'] ) ? 'target="' . $button['target'] . '"' : ''; ?>>
+                                <span class="btn-text"><?php echo $button['title']; ?></span>
+                                <?php echo $button['icon']; ?>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
     <?php
     return ob_get_clean();
 }

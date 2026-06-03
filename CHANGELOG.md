@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-03] - Parents Club Member Quick Links WPBakery Element
+
+### Added
+- **Parents Club Member Quick Links Element**:
+  - Registered custom WPBakery element `parents_club_member_quick_links` (under "eMathSmart Elements" category) based on the `#parents-club-member-quick-links` mockup markup.
+  - Implemented configurable header title (default: "Quick Links").
+  - Configured visual parameters utilizing repeatable `param_group` to allow adding, editing, reordering, and deleting buttons dynamically.
+  - Equipped buttons with text fields, VC link fields, and a selection of icon sources: predefined chevron right SVG, icon picker libraries (Font Awesome / Linecons), or custom SVG/image upload.
+  - Automatically enqueues the component-specific modular stylesheet `parents-club-member-quick-links.css` contextually in the shortcode renderer.
+
+### Technical Notes for AI Agents
+- Shortcode: `[parents_club_member_quick_links]`
+- Visual Composer Base: `parents_club_member_quick_links`
+- Associated Class: `WPBakeryShortCode_parents_club_member_quick_links`
+
 ## [2026-06-03] - Welcome Element Wave Tag Support
 
 ### Fixed
