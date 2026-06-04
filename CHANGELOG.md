@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-04] - paymentNotify API subscribeId Fix
+
+### Fixed
+- **Missing subscribeId Field in paymentNotify API:** Re-added the body-only `subscribeId` and `subscriptionId` fields to both Type 1 (Subscriptions) and Type 2 (AI Coins / Additional Packages) JSON webhook payloads for the `paymentNotify` (API #5) endpoint. Both fields are excluded from HMAC signature generation to ensure signature compatibility and avoid `20306` validation errors.
+
+### Technical Notes for AI Agents
+- The eMathSmart validator requires the `subscribeId` body field.
+- For Type 2 (AI Coins) transactions, the active subscription for the customer is fetched dynamically via `wcs_get_subscriptions()` to populate the `subscribeId` and `subscriptionId` fields in the request body.
+
 ## [2026-06-04] - Member Dashboard & Account Overview High-Fidelity Redesign
 
 ### Added

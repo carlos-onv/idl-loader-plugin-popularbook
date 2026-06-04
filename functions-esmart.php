@@ -314,6 +314,28 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     
                     // Dual-Key Support: Send both sets of keys to satisfy v1.4 validator + v1.3 signature code
                     $post_body['parentId'] = (string) $order->get_user_id(); // v1.4 Validator Support
+
+                    // Retrieve active subscription ID for the user to populate subscribeId
+                    $wc_subscription_id = '';
+                    if (function_exists('wcs_get_subscriptions')) {
+                        $subscriptions = wcs_get_subscriptions(array(
+                            'customer_id' => $order->get_user_id(),
+                            'subscription_status' => 'active',
+                        ));
+                        if (empty($subscriptions)) {
+                            $subscriptions = wcs_get_subscriptions(array(
+                                'customer_id' => $order->get_user_id(),
+                            ));
+                        }
+                        if (!empty($subscriptions)) {
+                            $sub = reset($subscriptions);
+                            $wc_subscription_id = (string) $sub->get_id();
+                        }
+                    }
+                    if ($wc_subscription_id) {
+                        $post_body['subscribeId'] = $wc_subscription_id;
+                        $post_body['subscriptionId'] = $wc_subscription_id; // Include both to be safe
+                    }
                 } else {
                     // --- TYPE 1 PAYMENT (Subscriptions) ---
                     $wc_subscription_id = (string) $order_id; // Fallback
@@ -386,8 +408,11 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     // in the body — it then strips them from its own HMAC recomputation and verifies
                     // against the 13 v1.3 fields, which matches our signature.
                     // NOTE: field name is subscriptionId (not subscribeId) — confirmed by probe B7_B 200 OK.
+                    // However, Jatin's team reported that payment notification API was missing the subscribeId field.
+                    // To satisfy both requirements, we send parentId, subscriptionId AND subscribeId.
                     $post_body['parentId']       = (string) $order->get_user_id(); // v1.4 body-only
-                    $post_body['subscriptionId'] = $wc_subscription_id;            // v1.4 body-only (was subscribeId — wrong)
+                    $post_body['subscriptionId'] = $wc_subscription_id;            // v1.4 body-only
+                    $post_body['subscribeId']    = $wc_subscription_id;            // v1.4 body-only (re-added to satisfy "missing subscribeId" feedback)
                 }
                 // NOTE: $sign_params is intentionally NOT updated here — parentId/subscriptionId must
                 // be excluded from the HMAC plaintext per eMathSmart API #5 signing rules.
