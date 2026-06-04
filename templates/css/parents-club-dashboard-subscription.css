@@ -7,349 +7,323 @@
 #parents-club-dashboard,
 #parents-club-dashboard * {
     box-sizing: border-box !important;
-    margin: 0;
-    padding: 0;
 }
 
 #parents-club-dashboard {
-    --brand-text-dark: #1e293b;
-    --brand-text-muted: #64748b;
-    --border-light: #f1f5f9;
-    --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
-    --shadow-hover: 0 20px 40px -15px rgba(0, 0, 0, 0.12), 0 4px 6px rgba(0, 0, 0, 0.04);
-    --esmart-crimson: #ff3e1d;
-    --esmart-crimson-hover: #e53212;
-    --esmart-blue: #007aff;
-    --esmart-green: #34c759;
-    --esmart-orange: #ff9500;
-    
-    font-family: 'Inter', sans-serif !important;
-    color: var(--brand-text-dark) !important;
-    background-color: #fafbfc !important;
+    --orange: #F26122;
+    --orange-deep: #EF5A1E;
+    --orange-soft: #FDEAD9;
+    --orange-border: #F8C6A3;
+    --cream: #FBF1E8;
+    --card: #FFFFFF;
+    --ink: #3A3A3A;
+    --ink-soft: #6E6E73;
+    --muted: #9A9A9F;
+    --green-pill-bg: #CDEFD6;
+    --green-pill-ink: #2E8B57;
+    --blue: #2D7FF9;
+    --line: #EFE7DE;
+
+    font-family: 'Nunito', sans-serif !important;
+    background-color: var(--cream) !important;
     padding: 60px 0 80px 0 !important;
     width: 100% !important;
 }
 
 #parents-club-dashboard .container {
-    max-width: 1280px !important;
+    max-width: 1360px !important;
     margin: 0 auto !important;
-    padding: 0 4% !important;
+    padding: 0 24px !important;
 }
 
-/* Dashboard Grid Layout */
-.dashboard-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 30px !important;
+/* Layout wrapper */
+#parents-club-dashboard .wrap {
     width: 100% !important;
+    display: grid !important;
+    grid-template-columns: 1.95fr 1fr !important;
+    gap: 22px !important;
+    align-items: stretch !important;
 }
 
-@media (min-width: 1100px) {
-    .dashboard-grid {
-        grid-template-columns: 1.7fr 1.05fr !important;
-        gap: 24px !important;
+@media (max-width: 900px) {
+    #parents-club-dashboard .wrap {
+        grid-template-columns: 1fr !important;
     }
 }
 
-/* General Dashboard Card */
-.dashboard-card {
-    background-color: #ffffff !important;
-    border: 1px solid #eef2f6 !important;
-    border-radius: 20px !important;
-    padding: 30px !important;
-    box-shadow: var(--shadow-premium) !important;
-    position: relative !important;
+/* ---------- Cards ---------- */
+#parents-club-dashboard .card {
+    background: var(--card) !important;
+    border-radius: 22px !important;
+    box-shadow: 0 10px 30px rgba(190,120,60,.08) !important;
+    border: none !important;
+}
+
+/* ---------- Left panel ---------- */
+#parents-club-dashboard .sub-card {
+    padding: 26px 28px 30px !important;
     display: flex !important;
     flex-direction: column !important;
-    height: 100% !important;
 }
 
-/* Subscription Card Custom Styles */
-.emathsmart-sub-card {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 24px !important;
-}
-
-/* Card Header */
-.sub-card-header {
+#parents-club-dashboard .sub-top {
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important;
-    flex-wrap: wrap !important;
-    gap: 16px !important;
-    border-bottom: 1px solid #f1f5f9 !important;
-    padding-bottom: 20px !important;
+    gap: 14px !important;
 }
 
-.sub-header-left {
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-}
-
-/* Image logo for eMathSmart */
-.sub-card-logo-img {
-    height: 38px !important;
+#parents-club-dashboard .logo {
+    height: 42px !important;
     width: auto !important;
     display: block !important;
 }
 
-.badge-active {
-    background-color: #e6f7ed !important;
-    color: #1f8b4c !important;
-    font-size: 13px !important;
+#parents-club-dashboard .active-pill {
+    background: var(--green-pill-bg) !important;
+    color: var(--green-pill-ink) !important;
     font-weight: 700 !important;
-    padding: 6px 14px !important;
-    border-radius: 100px !important;
-    letter-spacing: 0.2px !important;
+    font-size: 14px !important;
+    padding: 6px 16px !important;
+    border-radius: 999px !important;
 }
 
-.btn-goto-esmart {
-    background-color: var(--esmart-crimson) !important;
-    color: #ffffff !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 14px !important;
+#parents-club-dashboard .go-btn {
+    margin-left: auto !important;
+    background: var(--orange) !important;
+    color: #fff !important;
+    border: none !important;
+    font-family: 'Nunito' !important;
     font-weight: 700 !important;
-    padding: 10px 22px !important;
-    border-radius: 8px !important;
-    text-decoration: none !important;
+    font-size: 15px !important;
+    padding: 12px 20px !important;
+    border-radius: 12px !important;
+    cursor: pointer !important;
     display: inline-flex !important;
     align-items: center !important;
-    gap: 6px !important;
-    transition: all 0.2s ease !important;
-    box-shadow: 0 4px 12px rgba(255, 62, 29, 0.2) !important;
+    gap: 8px !important;
+    box-shadow: 0 6px 14px rgba(242,97,34,.28) !important;
+    transition: filter .15s !important;
 }
 
-.btn-goto-esmart:hover {
-    background-color: var(--esmart-crimson-hover) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 16px rgba(255, 62, 29, 0.3) !important;
+#parents-club-dashboard .go-btn:hover {
+    filter: brightness(1.05) !important;
 }
 
-.sub-card-subtitle {
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 18px !important;
-    font-weight: 700 !important;
-    color: var(--brand-text-dark) !important;
-    text-align: center !important;
-    margin-top: -8px !important;
+#parents-club-dashboard .sub-title {
+    font-weight: 800 !important;
+    font-size: 21px !important;
+    margin: 18px 0 6px !important;
+    color: #33240E !important;
 }
 
-/* Three-column Sub Content Grid */
-.sub-content-grid {
+#parents-club-dashboard .sub-body {
     display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 24px !important;
+    grid-template-columns: 188px 1fr 190px !important;
+    gap: 18px !important;
+    align-items: start !important;
 }
 
-@media (min-width: 768px) {
-    .sub-content-grid {
-        grid-template-columns: 1.1fr 1.6fr 1.3fr !important;
-        align-items: center !important;
-    }
-}
-
-/* Tablet / Graphic column */
-.sub-graphic-col {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    position: relative !important;
-    padding: 20px 0 !important;
-}
-
-.sub-tablet-wrapper {
-    position: relative !important;
+/* illustration */
+#parents-club-dashboard .illu {
     width: 100% !important;
-    max-width: 250px !important;
-    z-index: 2 !important;
-    transition: transform 0.4s ease !important;
-}
-
-.sub-tablet-wrapper:hover {
-    transform: scale(1.03) rotate(-1deg) !important;
-}
-
-.sub-tablet-image {
-    width: 100% !important;
+    max-width: 188px !important;
     height: auto !important;
     display: block !important;
-    filter: drop-shadow(0 15px 30px rgba(0,0,0,0.12)) !important;
+    align-self: center !important;
 }
 
-
-
-/* Key-value checklist grid */
-.sub-details-col {
+/* details list */
+#parents-club-dashboard .details {
     display: flex !important;
     flex-direction: column !important;
-    gap: 16px !important;
 }
 
-.detail-row {
+#parents-club-dashboard .drow {
+    display: grid !important;
+    grid-template-columns: 24px 116px 1fr !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 9px 0 !important;
+}
+
+#parents-club-dashboard .drow .ic {
+    width: 22px !important;
+    height: 22px !important;
+    flex: none !important;
+}
+
+#parents-club-dashboard .drow .ic svg {
+    width: 22px !important;
+    height: 22px !important;
+    display: block !important;
+}
+
+#parents-club-dashboard .drow > :nth-child(3) {
+    text-align: right !important;
+}
+
+#parents-club-dashboard .dlabel {
+    color: #7C7C82 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    white-space: nowrap !important;
+}
+
+#parents-club-dashboard .dval {
+    color: #34343A !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    white-space: nowrap !important;
+}
+
+#parents-club-dashboard .dval.small {
+    font-weight: 700 !important;
+}
+
+#parents-club-dashboard .trial-pill {
+    display: inline-block !important;
+    white-space: nowrap !important;
+    background: #DCEBFF !important;
+    color: #2D7FF9 !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    padding: 3px 12px !important;
+    border-radius: 999px !important;
+}
+
+#parents-club-dashboard .blue {
+    color: var(--blue) !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+}
+
+#parents-club-dashboard .blue .days {
+    color: #7C7C82 !important;
+    font-weight: 600 !important;
+    font-size: 12.5px !important;
+}
+
+#parents-club-dashboard .pay .visa {
+    display: inline-block !important;
+    background: #1A1F71 !important;
+    color: #fff !important;
+    font-style: italic !important;
+    font-weight: 800 !important;
+    font-size: 10px !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    letter-spacing: .5px !important;
+    vertical-align: middle !important;
+    margin-right: 6px !important;
+}
+
+#parents-club-dashboard .pay .next {
+    display: block !important;
+    color: #9A9A9F !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    margin-top: 2px !important;
+}
+
+/* what's included box */
+#parents-club-dashboard .included {
+    align-self: start !important;
+    margin-top: 6px !important;
+    background: none !important;
+    border: 1.5px solid var(--orange-border) !important;
+    border-radius: 16px !important;
+    padding: 16px 18px !important;
+}
+
+#parents-club-dashboard .included h4 {
+    color: var(--orange-deep) !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    margin-bottom: 10px !important;
+}
+
+#parents-club-dashboard .inc-item {
     display: flex !important;
-    align-items: flex-start !important;
-    gap: 12px !important;
-    font-size: 13.5px !important;
-    line-height: 1.5 !important;
+    align-items: center !important;
+    gap: 10px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #5C4A3A !important;
+    padding: 4px 0 !important;
 }
 
-.detail-icon {
-    flex-shrink: 0 !important;
+#parents-club-dashboard .inc-item .dot {
     width: 18px !important;
     height: 18px !important;
-    background-color: #fff0eb !important;
-    border: 1px solid #ffd6cc !important;
-    border-radius: 4px !important;
+    flex: none !important;
+    background: var(--orange) !important;
+    border-radius: 999px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    margin-top: 1px !important;
-    color: var(--esmart-crimson) !important;
 }
 
-.detail-icon svg {
-    width: 12px !important;
-    height: 12px !important;
+#parents-club-dashboard .inc-item .dot svg {
+    width: 11px !important;
+    height: 11px !important;
 }
 
-.detail-key {
-    font-weight: 500 !important;
-    color: var(--brand-text-muted) !important;
-    flex-shrink: 0 !important;
-    width: 130px !important;
+/* bottom action buttons */
+#parents-club-dashboard .actions {
+    display: flex !important;
+    gap: 16px !important;
+    margin-top: auto !important;
+    padding-top: 28px !important;
 }
 
-.detail-val {
-    font-weight: 600 !important;
-    color: var(--brand-text-dark) !important;
-}
-
-.detail-val .badge-trial {
-    background-color: #e6f0fa !important;
-    color: var(--esmart-blue) !important;
-    font-size: 11.5px !important;
-    font-weight: 700 !important;
-    padding: 3px 8px !important;
-    border-radius: 4px !important;
-    display: inline-block !important;
-    margin-left: 6px !important;
-}
-
-.detail-val.blue-highlight {
-    color: var(--esmart-blue) !important;
-}
-
-/* What's Included Card */
-.sub-included-col {
-    background-color: #fffcf8 !important;
-    border: 1px solid #ffe8cc !important;
-    border-radius: 12px !important;
-    padding: 18px !important;
-}
-
-.included-title {
+#parents-club-dashboard .obtn {
+    flex: 1 !important;
     font-family: 'Outfit', sans-serif !important;
-    font-size: 15px !important;
-    font-weight: 700 !important;
-    color: #e07a00 !important;
-    margin-bottom: 12px !important;
-    letter-spacing: 0.5px !important;
-}
-
-.included-list {
-    list-style: none !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 8px !important;
-}
-
-.included-item {
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
-    color: var(--brand-text-dark) !important;
-}
-
-.included-check {
-    flex-shrink: 0 !important;
-    width: 16px !important;
-    height: 16px !important;
-    background-color: #ffe6e6 !important;
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    color: var(--esmart-crimson) !important;
-}
-
-.included-check svg {
-    width: 10px !important;
-    height: 10px !important;
-}
-
-/* Footer Actions Row */
-.sub-card-footer {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
-    border-top: 1px solid #f1f5f9 !important;
-    padding-top: 24px !important;
-    margin-top: 10px !important;
-    width: 100% !important;
-}
-
-.btn-sub-footer {
-    background-color: #ffffff !important;
-    border: 1.5px solid #ff5a1d !important;
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    background: transparent !important;
+    border: 1.5px solid var(--orange) !important;
+    color: var(--orange-deep) !important;
+    padding: 14px 10px !important;
     border-radius: 8px !important;
-    padding: 10px 18px !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    color: #ff5a1d !important;
-    text-decoration: none !important;
+    cursor: pointer !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 8px !important;
-    transition: all 0.2s ease !important;
-    cursor: pointer !important;
-    width: 100% !important;
-    margin: 0 !important;
+    gap: 9px !important;
+    transition: all 0.3s ease !important;
+    letter-spacing: 0.3px !important;
+    white-space: nowrap !important;
 }
 
-.btn-sub-footer:hover {
-    background-color: #fff5f2 !important;
-    border-color: #e54a10 !important;
-    color: #e54a10 !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(255, 90, 29, 0.1) !important;
+#parents-club-dashboard .obtn:hover {
+    background-color: var(--orange) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(242, 97, 34, 0.3) !important;
 }
 
-.btn-sub-footer svg {
-    width: 16px !important;
-    height: 16px !important;
+#parents-club-dashboard .obtn svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex: none !important;
+    stroke: currentColor !important;
 }
 
-@media (min-width: 600px) {
-    .sub-card-footer {
-        grid-template-columns: 1fr 1fr !important;
-    }
-    
-    .btn-sub-footer:last-child {
-        grid-column: span 2 !important;
-    }
-}
-
-/* Dashboard Right Column Container */
-.dashboard-right-col {
+/* Right column layout container */
+#parents-club-dashboard .col {
     display: flex !important;
     flex-direction: column !important;
-    gap: 24px !important;
-    width: 100% !important;
+    gap: 22px !important;
+    height: 100% !important;
+    justify-content: space-between !important;
 }
 
+@media (max-width: 900px) {
+    #parents-club-dashboard .sub-body {
+        grid-template-columns: 1fr !important;
+    }
+    #parents-club-dashboard .included {
+        margin-top: 14px !important;
+    }
+}

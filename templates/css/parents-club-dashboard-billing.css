@@ -4,111 +4,95 @@
  * Theme insulation applied to prevent Porto/WordPress overrides
  */
 
-.billing-history-card {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 16px !important;
+#parents-club-dashboard .bill-card {
+    padding: 20px 24px !important;
 }
 
-.billing-header-row {
+#parents-club-dashboard .bill-card .rh {
+    font-weight: 800 !important;
+    font-size: 19px !important;
+    color: #33240E !important;
+}
+
+#parents-club-dashboard .bill-head {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    width: 100% !important;
 }
 
-.billing-card-title {
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 18px !important;
+#parents-club-dashboard .view-all {
+    color: var(--orange-deep) !important;
     font-weight: 700 !important;
-    color: var(--brand-text-dark) !important;
-}
-
-.link-view-all {
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 13.5px !important;
-    font-weight: 700 !important;
-    color: var(--esmart-crimson) !important;
+    font-size: 14px !important;
     text-decoration: underline !important;
-    transition: color 0.2s ease !important;
     cursor: pointer !important;
 }
 
-.link-view-all:hover {
-    color: var(--esmart-crimson-hover) !important;
-}
-
-/* Billing Receipts List */
-.receipts-list {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    margin: 4px 0 !important;
-}
-
-.receipt-row {
-    display: flex !important;
+#parents-club-dashboard .bill-row {
+    display: grid !important;
+    grid-template-columns: 1fr auto auto !important;
     align-items: center !important;
-    justify-content: space-between !important;
-    padding: 10px 0 !important;
-    border-bottom: 1px dashed #e2e8f0 !important;
-    font-size: 13px !important;
-    color: var(--brand-text-dark) !important;
-    font-weight: 500 !important;
+    gap: 10px !important;
+    padding: 8px 2px !important;
+    border-bottom: 1px solid var(--line) !important;
 }
 
-.receipt-row:last-child {
+#parents-club-dashboard .bill-row:last-of-type {
     border-bottom: none !important;
 }
 
-.receipt-date {
-    color: var(--brand-text-muted) !important;
-    width: 90px !important;
-    flex-shrink: 0 !important;
-}
-
-.receipt-plan {
-    flex-grow: 1 !important;
-    font-weight: 600 !important;
-}
-
-.receipt-price {
+#parents-club-dashboard .bill-date {
     font-weight: 700 !important;
-    color: var(--brand-text-dark) !important;
+    font-size: 14.5px !important;
+    color: #3a3a3a !important;
+}
+
+#parents-club-dashboard .bill-plan {
+    color: #8a8a8f !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    justify-self: center !important;
+}
+
+#parents-club-dashboard .bill-amt {
+    font-weight: 800 !important;
+    font-size: 14.5px !important;
+    color: #3a3a3a !important;
+    justify-self: end !important;
+    min-width: 62px !important;
     text-align: right !important;
 }
 
-/* Download receipt button at the bottom */
-.btn-download-history {
+#parents-club-dashboard .download-btn {
     width: 100% !important;
-    background-color: #ffffff !important;
-    border: 1.5px solid var(--esmart-crimson) !important;
-    border-radius: 8px !important;
-    padding: 12px 10px !important;
+    margin-top: 12px !important;
     font-family: 'Outfit', sans-serif !important;
+    font-size: 12.5px !important;
     font-weight: 800 !important;
-    font-size: 12px !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.3px !important;
-    color: var(--esmart-crimson) !important;
-    text-decoration: none !important;
+    background: transparent !important;
+    border: 1.5px solid var(--orange) !important;
+    color: var(--orange-deep) !important;
+    padding: 14px 10px !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 8px !important;
-    transition: all 0.2s ease !important;
-    cursor: pointer !important;
-    margin-top: 6px !important;
+    gap: 9px !important;
+    transition: all 0.3s ease !important;
+    letter-spacing: 0.3px !important;
+    white-space: nowrap !important;
 }
 
-.btn-download-history:hover {
-    background-color: #fff5f2 !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 12px rgba(255, 62, 29, 0.1) !important;
+#parents-club-dashboard .download-btn:hover {
+    background-color: var(--orange) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(242, 97, 34, 0.3) !important;
 }
 
-.btn-download-history svg {
+#parents-club-dashboard .download-btn svg {
     width: 16px !important;
     height: 16px !important;
-    stroke-width: 2.2 !important;
+    stroke: currentColor !important;
 }

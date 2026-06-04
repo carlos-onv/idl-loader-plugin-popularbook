@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="css/parents-club-dashboard-subscription.css?v=1.3.0">
     <link rel="stylesheet" href="css/parents-club-dashboard-coins.css?v=1.3.1">
     <link rel="stylesheet" href="css/parents-club-dashboard-billing.css?v=1.3.0">
+    <link rel="stylesheet" href="css/parents-club-dashboard-account-overview.css?v=1.3.0">
     
     <style>
         /* Standalone staging body wrapper adjustments */
@@ -591,152 +592,189 @@
         <!-- Section: Member Dashboard -->
         <section id="parents-club-dashboard">
             <div class="container">
-                <div class="dashboard-grid">
-                    
-                    <!-- COMPONENT 1: eMathSmart Subscription -->
-                    <div class="dashboard-card emathsmart-sub-card">
-                        
-                        <!-- Card Header -->
-                        <div class="sub-card-header">
-                            <div class="sub-header-left">
-                                <img src="images/eMathSmart_logo_FINAL%20.png" alt="eMathSmart Logo" class="sub-card-logo-img">
-                                <span class="badge-active">Active</span>
-                            </div>
-                            <a href="#go-to-emathsmart" class="btn-goto-esmart">
-                                Go to eMathSmart
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                                    <polyline points="7 7 17 7 17 17"></polyline>
-                                </svg>
-                            </a>
-                        </div>
-                        
-                        <!-- Subtitle -->
-                        <h2 class="sub-card-subtitle">Your eMathSmart Subscription</h2>
-                        
-                        <!-- Inner Grid Content -->
-                        <div class="sub-content-grid">
-                            
-                            <!-- Column 1: Tablet Graphic -->
-                            <div class="sub-graphic-col">
-                                <div class="sub-tablet-wrapper">
-                                    <img src="images/subscription-active.png" alt="eMathSmart Tablet Illustration" class="sub-tablet-image">
-                                </div>
-                            </div>
-                            
-                            <!-- Column 2: Key-Value Details List -->
-                            <div class="sub-details-col">
-                                <!-- Type -->
-                                <div class="detail-row">
-                                    <div class="detail-icon">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </div>
-                                    <span class="detail-key">Subscription Type</span>
-                                    <span class="detail-val">eMathSmart Annual</span>
-                                </div>
-                                
-                                <!-- Plan -->
-                                <div class="detail-row">
-                                    <div class="detail-icon">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </div>
-                                    <span class="detail-key">Plan</span>
-                                    <span class="detail-val">Full Access Plan</span>
-                                </div>
-                                
-                                <!-- Status -->
-                                <div class="detail-row">
-                                    <div class="detail-icon">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </div>
-                                    <span class="detail-key">Status</span>
-                                    <span class="detail-val"><span class="badge-trial">On Free Trial</span></span>
-                                </div>
-                                
-                                <!-- Trial Ends -->
-                                <div class="detail-row">
-                                    <div class="detail-icon">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </div>
-                                    <span class="detail-key">Trial Ends On</span>
-                                    <span class="detail-val">June 10, 2026</span>
-                                </div>
-                                
-                                <!-- Renewal -->
-                                <div class="detail-row">
-                                    <div class="detail-icon">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                        </svg>
-                                    </div>
-                                    <span class="detail-key">Next Renewal</span>
-                                    <span class="detail-val">$69.95 / year</span>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                        <!-- Actions Row -->
-                        <div class="sub-actions-row">
-                            <a href="#change-plan" class="btn-outline-sub">Change Plan</a>
-                            <a href="#cancel-sub" class="btn-link-danger">Cancel Subscription</a>
-                        </div>
+                <div class="wrap">
+
+                  <!-- ============ LEFT: Subscription ============ -->
+                  <section class="card sub-card">
+                    <div class="sub-top">
+                      <img class="logo" src="images/eMathSmart_logo_FINAL%20.png" alt="eMathSmart">
+                      <span class="active-pill">Active</span>
+                      <button class="go-btn">Go to eMathSmart
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                      </button>
                     </div>
-                    
-                    <!-- COLUMN 2 (Right Dashboard Cards) -->
-                    <div class="dashboard-right-col">
-                        
-                        <!-- COMPONENT 2: AI Coins Wallet -->
-                        <div class="dashboard-card ai-coins-card">
-                            <div class="coins-header">
-                                <h3 class="coins-title">AI Coins Wallet</h3>
-                                <a href="#buy-coins" class="btn-buy-coins">Buy Coins</a>
-                            </div>
-                            
-                            <div class="coins-balance-block">
-                                <img src="images/coin.png" alt="AI Coin Icon" class="coin-icon-img">
-                                <div class="balance-details">
-                                    <span class="coin-number">120</span>
-                                    <span class="coin-label">Active AI Coins</span>
-                                </div>
-                            </div>
-                            
-                            <div class="coins-desc">
-                                <p>Use your AI Coins to generate customized worksheets and lessons for your children using our AI learning tools.</p>
-                            </div>
+
+                    <h2 class="sub-title">Your eMathSmart Subscription</h2>
+
+                    <div class="sub-body">
+                      <!-- Illustration -->
+                      <img class="illu" src="images/emathsmart-tablet-illustration.png" alt="eMathSmart tablet, books and supplies">
+
+                      <!-- Details list -->
+                      <div class="details">
+                        <div class="drow">
+                          <span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="2.5" width="19" height="19" rx="6" stroke="#F2711C" stroke-width="2"/><path d="M7 12.3l3.3 3.3L17 8.6" stroke="#F2711C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                          <span class="dlabel">Subscription Type</span>
+                          <span class="dval">eMathSmart Annual</span>
                         </div>
-                        
-                        <!-- COMPONENT 3: Billing History -->
-                        <div class="dashboard-card billing-history-card">
-                            <h3 class="billing-title">Recent Invoices</h3>
-                            
-                            <div class="billing-table">
-                                <!-- Invoice Item 1 -->
-                                <div class="billing-item">
-                                    <div class="billing-info">
-                                        <span class="invoice-number">#INV-9824</span>
-                                        <span class="invoice-date">June 3, 2026</span>
-                                    </div>
-                                    <div class="billing-amount-status">
-                                        <span class="invoice-amount">$0.00</span>
-                                        <span class="invoice-status badge-paid">Trial Started</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="drow">
+                          <span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="2.5" width="19" height="19" rx="6" stroke="#F2711C" stroke-width="2"/><path d="M7 12.3l3.3 3.3L17 8.6" stroke="#F2711C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                          <span class="dlabel">Plan</span>
+                          <span class="dval">Full Access Plan</span>
                         </div>
-                        
-                    </div><!-- /.dashboard-right-col -->
-                    
-                </div><!-- /.dashboard-grid -->
-            </div><!-- /.container -->
+                        <div class="drow">
+                          <span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="2.5" width="19" height="19" rx="6" stroke="#F2711C" stroke-width="2"/><path d="M7 12.3l3.3 3.3L17 8.6" stroke="#F2711C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                          <span class="dlabel">Status</span>
+                          <span><span class="trial-pill">On Free Trial</span></span>
+                        </div>
+                        <div class="drow">
+                          <span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="2.5" width="19" height="19" rx="6" stroke="#F2711C" stroke-width="2"/><path d="M7 12.3l3.3 3.3L17 8.6" stroke="#F2711C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                          <span class="dlabel">Trial Ends</span>
+                          <span class="blue">June 15, 2025 <span class="days">(7 days left)</span></span>
+                        </div>
+                        <div class="drow">
+                          <span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="2.5" width="19" height="19" rx="6" stroke="#F2711C" stroke-width="2"/><path d="M7 12.3l3.3 3.3L17 8.6" stroke="#F2711C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                          <span class="dlabel">Next Billing Date</span>
+                          <span class="dval">June 15, 2025</span>
+                        </div>
+                        <div class="drow">
+                          <span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="2.5" width="19" height="19" rx="6" stroke="#F2711C" stroke-width="2"/><path d="M7 12.3l3.3 3.3L17 8.6" stroke="#F2711C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                          <span class="dlabel">Billing Cycle</span>
+                          <span class="dval">$69.95 / year</span>
+                        </div>
+                        <div class="drow">
+                          <span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F2711C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 9.5h19"/></svg></span>
+                          <span class="dlabel">Payment Method</span>
+                          <span class="pay"><span class="visa">VISA</span><span class="dval">ending in 4242</span><span class="next">Next Charge: June 15, 2026</span></span>
+                        </div>
+                        <div class="drow">
+                          <span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F2711C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 19.5a6.5 6.5 0 0 1 13 0"/></svg></span>
+                          <span class="dlabel">Access</span>
+                          <span class="dval">Grade 3</span>
+                        </div>
+                      </div>
+
+                      <!-- What's included -->
+                      <div class="included">
+                        <h4>What's Included</h4>
+                        <div class="inc-item"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4L19 7"/></svg></span>Full access to eMathSmart</div>
+                        <div class="inc-item"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4L19 7"/></svg></span>Interactive exercises &amp; tools</div>
+                        <div class="inc-item"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4L19 7"/></svg></span>Printable worksheets</div>
+                        <div class="inc-item"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4L19 7"/></svg></span>Progress tracking &amp; reports</div>
+                        <div class="inc-item"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4L19 7"/></svg></span>AI credits included every year</div>
+                      </div>
+                    </div>
+
+                    <div class="actions">
+                      <button class="obtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F2711C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 9.5h19"/></svg> Update Payment Method</button>
+                      <button class="obtn"><svg viewBox="0 0 24 24" fill="none" stroke="#F2711C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg> Add Another Subscription</button>
+                      <button class="obtn"><svg viewBox="0 0 24 24" fill="none" stroke="#F2711C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg> Cancel Subscription</button>
+                    </div>
+                  </section>
+
+                  <!-- ============ RIGHT column ============ -->
+                  <div class="col">
+                    <section class="card coins-card">
+                      <div class="rh">AI Coins Balance</div>
+                      <div class="coin-row">
+                        <img class="coin-ic" src="images/coin.png" alt="AI coin">
+                        <span class="coin-amt">120 <span>coins</span></span>
+                      </div>
+                      <p class="coins-desc">Use AI coins to chat with your AI helper, and mark worksheets.</p>
+
+                      <div class="purchase-h">Purchase AI Coins</div>
+                      <div class="coin-grid">
+                        <div class="coin-opt">
+                          <div class="qty">100 Coins</div>
+                          <div class="price">$5.99</div>
+                          <button class="buy-btn">BUY NOW</button>
+                        </div>
+                        <div class="coin-opt">
+                          <div class="qty">250 Coins</div>
+                          <div class="price">$9.99</div>
+                          <button class="buy-btn">BUY NOW</button>
+                        </div>
+                      </div>
+                    </section>
+
+                    <section class="card bill-card">
+                      <div class="bill-head">
+                        <div class="rh">Billing History</div>
+                        <span class="view-all">View all</span>
+                      </div>
+                      <div style="margin-top:8px;">
+                        <div class="bill-row"><span class="bill-date">May 15, 2024</span><span class="bill-plan">Annual Plan</span><span class="bill-amt">$69.95</span></div>
+                        <div class="bill-row"><span class="bill-date">May 15, 2023</span><span class="bill-plan">Annual Plan</span><span class="bill-amt">$69.95</span></div>
+                        <div class="bill-row"><span class="bill-date">May 15, 2022</span><span class="bill-plan">Annual Plan</span><span class="bill-amt">$69.95</span></div>
+                        <div class="bill-row"><span class="bill-date">May 15, 2021</span><span class="bill-plan">Annual Plan</span><span class="bill-amt">$59.95</span></div>
+                      </div>
+                      <button class="download-btn">DOWNLOAD RECEIPT HISTORY
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>
+                      </button>
+                    </section>
+                  </div>
+
+                </div>
+
+                <!-- BEGIN: AccountOverview -->
+                <div id="account-overview">
+                  <h3 class="overview-title">Account Overview</h3>
+                  <div class="overview-content">
+                    <!-- Students -->
+                    <div class="overview-item">
+                      <div class="overview-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                          <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+                        </svg>
+                      </div>
+                      <div class="overview-details">
+                        <div class="item-title">Students</div>
+                        <div class="item-desc">1 Student</div>
+                        <div class="item-desc">Grade 3</div>
+                        <a class="item-link" href="#">Manage Students</a>
+                      </div>
+                    </div>
+                    <!-- Divider -->
+                    <div class="overview-divider"></div>
+                    <!-- Progress Reports -->
+                    <div class="overview-item">
+                      <div class="overview-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="18" y1="20" x2="18" y2="10"></line>
+                          <line x1="12" y1="20" x2="12" y2="4"></line>
+                          <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                      </div>
+                      <div class="overview-details">
+                        <div class="item-title">Progress Reports</div>
+                        <div class="item-desc">View your child's</div>
+                        <div class="item-desc">learning progress</div>
+                        <a class="item-link" href="#">View Reports</a>
+                      </div>
+                    </div>
+                    <!-- Divider -->
+                    <div class="overview-divider"></div>
+                    <!-- Account Settings -->
+                    <div class="overview-item">
+                      <div class="overview-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="3"></circle>
+                          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                      </div>
+                      <div class="overview-details">
+                        <div class="item-title">Account Settings</div>
+                        <div class="item-desc">Update your profile,</div>
+                        <div class="item-desc">password &amp; preferences</div>
+                        <a class="item-link" href="#">Manage Settings</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- END: AccountOverview -->
+
+            </div>
         </section>
 
         <!-- Section 3: Onboarding & Gateway Login Row -->

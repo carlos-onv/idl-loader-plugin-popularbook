@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-04] - Member Dashboard & Account Overview High-Fidelity Redesign
+
+### Added
+- **Account Overview Component & Insulated CSS**:
+  - Extracted the inline Tailwind-style rules for the `#account-overview` section from the dashboard mockup.
+  - Created a new insulated standalone modular stylesheet: [parents-club-dashboard-account-overview.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-account-overview.css) with all styles scoped under `#parents-club-dashboard #account-overview` and fully insulated for WordPress theme compliance.
+  - Linked the new account overview stylesheet contextually inside the `<head>` of [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html).
+  - Integrated the clean, semantic markup structure for `#account-overview` directly inside the `.container` element as a sibling below the main cards layout inside the staging sandbox mockup.
+  - Replaced the font-based icon codes in the Account Overview component with high-fidelity inline SVGs to remove dependencies on external icon fonts.
+
+### Changed
+- **Member Dashboard Template Overhaul**:
+  - Replaced the old `#parents-club-dashboard` section in [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html) with the high-fidelity three-card layout (`.sub-card`, `.coins-card`, `.bill-card`) copied from `eMathSmart Subscription.html`.
+  - Updated image paths to point to correct local resources (`images/eMathSmart_logo_FINAL%20.png`, `images/emathsmart-tablet-illustration.png`, and `images/coin.png`) in the templates folder.
+  - Aligned the subscription action buttons (`.obtn`) and receipt download button (`.download-btn`) styling with `.pc-plan-btn` (Outfit typography, uppercase text, font-weight 800, 8px border-radius, color-fill hover transitions, hover box-shadow, and current-color SVG stroke inheritance).
+- **Modular Dashboard CSS Separation**:
+  - Separated subscription, coins, and billing card styles from the static sandbox template into individual, modular CSS files.
+  - Overwrote the template-specific CSS files:
+    - [parents-club-dashboard-subscription.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-subscription.css)
+    - [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css)
+    - [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css)
+  - Scoped all CSS rules under `#parents-club-dashboard` and applied strict Porto/WordPress theme insulation controls.
+  - Removed the background color from the `.included` element inside the subscription component stylesheet.
+
+### Technical Notes for AI Agents
+- The newly structured member dashboard HTML has been integrated into the sandbox template.
+- All styles are insulated contextually under the `#parents-club-dashboard` container selector.
+
 ## [2026-06-03] - Parents Club Member Quick Links WPBakery Element
 
 ### Added

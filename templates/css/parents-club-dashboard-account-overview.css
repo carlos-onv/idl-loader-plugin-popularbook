@@ -1,0 +1,129 @@
+/**
+ * Parents Club Redesign - Member Dashboard: Account Overview Component
+ * File: parents-club-dashboard-account-overview.css
+ * Theme insulation applied to prevent Porto/WordPress overrides
+ */
+
+#parents-club-dashboard #account-overview {
+  background-color: #fffdfb !important;
+  border-radius: 1.5rem !important;
+  padding: 2rem !important;
+  border: 1px solid #fff7ed !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 2.5rem !important;
+  margin-top: 3rem !important;
+}
+
+@media (min-width: 768px) {
+  #parents-club-dashboard #account-overview {
+    flex-direction: row !important;
+  }
+}
+
+#parents-club-dashboard #account-overview .overview-title {
+  font-size: 1.125rem !important;
+  line-height: 1.75rem !important;
+  font-weight: 600 !important;
+  color: #111827 !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+@media (min-width: 768px) {
+  #parents-club-dashboard #account-overview .overview-title {
+    width: auto !important;
+  }
+}
+
+#parents-club-dashboard #account-overview .overview-content {
+  flex: 1 1 0% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-around !important;
+  gap: 1.5rem !important;
+  width: 100% !important;
+}
+
+@media (min-width: 768px) {
+  #parents-club-dashboard #account-overview .overview-content {
+    flex-direction: row !important;
+    gap: 0.5rem !important;
+  }
+}
+
+#parents-club-dashboard #account-overview .overview-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+}
+
+#parents-club-dashboard #account-overview .overview-icon-box {
+  width: 3rem !important;
+  height: 3rem !important;
+  background-color: #ffedd5 !important;
+  color: #ff5c16 !important;
+  border-radius: 9999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+#parents-club-dashboard #account-overview .overview-icon-box .material-symbols-outlined {
+  font-size: 1.5rem !important;
+}
+
+#parents-club-dashboard #account-overview .overview-icon-box svg {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  display: block !important;
+}
+
+#parents-club-dashboard #account-overview .overview-details {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+#parents-club-dashboard #account-overview .item-title {
+  font-weight: 600 !important;
+  color: #111827 !important;
+}
+
+#parents-club-dashboard #account-overview .item-desc {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  color: #4b5563 !important;
+}
+
+#parents-club-dashboard #account-overview .item-link {
+  color: #ef4444 !important;
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  margin-top: 0.25rem !important;
+  display: inline-block !important;
+  text-decoration: none !important;
+  transition: color 0.15s ease-in-out !important;
+}
+
+#parents-club-dashboard #account-overview .item-link:hover {
+  color: #dc2626 !important;
+}
+
+#parents-club-dashboard #account-overview .overview-divider {
+  display: none !important;
+}
+
+@media (min-width: 768px) {
+  #parents-club-dashboard #account-overview .overview-divider {
+    display: block !important;
+    width: 1px !important;
+    background-color: #fed7aa !important;
+    align-self: stretch !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+}
