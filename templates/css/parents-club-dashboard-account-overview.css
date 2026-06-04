@@ -5,6 +5,7 @@
  */
 
 #parents-club-dashboard #account-overview {
+  --cream: #fef9f6;
   background-color: var(--cream) !important;
   border-radius: 1.5rem !important;
   padding: 2rem !important;

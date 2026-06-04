@@ -2656,6 +2656,555 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
+
+    // Register [parents_club_member_subscription] Element
+    vc_map( array(
+        "name"        => esc_html__( "Parents Club Member Subscription Card", "book-junky" ),
+        "base"        => "parents_club_member_subscription",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Subscription card showing logo, active status pill, portal button, details list, what's included list, and bottom actions.", "book-junky" ),
+        "params"      => array(
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Custom Logo Image", "book-junky" ),
+                "param_name"  => "logo_image",
+                "description" => esc_html__( "Select a custom logo image. Defaults to eMathSmart_logo_FINAL .png if left blank.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Status Text", "book-junky" ),
+                "param_name"  => "status_text",
+                "value"       => esc_html__( "Active", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Portal Button Text", "book-junky" ),
+                "param_name"  => "portal_btn_text",
+                "value"       => esc_html__( "Go to eMathSmart", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "vc_link",
+                "heading"     => esc_html__( "Portal Button Link", "book-junky" ),
+                "param_name"  => "portal_btn_link",
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Card Title", "book-junky" ),
+                "param_name"  => "title",
+                "value"       => esc_html__( "Your eMathSmart Subscription", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Tablet Illustration Image", "book-junky" ),
+                "param_name"  => "tablet_image",
+                "description" => esc_html__( "Select a tablet illustration image. Defaults to subscription-active.png if left blank.", "book-junky" ),
+            ),
+            // Repeatable Details List
+            array(
+                "type"        => "param_group",
+                "heading"     => esc_html__( "Subscription Details List", "book-junky" ),
+                "param_name"  => "details_list",
+                "description" => esc_html__( "Add subscription metadata rows (e.g. Type, Plan, Status, Next Charge, Payment Method, etc.)", "book-junky" ),
+                "value"       => urlencode( json_encode( array(
+                    array(
+                        'label'                => 'Subscription Type',
+                        'value'                => 'eMathSmart Annual',
+                        'value_type'           => 'normal',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'checkmark',
+                    ),
+                    array(
+                        'label'                => 'Plan',
+                        'value'                => 'Full Access Plan',
+                        'value_type'           => 'normal',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'checkmark',
+                    ),
+                    array(
+                        'label'                => 'Status',
+                        'value'                => 'On Free Trial',
+                        'value_type'           => 'pill',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'checkmark',
+                    ),
+                    array(
+                        'label'                => 'Trial Ends',
+                        'value'                => 'June 15, 2025 (7 days left)',
+                        'value_type'           => 'blue_highlight',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'checkmark',
+                    ),
+                    array(
+                        'label'                => 'Next Billing Date',
+                        'value'                => 'June 15, 2025',
+                        'value_type'           => 'normal',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'checkmark',
+                    ),
+                    array(
+                        'label'                => 'Billing Cycle',
+                        'value'                => '$69.95 / year',
+                        'value_type'           => 'normal',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'checkmark',
+                    ),
+                    array(
+                        'label'                => 'Payment Method',
+                        'value'                => 'ending in 4242',
+                        'value_type'           => 'card',
+                        'card_type'            => 'VISA',
+                        'card_subtext'         => 'Next Charge: June 15, 2026',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'card',
+                    ),
+                    array(
+                        'label'                => 'Access',
+                        'value'                => 'Grade 3',
+                        'value_type'           => 'normal',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'user',
+                    ),
+                ) ) ),
+                "params"      => array(
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Detail Label", "book-junky" ),
+                        "param_name"  => "label",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Detail Value", "book-junky" ),
+                        "param_name"  => "value",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Value Display Type", "book-junky" ),
+                        "param_name"  => "value_type",
+                        "value"       => array(
+                            esc_html__( "Normal Text", "book-junky" )           => "normal",
+                            esc_html__( "Blue Highlight Text", "book-junky" )   => "blue_highlight",
+                            esc_html__( "Status Pill", "book-junky" )           => "pill",
+                            esc_html__( "Payment Card Details", "book-junky" )   => "card",
+                        ),
+                        "std"         => "normal",
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Card Type", "book-junky" ),
+                        "param_name"  => "card_type",
+                        "value"       => array(
+                            esc_html__( "VISA", "book-junky" )       => "VISA",
+                            esc_html__( "MasterCard", "book-junky" ) => "MasterCard",
+                            esc_html__( "Amex", "book-junky" )       => "Amex",
+                            esc_html__( "Generic Card", "book-junky" ) => "Generic",
+                        ),
+                        "std"         => "VISA",
+                        "dependency"  => array(
+                            "element" => "value_type",
+                            "value"   => array( "card" )
+                        )
+                    ),
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Card Next Charge Subtext", "book-junky" ),
+                        "param_name"  => "card_subtext",
+                        "dependency"  => array(
+                            "element" => "value_type",
+                            "value"   => array( "card" )
+                        )
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Source", "book-junky" ),
+                        "param_name"  => "icon_source",
+                        "value"       => array(
+                            esc_html__( "Predefined Brand SVG", "book-junky" )       => "brand",
+                            esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                            esc_html__( "Custom Image Upload", "book-junky" )         => "custom",
+                        ),
+                        "std"         => "brand",
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Predefined Icon", "book-junky" ),
+                        "param_name"  => "predefined_icon_type",
+                        "value"       => array(
+                            esc_html__( "Checkmark Box", "book-junky" )  => "checkmark",
+                            esc_html__( "Credit Card", "book-junky" )     => "card",
+                            esc_html__( "User Outline", "book-junky" )    => "user",
+                        ),
+                        "std"         => "checkmark",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "brand" )
+                        )
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Library", "book-junky" ),
+                        "param_name"  => "icon_library",
+                        "value"       => array(
+                            esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                            esc_html__( "Linecons", "book-junky" )     => "linecons",
+                        ),
+                        "std"         => "fontawesome",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "library" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Font Awesome Icon", "book-junky" ),
+                        "param_name"  => "icon_fontawesome",
+                        "value"       => "fa fa-check",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "fontawesome" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Linecons Icon", "book-junky" ),
+                        "param_name"  => "icon_linecons",
+                        "value"       => "vc_li vc_li-check",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "type"         => "linecons",
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "linecons" )
+                        )
+                    ),
+                    array(
+                        "type"        => "attach_image",
+                        "heading"     => esc_html__( "Custom Icon", "book-junky" ),
+                        "param_name"  => "custom_icon",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "custom" )
+                        )
+                    ),
+                )
+            ),
+            // Repeatable Included Checklist
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "What's Included Header", "book-junky" ),
+                "param_name"  => "included_title",
+                "value"       => esc_html__( "What's Included", "book-junky" ),
+            ),
+            array(
+                "type"        => "param_group",
+                "heading"     => esc_html__( "What's Included Items", "book-junky" ),
+                "param_name"  => "included_list",
+                "description" => esc_html__( "List the features or items included in this plan.", "book-junky" ),
+                "value"       => urlencode( json_encode( array(
+                    array( 'item_text' => 'Full access to eMathSmart' ),
+                    array( 'item_text' => 'Interactive exercises & tools' ),
+                    array( 'item_text' => 'Printable worksheets' ),
+                    array( 'item_text' => 'Progress tracking & reports' ),
+                    array( 'item_text' => 'AI credits included every year' ),
+                ) ) ),
+                "params"      => array(
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Item Text", "book-junky" ),
+                        "param_name"  => "item_text",
+                        "admin_label" => true,
+                    )
+                )
+            ),
+            // Repeatable Action Buttons
+            array(
+                "type"        => "param_group",
+                "heading"     => esc_html__( "Bottom Action Buttons", "book-junky" ),
+                "param_name"  => "actions_list",
+                "description" => esc_html__( "Manage custom action outline buttons shown at the bottom of the subscription card.", "book-junky" ),
+                "value"       => urlencode( json_encode( array(
+                    array(
+                        'btn_text'             => 'Update Payment Method',
+                        'btn_link'             => '#update-payment',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'card',
+                    ),
+                    array(
+                        'btn_text'             => 'Add Another Subscription',
+                        'btn_link'             => '#add-sub',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'plus',
+                    ),
+                    array(
+                        'btn_text'             => 'Cancel Subscription',
+                        'btn_link'             => '#cancel-sub',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'cancel',
+                    ),
+                ) ) ),
+                "params"      => array(
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Button Text", "book-junky" ),
+                        "param_name"  => "btn_text",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "vc_link",
+                        "heading"     => esc_html__( "Button Link", "book-junky" ),
+                        "param_name"  => "btn_link",
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Source", "book-junky" ),
+                        "param_name"  => "icon_source",
+                        "value"       => array(
+                            esc_html__( "Predefined Brand SVG", "book-junky" )       => "brand",
+                            esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                            esc_html__( "Custom Image Upload", "book-junky" )         => "custom",
+                            esc_html__( "No Icon", "book-junky" )                     => "none",
+                        ),
+                        "std"         => "brand",
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Predefined Icon", "book-junky" ),
+                        "param_name"  => "predefined_icon_type",
+                        "value"       => array(
+                            esc_html__( "Credit Card", "book-junky" ) => "card",
+                            esc_html__( "Plus Circle", "book-junky" ) => "plus",
+                            esc_html__( "X Circle", "book-junky" )    => "cancel",
+                        ),
+                        "std"         => "card",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "brand" )
+                        )
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Library", "book-junky" ),
+                        "param_name"  => "icon_library",
+                        "value"       => array(
+                            esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                            esc_html__( "Linecons", "book-junky" )     => "linecons",
+                        ),
+                        "std"         => "fontawesome",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "library" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Font Awesome Icon", "book-junky" ),
+                        "param_name"  => "icon_fontawesome",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "fontawesome" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Linecons Icon", "book-junky" ),
+                        "param_name"  => "icon_linecons",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "type"         => "linecons",
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "linecons" )
+                        )
+                    ),
+                    array(
+                        "type"        => "attach_image",
+                        "heading"     => esc_html__( "Custom Icon", "book-junky" ),
+                        "param_name"  => "custom_icon",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "custom" )
+                        )
+                    ),
+                )
+            ),
+        )
+    ) );
+
+    // Register [parents_club_member_account_overview] Element
+    vc_map( array(
+        "name"        => esc_html__( "Parents Club Account Overview Panel", "book-junky" ),
+        "base"        => "parents_club_member_account_overview",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Account overview section showing dynamic grids of student management, progress reports, and settings.", "book-junky" ),
+        "params"      => array(
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Section Title", "book-junky" ),
+                "param_name"  => "title",
+                "value"       => esc_html__( "Account Overview", "book-junky" ),
+                "admin_label" => true,
+            ),
+            // Repeatable items grid
+            array(
+                "type"        => "param_group",
+                "heading"     => esc_html__( "Overview Items", "book-junky" ),
+                "param_name"  => "items_list",
+                "description" => esc_html__( "Configure each overview panel card.", "book-junky" ),
+                "value"       => urlencode( json_encode( array(
+                    array(
+                        'item_title'           => 'Students',
+                        'desc_line1'           => '1 Student',
+                        'desc_line2'           => 'Grade 3',
+                        'action_text'          => 'Manage Students',
+                        'action_link'          => '#students',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'graduation',
+                    ),
+                    array(
+                        'item_title'           => 'Progress Reports',
+                        'desc_line1'           => "View your child's",
+                        'desc_line2'           => 'learning progress',
+                        'action_text'          => 'View Reports',
+                        'action_link'          => '#reports',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'chart',
+                    ),
+                    array(
+                        'item_title'           => 'Account Settings',
+                        'desc_line1'           => 'Update your profile,',
+                        'desc_line2'           => 'password & preferences',
+                        'action_text'          => 'Manage Settings',
+                        'action_link'          => '#settings',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'gear',
+                    ),
+                ) ) ),
+                "params"      => array(
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Item Title", "book-junky" ),
+                        "param_name"  => "item_title",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Description Line 1", "book-junky" ),
+                        "param_name"  => "desc_line1",
+                    ),
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Description Line 2", "book-junky" ),
+                        "param_name"  => "desc_line2",
+                    ),
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Action Link Text", "book-junky" ),
+                        "param_name"  => "action_text",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "vc_link",
+                        "heading"     => esc_html__( "Action Link URL", "book-junky" ),
+                        "param_name"  => "action_link",
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Source", "book-junky" ),
+                        "param_name"  => "icon_source",
+                        "value"       => array(
+                            esc_html__( "Predefined Brand SVG", "book-junky" )       => "brand",
+                            esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                            esc_html__( "Custom Image Upload", "book-junky" )         => "custom",
+                        ),
+                        "std"         => "brand",
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Predefined Icon", "book-junky" ),
+                        "param_name"  => "predefined_icon_type",
+                        "value"       => array(
+                            esc_html__( "Graduation Cap", "book-junky" )  => "graduation",
+                            esc_html__( "Progress Chart", "book-junky" )   => "chart",
+                            esc_html__( "Gear / Settings", "book-junky" )  => "gear",
+                        ),
+                        "std"         => "graduation",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "brand" )
+                        )
+                    ),
+                    array(
+                        "type"        => "dropdown",
+                        "heading"     => esc_html__( "Icon Library", "book-junky" ),
+                        "param_name"  => "icon_library",
+                        "value"       => array(
+                            esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                            esc_html__( "Linecons", "book-junky" )     => "linecons",
+                        ),
+                        "std"         => "fontawesome",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "library" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Font Awesome Icon", "book-junky" ),
+                        "param_name"  => "icon_fontawesome",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "fontawesome" )
+                        )
+                    ),
+                    array(
+                        "type"        => "iconpicker",
+                        "heading"     => esc_html__( "Linecons Icon", "book-junky" ),
+                        "param_name"  => "icon_linecons",
+                        "settings"    => array(
+                            "emptyIcon"    => false,
+                            "type"         => "linecons",
+                            "iconsPerPage" => 4000,
+                        ),
+                        "dependency"  => array(
+                            "element" => "icon_library",
+                            "value"   => array( "linecons" )
+                        )
+                    ),
+                    array(
+                        "type"        => "attach_image",
+                        "heading"     => esc_html__( "Custom Icon", "book-junky" ),
+                        "param_name"  => "custom_icon",
+                        "dependency"  => array(
+                            "element" => "icon_source",
+                            "value"   => array( "custom" )
+                        )
+                    ),
+                )
+            ),
+        )
+    ) );
 }
 
 
@@ -4299,6 +4848,14 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     class WPBakeryShortCode_parents_club_member_quick_links extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for Member Quick Links component
     }
+
+    class WPBakeryShortCode_parents_club_member_subscription extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for Member Subscription Card
+    }
+
+    class WPBakeryShortCode_parents_club_member_account_overview extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for Member Account Overview panel
+    }
 }
 
 // Register [parents_club_need_help] Shortcode
@@ -5250,5 +5807,492 @@ function idl_loader_parents_club_member_quick_links_shortcode( $atts ) {
     <?php
     return ob_get_clean();
 }
+
+
+// -----------------------------------------------------------------------------
+// SECTION 8: [parents_club_member_subscription] Shortcode Handler
+// -----------------------------------------------------------------------------
+
+add_shortcode( 'parents_club_member_subscription', 'idl_loader_parents_club_member_subscription_shortcode' );
+
+function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'logo_image'      => '',
+        'status_text'     => 'Active',
+        'portal_btn_text' => 'Go to eMathSmart',
+        'portal_btn_link' => '',
+        'title'           => 'Your eMathSmart Subscription',
+        'tablet_image'    => '',
+        'details_list'    => '',
+        'included_title'  => "What's Included",
+        'included_list'   => '',
+        'actions_list'    => '',
+    ), $atts );
+
+    // Enqueue subscription stylesheet
+    wp_enqueue_style( 'parents-club-dashboard-subscription', plugins_url( 'templates/css/parents-club-dashboard-subscription.css', __FILE__ ) );
+
+    // Resolve Logo Image
+    $logo_url = '';
+    if ( ! empty( $attributes['logo_image'] ) ) {
+        if ( is_numeric( $attributes['logo_image'] ) ) {
+            $img_src = wp_get_attachment_image_src( $attributes['logo_image'], 'full' );
+            if ( $img_src ) {
+                $logo_url = $img_src[0];
+            }
+        } else {
+            $logo_url = $attributes['logo_image'];
+        }
+    }
+    if ( empty( $logo_url ) ) {
+        $logo_url = plugins_url( 'templates/images/eMathSmart_logo_FINAL .png', __FILE__ );
+    }
+
+    // Resolve Tablet Image
+    $tablet_url = '';
+    if ( ! empty( $attributes['tablet_image'] ) ) {
+        if ( is_numeric( $attributes['tablet_image'] ) ) {
+            $img_src = wp_get_attachment_image_src( $attributes['tablet_image'], 'full' );
+            if ( $img_src ) {
+                $tablet_url = $img_src[0];
+            }
+        } else {
+            $tablet_url = $attributes['tablet_image'];
+        }
+    }
+    if ( empty( $tablet_url ) ) {
+        $tablet_url = plugins_url( 'templates/images/subscription-active.png', __FILE__ );
+    }
+
+    // Resolve Portal Button Link
+    $portal_url    = '#';
+    $portal_target = '';
+    if ( ! empty( $attributes['portal_btn_link'] ) ) {
+        if ( strpos( $attributes['portal_btn_link'], 'url:' ) !== false || strpos( $attributes['portal_btn_link'], 'title:' ) !== false ) {
+            $link_data = vc_build_link( $attributes['portal_btn_link'] );
+            $portal_url = isset( $link_data['url'] ) ? $link_data['url'] : '#';
+            $portal_target = isset( $link_data['target'] ) ? $link_data['target'] : '';
+        } else {
+            $portal_url = $attributes['portal_btn_link'];
+        }
+    }
+
+    // Details lists parsing
+    $details_data = array();
+    if ( ! empty( $attributes['details_list'] ) ) {
+        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+            $details_data = vc_param_group_parse_atts( $attributes['details_list'] );
+        } else {
+            $details_data = json_decode( urldecode( $attributes['details_list'] ), true );
+        }
+    }
+
+    // Helper closure to render detail list icon
+    $render_detail_icon = function( $source, $predefined_type, $library, $fa_icon, $li_icon, $custom_icon_id ) {
+        if ( $source === 'custom' && ! empty( $custom_icon_id ) ) {
+            $custom_url = '';
+            if ( is_numeric( $custom_icon_id ) ) {
+                $img_src = wp_get_attachment_image_src( $custom_icon_id, 'thumbnail' );
+                if ( $img_src ) {
+                    $custom_url = $img_src[0];
+                }
+            } else {
+                $custom_url = $custom_icon_id;
+            }
+            if ( ! empty( $custom_url ) ) {
+                return '<span class="ic"><img src="' . esc_url( $custom_url ) . '" alt="" style="width: 22px; height: 22px; display: block; object-fit: contain;"></span>';
+            }
+        }
+
+        if ( $source === 'library' ) {
+            if ( $library === 'linecons' ) {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'linecons' );
+                }
+                $icon_class = ! empty( $li_icon ) ? esc_attr( $li_icon ) : 'vc_li vc_li-check';
+                return '<span class="ic"><i class="' . $icon_class . '" style="font-size: 18px; color: #F2711C; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px;"></i></span>';
+            } else {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'fontawesome' );
+                }
+                $icon_class = ! empty( $fa_icon ) ? esc_attr( $fa_icon ) : 'fa fa-check';
+                return '<span class="ic"><i class="' . $icon_class . '" style="font-size: 18px; color: #F2711C; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px;"></i></span>';
+            }
+        }
+
+        // Predefined SVGs
+        if ( $predefined_type === 'card' ) {
+            return '<span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F2711C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 9.5h19"/></svg></span>';
+        }
+        if ( $predefined_type === 'user' ) {
+            return '<span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F2711C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 19.5a6.5 6.5 0 0 1 13 0"/></svg></span>';
+        }
+        return '<span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="2.5" width="19" height="19" rx="6" stroke="#F2711C" stroke-width="2"/><path d="M7 12.3l3.3 3.3L17 8.6" stroke="#F2711C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+    };
+
+    // Render detail list rows
+    $rendered_details = '';
+    if ( is_array( $details_data ) && ! empty( $details_data ) ) {
+        foreach ( $details_data as $detail ) {
+            $label                = isset( $detail['label'] ) ? $detail['label'] : '';
+            $value                = isset( $detail['value'] ) ? $detail['value'] : '';
+            $value_type           = isset( $detail['value_type'] ) ? $detail['value_type'] : 'normal';
+            $card_type            = isset( $detail['card_type'] ) ? $detail['card_type'] : 'VISA';
+            $card_subtext         = isset( $detail['card_subtext'] ) ? $detail['card_subtext'] : '';
+            $icon_source          = isset( $detail['icon_source'] ) ? $detail['icon_source'] : 'brand';
+            $predefined_icon_type = isset( $detail['predefined_icon_type'] ) ? $detail['predefined_icon_type'] : 'checkmark';
+            $icon_library         = isset( $detail['icon_library'] ) ? $detail['icon_library'] : 'fontawesome';
+            $fa_icon              = isset( $detail['icon_fontawesome'] ) ? $detail['icon_fontawesome'] : '';
+            $li_icon              = isset( $detail['icon_linecons'] ) ? $detail['icon_linecons'] : '';
+            $custom_icon          = isset( $detail['custom_icon'] ) ? $detail['custom_icon'] : '';
+
+            $icon_html = $render_detail_icon( $icon_source, $predefined_icon_type, $icon_library, $fa_icon, $li_icon, $custom_icon );
+
+            $value_html = '';
+            if ( $value_type === 'pill' ) {
+                $value_html = '<span><span class="trial-pill">' . esc_html( $value ) . '</span></span>';
+            } elseif ( $value_type === 'blue_highlight' ) {
+                // Split around brackets for subtext styling e.g. June 15, 2025 (7 days left)
+                if ( preg_match( '/(.*?)(\(.*?\))/', $value, $matches ) ) {
+                    $value_html = '<span class="blue">' . esc_html( trim( $matches[1] ) ) . ' <span class="days">' . esc_html( trim( $matches[2] ) ) . '</span></span>';
+                } else {
+                    $value_html = '<span class="blue">' . esc_html( $value ) . '</span>';
+                }
+            } elseif ( $value_type === 'card' ) {
+                $value_html = '<span class="pay">
+                    <span class="visa">' . esc_html( $card_type ) . '</span>
+                    <span class="dval">' . esc_html( $value ) . '</span>';
+                if ( ! empty( $card_subtext ) ) {
+                    $value_html .= '<span class="next">' . esc_html( $card_subtext ) . '</span>';
+                }
+                $value_html .= '</span>';
+            } else {
+                $value_html = '<span class="dval">' . esc_html( $value ) . '</span>';
+            }
+
+            $rendered_details .= '<div class="drow">
+                ' . $icon_html . '
+                <span class="dlabel">' . esc_html( $label ) . '</span>
+                ' . $value_html . '
+            </div>';
+        }
+    }
+
+    // Included checklist parsing
+    $included_data = array();
+    if ( ! empty( $attributes['included_list'] ) ) {
+        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+            $included_data = vc_param_group_parse_atts( $attributes['included_list'] );
+        } else {
+            $included_data = json_decode( urldecode( $attributes['included_list'] ), true );
+        }
+    }
+
+    $rendered_included = '';
+    if ( is_array( $included_data ) && ! empty( $included_data ) ) {
+        foreach ( $included_data as $inc ) {
+            $item_text = isset( $inc['item_text'] ) ? $inc['item_text'] : '';
+            if ( ! empty( $item_text ) ) {
+                $rendered_included .= '<div class="inc-item">
+                    <span class="dot">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12.5l4 4L19 7"/>
+                        </svg>
+                    </span>
+                    ' . esc_html( $item_text ) . '
+                </div>';
+            }
+        }
+    }
+
+    // Action buttons parsing
+    $actions_data = array();
+    if ( ! empty( $attributes['actions_list'] ) ) {
+        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+            $actions_data = vc_param_group_parse_atts( $attributes['actions_list'] );
+        } else {
+            $actions_data = json_decode( urldecode( $attributes['actions_list'] ), true );
+        }
+    }
+
+    // Helper closure to render action icon
+    $render_action_icon = function( $source, $predefined_type, $library, $fa_icon, $li_icon, $custom_icon_id ) {
+        if ( $source === 'none' ) {
+            return '';
+        }
+        if ( $source === 'custom' && ! empty( $custom_icon_id ) ) {
+            $custom_url = '';
+            if ( is_numeric( $custom_icon_id ) ) {
+                $img_src = wp_get_attachment_image_src( $custom_icon_id, 'thumbnail' );
+                if ( $img_src ) {
+                    $custom_url = $img_src[0];
+                }
+            } else {
+                $custom_url = $custom_icon_id;
+            }
+            if ( ! empty( $custom_url ) ) {
+                return '<img src="' . esc_url( $custom_url ) . '" alt="" style="width: 18px; height: 18px; display: block; object-fit: contain; flex: none;">';
+            }
+        }
+
+        if ( $source === 'library' ) {
+            if ( $library === 'linecons' ) {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'linecons' );
+                }
+                $icon_class = ! empty( $li_icon ) ? esc_attr( $li_icon ) : 'vc_li vc_li-check';
+                return '<i class="' . $icon_class . '" style="font-size: 16px; color: currentColor; display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; flex: none;"></i>';
+            } else {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'fontawesome' );
+                }
+                $icon_class = ! empty( $fa_icon ) ? esc_attr( $fa_icon ) : 'fa fa-check';
+                return '<i class="' . $icon_class . '" style="font-size: 16px; color: currentColor; display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; flex: none;"></i>';
+            }
+        }
+
+        // Predefined SVGs
+        if ( $predefined_type === 'plus' ) {
+            return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>';
+        }
+        if ( $predefined_type === 'cancel' ) {
+            return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>';
+        }
+        // Card (default)
+        return '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 9.5h19"/></svg>';
+    };
+
+    $rendered_actions = '';
+    if ( is_array( $actions_data ) && ! empty( $actions_data ) ) {
+        foreach ( $actions_data as $action ) {
+            $btn_text             = isset( $action['btn_text'] ) ? $action['btn_text'] : '';
+            $btn_link             = isset( $action['btn_link'] ) ? $action['btn_link'] : '';
+            $icon_source          = isset( $action['icon_source'] ) ? $action['icon_source'] : 'brand';
+            $predefined_icon_type = isset( $action['predefined_icon_type'] ) ? $action['predefined_icon_type'] : 'card';
+            $icon_library         = isset( $action['icon_library'] ) ? $action['icon_library'] : 'fontawesome';
+            $fa_icon              = isset( $action['icon_fontawesome'] ) ? $action['icon_fontawesome'] : '';
+            $li_icon              = isset( $action['icon_linecons'] ) ? $action['icon_linecons'] : '';
+            $custom_icon          = isset( $action['custom_icon'] ) ? $action['custom_icon'] : '';
+
+            $btn_url    = '#';
+            $btn_target = '';
+            if ( ! empty( $btn_link ) ) {
+                if ( strpos( $btn_link, 'url:' ) !== false || strpos( $btn_link, 'title:' ) !== false ) {
+                    $link_data = vc_build_link( $btn_link );
+                    $btn_url   = isset( $link_data['url'] ) ? $link_data['url'] : '#';
+                    $btn_target = isset( $link_data['target'] ) ? $link_data['target'] : '';
+                } else {
+                    $btn_url = $btn_link;
+                }
+            }
+
+            $btn_icon_html = $render_action_icon( $icon_source, $predefined_icon_type, $icon_library, $fa_icon, $li_icon, $custom_icon );
+
+            $rendered_actions .= '<a href="' . esc_url( $btn_url ) . '" class="obtn" ' . ( ! empty( $btn_target ) ? 'target="' . esc_attr( $btn_target ) . '"' : '' ) . '>
+                ' . $btn_icon_html . ' ' . esc_html( $btn_text ) . '
+            </a>';
+        }
+    }
+
+    ob_start();
+    ?>
+    <section id="parents-club-dashboard" style="padding: 0 !important; background-color: transparent !important;">
+        <section class="card sub-card">
+            <div class="sub-top">
+                <img class="logo" src="<?php echo esc_url( $logo_url ); ?>" alt="eMathSmart">
+                <span class="active-pill"><?php echo esc_html( $attributes['status_text'] ); ?></span>
+                <?php if ( ! empty( $attributes['portal_btn_text'] ) ) : ?>
+                    <a href="<?php echo esc_url( $portal_url ); ?>" class="go-btn" <?php echo ! empty( $portal_target ) ? 'target="' . $portal_target . '"' : ''; ?>>
+                        <?php echo esc_html( $attributes['portal_btn_text'] ); ?>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 17 17 7M9 7h8v8"></path>
+                        </svg>
+                    </a>
+                <?php endif; ?>
+            </div>
+
+            <h2 class="sub-title"><?php echo esc_html( $attributes['title'] ); ?></h2>
+
+            <div class="sub-body">
+                <!-- Illustration -->
+                <img class="illu" src="<?php echo esc_url( $tablet_url ); ?>" alt="eMathSmart tablet, books and supplies">
+
+                <!-- Details list -->
+                <div class="details">
+                    <?php echo $rendered_details; ?>
+                </div>
+
+                <!-- What's included -->
+                <div class="included">
+                    <h4><?php echo esc_html( $attributes['included_title'] ); ?></h4>
+                    <?php echo $rendered_included; ?>
+                </div>
+            </div>
+
+            <?php if ( ! empty( $rendered_actions ) ) : ?>
+                <div class="actions">
+                    <?php echo $rendered_actions; ?>
+                </div>
+            <?php endif; ?>
+        </section>
+    </section>
+    <?php
+    return ob_get_clean();
+}
+
+
+// -----------------------------------------------------------------------------
+// SECTION 9: [parents_club_member_account_overview] Shortcode Handler
+// -----------------------------------------------------------------------------
+
+add_shortcode( 'parents_club_member_account_overview', 'idl_loader_parents_club_member_account_overview_shortcode' );
+
+function idl_loader_parents_club_member_account_overview_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'title'      => 'Account Overview',
+        'items_list' => '',
+    ), $atts );
+
+    // Enqueue account overview stylesheet
+    wp_enqueue_style( 'parents-club-dashboard-account-overview', plugins_url( 'templates/css/parents-club-dashboard-account-overview.css', __FILE__ ) );
+
+    $title = esc_html( $attributes['title'] );
+
+    // Parse items param group
+    $items_data = array();
+    if ( ! empty( $attributes['items_list'] ) ) {
+        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+            $items_data = vc_param_group_parse_atts( $attributes['items_list'] );
+        } else {
+            $items_data = json_decode( urldecode( $attributes['items_list'] ), true );
+        }
+    }
+
+    // Helper closure to render overview item icon
+    $render_item_icon = function( $source, $predefined_type, $library, $fa_icon, $li_icon, $custom_icon_id ) {
+        if ( $source === 'custom' && ! empty( $custom_icon_id ) ) {
+            $custom_url = '';
+            if ( is_numeric( $custom_icon_id ) ) {
+                $img_src = wp_get_attachment_image_src( $custom_icon_id, 'thumbnail' );
+                if ( $img_src ) {
+                    $custom_url = $img_src[0];
+                }
+            } else {
+                $custom_url = $custom_icon_id;
+            }
+            if ( ! empty( $custom_url ) ) {
+                return '<img src="' . esc_url( $custom_url ) . '" alt="" style="width: 24px; height: 24px; display: block; object-fit: contain;">';
+            }
+        }
+
+        if ( $source === 'library' ) {
+            if ( $library === 'linecons' ) {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'linecons' );
+                }
+                $icon_class = ! empty( $li_icon ) ? esc_attr( $li_icon ) : 'vc_li vc_li-user';
+                return '<i class="' . $icon_class . '" style="font-size: 20px; color: currentColor; display: inline-flex; align-items: center; justify-content: center;"></i>';
+            } else {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'fontawesome' );
+                }
+                $icon_class = ! empty( $fa_icon ) ? esc_attr( $fa_icon ) : 'fa fa-user';
+                return '<i class="' . $icon_class . '" style="font-size: 20px; color: currentColor; display: inline-flex; align-items: center; justify-content: center;"></i>';
+            }
+        }
+
+        // Predefined SVGs
+        if ( $predefined_type === 'chart' ) {
+            return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>';
+        }
+        if ( $predefined_type === 'gear' ) {
+            return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>';
+        }
+        // Graduation (default)
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+        </svg>';
+    };
+
+    $rendered_items = '';
+    if ( is_array( $items_data ) && ! empty( $items_data ) ) {
+        $count = count( $items_data );
+        $i = 0;
+        foreach ( $items_data as $item ) {
+            $item_title           = isset( $item['item_title'] ) ? $item['item_title'] : '';
+            $desc_line1           = isset( $item['desc_line1'] ) ? $item['desc_line1'] : '';
+            $desc_line2           = isset( $item['desc_line2'] ) ? $item['desc_line2'] : '';
+            $action_text          = isset( $item['action_text'] ) ? $item['action_text'] : '';
+            $action_link          = isset( $item['action_link'] ) ? $item['action_link'] : '';
+            $icon_source          = isset( $item['icon_source'] ) ? $item['icon_source'] : 'brand';
+            $predefined_icon_type = isset( $item['predefined_icon_type'] ) ? $item['predefined_icon_type'] : 'graduation';
+            $icon_library         = isset( $item['icon_library'] ) ? $item['icon_library'] : 'fontawesome';
+            $fa_icon              = isset( $item['icon_fontawesome'] ) ? $item['icon_fontawesome'] : '';
+            $li_icon              = isset( $item['icon_linecons'] ) ? $item['icon_linecons'] : '';
+            $custom_icon          = isset( $item['custom_icon'] ) ? $item['custom_icon'] : '';
+
+            $action_url    = '#';
+            $action_target = '';
+            if ( ! empty( $action_link ) ) {
+                if ( strpos( $action_link, 'url:' ) !== false || strpos( $action_link, 'title:' ) !== false ) {
+                    $link_data = vc_build_link( $action_link );
+                    $action_url = isset( $link_data['url'] ) ? $link_data['url'] : '#';
+                    $action_target = isset( $link_data['target'] ) ? $link_data['target'] : '';
+                } else {
+                    $action_url = $action_link;
+                }
+            }
+
+            $item_icon_html = $render_item_icon( $icon_source, $predefined_icon_type, $icon_library, $fa_icon, $li_icon, $custom_icon );
+
+            $rendered_items .= '<div class="overview-item">
+                <div class="overview-icon-box">
+                    ' . $item_icon_html . '
+                </div>
+                <div class="overview-details">
+                    <div class="item-title">' . esc_html( $item_title ) . '</div>';
+            if ( ! empty( $desc_line1 ) ) {
+                $rendered_items .= '<div class="item-desc">' . esc_html( $desc_line1 ) . '</div>';
+            }
+            if ( ! empty( $desc_line2 ) ) {
+                $rendered_items .= '<div class="item-desc">' . esc_html( $desc_line2 ) . '</div>';
+            }
+            if ( ! empty( $action_text ) ) {
+                $rendered_items .= '<a class="item-link" href="' . esc_url( $action_url ) . '" ' . ( ! empty( $action_target ) ? 'target="' . esc_attr( $action_target ) . '"' : '' ) . '>' . esc_html( $action_text ) . '</a>';
+            }
+            $rendered_items .= '</div>
+            </div>';
+
+            $i++;
+            if ( $i < $count ) {
+                $rendered_items .= '<div class="overview-divider"></div>';
+            }
+        }
+    }
+
+    ob_start();
+    ?>
+    <section id="parents-club-dashboard" style="padding: 0 !important; background-color: transparent !important; margin-top: 0 !important;">
+        <div id="account-overview" style="margin-top: 0 !important;">
+            <?php if ( ! empty( $title ) ) : ?>
+                <h3 class="overview-title"><?php echo $title; ?></h3>
+            <?php endif; ?>
+            <div class="overview-content">
+                <?php echo $rendered_items; ?>
+            </div>
+        </div>
+    </section>
+    <?php
+    return ob_get_clean();
+}
+
 
 

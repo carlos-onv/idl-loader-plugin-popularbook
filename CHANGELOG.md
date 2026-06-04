@@ -11,6 +11,11 @@ All notable changes to this project will be documented in this file for both hum
   - Linked the new account overview stylesheet contextually inside the `<head>` of [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html).
   - Integrated the clean, semantic markup structure for `#account-overview` directly inside the `.container` element as a sibling below the main cards layout inside the staging sandbox mockup.
   - Replaced the font-based icon codes in the Account Overview component with high-fidelity inline SVGs to remove dependencies on external icon fonts.
+- **WPBakery Elements mapping and shortcode implementation**:
+  - Registered `parents_club_member_subscription` shortcode element under "eMathSmart Elements" category, mapping parameters for custom logo, active status badge, tablet graphic, details list, included checklist items, and bottom buttons.
+  - Registered `parents_club_member_account_overview` shortcode element under "eMathSmart Elements" category, mapping parameters for section title and repeatable grid items (with title, description lines, actions, and custom/FontAwesome/Linecons/predefined icon picker options).
+  - Defined shortcode class binders `WPBakeryShortCode_parents_club_member_subscription` and `WPBakeryShortCode_parents_club_member_account_overview` for editor layout support.
+  - Implemented the respective shortcode rendering handlers `idl_loader_parents_club_member_subscription_shortcode` and `idl_loader_parents_club_member_account_overview_shortcode` to parse administrative inputs and dynamically enqueue their standalone stylesheets (`parents-club-dashboard-subscription.css` and `parents-club-dashboard-account-overview.css`) contextually inside the shortcode execution.
 
 ### Changed
 - **Member Dashboard Template Overhaul**:
@@ -34,6 +39,13 @@ All notable changes to this project will be documented in this file for both hum
 ### Technical Notes for AI Agents
 - The newly structured member dashboard HTML has been integrated into the sandbox template.
 - All styles are insulated contextually under the `#parents-club-dashboard` container selector.
+- **Shortcode `[parents_club_member_subscription]`**:
+  - Visual Composer Base: `parents_club_member_subscription`
+  - Associated Class: `WPBakeryShortCode_parents_club_member_subscription`
+- **Shortcode `[parents_club_member_account_overview]`**:
+  - Visual Composer Base: `parents_club_member_account_overview`
+  - Associated Class: `WPBakeryShortCode_parents_club_member_account_overview`
+- Both elements support modular parameters (custom image uploads, icon pickers, and repeatable WPBakery `param_group` inputs).
 
 ## [2026-06-03] - Parents Club Member Quick Links WPBakery Element
 
