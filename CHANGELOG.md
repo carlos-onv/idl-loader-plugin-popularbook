@@ -2,14 +2,17 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-06-04] - paymentNotify API subscribeId Fix
+## [2026-06-04] - paymentNotify and refundNotify API v1.4 Pure Integration
 
 ### Fixed
-- **Missing subscribeId Field in paymentNotify API:** Re-added the body-only `subscribeId` and `subscriptionId` fields to both Type 1 (Subscriptions) and Type 2 (AI Coins / Additional Packages) JSON webhook payloads for the `paymentNotify` (API #5) endpoint. Both fields are excluded from HMAC signature generation to ensure signature compatibility and avoid `20306` validation errors.
+- **Missing subscribeId Field in paymentNotify API:** Migrated both `paymentNotify` (API #5) and `refundNotify` (API #6) endpoints from the hybrid v1.3/v1.4 signing model to a pure v1.4 signature flow.
+- **Payload Alignment:** Renamed the parameter name to `subscribeId` (formerly `subscriptionId`) in the payload for API #5.
+- **Type Coercion Alignment:** Added force integer casting to `$additional_packages` to prevent float/string representation mismatches between the signed string and the JSON request body.
+- **Full Signature Verification Support:** Computes HMAC-SHA256 signatures by signing all request payload parameters alphabetically, eliminating the deprecated v1.3 fields (`parentClubParentId` and `parentClubSubscriptionId`) and resolving the remote `20306` (Invalid signature) validation errors.
 
 ### Technical Notes for AI Agents
-- The eMathSmart validator requires the `subscribeId` body field.
-- For Type 2 (AI Coins) transactions, the active subscription for the customer is fetched dynamically via `wcs_get_subscriptions()` to populate the `subscribeId` and `subscriptionId` fields in the request body.
+- Staging environment has been updated to pure v1.4 signature flow (deployed June 1st).
+- Outgoing API payloads for `paymentNotify` and `refundNotify` now align perfectly with the v1.4 schema and test cases, containing only `parentId`, `subscribeId`, and other v1.4 parameters.
 
 ## [2026-06-04] - Member Dashboard & Account Overview High-Fidelity Redesign
 

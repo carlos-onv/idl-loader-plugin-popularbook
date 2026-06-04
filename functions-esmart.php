@@ -289,53 +289,34 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
             if ($subscription_type == 'Payment') {
                 $url = "https://test.emathsmart.ca/api/user-center/order/paymentNotify";
 
-                $additional_packages = emathsmart_order_has_additional_packages($order_id);
+                $additional_packages = (int) emathsmart_order_has_additional_packages($order_id);
 
                 if ($additional_packages > 0) {
                     // --- TYPE 2 PAYMENT (AI Coins / Additional Packages) ---
                     $sign_params = [
-                        'appId' => 'ParentClub',
-                        'timestamp' => (string) $now,
-                        'nonce' => $nonce,
-                        'orderId' => (string) $order_id,
-                        'parentClubParentId' => (string) $order->get_user_id(), // v1.3 Staging Support
-                        'type' => '2',
-                        'payStatus' => '1',
-                        'payAmount' => number_format((float) $order->get_total(), 2, '.', ''),
-                        'payTimestamp' => (string) $now,
+                        'appId'                     => 'ParentClub',
+                        'timestamp'                 => (string) $now,
+                        'nonce'                     => $nonce,
+                        'orderId'                   => (string) $order_id,
+                        'parentId'                  => (string) $order->get_user_id(),
+                        'type'                      => '2',
+                        'payStatus'                 => '1',
+                        'payAmount'                 => number_format((float) $order->get_total(), 2, '.', ''),
+                        'payTimestamp'              => (string) $now,
                         'additionalPackageQuantity' => (string) $additional_packages,
                     ];
-                    $post_body = $sign_params;
-                    $post_body['timestamp'] = (int) $now;
-                    $post_body['type'] = 2;
-                    $post_body['payStatus'] = 1;
-                    $post_body['payTimestamp'] = (int) $now;
-                    $post_body['additionalPackageQuantity'] = (int) $additional_packages;
-                    
-                    // Dual-Key Support: Send both sets of keys to satisfy v1.4 validator + v1.3 signature code
-                    $post_body['parentId'] = (string) $order->get_user_id(); // v1.4 Validator Support
-
-                    // Retrieve active subscription ID for the user to populate subscribeId
-                    $wc_subscription_id = '';
-                    if (function_exists('wcs_get_subscriptions')) {
-                        $subscriptions = wcs_get_subscriptions(array(
-                            'customer_id' => $order->get_user_id(),
-                            'subscription_status' => 'active',
-                        ));
-                        if (empty($subscriptions)) {
-                            $subscriptions = wcs_get_subscriptions(array(
-                                'customer_id' => $order->get_user_id(),
-                            ));
-                        }
-                        if (!empty($subscriptions)) {
-                            $sub = reset($subscriptions);
-                            $wc_subscription_id = (string) $sub->get_id();
-                        }
-                    }
-                    if ($wc_subscription_id) {
-                        $post_body['subscribeId'] = $wc_subscription_id;
-                        $post_body['subscriptionId'] = $wc_subscription_id; // Include both to be safe
-                    }
+                    $post_body = [
+                        'appId'                     => 'ParentClub',
+                        'timestamp'                 => (int) $now,
+                        'nonce'                     => $nonce,
+                        'orderId'                   => (string) $order_id,
+                        'parentId'                  => (string) $order->get_user_id(),
+                        'type'                      => 2,
+                        'payStatus'                 => 1,
+                        'payAmount'                 => number_format((float) $order->get_total(), 2, '.', ''),
+                        'payTimestamp'              => (int) $now,
+                        'additionalPackageQuantity' => (int) $additional_packages,
+                    ];
                 } else {
                     // --- TYPE 1 PAYMENT (Subscriptions) ---
                     $wc_subscription_id = (string) $order_id; // Fallback
@@ -379,43 +360,36 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     }
 
                     $sign_params = [
-                        'appId' => 'ParentClub',
-                        'timestamp' => (string) $now,
-                        'nonce' => $nonce,
-                        'orderId' => (string) $order_id,
-                        'parentClubParentId' => (string) $order->get_user_id(), // v1.3 Staging Support
-                        'type' => '1',
-                        'payStatus' => '1',
-                        'payAmount' => number_format((float) $order->get_total(), 2, '.', ''),
-                        'payTimestamp' => (string) $now,
-                        'expireTimestamp' => (string) $expireTimestamp,
+                        'appId'            => 'ParentClub',
+                        'timestamp'        => (string) $now,
+                        'nonce'            => $nonce,
+                        'orderId'          => (string) $order_id,
+                        'parentId'         => (string) $order->get_user_id(),
+                        'type'             => '1',
+                        'payStatus'        => '1',
+                        'payAmount'        => number_format((float) $order->get_total(), 2, '.', ''),
+                        'payTimestamp'     => (string) $now,
+                        'expireTimestamp'  => (string) $expireTimestamp,
                         'subscriptionType' => (string) $subscriptionType,
-                        'trialType' => (string) $trialType,
-                        'parentClubSubscriptionId' => $wc_subscription_id, // v1.3 Staging Support
+                        'trialType'        => (string) $trialType,
+                        'subscribeId'      => (string) $wc_subscription_id,
                     ];
-                    $post_body = $sign_params;
-                    $post_body['timestamp'] = (int) $now;
-                    $post_body['type'] = 1;
-                    $post_body['payStatus'] = 1;
-                    $post_body['payTimestamp'] = (int) $now;
-                    $post_body['expireTimestamp'] = (int) $expireTimestamp;
-                    $post_body['subscriptionType'] = (int) $subscriptionType;
-                    $post_body['trialType'] = (int) $trialType;
-                    
-                    // Dual-Key Support: v1.4 keys go in the JSON body but are EXCLUDED from HMAC signature.
-                    // Signing with all 13 v1.3 fields (parentClubParentId + parentClubSubscriptionId).
-                    // The server detects v1.4 mode only when BOTH parentId AND subscriptionId are present
-                    // in the body — it then strips them from its own HMAC recomputation and verifies
-                    // against the 13 v1.3 fields, which matches our signature.
-                    // NOTE: field name is subscriptionId (not subscribeId) — confirmed by probe B7_B 200 OK.
-                    // However, Jatin's team reported that payment notification API was missing the subscribeId field.
-                    // To satisfy both requirements, we send parentId, subscriptionId AND subscribeId.
-                    $post_body['parentId']       = (string) $order->get_user_id(); // v1.4 body-only
-                    $post_body['subscriptionId'] = $wc_subscription_id;            // v1.4 body-only
-                    $post_body['subscribeId']    = $wc_subscription_id;            // v1.4 body-only (re-added to satisfy "missing subscribeId" feedback)
+                    $post_body = [
+                        'appId'            => 'ParentClub',
+                        'timestamp'        => (int) $now,
+                        'nonce'            => $nonce,
+                        'orderId'          => (string) $order_id,
+                        'parentId'         => (string) $order->get_user_id(),
+                        'type'             => 1,
+                        'payStatus'        => 1,
+                        'payAmount'        => number_format((float) $order->get_total(), 2, '.', ''),
+                        'payTimestamp'     => (int) $now,
+                        'expireTimestamp'  => (int) $expireTimestamp,
+                        'subscriptionType' => (int) $subscriptionType,
+                        'trialType'        => (int) $trialType,
+                        'subscribeId'      => (string) $wc_subscription_id,
+                    ];
                 }
-                // NOTE: $sign_params is intentionally NOT updated here — parentId/subscriptionId must
-                // be excluded from the HMAC plaintext per eMathSmart API #5 signing rules.
 
             } else if ($subscription_type == 'refund') {
                 $url = "https://test.emathsmart.ca/api/user-center/order/refundNotify";
@@ -425,16 +399,20 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
 
                 $sign_params = [
                     'appId'           => 'ParentClub',
-                    'orderId'         => (string) $order_id,
                     'timestamp'       => (string) $now,
                     'nonce'           => $nonce,
+                    'orderId'         => (string) $order_id,
+                    'parentId'        => (string) $order->get_user_id(),
+                    'refundTimestamp' => (string) $refundTimestamp,
                 ];
-                $post_body = $sign_params;
-                // parentId and refundTimestamp are body-only — excluded from HMAC signature per API #6 rule.
-                // Including them in $sign_params triggers 20306. $sign_params keeps only the 4 base fields.
-                $post_body['parentId'] = (string) $order->get_user_id(); // body-only per API #6 spec
-                $post_body['refundTimestamp'] = (int) $refundTimestamp;  // body-only per API #6 spec
-                $post_body['timestamp'] = (int) $now;
+                $post_body = [
+                    'appId'           => 'ParentClub',
+                    'timestamp'       => (int) $now,
+                    'nonce'           => $nonce,
+                    'orderId'         => (string) $order_id,
+                    'parentId'        => (string) $order->get_user_id(),
+                    'refundTimestamp' => (int) $refundTimestamp,
+                ];
 
             } else if ($subscription_type == 'public_exams') {
                 $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
@@ -488,6 +466,10 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     $pairs[] = $k . '=' . $v;
             }
             $content = implode('&', $pairs);
+            if ($debug) {
+                echo "DEBUG - Secret: " . $secret . "\n";
+                echo "DEBUG - Content: " . $content . "\n";
+            }
             $hash = hash_hmac('sha256', $content, $secret, true);
             $signature = rtrim(strtr(base64_encode($hash), '+/', '-_'), '=');
 
