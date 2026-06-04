@@ -5,6 +5,7 @@
  */
 
 #parents-club-dashboard .bill-card {
+    border: 1px solid #e9ebef !important;
     padding: 20px 24px !important;
 }
 

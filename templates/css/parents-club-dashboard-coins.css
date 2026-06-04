@@ -5,6 +5,7 @@
  */
 
 #parents-club-dashboard .coins-card {
+    border: 1px solid #e9ebef !important;
     padding: 22px 24px !important;
 }
 
