@@ -638,6 +638,44 @@ function restapi_orderRefundCompensate($request) {
     ], 200);
 }
 
+/**
+ * REST API Endpoint for retrieving current user's AI Coin balance
+ * Endpoint: GET /wp-json/wp/v2/member/coin-balance
+ */
+add_action('rest_api_init', function () {
+    register_rest_route('wp/v2', '/member/coin-balance', [
+        'methods'             => 'GET',
+        'callback'            => 'restapi_get_user_coin_balance',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
+    ]);
+});
+
+function restapi_get_user_coin_balance($request) {
+    $user_id = get_current_user_id();
+    if (empty($user_id)) {
+        return new WP_REST_Response([
+            'success' => 0,
+            'message' => 'User not logged in'
+        ], 401);
+    }
+
+    $bypass_cache = $request->get_param('refresh') === 'true';
+    if ($bypass_cache) {
+        delete_transient('emathsmart_coin_balance_' . $user_id);
+    }
+
+    $balance = emathsmart_get_user_coin_balance($user_id);
+
+    return new WP_REST_Response([
+        'success' => 1,
+        'coinBalance' => $balance
+    ], 200);
+}
+
+?>
+
 
 
 

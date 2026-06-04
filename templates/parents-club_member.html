@@ -678,7 +678,7 @@
                       <div class="rh">AI Coins Balance</div>
                       <div class="coin-row">
                         <img class="coin-ic" src="images/coin.png" alt="AI coin">
-                        <span class="coin-amt">120 <span>coins</span></span>
+                        <span class="coin-amt" id="pc-member-coin-balance-val"><span class="coin-shimmer"></span> <span>coins</span></span>
                       </div>
                       <p class="coins-desc">Use AI coins to chat with your AI helper, and mark worksheets.</p>
 
@@ -1189,6 +1189,13 @@
                     }
                 });
             });
+            /* Simulate loading the dynamic AI Coins Balance in the sandbox mockup */
+            setTimeout(function() {
+                var balanceVal = document.getElementById("pc-member-coin-balance-val");
+                if (balanceVal) {
+                    balanceVal.innerHTML = '120 <span>coins</span>';
+                }
+            }, 1200);
         });
     </script>
 </body>

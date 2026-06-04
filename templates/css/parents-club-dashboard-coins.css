@@ -101,3 +101,25 @@
 #parents-club-dashboard .buy-btn:hover {
     filter: brightness(1.05) !important;
 }
+
+/* AI Coins Shimmer Loading Animation */
+#parents-club-dashboard .coin-shimmer {
+    display: inline-block !important;
+    width: 60px !important;
+    height: 32px !important;
+    background: linear-gradient(90deg, #f3f3f3 25%, #e6e6e6 50%, #f3f3f3 75%) !important;
+    background-size: 200% 100% !important;
+    animation: pcCoinShimmerKeyframes 1.5s infinite !important;
+    border-radius: 6px !important;
+    vertical-align: middle !important;
+}
+
+@keyframes pcCoinShimmerKeyframes {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+

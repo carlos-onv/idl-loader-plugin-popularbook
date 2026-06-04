@@ -1732,3 +1732,67 @@ function emathsmart_sig_probe_test()
     echo '</body></html>';
     exit;
 }
+
+/**
+ * Diagnostic tool to manually test eMathSmart coin balance retrieval API.
+ * Triggered via URL: ?run_coin_balance_test=1
+ */
+add_action('init', 'emathsmart_run_coin_balance_diagnostic');
+function emathsmart_run_coin_balance_diagnostic() {
+    if (!isset($_GET['run_coin_balance_test'])) {
+        return;
+    }
+
+    if (!current_user_can('manage_options')) {
+        wp_die('Unauthorized access.');
+    }
+
+    // Default test user ID
+    $user_id = get_current_user_id();
+    if (empty($user_id)) {
+        $users = get_users(['role' => 'customer', 'number' => 1]);
+        if (!empty($users)) {
+            $user_id = $users[0]->ID;
+        } else {
+            $user_id = 1;
+        }
+    }
+
+    // Bypass cache to force direct API call
+    delete_transient('emathsmart_coin_balance_' . $user_id);
+
+    echo '<html><head><title>eMathSmart Coin Balance API Diagnostic</title>';
+    echo '<style>body{font-family:sans-serif;background:#fafbfc;color:#333;padding:40px;} pre{background:#fff;border:1px solid #ddd;padding:15px;border-radius:6px;overflow-x:auto;}</style></head><body>';
+    echo '<h1>🪙 eMathSmart Coin Balance API Diagnostic</h1>';
+    echo '<p>Attempting to retrieve coin balance for User ID: <strong>' . $user_id . '</strong></p>';
+
+    $start_time = microtime(true);
+    $balance = emathsmart_get_user_coin_balance($user_id);
+    $end_time = microtime(true);
+    $duration = round(($end_time - $start_time) * 1000, 2);
+
+    echo '<h2>📊 Results</h2>';
+    echo '<ul>';
+    echo '<li>Coin Balance Retrieved: <strong>' . $balance . ' coins</strong></li>';
+    echo '<li>API Call Latency: <strong>' . $duration . ' ms</strong></li>';
+    echo '</ul>';
+
+    // Retrieve error logs if any occurred
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'emathsmart_log';
+    $error_log = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE api_type = 'API_COIN_BALANCE' ORDER BY id DESC LIMIT 1"));
+    
+    if ($error_log) {
+        echo '<h2>📝 Last API Log</h2>';
+        echo '<pre>';
+        print_r($error_log);
+        echo '</pre>';
+    } else {
+        echo '<h2>✅ No API errors logged for API_COIN_BALANCE</h2>';
+    }
+
+    echo '<p><a href="?run_coin_balance_test=1" style="background:#007aff;color:#fff;padding:8px 16px;text-decoration:none;border-radius:4px;">Run Test Again</a></p>';
+    echo '</body></html>';
+    exit;
+}
+

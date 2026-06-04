@@ -3205,6 +3205,81 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
+
+    // Register [parents_club_member_coins] Element
+    vc_map( array(
+        "name"        => esc_html__( "Parents Club AI Coins Card", "book-junky" ),
+        "base"        => "parents_club_member_coins",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "AI Coins balance card showing parent's coins and coin package purchase grids.", "book-junky" ),
+        "params"      => array(
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Card Title", "book-junky" ),
+                "param_name"  => "title",
+                "value"       => esc_html__( "AI Coins Balance", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Coin Image", "book-junky" ),
+                "param_name"  => "coin_image",
+                "description" => esc_html__( "Upload or select coin visual icon.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textarea",
+                "heading"     => esc_html__( "Card Description", "book-junky" ),
+                "param_name"  => "description",
+                "value"       => esc_html__( "Use AI coins to chat with your AI helper, and mark worksheets.", "book-junky" ),
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Purchase Header", "book-junky" ),
+                "param_name"  => "purchase_title",
+                "value"       => esc_html__( "Purchase AI Coins", "book-junky" ),
+            ),
+            // Repeatable packages grid
+            array(
+                "type"        => "param_group",
+                "heading"     => esc_html__( "Coin Packages", "book-junky" ),
+                "param_name"  => "packages_list",
+                "description" => esc_html__( "Configure coin purchase options.", "book-junky" ),
+                "value"       => urlencode( json_encode( array(
+                    array(
+                        'package_qty'   => '100 Coins',
+                        'package_price' => '$5.99',
+                        'package_link'  => '',
+                    ),
+                    array(
+                        'package_qty'   => '250 Coins',
+                        'package_price' => '$9.99',
+                        'package_link'  => '',
+                    ),
+                ) ) ),
+                "params"      => array(
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Quantity (e.g. 100 Coins)", "book-junky" ),
+                        "param_name"  => "package_qty",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Price (e.g. $5.99)", "book-junky" ),
+                        "param_name"  => "package_price",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "vc_link",
+                        "heading"     => esc_html__( "Buy Button Link", "book-junky" ),
+                        "param_name"  => "package_link",
+                        "description" => esc_html__( "Link to checkout or product page variation.", "book-junky" ),
+                    ),
+                )
+            ),
+        )
+    ) );
 }
 
 
@@ -4856,6 +4931,10 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     class WPBakeryShortCode_parents_club_member_account_overview extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for Member Account Overview panel
     }
+
+    class WPBakeryShortCode_parents_club_member_coins extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for Member Coins card
+    }
 }
 
 // Register [parents_club_need_help] Shortcode
@@ -6290,6 +6369,155 @@ function idl_loader_parents_club_member_account_overview_shortcode( $atts ) {
             </div>
         </div>
     </section>
+    <?php
+    return ob_get_clean();
+}
+
+
+// -----------------------------------------------------------------------------
+// SECTION 10: [parents_club_member_coins] Shortcode Handler
+// -----------------------------------------------------------------------------
+
+add_shortcode( 'parents_club_member_coins', 'idl_loader_parents_club_member_coins_shortcode' );
+
+function idl_loader_parents_club_member_coins_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'title'          => 'AI Coins Balance',
+        'coin_image'     => '',
+        'description'    => 'Use AI coins to chat with your AI helper, and mark worksheets.',
+        'purchase_title' => 'Purchase AI Coins',
+        'packages_list'  => '',
+    ), $atts );
+
+    // Enqueue the modular coins stylesheet contextually
+    wp_enqueue_style( 'parents-club-dashboard-coins', plugins_url( 'templates/css/parents-club-dashboard-coins.css', __FILE__ ) );
+
+    $title = esc_html( $attributes['title'] );
+    $description = esc_html( $attributes['description'] );
+    $purchase_title = esc_html( $attributes['purchase_title'] );
+
+    // Resolve Coin Image
+    $coin_img_url = '';
+    if ( ! empty( $attributes['coin_image'] ) ) {
+        if ( is_numeric( $attributes['coin_image'] ) ) {
+            $img_src = wp_get_attachment_image_src( $attributes['coin_image'], 'full' );
+            if ( $img_src ) {
+                $coin_img_url = $img_src[0];
+            }
+        } else {
+            $coin_img_url = $attributes['coin_image'];
+        }
+    }
+    if ( empty( $coin_img_url ) ) {
+        $coin_img_url = plugins_url( 'templates/images/coin.png', __FILE__ );
+    }
+
+    // Parse packages list repeatable container
+    $packages_data = array();
+    if ( ! empty( $attributes['packages_list'] ) ) {
+        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+            $packages_data = vc_param_group_parse_atts( $attributes['packages_list'] );
+        } else {
+            $packages_data = json_decode( urldecode( $attributes['packages_list'] ), true );
+        }
+    }
+
+    // Fallback if empty
+    if ( empty( $packages_data ) ) {
+        $packages_data = array(
+            array(
+                'package_qty'   => '100 Coins',
+                'package_price' => '$5.99',
+                'package_link'  => '',
+            ),
+            array(
+                'package_qty'   => '250 Coins',
+                'package_price' => '$9.99',
+                'package_link'  => '',
+            ),
+        );
+    }
+
+    $rendered_packages = array();
+    if ( is_array( $packages_data ) ) {
+        foreach ( $packages_data as $pkg ) {
+            $pkg_qty   = isset( $pkg['package_qty'] ) ? $pkg['package_qty'] : '';
+            $pkg_price = isset( $pkg['package_price'] ) ? $pkg['package_price'] : '';
+            $pkg_link  = isset( $pkg['package_link'] ) ? $pkg['package_link'] : '';
+
+            $btn_url    = '#';
+            $btn_target = '';
+
+            if ( ! empty( $pkg_link ) ) {
+                if ( strpos( $pkg_link, 'url:' ) !== false || strpos( $pkg_link, 'title:' ) !== false ) {
+                    $link_data  = vc_build_link( $pkg_link );
+                    $btn_url    = isset( $link_data['url'] ) ? $link_data['url'] : '#';
+                    $btn_target = isset( $link_data['target'] ) ? $link_data['target'] : '';
+                } else {
+                    $btn_url = $pkg_link;
+                }
+            } else {
+                $btn_url = home_url( '/product/ai-coins/' );
+            }
+
+            $rendered_packages[] = array(
+                'qty'    => esc_html( $pkg_qty ),
+                'price'  => esc_html( $pkg_price ),
+                'url'    => esc_url( $btn_url ),
+                'target' => esc_attr( $btn_target ),
+            );
+        }
+    }
+
+    ob_start();
+    ?>
+    <section class="card coins-card">
+        <div class="rh"><?php echo $title; ?></div>
+        <div class="coin-row">
+            <img class="coin-ic" src="<?php echo esc_url( $coin_img_url ); ?>" alt="AI coin">
+            <span class="coin-amt" id="pc-member-coin-balance-val">
+                <span class="coin-shimmer"></span> <span>coins</span>
+            </span>
+        </div>
+        <p class="coins-desc"><?php echo $description; ?></p>
+
+        <?php if ( ! empty( $purchase_title ) ) : ?>
+            <div class="purchase-h"><?php echo $purchase_title; ?></div>
+        <?php endif; ?>
+
+        <?php if ( ! empty( $rendered_packages ) ) : ?>
+            <div class="coin-grid">
+                <?php foreach ( $rendered_packages as $pkg ) : ?>
+                    <div class="coin-opt">
+                        <div class="qty"><?php echo $pkg['qty']; ?></div>
+                        <div class="price"><?php echo $pkg['price']; ?></div>
+                        <a href="<?php echo $pkg['url']; ?>" class="buy-btn" <?php echo ! empty( $pkg['target'] ) ? 'target="' . $pkg['target'] . '"' : ''; ?> style="display: block; text-align: center; text-decoration: none;">BUY NOW</a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </section>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var balanceVal = document.getElementById("pc-member-coin-balance-val");
+        if (!balanceVal) return;
+
+        fetch("<?php echo esc_url_raw( home_url( '/wp-json/wp/v2/member/coin-balance' ) ); ?>")
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                if (data.success && data.coinBalance !== undefined) {
+                    balanceVal.innerHTML = data.coinBalance + ' <span>coins</span>';
+                } else {
+                    balanceVal.innerHTML = '0 <span>coins</span>';
+                }
+            })
+            .catch(function(err) {
+                console.error("Error fetching coin balance:", err);
+                balanceVal.innerHTML = '0 <span>coins</span>';
+            });
+    });
+    </script>
     <?php
     return ob_get_clean();
 }

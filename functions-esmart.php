@@ -1362,3 +1362,86 @@ function emathsmart_scoped_register_url( $register_url ) {
     }
     return $register_url;
 }
+
+/**
+ * Fetch the logged-in user's AI Coin balance from eMathSmart.
+ * Returns the current coin balance integer, caching it for 5 minutes.
+ */
+function emathsmart_get_user_coin_balance( $user_id ) {
+    if ( empty( $user_id ) ) {
+        return 0;
+    }
+
+    $transient_key = 'emathsmart_coin_balance_' . $user_id;
+    $cached_balance = get_transient( $transient_key );
+    if ( $cached_balance !== false ) {
+        return intval( $cached_balance );
+    }
+
+    $now = time();
+    $nonce = bin2hex( random_bytes( 16 ) );
+    $url = "https://test.emathsmart.ca/api/customer-center/getUserCoinBalance";
+    $secret = get_option( 'emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm' );
+
+    $sign_params = [
+        'appId'    => 'ParentClub',
+        'parentId' => (string) $user_id,
+        'timestamp' => (string) $now,
+        'nonce'     => $nonce,
+    ];
+
+    ksort( $sign_params );
+    $pairs = [];
+    foreach ( $sign_params as $k => $v ) {
+        $pairs[] = "$k=$v";
+    }
+    $string = implode( '&', $pairs );
+    $signature = base64_encode( hash_hmac( 'sha256', $string, $secret, true ) );
+    $signature = str_replace( [ '+', '/', '=' ], [ '-', '_', '' ], $signature );
+
+    $post_body = $sign_params;
+    $post_body['signature'] = $signature;
+    $post_body['timestamp'] = (int) $now;
+
+    $response = wp_remote_post( $url, [
+        'body'    => json_encode( $post_body ),
+        'headers' => [ 'Content-Type' => 'application/json' ],
+        'timeout' => 15
+    ] );
+
+    if ( is_wp_error( $response ) ) {
+        emathsmart_log_api_error(
+            0,
+            'API_COIN_BALANCE',
+            1,
+            $post_body,
+            $response->get_error_message(),
+            'WP_Error fetching coin balance',
+            '500'
+        );
+        return 0;
+    }
+
+    $response_code = wp_remote_retrieve_response_code( $response );
+    $response_body = wp_remote_retrieve_body( $response );
+    $body = json_decode( $response_body, true );
+
+    if ( isset( $body['code'] ) && $body['code'] == 200 && isset( $body['data']['coinBalance'] ) ) {
+        $balance = intval( $body['data']['coinBalance'] );
+        set_transient( $transient_key, $balance, 300 );
+        return $balance;
+    } else {
+        emathsmart_log_api_error(
+            0,
+            'API_COIN_BALANCE',
+            1,
+            $post_body,
+            $response_body,
+            'Error response code or missing coinBalance data',
+            (string) $response_code
+        );
+    }
+
+    return 0;
+}
+

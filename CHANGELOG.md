@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-04] - eMathSmart AI Coin Balance API & WPBakery Element
+
+### Added
+- **Dynamic Coin Balance API & Asynchronous Fetch:**
+  - Defined `emathsmart_get_user_coin_balance()` helper in [functions-esmart.php](file:///wp-content/plugins/idl-loader/functions-esmart.php) utilizing v1.4 parameters (`appId`, `nonce`, `parentId`, `timestamp`), sorted alphabetically and signed with HMAC-SHA256. Includes 5-minute transient caching.
+  - Registered authenticated REST API endpoint `GET /wp-json/wp/v2/member/coin-balance` in [functions-restapi.php](file:///wp-content/plugins/idl-loader/functions-restapi.php) to support asynchronous AJAX fetches from the member dashboard.
+  - Implemented custom WPBakery shortcode element `parents_club_member_coins` in [functions-wpbakery-elements.php](file:///wp-content/plugins/idl-loader/functions-wpbakery-elements.php) supporting text fields, coin image attach, and a repeatable `param_group` list container for purchase packages.
+  - Contextually enqueues `parents-club-dashboard-coins.css` and loads the balance asynchronously via Javascript API fetch with a premium, animated shimmer skeleton loader while the network request is in flight.
+- **Diagnostic Tooling:**
+  - Registered `emathsmart_run_coin_balance_diagnostic()` triggerable via `?run_coin_balance_test=1` in [functions-esmart-debug.php](file:///wp-content/plugins/idl-loader/functions-esmart-debug.php) for administrators to verify API latency, signature sorting correctness, and inspect the logged request payloads and database responses.
+- **Mockup Enhancement:**
+  - Integrated the shimmer loader elements and timeout simulation script in [parents-club_member.html](file:///wp-content/plugins/idl-loader/templates/parents-club_member.html) sandbox layout.
+- **Insulated Styling:**
+  - Appended high-fidelity `.coin-shimmer` loading styles and `@keyframes pcCoinShimmerKeyframes` animation to [parents-club-dashboard-coins.css](file:///wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
+
+### Technical Notes for AI Agents
+- **API Spec Proposal for eMathSmart:** The `getUserCoinBalance` endpoint expects parameters signed alphabetically: `appId`, `nonce`, `parentId`, `timestamp`. eMathSmart must handle session-bypassing HMAC validation for server-to-server queries (just like they did for `getPublicExamQuestions`), returning `coinBalance` under a `data` JSON object on `200 OK`.
+- **WordPress REST Hook Endpoint:** `GET /wp-json/wp/v2/member/coin-balance` is guarded by `is_user_logged_in()`. It handles cache bypass with `?refresh=true` to delete local transients.
+
 ## [2026-06-04] - paymentNotify and refundNotify API v1.4 Pure Integration
 
 ### Fixed
