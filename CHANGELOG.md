@@ -25,6 +25,9 @@ All notable changes to this project will be documented in this file for both hum
     - [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css)
   - Scoped all CSS rules under `#parents-club-dashboard` and applied strict Porto/WordPress theme insulation controls.
   - Removed the background color from the `.included` element inside the subscription component stylesheet.
+- **Member Dashboard & Account Overview Layout Backgrounds**:
+  - Removed the global cream background (`var(--cream)`) from `#parents-club-dashboard` to let it blend cleanly into the main WordPress theme container.
+  - Added the cream background color (`var(--cream)`) specifically to the `.card.sub-card` subscription card component and the `#account-overview` component for high-fidelity contrast.
 
 ### Technical Notes for AI Agents
 - The newly structured member dashboard HTML has been integrated into the sandbox template.
