@@ -3222,6 +3222,13 @@ function idl_loader_register_parents_club_elements() {
                 "admin_label" => true,
             ),
             array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "AI Coins Balance (Placeholder)", "book-junky" ),
+                "param_name"  => "balance",
+                "value"       => "120",
+                "description" => esc_html__( "Set the static balance value to display until the API is implemented.", "book-junky" ),
+            ),
+            array(
                 "type"        => "attach_image",
                 "heading"     => esc_html__( "Coin Image", "book-junky" ),
                 "param_name"  => "coin_image",
@@ -6383,6 +6390,7 @@ add_shortcode( 'parents_club_member_coins', 'idl_loader_parents_club_member_coin
 function idl_loader_parents_club_member_coins_shortcode( $atts ) {
     $attributes = shortcode_atts( array(
         'title'          => 'AI Coins Balance',
+        'balance'        => '120',
         'coin_image'     => '',
         'description'    => 'Use AI coins to chat with your AI helper, and mark worksheets.',
         'purchase_title' => 'Purchase AI Coins',
@@ -6393,6 +6401,7 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
     wp_enqueue_style( 'parents-club-dashboard-coins', plugins_url( 'templates/css/parents-club-dashboard-coins.css', __FILE__ ) );
 
     $title = esc_html( $attributes['title'] );
+    $balance = esc_html( $attributes['balance'] );
     $description = esc_html( $attributes['description'] );
     $purchase_title = esc_html( $attributes['purchase_title'] );
 
@@ -6476,7 +6485,7 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
         <div class="coin-row">
             <img class="coin-ic" src="<?php echo esc_url( $coin_img_url ); ?>" alt="AI coin">
             <span class="coin-amt" id="pc-member-coin-balance-val">
-                <span class="coin-shimmer"></span> <span>coins</span>
+                <?php echo $balance; ?> <span>coins</span>
             </span>
         </div>
         <p class="coins-desc"><?php echo $description; ?></p>
@@ -6497,27 +6506,6 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
             </div>
         <?php endif; ?>
     </section>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var balanceVal = document.getElementById("pc-member-coin-balance-val");
-        if (!balanceVal) return;
-
-        fetch("<?php echo esc_url_raw( home_url( '/wp-json/wp/v2/member/coin-balance' ) ); ?>")
-            .then(function(response) { return response.json(); })
-            .then(function(data) {
-                if (data.success && data.coinBalance !== undefined) {
-                    balanceVal.innerHTML = data.coinBalance + ' <span>coins</span>';
-                } else {
-                    balanceVal.innerHTML = '0 <span>coins</span>';
-                }
-            })
-            .catch(function(err) {
-                console.error("Error fetching coin balance:", err);
-                balanceVal.innerHTML = '0 <span>coins</span>';
-            });
-    });
-    </script>
     <?php
     return ob_get_clean();
 }

@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file for both hum
 ## [2026-06-04] - eMathSmart AI Coin Balance API & WPBakery Element
 
 ### Added
-- **Dynamic Coin Balance API & Asynchronous Fetch:**
+- **Dynamic Coin Balance API & Asynchronous Fetch (Proposal Phase):**
   - Defined `emathsmart_get_user_coin_balance()` helper in [functions-esmart.php](file:///wp-content/plugins/idl-loader/functions-esmart.php) utilizing v1.4 parameters (`appId`, `nonce`, `parentId`, `timestamp`), sorted alphabetically and signed with HMAC-SHA256. Includes 5-minute transient caching.
-  - Registered authenticated REST API endpoint `GET /wp-json/wp/v2/member/coin-balance` in [functions-restapi.php](file:///wp-content/plugins/idl-loader/functions-restapi.php) to support asynchronous AJAX fetches from the member dashboard.
-  - Implemented custom WPBakery shortcode element `parents_club_member_coins` in [functions-wpbakery-elements.php](file:///wp-content/plugins/idl-loader/functions-wpbakery-elements.php) supporting text fields, coin image attach, and a repeatable `param_group` list container for purchase packages.
-  - Contextually enqueues `parents-club-dashboard-coins.css` and loads the balance asynchronously via Javascript API fetch with a premium, animated shimmer skeleton loader while the network request is in flight.
+  - Registered authenticated REST API endpoint `GET /wp-json/wp/v2/member/coin-balance` in [functions-restapi.php](file:///wp-content/plugins/idl-loader/functions-restapi.php) to support asynchronous AJAX fetches in the future.
+  - Implemented custom WPBakery shortcode element `parents_club_member_coins` in [functions-wpbakery-elements.php](file:///wp-content/plugins/idl-loader/functions-wpbakery-elements.php) supporting text fields, coin image attach, a configurable static balance parameter (default: 120), and a repeatable `param_group` list container for purchase packages.
+  - Contextually enqueues `parents-club-dashboard-coins.css` and displays the static placeholder balance directly on the frontend, removing the AJAX fetch logic during the proposal review phase to avoid runtime errors on unimplemented remote routes.
 - **Diagnostic Tooling:**
   - Registered `emathsmart_run_coin_balance_diagnostic()` triggerable via `?run_coin_balance_test=1` in [functions-esmart-debug.php](file:///wp-content/plugins/idl-loader/functions-esmart-debug.php) for administrators to verify API latency, signature sorting correctness, and inspect the logged request payloads and database responses.
 - **Mockup Enhancement:**
