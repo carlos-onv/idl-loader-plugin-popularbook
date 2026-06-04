@@ -27,7 +27,7 @@ All notable changes to this project will be documented in this file for both hum
   - Removed the background color from the `.included` element inside the subscription component stylesheet.
 - **Member Dashboard & Account Overview Layout Backgrounds**:
   - Removed the global cream background (`var(--cream)`) from `#parents-club-dashboard` to let it blend cleanly into the main WordPress theme container.
-  - Added the cream background color (`var(--cream)`) specifically to the `.card.sub-card` subscription card component and the `#account-overview` component for high-fidelity contrast.
+  - Added the cream background color (`var(--cream)`, updated to `#fef9f6` for a softer tint) specifically to the `.card.sub-card` subscription card component and the `#account-overview` component for high-fidelity contrast.
 
 ### Technical Notes for AI Agents
 - The newly structured member dashboard HTML has been integrated into the sandbox template.
