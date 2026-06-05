@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-05] - Fix WPBakery Quick Links Element Loading Error
+
+### Fixed
+- **Stray PHP Closing Tags**: Removed stray `?>` tags and extra whitespace at the end of [functions-restapi.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-restapi.php). These stray tags were outputting the literal string `?>` into the output buffer during the WPBakery `vc_edit_form` AJAX request, causing a jQuery syntax error on the client side (`Syntax error, unrecognized expression: ?>`) and preventing the Quick Links element settings panel from loading.
+
+### Technical Notes for AI Agents
+- PHP files included globally (such as `functions-restapi.php` via `functions.php`) should never output arbitrary text or leave stray closing PHP tags (`?>`) at the end of the file. Leaving files open (without a closing PHP tag) is the WordPress standard to prevent accidental output of whitespace or closing tags.
+
 ## [2026-06-05] - eMathSmart Dynamic API URL Integration
 
 ### Changed

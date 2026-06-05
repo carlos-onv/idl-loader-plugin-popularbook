@@ -673,20 +673,3 @@ function restapi_get_user_coin_balance($request) {
         'coinBalance' => $balance
     ], 200);
 }
-
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-?>
