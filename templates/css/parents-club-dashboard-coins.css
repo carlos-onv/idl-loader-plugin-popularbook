@@ -35,9 +35,10 @@
 }
 
 #parents-club-dashboard .coin-amt {
-    font-weight: 900 !important;
+    font-weight: 400 !important;
     font-size: 30px !important;
     color: #2b2b2b !important;
+    line-height: 1 !important;
 }
 
 #parents-club-dashboard .coin-amt span {
