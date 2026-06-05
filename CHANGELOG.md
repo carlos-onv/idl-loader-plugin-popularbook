@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file for both hum
   - Updated `.obtn` buttons: set font-size to `10px !important`, padding to `5px 10px !important`, and removed `flex: 1` and `text-transform: uppercase`.
   - Adjusted `#parents-club-dashboard .actions` padding to `28px 50px 0px !important` and added `justify-content: space-between !important`.
   - Changed `.go-btn` padding to `6px 20px !important`.
+  - Added `padding-left: 50px !important` to `#parents-club-dashboard .sub-top`.
 
 ## [2026-06-05] - Fix WPBakery Quick Links Element Loading Error
 
