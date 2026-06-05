@@ -48,7 +48,7 @@ function custom_testcms()
 add_action('admin_init', 'emathsmart_create_log_table');
 function emathsmart_create_log_table()
 {
-    $current_version = '1.0';
+    $current_version = '1.1';
     if (get_option('emathsmart_log_table_version') === $current_version) {
         return; // Table already created, skip
     }
@@ -67,6 +67,7 @@ function emathsmart_create_log_table()
         response_body text DEFAULT NULL,
         curl_error text DEFAULT NULL,
         http_status int(11) DEFAULT NULL,
+        api_url text DEFAULT NULL,
         created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
         PRIMARY KEY  (id),
         KEY order_id (order_id)
@@ -227,10 +228,15 @@ function emathsmart_get_public_exam_links($order_id) {
 /**
  * FEATURE 2: Error Logging Helper
  */
-function emathsmart_log_api_error($order_id, $type, $attempt, $payload, $response, $curl_error = '', $http_status = 0)
+function emathsmart_log_api_error($order_id, $type, $attempt, $payload, $response, $curl_error = '', $http_status = 0, $api_url = '')
 {
     global $wpdb;
     $table_name = $wpdb->prefix . 'emathsmart_log';
+
+    // Auto-detect URL for inbound requests if not explicitly passed
+    if (empty($api_url) && !empty($_SERVER['REQUEST_URI'])) {
+        $api_url = home_url($_SERVER['REQUEST_URI']);
+    }
 
     // Parse response code if possible
     $response_code = null;
@@ -250,6 +256,7 @@ function emathsmart_log_api_error($order_id, $type, $attempt, $payload, $respons
         'response_body' => $response,
         'curl_error' => $curl_error,
         'http_status' => (int) $http_status,
+        'api_url' => $api_url,
         'created_at' => current_time('mysql')
     ]);
 }
@@ -499,7 +506,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
             $code = isset($decoded['code']) ? (int) $decoded['code'] : 0;
 
             // Log everything to the DB so the Live Demo works
-            emathsmart_log_api_error($order_id, $subscription_type, $attempt, $post_body, $response, $curl_error, $http_status);
+            emathsmart_log_api_error($order_id, $subscription_type, $attempt, $post_body, $response, $curl_error, $http_status, $url);
 
             if ($code === 200 || $code === 40101 || $code === 40201 || $code === 40202 || ($subscription_type === 'public_exams' && $code === 40303)) {
                 $success = true;
@@ -1426,7 +1433,8 @@ function emathsmart_get_user_coin_balance( $user_id ) {
             $post_body,
             $response->get_error_message(),
             'WP_Error fetching coin balance',
-            '500'
+            500,
+            $url
         );
         return 0;
     }
@@ -1447,7 +1455,8 @@ function emathsmart_get_user_coin_balance( $user_id ) {
             $post_body,
             $response_body,
             'Error response code or missing coinBalance data',
-            (string) $response_code
+            (int) $response_code,
+            $url
         );
     }
 

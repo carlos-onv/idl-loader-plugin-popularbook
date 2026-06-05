@@ -548,7 +548,14 @@ function emathsmart_render_logs_page() {
                                         #<?php echo $log->order_id; ?>
                                     </a>
                                 </td>
-                                <td><code style="background:#f0f0f0; padding:3px 6px; border-radius:4px; font-size:11px;"><?php echo esc_html($log->api_type); ?></code></td>
+                                <td>
+                                    <code style="background:#f0f0f0; padding:3px 6px; border-radius:4px; font-size:11px;"><?php echo esc_html($log->api_type); ?></code>
+                                    <?php if (!empty($log->api_url)): ?>
+                                        <div style="font-size: 10px; color: #666; margin-top: 5px; word-break: break-all; max-width: 250px; line-height: 1.2;">
+                                            <?php echo esc_html($log->api_url); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </td>
                                 <td><span style="background:#eee; padding:2px 6px; border-radius:10px; font-size:11px;"><?php echo $log->attempt; ?> / 3</span></td>
                                 <td>
                                     <span class="log-badge <?php echo $badge_class; ?>">
@@ -564,6 +571,12 @@ function emathsmart_render_logs_page() {
                             <tr id="log-details-<?php echo $log->id; ?>" style="display:none;" class="log-details-row">
                                 <td colspan="8">
                                     <div class="log-details-content">
+                                        <?php if (!empty($log->api_url)): ?>
+                                            <div style="margin-bottom: 20px; padding: 12px; background: #fff; border: 1px solid #ccd0d4; border-left: 4px solid var(--pb-red); border-radius: 3px;">
+                                                <strong style="display: block; margin-bottom: 4px; color: #333; font-size: 13px;">Endpoint URL:</strong>
+                                                <code style="font-family: monospace; font-size: 12px; color: #333; word-break: break-all;"><?php echo esc_html($log->api_url); ?></code>
+                                            </div>
+                                        <?php endif; ?>
                                         <div class="log-details-grid">
                                             <div class="log-details-col">
                                                 <strong>Request Payload:</strong>

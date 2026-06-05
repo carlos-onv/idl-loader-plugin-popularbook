@@ -8,11 +8,17 @@ All notable changes to this project will be documented in this file for both hum
 - **Dynamic API Base URL**:
   - Replaced all hardcoded eMathSmart API URLs (`https://test.emathsmart.ca/`) across `functions-esmart.php` and `functions-esmart-debug.php` with a dynamic `emathsmart_get_api_url()` helper.
   - The new helper function retrieves the API base URL from the `wc_emathsmart_url` option in the `wp_options` table, falling back to `'https://test.emathsmart.ca/'` and cleanly stripping any trailing slashes to guarantee consistent API endpoint concatenation.
+- **API Endpoint Logging**:
+  - Upgraded `emathsmart_create_log_table` (database version `1.1`) to add an `api_url` column to the `wp_emathsmart_log` table.
+  - Updated the logging helper `emathsmart_log_api_error` to accept and save an optional `$api_url` parameter, with auto-detection fallback for inbound connection URIs using `home_url($_SERVER['REQUEST_URI'])`.
+  - Passed the API URL to all outbound logging calls in `functions-esmart.php`.
+  - Updated the admin panel logs UI in `functions-esmart-admin.php` to display the endpoint URL directly under the API Type column and inside the View Details expander.
 
 ### Technical Notes for AI Agents
 - **Helper Function**: `emathsmart_get_api_url()`
 - **Option Key**: `wc_emathsmart_url` (retrieved via `get_option( 'wc_emathsmart_url', 'https://test.emathsmart.ca/' )`)
 - **Safe Concatenation**: The helper returns the URL without a trailing slash (using `rtrim($url, '/')`), making it safe to concatenate with `/api/...` subpaths directly.
+- **Inbound Auto-detection**: The logging helper dynamically detects local REST API paths using `home_url($_SERVER['REQUEST_URI'])` when a specific URL parameter is omitted.
 
 ## [2026-06-05] - Porto Settings Restore Utility
 
