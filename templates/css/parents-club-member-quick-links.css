@@ -4,15 +4,10 @@
  */
 
 #parents-club-member-quick-links {
-    padding: 0 0 40px 0;
+    padding: 0 24px 40px 24px;
     background-color: #ffffff;
     width: 100%;
-}
-
-#parents-club-member-quick-links .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
+    box-sizing: border-box;
 }
 
 .quick-links-bar {
@@ -22,6 +17,8 @@
     --border-color: #f1f5f9;
     --text-color: #0c1a30;
     
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     background-color: var(--bg-light);

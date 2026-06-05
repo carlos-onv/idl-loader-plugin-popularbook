@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file for both hum
 
 ## [2026-06-05] - Fix WPBakery Quick Links Element Loading Error
 
+### Changed
+- **Container Class Removal**: Removed the `.container` wrapper div from `parents_club_member_quick_links` shortcode output in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php) and the static sandbox mockup [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html). Centered the bar and added padding directly in the component's stylesheet [parents-club-member-quick-links.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-quick-links.css).
+
 ### Fixed
 - **Stray PHP Closing Tags**: Removed stray `?>` tags and extra whitespace at the end of [functions-restapi.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-restapi.php). These stray tags were outputting the literal string `?>` into the output buffer during the WPBakery `vc_edit_form` AJAX request, causing a jQuery syntax error on the client side (`Syntax error, unrecognized expression: ?>`) and preventing the Quick Links element settings panel from loading.
 

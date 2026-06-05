@@ -5868,26 +5868,24 @@ function idl_loader_parents_club_member_quick_links_shortcode( $atts ) {
     ob_start();
     ?>
     <section id="parents-club-member-quick-links">
-        <div class="container">
-            <div class="quick-links-bar">
-                <?php if ( ! empty( $title ) ) : ?>
-                    <div class="quick-links-title-wrapper">
-                        <h2 class="quick-links-title"><?php echo $title; ?></h2>
-                    </div>
-                    <div class="quick-links-divider"></div>
-                <?php endif; ?>
-                
-                <?php if ( ! empty( $rendered_buttons ) ) : ?>
-                    <div class="quick-links-buttons">
-                        <?php foreach ( $rendered_buttons as $button ) : ?>
-                            <a href="<?php echo $button['url']; ?>" class="quick-link-btn" <?php echo ! empty( $button['target'] ) ? 'target="' . $button['target'] . '"' : ''; ?>>
-                                <span class="btn-text"><?php echo $button['title']; ?></span>
-                                <?php echo $button['icon']; ?>
-                            </a>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
-            </div>
+        <div class="quick-links-bar">
+            <?php if ( ! empty( $title ) ) : ?>
+                <div class="quick-links-title-wrapper">
+                    <h2 class="quick-links-title"><?php echo $title; ?></h2>
+                </div>
+                <div class="quick-links-divider"></div>
+            <?php endif; ?>
+            
+            <?php if ( ! empty( $rendered_buttons ) ) : ?>
+                <div class="quick-links-buttons">
+                    <?php foreach ( $rendered_buttons as $button ) : ?>
+                        <a href="<?php echo $button['url']; ?>" class="quick-link-btn" <?php echo ! empty( $button['target'] ) ? 'target="' . $button['target'] . '"' : ''; ?>>
+                            <span class="btn-text"><?php echo $button['title']; ?></span>
+                            <?php echo $button['icon']; ?>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
     <?php
