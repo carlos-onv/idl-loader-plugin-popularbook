@@ -2001,7 +2001,7 @@ function emathsmart_debug_page_header_check() {
         $val = $values[0];
         
         // Exclude massive layout/CSS keys
-        if (in_array($key, ['_wpb_post_custom_css', '_wpb_shortcodes_custom_css', '_vc_post_settings', '_wp_old_slug'])) {
+        if (in_array($key, ['_wpb_post_custom_css', '_wpb_shortcodes_custom_css', '_wpb_shortcodes_default_css', '_wpb_shortcodes_custom_css_updated', '_vc_post_settings', '_wp_old_slug'])) {
             continue;
         }
         
