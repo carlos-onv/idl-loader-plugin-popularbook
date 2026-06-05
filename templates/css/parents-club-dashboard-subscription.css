@@ -83,11 +83,11 @@
 
 #parents-club-dashboard .active-pill {
     background: var(--green-pill-bg) !important;
-    color: var(--green-pill-ink) !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
-    padding: 6px 16px !important;
-    border-radius: 999px !important;
+    color: var(--ink) !important;
+    font-weight: 400 !important;
+    font-size: 11px !important;
+    padding: 0px 12px !important;
+    border-radius: 6px !important;
 }
 
 #parents-club-dashboard .go-btn {
