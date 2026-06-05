@@ -238,7 +238,7 @@
     background: none !important;
     border: 1.5px solid var(--orange-border) !important;
     border-radius: 16px !important;
-    padding: 10px !important;
+    padding: 20px 10px 30px !important;
 }
 
 #parents-club-dashboard .included h4 {

@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file for both hum
   - Set `.dlabel` color to `#000000 !important` and font-weight to `400 !important`.
   - Set `.dval` font-weight to `400 !important`.
   - Adjusted `.drow` padding to `4px 0 !important` and added a `1px solid #e6e6e6 !important` bottom border.
-  - Reduced `.included` padding to `10px !important`.
+  - Adjusted `.included` padding to `20px 10px 30px !important`.
   - Set `.inc-item` font-weight to `400 !important`.
   - Updated `.obtn` buttons: set font-size to `10px !important`, padding to `5px 10px !important`, and removed `flex: 1` and `text-transform: uppercase`.
   - Adjusted `#parents-club-dashboard .actions` padding to `28px 50px 0px !important` and added `justify-content: space-between !important`.
