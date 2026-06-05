@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file for both hum
   - Adjusted `#parents-club-dashboard .actions` padding to `28px 50px 0px !important` and added `justify-content: space-between !important`.
   - Changed `.go-btn` padding to `6px 20px !important`.
   - Added `padding-left: 50px !important` to `#parents-club-dashboard .sub-top`.
-  - Moved `.sub-title` inside `.sub-top` container in [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html) and [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php), and updated its margin to `0 !important` in the CSS to align with the new flex layout.
+  - Updated `.sub-title` layout: set font-weight to `600 !important`, font-size to `14px !important`, margin to `-8px 0 6px !important`, padding-left to `100px !important`, and text-transform to `math-auto !important`.
 
 ## [2026-06-05] - Fix WPBakery Quick Links Element Loading Error
 
