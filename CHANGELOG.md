@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-05] - Refactored Subscription Card Styles
+
+### Changed
+- **eMathSmart Subscription Card Styles**:
+  - Updated grid column template for `.sub-body` to `188px 1fr 236px !important` to adjust column widths.
+  - Set `.dlabel` color to `#000000 !important` and font-weight to `400 !important`.
+  - Set `.dval` font-weight to `400 !important`.
+  - Adjusted `.drow` padding to `4px 0 !important` and added a `1px solid #e6e6e6 !important` bottom border.
+  - Reduced `.included` padding to `10px !important`.
+  - Set `.inc-item` font-weight to `400 !important`.
+
 ## [2026-06-05] - Fix WPBakery Quick Links Element Loading Error
 
 ### Added
