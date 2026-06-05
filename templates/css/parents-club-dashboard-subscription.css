@@ -276,7 +276,8 @@
     display: flex !important;
     gap: 16px !important;
     margin-top: auto !important;
-    padding-top: 28px !important;
+    padding: 28px 50px 0px !important;
+    justify-content: space-between !important;
 }
 
 #parents-club-dashboard .obtn {
@@ -286,7 +287,7 @@
     background: transparent !important;
     border: 1.5px solid var(--orange) !important;
     color: var(--orange-deep) !important;
-    padding: 14px 10px !important;
+    padding: 5px 10px !important;
     border-radius: 8px !important;
     cursor: pointer !important;
     display: inline-flex !important;
