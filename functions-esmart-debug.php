@@ -1932,4 +1932,95 @@ function emathsmart_debug_porto_restore_settings() {
     }
 }
 
+/**
+ * Page Header Diagnostic Utility
+ * URL: https://dev.popularbook.ca/?debug_page_header_check=new-home-page
+ */
+add_action('init', 'emathsmart_debug_page_header_check');
+function emathsmart_debug_page_header_check() {
+    if (!isset($_GET['debug_page_header_check'])) {
+        return;
+    }
+
+    if (!current_user_can('manage_options')) {
+        wp_die('Unauthorized access.');
+    }
+
+    $slug = sanitize_text_field($_GET['debug_page_header_check']);
+    
+    // Find page by slug
+    $page = get_page_by_path($slug);
+    if (!$page) {
+        // Fallback: try finding by slug directly via WP_Query or get_posts
+        $pages = get_posts([
+            'name'        => $slug,
+            'post_type'   => 'any',
+            'post_status' => 'any',
+            'numberposts' => 1
+        ]);
+        if (!empty($pages)) {
+            $page = $pages[0];
+        }
+    }
+
+    if (!$page) {
+        wp_die('Error: Page with slug "' . esc_html($slug) . '" not found.');
+    }
+
+    $post_id = $page->ID;
+
+    echo '<html><head><title>Page Header Diagnostic: ' . esc_html($slug) . '</title>';
+    echo '<style>
+        body { font-family: sans-serif; background: #fafbfc; color: #333; padding: 40px; } 
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; } 
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; } 
+        th { background: #f4f4f4; } 
+        pre { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 6px; overflow-x: auto; }
+    </style></head><body>';
+    echo '<h1>🔍 Page Header Diagnostic: ' . esc_html($page->post_title) . ' (ID: ' . $post_id . ')</h1>';
+    
+    echo '<h2>📊 Page Details</h2>';
+    echo '<ul>';
+    echo '<li><strong>Slug:</strong> ' . esc_html($page->post_name) . '</li>';
+    echo '<li><strong>Post Type:</strong> ' . esc_html($page->post_type) . '</li>';
+    echo '<li><strong>Post Status:</strong> ' . esc_html($page->post_status) . '</li>';
+    echo '<li><strong>Page Template File:</strong> ' . esc_html(get_post_meta($post_id, '_wp_page_template', true)) . '</li>';
+    echo '</ul>';
+
+    // Retrieve all metadata
+    $meta = get_post_meta($post_id);
+    
+    echo '<h2>📝 Post Meta Details</h2>';
+    echo '<table>';
+    echo '<tr><th>Meta Key</th><th>Meta Value</th></tr>';
+    
+    // Sort meta keys
+    ksort($meta);
+    
+    foreach ($meta as $key => $values) {
+        $val = $values[0];
+        // Unserialize if needed
+        $unserialized = maybe_unserialize($val);
+        $val_str = is_scalar($unserialized) ? esc_html((string)$unserialized) : '<pre>' . esc_html(print_r($unserialized, true)) . '</pre>';
+        
+        // Highlight keys that could affect header or layout
+        $style = '';
+        if (stripos($key, 'header') !== false || stripos($key, 'layout') !== false || stripos($key, 'menu') !== false || stripos($key, 'porto') !== false) {
+            $style = 'background-color:#fff3cd; font-weight:bold;';
+        }
+        
+        echo '<tr style="' . $style . '">';
+        echo '<td>' . esc_html($key) . '</td>';
+        echo '<td>' . $val_str . '</td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+    
+    echo '<h2>📄 Post Content (Excerpt / Beginning)</h2>';
+    echo '<pre>' . esc_html(substr($page->post_content, 0, 1000)) . '</pre>';
+
+    echo '</body></html>';
+    exit;
+}
+
 

@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file for both hum
 - **Porto Settings Restore Utility:**
   - Added programmatic merge and restore utility to `functions-esmart-debug.php` accessible via `?debug_porto_restore_settings=compare` (dry-run comparison) and `?debug_porto_restore_settings=execute` (run restore).
   - Merges the backup styling options from `porto_demo_history` into `porto_settings` while preserving only the custom CSS (`css-code`), allowing all other settings, including the header builder layout, configurations, and logo options, to be fully restored from the backup.
+- **Page Layout Diagnostic Tool:**
+  - Added `emathsmart_debug_page_header_check()` triggerable via `?debug_page_header_check=<slug>` in `functions-esmart-debug.php` to dump template files and layout meta overrides for any WordPress page.
 
 ### Technical Notes for AI Agents
 - **Merge Behavior**: The utility reads the flat array under `porto_demo_history['options']` as the base, preserves only the current custom CSS from `porto_settings`, and writes the combined result back.
