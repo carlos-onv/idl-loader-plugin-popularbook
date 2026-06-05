@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file for both hum
   - Adjusted `.drow` padding to `4px 0 !important` and added a `1px solid #e6e6e6 !important` bottom border.
   - Reduced `.included` padding to `10px !important`.
   - Set `.inc-item` font-weight to `400 !important`.
+  - Updated `.obtn` buttons: set font-size to `10px !important`, and removed `flex: 1` and `text-transform: uppercase`.
 
 ## [2026-06-05] - Fix WPBakery Quick Links Element Loading Error
 
