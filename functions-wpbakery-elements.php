@@ -6478,31 +6478,33 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
 
     ob_start();
     ?>
-    <section class="card coins-card">
-        <div class="rh"><?php echo $title; ?></div>
-        <div class="coin-row">
-            <img class="coin-ic" src="<?php echo esc_url( $coin_img_url ); ?>" alt="AI coin">
-            <span class="coin-amt" id="pc-member-coin-balance-val">
-                <?php echo $balance; ?> <span>coins</span>
-            </span>
-        </div>
-        <p class="coins-desc"><?php echo $description; ?></p>
-
-        <?php if ( ! empty( $purchase_title ) ) : ?>
-            <div class="purchase-h"><?php echo $purchase_title; ?></div>
-        <?php endif; ?>
-
-        <?php if ( ! empty( $rendered_packages ) ) : ?>
-            <div class="coin-grid">
-                <?php foreach ( $rendered_packages as $pkg ) : ?>
-                    <div class="coin-opt">
-                        <div class="qty"><?php echo $pkg['qty']; ?></div>
-                        <div class="price"><?php echo $pkg['price']; ?></div>
-                        <a href="<?php echo $pkg['url']; ?>" class="buy-btn" <?php echo ! empty( $pkg['target'] ) ? 'target="' . $pkg['target'] . '"' : ''; ?> style="display: block; text-align: center; text-decoration: none;">BUY NOW</a>
-                    </div>
-                <?php endforeach; ?>
+    <section id="parents-club-dashboard" style="padding: 0 !important; background-color: transparent !important;">
+        <div class="card coins-card">
+            <div class="rh"><?php echo $title; ?></div>
+            <div class="coin-row">
+                <img class="coin-ic" src="<?php echo esc_url( $coin_img_url ); ?>" alt="AI coin">
+                <span class="coin-amt" id="pc-member-coin-balance-val">
+                    <?php echo $balance; ?> <span>coins</span>
+                </span>
             </div>
-        <?php endif; ?>
+            <p class="coins-desc"><?php echo $description; ?></p>
+
+            <?php if ( ! empty( $purchase_title ) ) : ?>
+                <div class="purchase-h"><?php echo $purchase_title; ?></div>
+            <?php endif; ?>
+
+            <?php if ( ! empty( $rendered_packages ) ) : ?>
+                <div class="coin-grid">
+                    <?php foreach ( $rendered_packages as $pkg ) : ?>
+                        <div class="coin-opt">
+                            <div class="qty"><?php echo $pkg['qty']; ?></div>
+                            <div class="price"><?php echo $pkg['price']; ?></div>
+                            <a href="<?php echo $pkg['url']; ?>" class="buy-btn" <?php echo ! empty( $pkg['target'] ) ? 'target="' . $pkg['target'] . '"' : ''; ?> style="display: block; text-align: center; text-decoration: none;">BUY NOW</a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
     </section>
     <?php
     return ob_get_clean();

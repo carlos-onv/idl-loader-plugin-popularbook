@@ -4,6 +4,11 @@
  * Theme insulation applied to prevent Porto/WordPress overrides
  */
 
+#parents-club-dashboard {
+    --orange: #F26122;
+    --orange-border: #F8C6A3;
+}
+
 #parents-club-dashboard .coins-card {
     border: 1px solid #e9ebef !important;
     padding: 22px 24px !important;

@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file for both hum
 
 ### Fixed
 - **Stray PHP Closing Tags**: Removed stray `?>` tags and extra whitespace at the end of [functions-restapi.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-restapi.php). These stray tags were outputting the literal string `?>` into the output buffer during the WPBakery `vc_edit_form` AJAX request, causing a jQuery syntax error on the client side (`Syntax error, unrecognized expression: ?>`) and preventing the Quick Links element settings panel from loading.
+- **AI Coins WPBakery Card CSS Styling**:
+  - Wrapped the AI Coins card HTML markup inside a `#parents-club-dashboard` wrapper block in the `parents_club_member_coins` shortcode rendering handler in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php). This allows all CSS styles defined in `parents-club-dashboard-coins.css` (which are scoped under `#parents-club-dashboard`) to correctly apply to the WPBakery element.
+  - Defined the `--orange` and `--orange-border` color custom properties contextually inside [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css) to ensure the AI Coins element can render independently when enqueued alone.
 
 ### Technical Notes for AI Agents
 - PHP files included globally (such as `functions-restapi.php` via `functions.php`) should never output arbitrary text or leave stray closing PHP tags (`?>`) at the end of the file. Leaving files open (without a closing PHP tag) is the WordPress standard to prevent accidental output of whitespace or closing tags.
