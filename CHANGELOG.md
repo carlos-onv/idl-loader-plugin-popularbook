@@ -7,10 +7,10 @@ All notable changes to this project will be documented in this file for both hum
 ### Added
 - **Porto Settings Restore Utility:**
   - Added programmatic merge and restore utility to `functions-esmart-debug.php` accessible via `?debug_porto_restore_settings=compare` (dry-run comparison) and `?debug_porto_restore_settings=execute` (run restore).
-  - Merges the backup styling options from `porto_demo_history` into `porto_settings` while preserving crucial custom configuration keys: custom CSS (`css-code`), Header Builder elements/layouts (`header-type-select`, `header-type-builder`, `header_builder`, `header_builder_elements`, `header_builder_layouts`), and logo settings (`logo`, `logo-retina`, `sticky-logo`, `sticky-logo-retina`, etc.).
+  - Merges the backup styling options from `porto_demo_history` into `porto_settings` while preserving only the custom CSS (`css-code`), allowing all other settings, including the header builder layout, configurations, and logo options, to be fully restored from the backup.
 
 ### Technical Notes for AI Agents
-- **Merge Behavior**: The utility reads the flat array under `porto_demo_history['options']` as the base, preserves the specified current configuration keys from `porto_settings`, and writes the combined result back.
+- **Merge Behavior**: The utility reads the flat array under `porto_demo_history['options']` as the base, preserves only the current custom CSS from `porto_settings`, and writes the combined result back.
 - **Dynamic Compilation**: Porto uses Redux option saving to compile SCSS to files. Administrators must click "Save Settings" on the Porto Theme Options page after execution to trigger compilation of the restored styles.
 
 ## [2026-06-04] - eMathSmart AI Coin Balance API & WPBakery Element

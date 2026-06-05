@@ -1831,19 +1831,6 @@ function emathsmart_debug_porto_restore_settings() {
     // Define keys to preserve from current settings
     $keys_to_preserve = [
         'css-code',                 // Custom CSS
-        'header-type-select',       // Header Builder settings
-        'header-type-builder',
-        'header_builder',
-        'header_builder_elements',
-        'header_builder_layouts',
-        'logo',                     // Logo settings
-        'logo-retina',
-        'sticky-logo',
-        'sticky-logo-retina',
-        'logo_width',
-        'logo_height',
-        'logo_width_sticky',
-        'logo_height_sticky',
     ];
     
     if ($action === 'compare') {
