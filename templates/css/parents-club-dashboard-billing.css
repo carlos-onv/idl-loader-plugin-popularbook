@@ -4,6 +4,12 @@
  * Theme insulation applied to prevent Porto/WordPress overrides
  */
 
+#parents-club-dashboard {
+    --orange: #F26122;
+    --orange-deep: #EF5A1E;
+    --line: #EFE7DE;
+}
+
 #parents-club-dashboard .bill-card {
     border: 1px solid #e9ebef !important;
     padding: 20px 24px !important;

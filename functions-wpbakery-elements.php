@@ -3287,6 +3287,166 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
+
+    // Register [parents_club_member_billing] Element
+    vc_map( array(
+        "name"        => esc_html__( "Parents Club Billing History Card", "book-junky" ),
+        "base"        => "parents_club_member_billing",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Billing history card showing past payments, details, and download options.", "book-junky" ),
+        "params"      => array(
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Card Title", "book-junky" ),
+                "param_name"  => "title",
+                "value"       => esc_html__( "Billing History", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "View All Text", "book-junky" ),
+                "param_name"  => "view_all_text",
+                "value"       => esc_html__( "View all", "book-junky" ),
+            ),
+            array(
+                "type"        => "vc_link",
+                "heading"     => esc_html__( "View All Link", "book-junky" ),
+                "param_name"  => "view_all_link",
+            ),
+            // Repeatable billing rows
+            array(
+                "type"        => "param_group",
+                "heading"     => esc_html__( "Billing History Rows", "book-junky" ),
+                "param_name"  => "billing_rows",
+                "description" => esc_html__( "Configure each transaction row.", "book-junky" ),
+                "value"       => urlencode( json_encode( array(
+                    array(
+                        'date'      => 'May 15, 2024',
+                        'plan_name' => 'Annual Plan',
+                        'amount'    => '$69.95',
+                    ),
+                    array(
+                        'date'      => 'May 15, 2023',
+                        'plan_name' => 'Annual Plan',
+                        'amount'    => '$69.95',
+                    ),
+                    array(
+                        'date'      => 'May 15, 2022',
+                        'plan_name' => 'Annual Plan',
+                        'amount'    => '$69.95',
+                    ),
+                ) ) ),
+                "params"      => array(
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Payment Date (e.g. May 15, 2024)", "book-junky" ),
+                        "param_name"  => "date",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Plan Name (e.g. Annual Plan)", "book-junky" ),
+                        "param_name"  => "plan_name",
+                        "admin_label" => true,
+                    ),
+                    array(
+                        "type"        => "textfield",
+                        "heading"     => esc_html__( "Amount Paid (e.g. $69.95)", "book-junky" ),
+                        "param_name"  => "amount",
+                        "admin_label" => true,
+                    ),
+                )
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Download Button Text", "book-junky" ),
+                "param_name"  => "download_btn_text",
+                "value"       => esc_html__( "DOWNLOAD RECEIPT HISTORY", "book-junky" ),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "vc_link",
+                "heading"     => esc_html__( "Download Button Link", "book-junky" ),
+                "param_name"  => "download_btn_link",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Icon Source", "book-junky" ),
+                "param_name"  => "icon_source",
+                "value"       => array(
+                    esc_html__( "Predefined Brand SVG", "book-junky" )       => "brand",
+                    esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
+                    esc_html__( "Custom Image Upload", "book-junky" )         => "custom",
+                    esc_html__( "No Icon", "book-junky" )                     => "none",
+                ),
+                "std"         => "brand",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Predefined Icon", "book-junky" ),
+                "param_name"  => "predefined_icon_type",
+                "value"       => array(
+                    esc_html__( "Download Arrow", "book-junky" ) => "download",
+                ),
+                "std"         => "download",
+                "dependency"  => array(
+                    "element" => "icon_source",
+                    "value"   => array( "brand" )
+                )
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Icon Library", "book-junky" ),
+                "param_name"  => "icon_library",
+                "value"       => array(
+                    esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
+                    esc_html__( "Linecons", "book-junky" )     => "linecons",
+                ),
+                "std"         => "fontawesome",
+                "dependency"  => array(
+                    "element" => "icon_source",
+                    "value"   => array( "library" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Font Awesome Icon", "book-junky" ),
+                "param_name"  => "icon_fontawesome",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "icon_library",
+                    "value"   => array( "fontawesome" )
+                )
+            ),
+            array(
+                "type"        => "iconpicker",
+                "heading"     => esc_html__( "Linecons Icon", "book-junky" ),
+                "param_name"  => "icon_linecons",
+                "settings"    => array(
+                    "emptyIcon"    => false,
+                    "type"         => "linecons",
+                    "iconsPerPage" => 4000,
+                ),
+                "dependency"  => array(
+                    "element" => "icon_library",
+                    "value"   => array( "linecons" )
+                )
+            ),
+            array(
+                "type"        => "attach_image",
+                "heading"     => esc_html__( "Custom Icon", "book-junky" ),
+                "param_name"  => "custom_icon",
+                "dependency"  => array(
+                    "element" => "icon_source",
+                    "value"   => array( "custom" )
+                )
+            ),
+        )
+    ) );
 }
 
 
@@ -4942,6 +5102,10 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
     class WPBakeryShortCode_parents_club_member_coins extends WPBakeryShortCode {
         // Automatically maps backend layout rendering for Member Coins card
     }
+
+    class WPBakeryShortCode_parents_club_member_billing extends WPBakeryShortCode {
+        // Automatically maps backend layout rendering for Member Billing History card
+    }
 }
 
 // Register [parents_club_need_help] Shortcode
@@ -6503,6 +6667,176 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
                         </div>
                     <?php endforeach; ?>
                 </div>
+            <?php endif; ?>
+        </div>
+    </section>
+    <?php
+    return ob_get_clean();
+}
+
+// -----------------------------------------------------------------------------
+// SECTION 11: [parents_club_member_billing] Shortcode Handler
+// -----------------------------------------------------------------------------
+
+add_shortcode( 'parents_club_member_billing', 'idl_loader_parents_club_member_billing_shortcode' );
+
+function idl_loader_parents_club_member_billing_shortcode( $atts ) {
+    $attributes = shortcode_atts( array(
+        'title'                => 'Billing History',
+        'view_all_text'        => 'View all',
+        'view_all_link'        => '',
+        'billing_rows'         => '',
+        'download_btn_text'    => 'DOWNLOAD RECEIPT HISTORY',
+        'download_btn_link'    => '',
+        'icon_source'          => 'brand',
+        'predefined_icon_type' => 'download',
+        'icon_library'         => 'fontawesome',
+        'icon_fontawesome'     => '',
+        'icon_linecons'        => '',
+        'custom_icon'          => '',
+    ), $atts );
+
+    // Enqueue modular billing stylesheet contextually
+    wp_enqueue_style( 'parents-club-dashboard-billing', plugins_url( 'templates/css/parents-club-dashboard-billing.css', __FILE__ ) );
+
+    $title             = esc_html( $attributes['title'] );
+    $view_all_text     = esc_html( $attributes['view_all_text'] );
+    $download_btn_text = esc_html( $attributes['download_btn_text'] );
+
+    // Resolve View All Link
+    $view_all_url    = '#';
+    $view_all_target = '';
+    if ( ! empty( $attributes['view_all_link'] ) ) {
+        if ( strpos( $attributes['view_all_link'], 'url:' ) !== false || strpos( $attributes['view_all_link'], 'title:' ) !== false ) {
+            $link_data = vc_build_link( $attributes['view_all_link'] );
+            $view_all_url = isset( $link_data['url'] ) ? $link_data['url'] : '#';
+            $view_all_target = isset( $link_data['target'] ) ? $link_data['target'] : '';
+        } else {
+            $view_all_url = $attributes['view_all_link'];
+        }
+    }
+
+    // Resolve Download Button Link
+    $download_url    = '#';
+    $download_target = '';
+    if ( ! empty( $attributes['download_btn_link'] ) ) {
+        if ( strpos( $attributes['download_btn_link'], 'url:' ) !== false || strpos( $attributes['download_btn_link'], 'title:' ) !== false ) {
+            $link_data = vc_build_link( $attributes['download_btn_link'] );
+            $download_url = isset( $link_data['url'] ) ? $link_data['url'] : '#';
+            $download_target = isset( $link_data['target'] ) ? $link_data['target'] : '';
+        } else {
+            $download_url = $attributes['download_btn_link'];
+        }
+    }
+
+    // Parse billing rows repeatable container
+    $rows_data = array();
+    if ( ! empty( $attributes['billing_rows'] ) ) {
+        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+            $rows_data = vc_param_group_parse_atts( $attributes['billing_rows'] );
+        } else {
+            $rows_data = json_decode( urldecode( $attributes['billing_rows'] ), true );
+        }
+    }
+
+    // Fallback if empty
+    if ( empty( $rows_data ) ) {
+        $rows_data = array(
+            array(
+                'date'      => 'May 15, 2024',
+                'plan_name' => 'Annual Plan',
+                'amount'    => '$69.95',
+            ),
+            array(
+                'date'      => 'May 15, 2023',
+                'plan_name' => 'Annual Plan',
+                'amount'    => '$69.95',
+            ),
+            array(
+                'date'      => 'May 15, 2022',
+                'plan_name' => 'Annual Plan',
+                'amount'    => '$69.95',
+            ),
+        );
+    }
+
+    // Helper closure to render download icon
+    $render_download_icon = function( $source, $predefined_type, $library, $fa_icon, $li_icon, $custom_icon_id ) {
+        if ( $source === 'none' ) {
+            return '';
+        }
+        if ( $source === 'custom' && ! empty( $custom_icon_id ) ) {
+            $custom_url = '';
+            if ( is_numeric( $custom_icon_id ) ) {
+                $img_src = wp_get_attachment_image_src( $custom_icon_id, 'thumbnail' );
+                if ( $img_src ) {
+                    $custom_url = $img_src[0];
+                }
+            } else {
+                $custom_url = $custom_icon_id;
+            }
+            if ( ! empty( $custom_url ) ) {
+                return '<img src="' . esc_url( $custom_url ) . '" alt="" style="width: 16px; height: 16px; display: block; object-fit: contain; flex: none;">';
+            }
+        }
+
+        if ( $source === 'library' ) {
+            if ( $library === 'linecons' ) {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'linecons' );
+                }
+                $icon_class = ! empty( $li_icon ) ? esc_attr( $li_icon ) : 'vc_li vc_li-paperplane';
+                return '<i class="' . $icon_class . '" style="font-size: 14px; color: currentColor; display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; flex: none;"></i>';
+            } else {
+                if ( function_exists( 'vc_icon_element_fonts_enqueue' ) ) {
+                    vc_icon_element_fonts_enqueue( 'fontawesome' );
+                }
+                $icon_class = ! empty( $fa_icon ) ? esc_attr( $fa_icon ) : 'fa fa-download';
+                return '<i class="' . $icon_class . '" style="font-size: 14px; color: currentColor; display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; flex: none;"></i>';
+            }
+        }
+
+        // Predefined Download SVG
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>';
+    };
+
+    $icon_source = isset( $attributes['icon_source'] ) ? $attributes['icon_source'] : 'brand';
+    $predefined  = isset( $attributes['predefined_icon_type'] ) ? $attributes['predefined_icon_type'] : 'download';
+    $lib         = isset( $attributes['icon_library'] ) ? $attributes['icon_library'] : 'fontawesome';
+    $fa          = isset( $attributes['icon_fontawesome'] ) ? $attributes['icon_fontawesome'] : '';
+    $li          = isset( $attributes['icon_linecons'] ) ? $attributes['icon_linecons'] : '';
+    $custom      = isset( $attributes['custom_icon'] ) ? $attributes['custom_icon'] : '';
+
+    $btn_icon_html = $render_download_icon( $icon_source, $predefined, $lib, $fa, $li, $custom );
+
+    ob_start();
+    ?>
+    <section id="parents-club-dashboard" style="padding: 0 !important; background-color: transparent !important;">
+        <div class="card bill-card">
+            <div class="bill-head">
+                <div class="rh"><?php echo $title; ?></div>
+                <?php if ( ! empty( $view_all_text ) ) : ?>
+                    <a href="<?php echo esc_url( $view_all_url ); ?>" class="view-all" <?php echo ! empty( $view_all_target ) ? 'target="' . $view_all_target . '"' : ''; ?>><?php echo $view_all_text; ?></a>
+                <?php endif; ?>
+            </div>
+            <div style="margin-top:8px;">
+                <?php foreach ( $rows_data as $row ) : 
+                    $row_date   = isset( $row['date'] ) ? $row['date'] : '';
+                    $row_plan   = isset( $row['plan_name'] ) ? $row['plan_name'] : '';
+                    $row_amount = isset( $row['amount'] ) ? $row['amount'] : '';
+                    ?>
+                    <div class="bill-row">
+                        <span class="bill-date"><?php echo esc_html( $row_date ); ?></span>
+                        <span class="bill-plan"><?php echo esc_html( $row_plan ); ?></span>
+                        <span class="bill-amt"><?php echo esc_html( $row_amount ); ?></span>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <?php if ( ! empty( $download_btn_text ) ) : ?>
+                <a href="<?php echo esc_url( $download_url ); ?>" class="download-btn" <?php echo ! empty( $download_target ) ? 'target="' . $download_target . '"' : ''; ?> style="text-decoration: none;">
+                    <?php echo $download_btn_text; ?>
+                    <?php echo $btn_icon_html; ?>
+                </a>
             <?php endif; ?>
         </div>
     </section>

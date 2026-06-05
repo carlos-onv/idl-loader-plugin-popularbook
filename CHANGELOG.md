@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file for both hum
 
 ## [2026-06-05] - Fix WPBakery Quick Links Element Loading Error
 
+### Added
+- **Billing History WPBakery Element**:
+  - Registered `parents_club_member_billing` shortcode element under "eMathSmart Elements" category, mapping parameters for card title, view all link/text, repeatable billing rows (date, plan name, amount), download button text/link, and custom/library download icons.
+  - Defined shortcode class binder `WPBakeryShortCode_parents_club_member_billing` and rendering handler `idl_loader_parents_club_member_billing_shortcode` contextually enqueuing [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css).
+
 ### Changed
 - **Container Class Removal**: Removed the `.container` wrapper div from `parents_club_member_quick_links` shortcode output in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php) and the static sandbox mockup [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html). Centered the bar and added padding directly in the component's stylesheet [parents-club-member-quick-links.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-quick-links.css).
 
@@ -15,6 +20,10 @@ All notable changes to this project will be documented in this file for both hum
 
 ### Technical Notes for AI Agents
 - PHP files included globally (such as `functions-restapi.php` via `functions.php`) should never output arbitrary text or leave stray closing PHP tags (`?>`) at the end of the file. Leaving files open (without a closing PHP tag) is the WordPress standard to prevent accidental output of whitespace or closing tags.
+- **Shortcode `[parents_club_member_billing]`**:
+  - Visual Composer Base: `parents_club_member_billing`
+  - Associated Class: `WPBakeryShortCode_parents_club_member_billing`
+  - Associated Stylesheet: `templates/css/parents-club-dashboard-billing.css` (with self-contained CSS variables)
 
 ## [2026-06-05] - eMathSmart Dynamic API URL Integration
 
