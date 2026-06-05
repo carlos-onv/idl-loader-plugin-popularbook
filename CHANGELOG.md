@@ -25,6 +25,10 @@ All notable changes to this project will be documented in this file for both hum
   - Updated `.coin-ic` image size: set width and height to `35px !important` in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
   - Updated `.coins-desc`: set color to `#33240E !important`, max-width to `297px !important`, margin-bottom to `10px !important`, and added `padding-left: 45px !important` in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
   - Updated `.purchase-h`: set margin to `0px 0 12px 16px !important` in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
+  - Updated `.coin-opt`: set padding to `6px !important` in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
+  - Updated `.coin-opt .qty`: set font-size to `12px !important` and color to `#2b2b2b !important` in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
+  - Updated `.coin-opt .price`: set font-weight to `600 !important` and font-size to `22px !important` in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
+  - Updated `.buy-btn`: set padding to `6px 15px !important`, line-height to `1 !important`, margin-inline to `auto !important`, and removed `font-family` and `font-weight` properties in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
 
 ## [2026-06-05] - Fix WPBakery Quick Links Element Loading Error
 
