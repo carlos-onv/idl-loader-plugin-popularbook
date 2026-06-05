@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-05] - eMathSmart Dynamic API URL Integration
+
+### Changed
+- **Dynamic API Base URL**:
+  - Replaced all hardcoded eMathSmart API URLs (`https://test.emathsmart.ca/`) across `functions-esmart.php` and `functions-esmart-debug.php` with a dynamic `emathsmart_get_api_url()` helper.
+  - The new helper function retrieves the API base URL from the `wc_emathsmart_url` option in the `wp_options` table, falling back to `'https://test.emathsmart.ca/'` and cleanly stripping any trailing slashes to guarantee consistent API endpoint concatenation.
+
+### Technical Notes for AI Agents
+- **Helper Function**: `emathsmart_get_api_url()`
+- **Option Key**: `wc_emathsmart_url` (retrieved via `get_option( 'wc_emathsmart_url', 'https://test.emathsmart.ca/' )`)
+- **Safe Concatenation**: The helper returns the URL without a trailing slash (using `rtrim($url, '/')`), making it safe to concatenate with `/api/...` subpaths directly.
+
 ## [2026-06-05] - Porto Settings Restore Utility
 
 ### Added

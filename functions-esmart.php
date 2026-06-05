@@ -1,4 +1,13 @@
 <?php
+/**
+ * Helper function to retrieve the eMathSmart API base URL.
+ * Falls back to 'https://test.emathsmart.ca' if the option is not set.
+ */
+function emathsmart_get_api_url() {
+    $url = get_option( 'wc_emathsmart_url', 'https://test.emathsmart.ca/' );
+    return rtrim( $url, '/' );
+}
+
 require_once('functions-esmart-debug.php');
 require_once('functions-esmart-admin.php');
 
@@ -150,7 +159,7 @@ function emathsmart_get_public_exam_links($order_id) {
 
     $now = time();
     $nonce = bin2hex(random_bytes(16));
-    $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
+    $url = emathsmart_get_api_url() . "/api/customer-center/getPublicExamQuestions";
     $expireTimestamp = $now + (365 * 86400);
 
     // Get the real WooCommerce Subscription ID (As per Jatin's feedback)
@@ -287,7 +296,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
             $post_body = [];
 
             if ($subscription_type == 'Payment') {
-                $url = "https://test.emathsmart.ca/api/user-center/order/paymentNotify";
+                $url = emathsmart_get_api_url() . "/api/user-center/order/paymentNotify";
 
                 $additional_packages = (int) emathsmart_order_has_additional_packages($order_id);
 
@@ -392,7 +401,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 }
 
             } else if ($subscription_type == 'refund') {
-                $url = "https://test.emathsmart.ca/api/user-center/order/refundNotify";
+                $url = emathsmart_get_api_url() . "/api/user-center/order/refundNotify";
                 
                 $date_modified = $order->get_date_modified();
                 $refundTimestamp = $date_modified ? $date_modified->getTimestamp() : $now;
@@ -415,7 +424,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 ];
 
             } else if ($subscription_type == 'public_exams') {
-                $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
+                $url = emathsmart_get_api_url() . "/api/customer-center/getPublicExamQuestions";
                 $expireTimestamp = $now + (365 * 86400);
 
                 // Fix "The Register": Use real WCS Subscription ID
@@ -1279,7 +1288,7 @@ add_shortcode( 'emathsmart_continue_button', 'emathsmart_continue_button_shortco
 function emathsmart_continue_button_shortcode( $atts ) {
     $redirect_to = ! empty( $_GET['redirect_to'] ) ? esc_url_raw( $_GET['redirect_to'] ) : '';
     if ( empty( $redirect_to ) ) {
-        $redirect_to = 'https://test.emathsmart.ca'; // Fallback
+        $redirect_to = emathsmart_get_api_url(); // Fallback
     }
 
     $label = ! empty( $atts['label'] ) ? esc_html( $atts['label'] ) : __( 'Continue to eMathSmart ➔', 'book-junky' );
@@ -1380,7 +1389,7 @@ function emathsmart_get_user_coin_balance( $user_id ) {
 
     $now = time();
     $nonce = bin2hex( random_bytes( 16 ) );
-    $url = "https://test.emathsmart.ca/api/customer-center/getUserCoinBalance";
+    $url = emathsmart_get_api_url() . "/api/customer-center/getUserCoinBalance";
     $secret = get_option( 'emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm' );
 
     $sign_params = [

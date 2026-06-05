@@ -86,7 +86,7 @@ function emathsmart_brute_force_api9()
 
     $user_id = $order->get_user_id();
     $secret = "yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm";
-    $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
+    $url = emathsmart_get_api_url() . "/api/customer-center/getPublicExamQuestions";
     $now = time();
     $nonce = bin2hex(random_bytes(16));
     $expireTimestamp = $now + (365 * 86400);
@@ -234,7 +234,7 @@ function emathsmart_brute_force_api9_values()
 
     $user_id = $order->get_user_id();
     $secret = "yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm";
-    $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
+    $url = emathsmart_get_api_url() . "/api/customer-center/getPublicExamQuestions";
 
     // Get the WooCommerce subscription ID if available
     $wc_sub_id = '';
@@ -404,7 +404,7 @@ function emathsmart_brute_force_api9_final()
     ];
 
     $secret = "yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm";
-    $url = "https://test.emathsmart.ca/api/customer-center/getPublicExamQuestions";
+    $url = emathsmart_get_api_url() . "/api/customer-center/getPublicExamQuestions";
 
     echo "<table border='1' style='border-collapse:collapse; width:100%; font-family:monospace;'>";
     echo "<tr style='background:#333;color:#fff;'><th>Parent ID</th><th>Sub ID</th><th>Code</th><th>Message</th></tr>";
@@ -1014,7 +1014,7 @@ function emathsmart_sig_probe_test()
     }
 
     $known_secret = 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm';
-    $url          = 'https://test.emathsmart.ca/api/user-center/order/paymentNotify';
+    $url          = emathsmart_get_api_url() . '/api/user-center/order/paymentNotify';
     $now          = time();
     $expire       = $now + (14 * 86400);
 
