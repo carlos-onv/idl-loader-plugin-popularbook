@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file for both hum
 
 ### Changed
 - **eMathSmart Subscription Card Styles**:
-  - Updated grid column template for `.sub-body` to `188px 1fr 236px !important` to adjust column widths.
+  - Updated grid column template for `.sub-body` to `188px 1fr 225px !important` to adjust column widths.
   - Set `.dlabel` color to `#000000 !important` and font-weight to `400 !important`.
   - Set `.dval` font-weight to `400 !important`.
   - Adjusted `.drow` padding to `4px 0 !important` and added a `1px solid #e6e6e6 !important` bottom border.

@@ -123,7 +123,7 @@
 
 #parents-club-dashboard .sub-body {
     display: grid !important;
-    grid-template-columns: 188px 1fr 236px !important;
+    grid-template-columns: 188px 1fr 225px !important;
     gap: 18px !important;
     align-items: start !important;
 }
