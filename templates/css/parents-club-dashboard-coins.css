@@ -49,11 +49,12 @@
 }
 
 #parents-club-dashboard .coins-desc {
-    color: #8a8a8f !important;
+    color: #33240E !important;
     font-weight: 600 !important;
     font-size: 14px !important;
     line-height: 1.4 !important;
     max-width: 320px !important;
+    padding-left: 45px !important;
 }
 
 #parents-club-dashboard .purchase-h {

@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file for both hum
   - Added `padding-left: 45px !important` to `#parents-club-dashboard .coin-row` in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
   - Updated `.coin-amt` styling: set font-weight to `400 !important` and line-height to `1 !important` in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
   - Updated `.coin-ic` image size: set width and height to `35px !important` in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
+  - Updated `.coins-desc`: set color to `#33240E !important` and added `padding-left: 45px !important` in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
 
 ## [2026-06-05] - Fix WPBakery Quick Links Element Loading Error
 
