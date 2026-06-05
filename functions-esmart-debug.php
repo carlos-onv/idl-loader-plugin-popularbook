@@ -1796,3 +1796,153 @@ function emathsmart_run_coin_balance_diagnostic() {
     exit;
 }
 
+/**
+ * Porto Settings Restore Utility
+ * URLs:
+ * Dry-run (Compare settings): https://dev.popularbook.ca/?debug_porto_restore_settings=compare
+ * Execute restore: https://dev.popularbook.ca/?debug_porto_restore_settings=execute
+ */
+add_action('init', 'emathsmart_debug_porto_restore_settings');
+function emathsmart_debug_porto_restore_settings() {
+    if (!isset($_GET['debug_porto_restore_settings'])) {
+        return;
+    }
+
+    if (!current_user_can('manage_options')) {
+        wp_die('Unauthorized access. You must be logged in as an administrator.');
+    }
+
+    $action = $_GET['debug_porto_restore_settings'];
+    
+    // Get backup from porto_demo_history
+    $backup_data = get_option('porto_demo_history');
+    if (!$backup_data || !isset($backup_data['options']) || !is_array($backup_data['options'])) {
+        wp_die('Error: No previous Porto settings backup found in porto_demo_history option.');
+    }
+    
+    $backup_options = $backup_data['options'];
+    
+    // Get current settings
+    $current_settings = get_option('porto_settings');
+    if (!is_array($current_settings)) {
+        wp_die('Error: Current porto_settings not found or not an array.');
+    }
+    
+    // Define keys to preserve from current settings
+    $keys_to_preserve = [
+        'css-code',                 // Custom CSS
+        'header-type-select',       // Header Builder settings
+        'header-type-builder',
+        'header_builder',
+        'header_builder_elements',
+        'header_builder_layouts',
+        'logo',                     // Logo settings
+        'logo-retina',
+        'sticky-logo',
+        'sticky-logo-retina',
+        'logo_width',
+        'logo_height',
+        'logo_width_sticky',
+        'logo_height_sticky',
+    ];
+    
+    if ($action === 'compare') {
+        echo '<html><head><title>Porto Settings Difference Comparison</title>';
+        echo '<style>
+            body { font-family: monospace; background: #1e1e1e; color: #d4d4d4; padding: 20px; } 
+            table { border-collapse: collapse; width: 100%; margin-top: 20px; } 
+            th, td { border: 1px solid #444; padding: 8px; text-align: left; } 
+            th { background: #333; color: #bb86fc; } 
+            .changed { background: #3a2e0a; color: #ff9800; } 
+            .preserved { background: #1b3a1b; color: #4caf50; } 
+            .added { background: #1a1a2e; color: #03a9f4; } 
+            .removed { background: #3a1b1b; color: #f44336; }
+            .btn { background: #007aff; color: #fff; padding: 8px 16px; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: bold; margin-bottom: 20px; }
+        </style></head><body>';
+        echo '<h1>⚖️ Porto Settings Comparison (Backup vs Current)</h1>';
+        echo '<p>Listing options that will change if you execute the restore action below.</p>';
+        echo '<a href="?debug_porto_restore_settings=execute" class="btn">Execute Settings Restore</a>';
+        
+        echo '<table>';
+        echo '<tr><th>Option Key</th><th>Backup Value</th><th>Current Value</th><th>Status</th></tr>';
+        
+        $all_keys = array_unique(array_merge(array_keys($backup_options), array_keys($current_settings)));
+        ksort($all_keys);
+        
+        foreach ($all_keys as $key) {
+            $in_backup = array_key_exists($key, $backup_options);
+            $in_current = array_key_exists($key, $current_settings);
+            
+            $backup_val = $in_backup ? $backup_options[$key] : null;
+            $current_val = $in_current ? $current_settings[$key] : null;
+            
+            $backup_val_str = is_scalar($backup_val) ? esc_html((string)$backup_val) : '<i>[Array/Object]</i>';
+            $current_val_str = is_scalar($current_val) ? esc_html((string)$current_val) : '<i>[Array/Object]</i>';
+            
+            if (in_array($key, $keys_to_preserve)) {
+                echo '<tr class="preserved">';
+                echo '<td><strong>' . esc_html($key) . '</strong></td>';
+                echo '<td>' . $backup_val_str . '</td>';
+                echo '<td>' . $current_val_str . '</td>';
+                echo '<td>Preserved (Keeps Current)</td>';
+                echo '</tr>';
+            } elseif (!$in_backup) {
+                echo '<tr class="removed">';
+                echo '<td>' . esc_html($key) . '</td>';
+                echo '<td><i>Not in Backup</i></td>';
+                echo '<td>' . $current_val_str . '</td>';
+                echo '<td>Will be Removed</td>';
+                echo '</tr>';
+            } elseif (!$in_current) {
+                echo '<tr class="added">';
+                echo '<td>' . esc_html($key) . '</td>';
+                echo '<td>' . $backup_val_str . '</td>';
+                echo '<td><i>Not in Current</i></td>';
+                echo '<td>Will be Added</td>';
+                echo '</tr>';
+            } elseif ($backup_val !== $current_val) {
+                echo '<tr class="changed">';
+                echo '<td>' . esc_html($key) . '</td>';
+                echo '<td>' . $backup_val_str . '</td>';
+                echo '<td>' . $current_val_str . '</td>';
+                echo '<td>Will Change to Backup</td>';
+                echo '</tr>';
+            }
+        }
+        echo '</table>';
+        echo '</body></html>';
+        exit;
+    }
+    
+    if ($action === 'execute') {
+        // Build merged settings
+        $merged_settings = $backup_options;
+        
+        // Restore preserved keys from current settings
+        foreach ($keys_to_preserve as $key) {
+            if (array_key_exists($key, $current_settings)) {
+                $merged_settings[$key] = $current_settings[$key];
+            } else {
+                unset($merged_settings[$key]);
+            }
+        }
+        
+        // Save merged settings
+        $success = update_option('porto_settings', $merged_settings);
+        
+        echo '<html><head><title>Restore Execution Complete</title></head><body style="font-family:sans-serif;padding:40px;">';
+        if ($success) {
+            echo '<h1 style="color:green;">✅ Porto Settings Restored Successfully!</h1>';
+            echo '<p>The styling settings from the backup have been merged into <code>porto_settings</code> while preserving the header and custom CSS configuration.</p>';
+            echo '<p><strong>CRITICAL NEXT STEP:</strong> You MUST log into the WordPress Admin, go to <strong>Porto &rarr; Theme Options</strong>, and click <strong>"Save Settings"</strong> once. This forces the Porto theme to compile the new settings into the stylesheet files.</p>';
+        } else {
+            echo '<h1 style="color:orange;">⚠️ Merge Completed with no changes detected.</h1>';
+            echo '<p>The merged settings were identical to the current ones, or update_option returned false.</p>';
+        }
+        echo '<p><a href="/">Return to Home</a></p>';
+        echo '</body></html>';
+        exit;
+    }
+}
+
+
