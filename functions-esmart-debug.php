@@ -1999,9 +1999,19 @@ function emathsmart_debug_page_header_check() {
     
     foreach ($meta as $key => $values) {
         $val = $values[0];
+        
+        // Exclude massive layout/CSS keys
+        if (in_array($key, ['_wpb_post_custom_css', '_wpb_shortcodes_custom_css', '_vc_post_settings', '_wp_old_slug'])) {
+            continue;
+        }
+        
         // Unserialize if needed
         $unserialized = maybe_unserialize($val);
         $val_str = is_scalar($unserialized) ? esc_html((string)$unserialized) : '<pre>' . esc_html(print_r($unserialized, true)) . '</pre>';
+        
+        if (strlen($val_str) > 2000) {
+            $val_str = esc_html(substr($val_str, 0, 300)) . '... <i>[Truncated - Total length: ' . strlen($val_str) . ' bytes]</i>';
+        }
         
         // Highlight keys that could affect header or layout
         $style = '';
