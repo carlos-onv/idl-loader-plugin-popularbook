@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file for both hum
   - Updated `.sub-title` layout: set font-weight to `600 !important`, font-size to `14px !important`, margin to `-8px 0 6px !important`, padding-left to `100px !important`, and text-transform to `math-auto !important`.
   - Updated `.active-pill` style: set color to `var(--ink) !important`, font-weight to `400 !important`, font-size to `11px !important`, padding to `0px 12px !important`, and border-radius to `6px !important`.
 - **eMathSmart AI Coins Card Styles**:
-  - Updated `#parents-club-dashboard .coins-card .rh` font-size to `16px !important` in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
+  - Updated `#parents-club-dashboard .coins-card`: set padding to `10px !important`, and set `.rh` font-size to `16px !important` in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
 
 ## [2026-06-05] - Fix WPBakery Quick Links Element Loading Error
 
