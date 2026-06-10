@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-10] - Update Action Button Links in Member Subscription Card
+
+### Changed
+- **Direct WooCommerce Subscription URLs**:
+  - Replaced the static `$subscription->get_view_order_url()` for **Update Payment Method** with a secure checkout pay URL that appends the `change_payment_method` parameter and a default security nonce via `wp_nonce_url()`.
+  - Replaced the static `$subscription->get_view_order_url()` for **Cancel Subscription** with a secure cancellation link generated natively by `wcs_get_users_change_status_link()`.
+
+### Technical Notes for AI Agents
+- **Update Payment URL**:
+  ```php
+  $update_payment_url = wp_nonce_url( add_query_arg( array( 'change_payment_method' => $subscription->get_id() ), $subscription->get_checkout_payment_url() ) );
+  ```
+- **Cancel Subscription URL**:
+  ```php
+  $cancel_url = function_exists( 'wcs_get_users_change_status_link' )
+      ? wcs_get_users_change_status_link( $subscription->get_id(), 'cancelled' )
+      : $subscription->get_view_order_url();
+  ```
+
 ## [2026-06-10] - Dynamic Parents Club Member Subscription Card
 
 ### Added
