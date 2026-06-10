@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-10] - Refactored Quick Links Styles
+
+### Changed
+- **Parents Club Member Quick Links Styles**:
+  - Commented out the padding property in `#parents-club-member-quick-links` selector in [parents-club-member-quick-links.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-quick-links.css).
+
 ## [2026-06-05] - Refactored Subscription Card Styles
 
 ### Changed
