@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-10] - Welcome Card Title Template Fix
+
+### Changed
+- **Parents Club Member Welcome Card**: 
+  - Updated shortcode rendering to support HTML-encoded entities for `{wave}`, `[wave]`, and `{user_name}` placeholders.
+  - Added support for single and double HTML-encoded line breaks (`&lt;br&gt;`, `&lt;br /&gt;`, etc.) to prevent them from displaying as text on the screen.
+
 ## [2026-06-10] - Dashboard Container Margin
 
 ### Changed

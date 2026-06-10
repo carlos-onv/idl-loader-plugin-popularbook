@@ -5698,11 +5698,27 @@ function idl_loader_parents_club_member_welcome_shortcode( $atts ) {
     // Process title template
     $wave_html = '<span class="wave">👋</span>';
     $title = $attributes['title_template'];
-    $title = str_replace( '{user_name}', esc_html( $user_name ), $title );
-    $title = str_replace( array( '[wave]', '{wave}' ), $wave_html, $title );
+    $title = str_replace( array( '{user_name}', '&#123;user_name&#125;', '&#x7b;user_name&#x7d;', '&#x7B;user_name&#x7D;' ), esc_html( $user_name ), $title );
+    $title = str_replace( 
+        array( 
+            '[wave]', '{wave}', 
+            '&#91;wave&#93;', '&#x5b;wave&#x5d;', '&#x5B;wave&#x5D;',
+            '&#123;wave&#125;', '&#x7b;wave&#x7d;', '&#x7B;wave&#x7D;'
+        ), 
+        $wave_html, 
+        $title 
+    );
     $title = nl2br( esc_html( $title ) );
-    // Allow the wave span to be rendered as HTML by reversing the esc_html for it
+    // Allow the wave span and basic line breaks to be rendered as HTML by reversing the esc_html
     $title = str_replace( esc_html( $wave_html ), $wave_html, $title );
+    $title = str_replace( 
+        array( 
+            '&lt;br&gt;', '&lt;br /&gt;', '&lt;br/&gt;',
+            '&amp;lt;br&amp;gt;', '&amp;lt;br /&amp;gt;', '&amp;lt;br/&amp;gt;'
+        ), 
+        '<br>', 
+        $title 
+    );
 
     $subtitle = esc_html( $attributes['subtitle'] );
 
