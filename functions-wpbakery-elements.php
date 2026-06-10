@@ -6827,7 +6827,7 @@ function idl_loader_parents_club_member_billing_shortcode( $atts ) {
 
     ob_start();
     ?>
-    <section id="parents-club-dashboard" style="padding: 0 !important; background-color: transparent !important;">
+    <section id="parents-club-billing" style="padding: 0 !important; background-color: transparent !important;">
         <div class="card bill-card">
             <div class="bill-head">
                 <div class="rh"><?php echo $title; ?></div>

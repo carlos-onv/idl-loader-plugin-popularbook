@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-10] - Rename Billing Element Wrapper ID to #parents-club-billing
+
+### Changed
+- **Billing History WPBakery Element**:
+  - Renamed wrapper ID from `#parents-club-dashboard` to `#parents-club-billing` in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php) and [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html).
+  - Added layout styles `flex-grow: 1 !important` and `display: flex !important` to `#parents-club-billing` in [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css).
+  - Set `.card.bill-card` to `width: 100% !important` in [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css).
+  - Scoped all billing styles under `#parents-club-billing` in [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css).
+
 ## [2026-06-10] - Update Receipt Download Button CSS Padding
 
 ### Changed
