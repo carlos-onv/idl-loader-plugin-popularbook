@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-10] - Dashboard Container Margin
+
+### Changed
+- **Parents Club Dashboard**: Added `margin-top: 10px !important` to `#parents-club-dashboard` in [parents-club-dashboard-subscription.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-subscription.css).
+
 ## [2026-06-10] - Refactored Quick Links Styles
 
 ### Changed
