@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file for both hum
 ### Changed
 - **Parents Club Member Quick Links Styles**:
   - Commented out the padding property in `#parents-club-member-quick-links` selector in [parents-club-member-quick-links.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-quick-links.css).
+  - Removed the `max-width` property from `.quick-links-bar` selector in [parents-club-member-quick-links.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-quick-links.css).
 
 ## [2026-06-05] - Refactored Subscription Card Styles
 
