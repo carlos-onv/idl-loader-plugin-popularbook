@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-10] - Update Receipt Download Button CSS Padding
+
+### Changed
+- **eMathSmart Billing Card Styles**:
+  - Updated `#parents-club-dashboard .download-btn` padding to `3px 10px !important` (was `14px 10px !important`) in [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css).
+
 ## [2026-06-10] - Update Billing Row CSS Padding
 
 ### Changed
