@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-10] - Dynamic Parents Club Member Subscription Card
+
+### Added
+- **Dynamic Subscription Details Mapping**:
+  - Implemented dynamic subscription details mapping in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php).
+  - Wrote helper function `idl_loader_get_subscription_payment_details()` to dynamically retrieve payment card brand/type and last 4 digits from WooCommerce payment tokens, Stripe metadata, or fallback titles.
+  - Modified the shortcode handler `idl_loader_parents_club_member_subscription_shortcode()` to automatically fetch the logged-in user's latest WooCommerce subscription via `wcs_get_users_subscriptions()`.
+  - Replaced dummy card details (Subscription Type, Plan, Status, trial/expiration dates, billing cycles, payment method, grade level access) with real data from the user's latest subscription.
+  - Set fallback behaviour for logged-in users without an active subscription to display "None" subscription type, "Inactive" status, grade level access, and a single "Subscribe Now" action button.
+  - Kept static configured parameters as the guest fallback for non-logged-in visitors.
+
+### Technical Notes for AI Agents
+- **Helper Function**: `idl_loader_get_subscription_payment_details( $subscription )` extracts payment tokens (`WC_Payment_Token_CC`), Stripe card metadata (`_stripe_card_brand`/`_stripe_card_last4`), or falls back to payment method titles.
+- **Shortcode**: `[parents_club_member_subscription]` dynamically adjusts actions (Cancel/Update Payment/Subscribe Now) and links to home URL subscription endpoints.
+
 ## [2026-06-10] - Update Billing Card CSS Margin
 
 ### Changed

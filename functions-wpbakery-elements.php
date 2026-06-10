@@ -6077,6 +6077,76 @@ function idl_loader_parents_club_member_quick_links_shortcode( $atts ) {
 // SECTION 8: [parents_club_member_subscription] Shortcode Handler
 // -----------------------------------------------------------------------------
 
+/**
+ * Helper function to retrieve payment method card details for a subscription.
+ */
+function idl_loader_get_subscription_payment_details( $subscription ) {
+    $card_type = '';
+    $card_last4 = '';
+    $has_card = false;
+
+    // Check payment tokens on the subscription
+    if ( method_exists( $subscription, 'get_payment_tokens' ) ) {
+        $tokens = $subscription->get_payment_tokens();
+        if ( ! empty( $tokens ) ) {
+            foreach ( $tokens as $token_id ) {
+                $token = WC_Payment_Tokens::get( $token_id );
+                if ( $token && $token instanceof WC_Payment_Token_CC ) {
+                    $card_type = strtoupper( $token->get_card_type() );
+                    $card_last4 = $token->get_last4();
+                    $has_card = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    // Fallback: Check Stripe metadata keys
+    if ( ! $has_card ) {
+        $brand = $subscription->get_meta( '_stripe_card_brand', true );
+        $last4 = $subscription->get_meta( '_stripe_card_last4', true );
+        if ( ! empty( $brand ) && ! empty( $last4 ) ) {
+            $card_type = strtoupper( $brand );
+            $card_last4 = $last4;
+            $has_card = true;
+        } else {
+            $parent = $subscription->get_parent();
+            if ( $parent ) {
+                $brand = $parent->get_meta( '_stripe_card_brand', true );
+                $last4 = $parent->get_meta( '_stripe_card_last4', true );
+                if ( ! empty( $brand ) && ! empty( $last4 ) ) {
+                    $card_type = strtoupper( $brand );
+                    $card_last4 = $last4;
+                    $has_card = true;
+                }
+            }
+        }
+    }
+
+    // Fallback: Check payment method title
+    if ( ! $has_card ) {
+        $payment_title = $subscription->get_payment_method_title();
+        if ( empty( $payment_title ) && $subscription->get_parent() ) {
+            $payment_title = $subscription->get_parent()->get_payment_method_title();
+        }
+        
+        if ( ! empty( $payment_title ) ) {
+            if ( stripos( $payment_title, 'stripe' ) !== false || stripos( $payment_title, 'credit' ) !== false || stripos( $payment_title, 'card' ) !== false ) {
+                $card_type = 'Credit Card';
+                $card_last4 = '****';
+            } else {
+                $card_type = $payment_title;
+                $card_last4 = '';
+            }
+        }
+    }
+
+    return array(
+        'card_type'  => $card_type,
+        'card_last4' => $card_last4,
+    );
+}
+
 add_shortcode( 'parents_club_member_subscription', 'idl_loader_parents_club_member_subscription_shortcode' );
 
 function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
@@ -6141,13 +6211,292 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
         }
     }
 
-    // Details lists parsing
+    // Fetch dynamic database content if user is logged in
+    $user_id = get_current_user_id();
+    $subscription = null;
+    $sub_status = '';
+    $is_in_trial = false;
+
+    if ( $user_id ) {
+        $subscriptions = function_exists( 'wcs_get_users_subscriptions' ) ? wcs_get_users_subscriptions( $user_id ) : array();
+        if ( ! empty( $subscriptions ) ) {
+            $subscription = reset( $subscriptions );
+            $sub_status = $subscription->get_status();
+            $is_in_trial = ( 'active' === $sub_status && $subscription->get_date( 'trial_end' ) > 0 && time() < strtotime( $subscription->get_date( 'trial_end' ) ) );
+        }
+    }
+
     $details_data = array();
-    if ( ! empty( $attributes['details_list'] ) ) {
-        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
-            $details_data = vc_param_group_parse_atts( $attributes['details_list'] );
+    $actions_data = array();
+    $status_pill_text = $attributes['status_text'];
+
+    if ( $user_id ) {
+        if ( $subscription ) {
+            // Subscription Type (Product Name)
+            $sub_type = 'eMathSmart Subscription';
+            foreach ( $subscription->get_items() as $item ) {
+                $sub_type = $item->get_name();
+                break;
+            }
+
+            $plan_name = 'Full Access Plan';
+
+            if ( 'active' === $sub_status ) {
+                $status_val = $is_in_trial ? 'On Free Trial' : 'Active';
+                $status_pill_text = $is_in_trial ? 'Free Trial' : 'Active';
+            } elseif ( 'pending-cancel' === $sub_status ) {
+                $status_val = 'Pending Cancellation';
+                $status_pill_text = 'Pending Cancellation';
+            } elseif ( 'on-hold' === $sub_status ) {
+                $status_val = 'On Hold';
+                $status_pill_text = 'On Hold';
+            } else {
+                $status_val = ucfirst( $sub_status );
+                $status_pill_text = ucfirst( $sub_status );
+            }
+
+            $details_data[] = array(
+                'label'                => 'Subscription Type',
+                'value'                => $sub_type,
+                'value_type'           => 'normal',
+                'icon_source'          => 'brand',
+                'predefined_icon_type' => 'checkmark',
+            );
+
+            $details_data[] = array(
+                'label'                => 'Plan',
+                'value'                => $plan_name,
+                'value_type'           => 'normal',
+                'icon_source'          => 'brand',
+                'predefined_icon_type' => 'checkmark',
+            );
+
+            $details_data[] = array(
+                'label'                => 'Status',
+                'value'                => $status_val,
+                'value_type'           => 'pill',
+                'icon_source'          => 'brand',
+                'predefined_icon_type' => 'checkmark',
+            );
+
+            if ( $is_in_trial ) {
+                $trial_end_time = strtotime( $subscription->get_date( 'trial_end' ) );
+                $days_left = ceil( ( $trial_end_time - time() ) / DAY_IN_SECONDS );
+                if ( $days_left < 0 ) {
+                    $days_left = 0;
+                }
+                $trial_ends_val = date_i18n( get_option( 'date_format' ), $trial_end_time ) . ' (' . sprintf( _n( '%s day left', '%s days left', $days_left, 'book-junky' ), $days_left ) . ')';
+
+                $details_data[] = array(
+                    'label'                => 'Trial Ends',
+                    'value'                => $trial_ends_val,
+                    'value_type'           => 'blue_highlight',
+                    'icon_source'          => 'brand',
+                    'predefined_icon_type' => 'checkmark',
+                );
+            }
+
+            if ( in_array( $sub_status, array( 'active', 'on-hold' ) ) && ! $is_in_trial ) {
+                $next_payment = $subscription->get_date( 'next_payment' );
+                if ( $next_payment > 0 ) {
+                    $next_payment_time = strtotime( $next_payment );
+                    $details_data[] = array(
+                        'label'                => 'Next Billing Date',
+                        'value'                => date_i18n( get_option( 'date_format' ), $next_payment_time ),
+                        'value_type'           => 'normal',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'checkmark',
+                    );
+                }
+            } elseif ( 'pending-cancel' === $sub_status ) {
+                $end_date = $subscription->get_date( 'end' );
+                if ( $end_date > 0 ) {
+                    $end_date_time = strtotime( $end_date );
+                    $details_data[] = array(
+                        'label'                => 'Expires On',
+                        'value'                => date_i18n( get_option( 'date_format' ), $end_date_time ),
+                        'value_type'           => 'normal',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'checkmark',
+                    );
+                }
+            } elseif ( in_array( $sub_status, array( 'cancelled', 'expired' ) ) ) {
+                $end_date = $subscription->get_date( 'end' );
+                if ( $end_date > 0 ) {
+                    $end_date_time = strtotime( $end_date );
+                    $details_data[] = array(
+                        'label'                => 'Ended On',
+                        'value'                => date_i18n( get_option( 'date_format' ), $end_date_time ),
+                        'value_type'           => 'normal',
+                        'icon_source'          => 'brand',
+                        'predefined_icon_type' => 'checkmark',
+                    );
+                }
+            }
+
+            $recurring_total = $subscription->get_total();
+            $billing_period = $subscription->get_billing_period();
+            $billing_interval = $subscription->get_billing_interval();
+            $currency_symbol = get_woocommerce_currency_symbol( $subscription->get_currency() );
+
+            $cycle_str = $currency_symbol . number_format( (float) $recurring_total, 2 ) . ' / ';
+            if ( $billing_interval > 1 ) {
+                $cycle_str .= 'every ' . $billing_interval . ' ' . $billing_period . 's';
+            } else {
+                $cycle_str .= $billing_period;
+            }
+
+            $details_data[] = array(
+                'label'                => 'Billing Cycle',
+                'value'                => $cycle_str,
+                'value_type'           => 'normal',
+                'icon_source'          => 'brand',
+                'predefined_icon_type' => 'checkmark',
+            );
+
+            $payment_details = idl_loader_get_subscription_payment_details( $subscription );
+            if ( $payment_details['card_last4'] ) {
+                $next_charge_text = '';
+                if ( in_array( $sub_status, array( 'active', 'on-hold' ) ) ) {
+                    $next_payment = $subscription->get_date( 'next_payment' );
+                    if ( $next_payment > 0 ) {
+                        $next_charge_text = 'Next Charge: ' . date_i18n( get_option( 'date_format' ), strtotime( $next_payment ) );
+                    } elseif ( $is_in_trial ) {
+                        $trial_end = $subscription->get_date( 'trial_end' );
+                        if ( $trial_end > 0 ) {
+                            $next_charge_text = 'Next Charge: ' . date_i18n( get_option( 'date_format' ), strtotime( $trial_end ) );
+                        }
+                    }
+                }
+
+                $details_data[] = array(
+                    'label'                => 'Payment Method',
+                    'value'                => 'ending in ' . $payment_details['card_last4'],
+                    'value_type'           => 'card',
+                    'card_type'            => $payment_details['card_type'],
+                    'card_subtext'         => $next_charge_text,
+                    'icon_source'          => 'brand',
+                    'predefined_icon_type' => 'card',
+                );
+            } else {
+                $details_data[] = array(
+                    'label'                => 'Payment Method',
+                    'value'                => $payment_details['card_type'] ? $payment_details['card_type'] : 'None',
+                    'value_type'           => 'normal',
+                    'icon_source'          => 'brand',
+                    'predefined_icon_type' => 'card',
+                );
+            }
+
+            $access_grade = get_user_meta( $user_id, 'user_registration_grade_level', true );
+            if ( empty( $access_grade ) ) {
+                foreach ( $subscription->get_items() as $item ) {
+                    if ( preg_match( '/Grade\s*[1-8]/i', $item->get_name(), $matches ) ) {
+                        $access_grade = $matches[0];
+                        break;
+                    }
+                }
+            }
+            if ( empty( $access_grade ) ) {
+                $access_grade = 'Grade 3';
+            }
+
+            $details_data[] = array(
+                'label'                => 'Access',
+                'value'                => $access_grade,
+                'value_type'           => 'normal',
+                'icon_source'          => 'brand',
+                'predefined_icon_type' => 'user',
+            );
+
+            // Actions
+            if ( in_array( $sub_status, array( 'active', 'on-hold' ) ) ) {
+                $actions_data[] = array(
+                    'btn_text'             => 'Update Payment Method',
+                    'btn_link'             => $subscription->get_view_order_url(),
+                    'icon_source'          => 'brand',
+                    'predefined_icon_type' => 'card',
+                );
+            }
+
+            $actions_data[] = array(
+                'btn_text'             => 'Add Another Subscription',
+                'btn_link'             => home_url( '/subscription/' ),
+                'icon_source'          => 'brand',
+                'predefined_icon_type' => 'plus',
+            );
+
+            if ( in_array( $sub_status, array( 'active', 'on-hold' ) ) && $subscription->can_be_updated_to( 'cancelled' ) ) {
+                $actions_data[] = array(
+                    'btn_text'             => 'Cancel Subscription',
+                    'btn_link'             => $subscription->get_view_order_url(),
+                    'icon_source'          => 'brand',
+                    'predefined_icon_type' => 'cancel',
+                );
+            }
+
+            // Override Portal URL for active subscriptions
+            if ( in_array( $sub_status, array( 'active', 'on-hold' ) ) ) {
+                $portal_url = emathsmart_get_api_url();
+            }
+
         } else {
-            $details_data = json_decode( urldecode( $attributes['details_list'] ), true );
+            // Logged in, NO subscription
+            $access_grade = get_user_meta( $user_id, 'user_registration_grade_level', true );
+            if ( empty( $access_grade ) ) {
+                $access_grade = 'Grade 3';
+            }
+
+            $details_data = array(
+                array(
+                    'label'                => 'Subscription Type',
+                    'value'                => 'None',
+                    'value_type'           => 'normal',
+                    'icon_source'          => 'brand',
+                    'predefined_icon_type' => 'checkmark',
+                ),
+                array(
+                    'label'                => 'Status',
+                    'value'                => 'Inactive',
+                    'value_type'           => 'pill',
+                    'icon_source'          => 'brand',
+                    'predefined_icon_type' => 'checkmark',
+                ),
+                array(
+                    'label'                => 'Access',
+                    'value'                => $access_grade,
+                    'value_type'           => 'normal',
+                    'icon_source'          => 'brand',
+                    'predefined_icon_type' => 'user',
+                ),
+            );
+
+            $actions_data = array(
+                array(
+                    'btn_text'             => 'Subscribe Now',
+                    'btn_link'             => home_url( '/subscription/' ),
+                    'icon_source'          => 'brand',
+                    'predefined_icon_type' => 'plus',
+                ),
+            );
+
+            $status_pill_text = 'Inactive';
+        }
+    } else {
+        // Guest fallback (uses WPBakery parameter mapping)
+        if ( ! empty( $attributes['details_list'] ) ) {
+            if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+                $details_data = vc_param_group_parse_atts( $attributes['details_list'] );
+            } else {
+                $details_data = json_decode( urldecode( $attributes['details_list'] ), true );
+            }
+        }
+        if ( ! empty( $attributes['actions_list'] ) ) {
+            if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+                $actions_data = vc_param_group_parse_atts( $attributes['actions_list'] );
+            } else {
+                $actions_data = json_decode( urldecode( $attributes['actions_list'] ), true );
+            }
         }
     }
 
@@ -6218,9 +6567,9 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
             } elseif ( $value_type === 'blue_highlight' ) {
                 // Split around brackets for subtext styling e.g. June 15, 2025 (7 days left)
                 if ( preg_match( '/(.*?)(\(.*?\))/', $value, $matches ) ) {
-                    $value_html = '<span class="blue">' . esc_html( trim( $matches[1] ) ) . ' <span class="days">' . esc_html( trim( $matches[2] ) ) . '</span></span>';
+                     $value_html = '<span class="blue">' . esc_html( trim( $matches[1] ) ) . ' <span class="days">' . esc_html( trim( $matches[2] ) ) . '</span></span>';
                 } else {
-                    $value_html = '<span class="blue">' . esc_html( $value ) . '</span>';
+                     $value_html = '<span class="blue">' . esc_html( $value ) . '</span>';
                 }
             } elseif ( $value_type === 'card' ) {
                 $value_html = '<span class="pay">
@@ -6266,16 +6615,6 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                     ' . esc_html( $item_text ) . '
                 </div>';
             }
-        }
-    }
-
-    // Action buttons parsing
-    $actions_data = array();
-    if ( ! empty( $attributes['actions_list'] ) ) {
-        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
-            $actions_data = vc_param_group_parse_atts( $attributes['actions_list'] );
-        } else {
-            $actions_data = json_decode( urldecode( $attributes['actions_list'] ), true );
         }
     }
 
@@ -6364,7 +6703,7 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
         <section class="card sub-card">
             <div class="sub-top">
                 <img class="logo" src="<?php echo esc_url( $logo_url ); ?>" alt="eMathSmart">
-                <span class="active-pill"><?php echo esc_html( $attributes['status_text'] ); ?></span>
+                <span class="active-pill"><?php echo esc_html( $status_pill_text ); ?></span>
                 <?php if ( ! empty( $attributes['portal_btn_text'] ) ) : ?>
                     <a href="<?php echo esc_url( $portal_url ); ?>" class="go-btn" <?php echo ! empty( $portal_target ) ? 'target="' . $portal_target . '"' : ''; ?>>
                         <?php echo esc_html( $attributes['portal_btn_text'] ); ?>
@@ -6379,7 +6718,7 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
 
             <div class="sub-body">
                 <!-- Illustration -->
-                <img class="illu" src="<?php echo esc_url( $tablet_url ); ?>" alt="eMathSmart tablet, books and supplies">
+                <img class="illu" src="<?php echo esc_url($tablet_url); ?>" alt="eMathSmart tablet, books and supplies">
 
                 <!-- Details list -->
                 <div class="details">
