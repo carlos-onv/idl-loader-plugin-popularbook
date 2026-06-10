@@ -5698,17 +5698,17 @@ function idl_loader_parents_club_member_welcome_shortcode( $atts ) {
     // Process title template
     $wave_html = '<span class="wave">👋</span>';
     $title = $attributes['title_template'];
-    $title = str_replace( array( '{user_name}', '&#123;user_name&#125;', '&#x7b;user_name&#x7d;', '&#x7B;user_name&#x7D;' ), esc_html( $user_name ), $title );
-    $title = str_replace( 
-        array( 
-            '[wave]', '{wave}', 
-            '&#91;wave&#93;', '&#x5b;wave&#x5d;', '&#x5B;wave&#x5D;',
-            '&#123;wave&#125;', '&#x7b;wave&#x7d;', '&#x7B;wave&#x7D;'
-        ), 
-        $wave_html, 
-        $title 
-    );
+    
+    // Replace username template using regex to support backticks, brackets, braces, and HTML entities
+    $user_pattern = '/(?:`|&#96;|&#x60;)?(?:\{|\&\#123;|\&\#x7b;|\&\#x7B;)(?:`|&#96;|&#x60;)?user_name(?:`|&#96;|&#x60;)?(?:\}|\&\#125;|\&\#x7d;|\&\#x7D;)(?:`|&#96;|&#x60;)?/i';
+    $title = preg_replace( $user_pattern, esc_html( $user_name ), $title );
+    
+    // Replace wave template using regex to support backticks, brackets, braces, and HTML entities
+    $wave_pattern = '/(?:`|&#96;|&#x60;)?(?:\[|\{|\&\#91;|\&\#123;|\&\#x5b;|\&\#x7b;)(?:`|&#96;|&#x60;)?wave(?:`|&#96;|&#x60;)?(?:\]|\}|\&\#93;|\&\#125;|\&\#x5d;|\&\#x7d;)(?:`|&#96;|&#x60;)?/i';
+    $title = preg_replace( $wave_pattern, $wave_html, $title );
+    
     $title = nl2br( esc_html( $title ) );
+    
     // Allow the wave span and basic line breaks to be rendered as HTML by reversing the esc_html
     $title = str_replace( esc_html( $wave_html ), $wave_html, $title );
     $title = str_replace( 
