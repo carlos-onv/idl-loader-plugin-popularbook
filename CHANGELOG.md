@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-10] - Update Coins Card CSS Padding
+
+### Changed
+- **eMathSmart AI Coins Card Styles**:
+  - Updated `#parents-club-dashboard .coins-card` padding to `15px !important` (was `10px !important`) in [parents-club-dashboard-coins.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
+
 ## [2026-06-10] - Welcome Card Title Template Fix
 
 ### Changed
