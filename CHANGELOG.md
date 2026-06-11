@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-06-10] - Update Brand Column Attribute List Margin
+## [2026-06-10] - Update Brand Column Element Margins
 
 ### Changed
 - **WPBakery Element Styles**:
   - Updated `.brand-column .brand-attribute-list` `margin-bottom` from `35px` to `50px` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css) to increase spacing below the attribute list.
+  - Updated `.brand-column .brand-logo-wrapper` `margin-bottom` from `30px` to `50px` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css) to increase spacing below the brand logo.
 
 ## [2026-06-10] - Real Billing History Data with View All Toggle
 
