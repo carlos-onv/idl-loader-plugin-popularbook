@@ -2942,7 +2942,7 @@ function idl_loader_register_parents_club_elements() {
                     ),
                     array(
                         'btn_text'             => 'Add Another Subscription',
-                        'btn_link'             => '#add-sub',
+                        'btn_link'             => '/subscription',
                         'icon_source'          => 'brand',
                         'predefined_icon_type' => 'plus',
                     ),
@@ -7119,6 +7119,54 @@ function idl_loader_parents_club_member_billing_shortcode( $atts ) {
         );
     }
 
+    // Replace placeholder rows with real billing history for logged-in users
+    $user_id = get_current_user_id();
+    if ( $user_id ) {
+        $real_rows = array();
+
+        $orders = wc_get_orders( array(
+            'customer_id' => $user_id,
+            'status'      => array( 'completed', 'processing' ),
+            'limit'       => -1,
+            'orderby'     => 'date',
+            'order'       => 'DESC',
+        ) );
+
+        foreach ( $orders as $order ) {
+            foreach ( $order->get_items() as $item ) {
+                $product = $item->get_product();
+                if ( ! $product ) {
+                    continue;
+                }
+
+                $product_id = $product->get_parent_id() ? $product->get_parent_id() : $product->get_id();
+                if ( ! has_term( 'emathsmart-woo', 'product_cat', $product_id ) ) {
+                    continue;
+                }
+
+                $currency_symbol = get_woocommerce_currency_symbol( $order->get_currency() );
+
+                $real_rows[] = array(
+                    'date'       => wc_format_datetime( $order->get_date_created(), get_option( 'date_format' ) ),
+                    'plan_name'  => $item->get_name(),
+                    'amount'     => $currency_symbol . number_format( (float) $item->get_total(), 2 ),
+                    '_timestamp' => $order->get_date_created()->getTimestamp(),
+                );
+            }
+        }
+
+        usort( $real_rows, function( $a, $b ) {
+            return $b['_timestamp'] <=> $a['_timestamp'];
+        } );
+
+        foreach ( $real_rows as &$row ) {
+            unset( $row['_timestamp'] );
+        }
+        unset( $row );
+
+        $rows_data = $real_rows;
+    }
+
     // Helper closure to render download icon
     $render_download_icon = function( $source, $predefined_type, $library, $fa_icon, $li_icon, $custom_icon_id ) {
         if ( $source === 'none' ) {
@@ -7168,28 +7216,39 @@ function idl_loader_parents_club_member_billing_shortcode( $atts ) {
 
     $btn_icon_html = $render_download_icon( $icon_source, $predefined, $lib, $fa, $li, $custom );
 
+    $visible_limit = 4;
+    $has_more      = count( $rows_data ) > $visible_limit;
+    $billing_id    = 'pc-billing-' . uniqid();
+
     ob_start();
     ?>
     <section id="parents-club-billing" style="padding: 0 !important; background-color: transparent !important;">
-        <div class="card bill-card">
+        <div class="card bill-card" id="<?php echo esc_attr( $billing_id ); ?>">
             <div class="bill-head">
                 <div class="rh"><?php echo $title; ?></div>
-                <?php if ( ! empty( $view_all_text ) ) : ?>
-                    <a href="<?php echo esc_url( $view_all_url ); ?>" class="view-all" <?php echo ! empty( $view_all_target ) ? 'target="' . $view_all_target . '"' : ''; ?>><?php echo $view_all_text; ?></a>
+                <?php if ( $has_more && ! empty( $view_all_text ) ) : ?>
+                    <span class="view-all" data-show-text="<?php echo esc_attr( $view_all_text ); ?>" data-hide-text="<?php echo esc_attr__( 'Show less', 'book-junky' ); ?>"><?php echo esc_html( $view_all_text ); ?></span>
                 <?php endif; ?>
             </div>
             <div style="margin-top:8px;">
-                <?php foreach ( $rows_data as $row ) : 
-                    $row_date   = isset( $row['date'] ) ? $row['date'] : '';
-                    $row_plan   = isset( $row['plan_name'] ) ? $row['plan_name'] : '';
-                    $row_amount = isset( $row['amount'] ) ? $row['amount'] : '';
-                    ?>
+                <?php if ( empty( $rows_data ) ) : ?>
                     <div class="bill-row">
-                        <span class="bill-date"><?php echo esc_html( $row_date ); ?></span>
-                        <span class="bill-plan"><?php echo esc_html( $row_plan ); ?></span>
-                        <span class="bill-amt"><?php echo esc_html( $row_amount ); ?></span>
+                        <span class="bill-plan"><?php esc_html_e( 'No billing history yet.', 'book-junky' ); ?></span>
                     </div>
-                <?php endforeach; ?>
+                <?php else : ?>
+                    <?php foreach ( $rows_data as $index => $row ) :
+                        $row_date   = isset( $row['date'] ) ? $row['date'] : '';
+                        $row_plan   = isset( $row['plan_name'] ) ? $row['plan_name'] : '';
+                        $row_amount = isset( $row['amount'] ) ? $row['amount'] : '';
+                        $is_extra   = $index >= $visible_limit;
+                        ?>
+                        <div class="bill-row<?php echo $is_extra ? ' bill-row-extra' : ''; ?>">
+                            <span class="bill-date"><?php echo esc_html( $row_date ); ?></span>
+                            <span class="bill-plan"><?php echo esc_html( $row_plan ); ?></span>
+                            <span class="bill-amt"><?php echo esc_html( $row_amount ); ?></span>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
             <?php if ( ! empty( $download_btn_text ) ) : ?>
                 <a href="<?php echo esc_url( $download_url ); ?>" class="download-btn" <?php echo ! empty( $download_target ) ? 'target="' . $download_target . '"' : ''; ?> style="text-decoration: none;">
@@ -7199,6 +7258,24 @@ function idl_loader_parents_club_member_billing_shortcode( $atts ) {
             <?php endif; ?>
         </div>
     </section>
+    <?php if ( $has_more ) : ?>
+        <script>
+        (function () {
+            var card = document.getElementById( <?php echo wp_json_encode( $billing_id ); ?> );
+            if ( ! card ) {
+                return;
+            }
+            var toggle = card.querySelector( '.view-all' );
+            if ( ! toggle ) {
+                return;
+            }
+            toggle.addEventListener( 'click', function () {
+                var expanded = card.classList.toggle( 'is-expanded' );
+                toggle.textContent = expanded ? toggle.getAttribute( 'data-hide-text' ) : toggle.getAttribute( 'data-show-text' );
+            } );
+        })();
+        </script>
+    <?php endif; ?>
     <?php
     return ob_get_clean();
 }

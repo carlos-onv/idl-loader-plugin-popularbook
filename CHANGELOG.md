@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-10] - Update Brand Column Attribute List Margin
+
+### Changed
+- **WPBakery Element Styles**:
+  - Updated `.brand-column .brand-attribute-list` `margin-bottom` from `35px` to `50px` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css) to increase spacing below the attribute list.
+
+## [2026-06-10] - Real Billing History Data with View All Toggle
+
+### Added
+- **Real Billing History Data**:
+  - In `idl_loader_parents_club_member_billing_shortcode()`, replaced placeholder `billing_rows` with the logged-in user's real WooCommerce orders (`completed`/`processing`) via `wc_get_orders()`.
+  - Filtered order line items to products in the `emathsmart-woo` product category (checking `get_parent_id()` for variations), covering both subscription and AI Coins purchases.
+  - Sorted resulting rows by order date descending and added an empty-state message ("No billing history yet.") when there are no matching orders.
+- **View All / Show Less Toggle**:
+  - Limited the visible billing rows to 4; rows beyond that get a `bill-row-extra` class.
+  - Added a `.view-all` toggle span (rendered only when there are more than 4 rows) that switches between the configured "View All" text and "Show less", toggling an `is-expanded` class on the card via inline JS.
+
+### Fixed
+- **CSS Specificity Bug Hiding Toggle**:
+  - The `!important` rule on `#parents-club-billing .bill-row` was overriding the inline `display:none` originally used to hide extra rows, so all rows always showed.
+  - Fixed in [parents-club-dashboard-billing.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-billing.css) by adding `#parents-club-billing .bill-row.bill-row-extra { display: none !important; }` and `#parents-club-billing .bill-card.is-expanded .bill-row.bill-row-extra { display: grid !important; }`, and switching the toggle script to add/remove the `is-expanded` class instead of setting inline styles.
+
+### Technical Notes for AI Agents
+- Billing history depends on the `emathsmart-woo` product category slug existing and being assigned to all relevant subscription/AI Coins products (or their parent variable products).
+- The `bCheck()` `ReferenceError` seen in browser consoles on this page is unrelated pre-existing code in the child theme's `header.php` (crawler/Lighthouse detection), not part of this change.
+
 ## [2026-06-10] - Update Action Button Links in Member Subscription Card
 
 ### Changed

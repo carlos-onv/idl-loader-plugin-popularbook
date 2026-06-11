@@ -53,6 +53,14 @@
     border-bottom: none !important;
 }
 
+#parents-club-billing .bill-row.bill-row-extra {
+    display: none !important;
+}
+
+#parents-club-billing .bill-card.is-expanded .bill-row.bill-row-extra {
+    display: grid !important;
+}
+
 #parents-club-billing .bill-date {
     font-weight: 700 !important;
     font-size: 14.5px !important;
