@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-06-12] - Upgrade APIs #7 and #8 Security to Client Credentials + HMAC-SHA256
+## [2026-06-12] - Upgrade APIs #7 and #8 Security and Data Mappings
 
 ### Added
 - **HMAC-SHA256 Signature Verification Helper**:
@@ -15,9 +15,16 @@ All notable changes to this project will be documented in this file for both hum
   - Enabled server-to-server OAuth 2.0 Client Credentials token checks on these routes.
 - **Disabled PKCE Checks**:
   - Commented out the PKCE checks for `/orderpaymentcompensate` and `/orderrefundcompensate` inside `enforce_pkce_for_specific_url()` as these endpoints now run server-to-server via `client_credentials` grant type.
+- **Refactored APIs #7 and #8 Data Mappings**:
+  - Refactored `/orderpaymentcompensate` to query `shop_order` posts rather than `shop_subscription` posts, ensuring renewals, trial starts, and AI Coins purchases are all reported.
+  - Restricted both `/orderpaymentcompensate` and `/orderrefundcompensate` query results to orders/items belonging to the `emathsmart-woo` product category slug.
+  - Updated `/orderpaymentcompensate` loops to dynamically categorize transaction types (Type 1 = Subscription, Type 2 = AI Coins) and parse properties (AI Coins package counts, subscription type, trial type, and trial length calculation) from WooCommerce objects.
+  - Updated `/orderrefundcompensate` to return only refunded orders belonging to the `emathsmart-woo` category and dynamically retrieve the refund timestamp from the order modification date.
 
 ### Technical Notes for AI Agents
-- Incoming requests to `/orderpaymentcompensate` and `/orderrefundcompensate` must be authenticated via Bearer token (obtained via OAuth Client Credentials) and signed using the shared secret `get_option('emathsmart_api_secret')`.
+- Inbound API #7 and API #8 endpoints require OAuth Client Credentials token checks and HMAC-SHA256 signatures.
+- Filtering WooCommerce orders by category is implemented using term taxonomy tables for `product_cat` term slug `emathsmart-woo`.
+- WooCommerce Subscriptions dates (created, trial end, billing periods) are resolved programmatically to derive `subscriptionType` (`1` = Trial, `2` = Monthly, `3` = Yearly) and `trialType` (`1` = 7 days, `2` = 14 days) values contextually.
 
 ## [2026-06-10] - Update Brand Column Element Margins and Actions
 

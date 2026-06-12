@@ -301,186 +301,145 @@ function restapi_orderPaymentCompensate($request) {
     $pageSize  = !empty($params['pageSize']) ? (int)$params['pageSize'] : 20;
 
     $offset = ($pageNo - 1) * $pageSize;
-    
-    /*
-    $user = null;
-
-    $auth_header = $request->get_header('Authorization');
-    if ($auth_header && strpos($auth_header, 'Bearer ') === 0) {
-        $access_token = str_replace('Bearer ', '', $auth_header);
-        if (function_exists('wo_public_get_access_token')) {
-            $token_data = wo_public_get_access_token($access_token);
-            if ($token_data && isset($token_data['user_id'])) {
-                $user = get_user_by('ID', $token_data['user_id']);
-            }
-        }
-    }
-
-    if (!$user) {
-        if (empty($params)) {
-            $params = $_REQUEST;
-        }
-        if (!empty($params['email'])) {
-            $user = get_user_by(
-                'email',
-                sanitize_email($params['email'])
-            );
-        } else if (!empty($params['parentId'])) {
-            $user = get_user_by(
-                'ID',
-                (int)$params['parentId']
-            );
-        }
-    }
-
-    if (!$user) {
-        $error_id = uniqid();
-        emathsmart_log_api_error(
-            1,      // The Order ID involved
-            'API #8',     // The API type
-            1,       // Which retry attempt this was
-            $params,  // The JSON payload we tried to send/receive
-            'User not found.',      // The error response from the server
-            'InBound Connection Error'.$error_id,    // Any connection errors (optional)
-            '200'    // HTTP code, e.g. 500 or 403 (optional)
-        );
-        return new WP_REST_Response([
-            'code' => 404,
-            'message' => 'User not found',
-            'traceId' => $error_id,
-            'data' => null
-        ], 200);
-    }
-    */
-
 
     $count_sql = $wpdb->prepare("
         SELECT COUNT(DISTINCT p.ID)
-
         FROM {$wpdb->posts} p
-
-        INNER JOIN {$wpdb->postmeta} customer_meta
-            ON p.ID = customer_meta.post_id
-            AND customer_meta.meta_key = '_customer_user'
-
-        WHERE p.post_type = 'shop_subscription'
-            AND p.post_date_gmt >= FROM_UNIXTIME(%d)
-            AND p.post_date_gmt <= FROM_UNIXTIME(%d)
+        INNER JOIN {$wpdb->prefix}woocommerce_order_items oi 
+            ON p.ID = oi.order_id
+        INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta oim 
+            ON oi.order_item_id = oim.order_item_id
+        INNER JOIN {$wpdb->term_relationships} tr 
+            ON tr.object_id = oim.meta_value
+        INNER JOIN {$wpdb->term_taxonomy} tt 
+            ON tr.term_taxonomy_id = tt.term_taxonomy_id
+        INNER JOIN {$wpdb->terms} t 
+            ON tt.term_id = t.term_id
+        WHERE p.post_type = 'shop_order'
+          AND oim.meta_key = '_product_id'
+          AND tt.taxonomy = 'product_cat'
+          AND t.slug = 'emathsmart-woo'
+          AND p.post_date_gmt >= FROM_UNIXTIME(%d)
+          AND p.post_date_gmt <= FROM_UNIXTIME(%d)
     ",
-        //$user->ID,
         $startTime,
         $endTime
     );
-    //AND customer_meta.meta_value = %d
 
     $totalCount = (int)$wpdb->get_var($count_sql);
     $totalPages = ceil($totalCount / $pageSize);
 
-
-
     $sql = $wpdb->prepare("
-        SELECT
-
-            p.ID AS subscription_id,
-
-            COALESCE(
-                NULLIF(p.post_parent, 0),
-                parent_meta.meta_value,
-                ''
-            ) AS order_id,
-
-            p.post_status,
-
-            p.post_date_gmt,
-
-            MAX(
-                CASE
-                    WHEN pm.meta_key = '_order_total'
-                    THEN pm.meta_value
-                END
-            ) AS pay_amount,
-
-            COALESCE(
-                oi.order_item_name,
-                NULL
-            ) AS discount_code
-
+        SELECT DISTINCT p.ID, p.post_date_gmt
         FROM {$wpdb->posts} p
-
-        LEFT JOIN {$wpdb->postmeta} pm
-            ON p.ID = pm.post_id
-
-        LEFT JOIN wp_woocommerce_order_items AS oi
+        INNER JOIN {$wpdb->prefix}woocommerce_order_items oi 
             ON p.ID = oi.order_id
-            AND oi.order_item_type = 'coupon'
-
-        LEFT JOIN {$wpdb->postmeta} parent_meta
-            ON p.ID = parent_meta.post_id
-            AND parent_meta.meta_key = '_order_parent_id'
-
-        INNER JOIN {$wpdb->postmeta} customer_meta
-            ON p.ID = customer_meta.post_id
-            AND customer_meta.meta_key = '_customer_user'
-
-        WHERE p.post_type = 'shop_subscription'
-            AND p.post_date_gmt >= FROM_UNIXTIME(%d)
-            AND p.post_date_gmt <= FROM_UNIXTIME(%d)
-
-        GROUP BY p.ID
-
+        INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta oim 
+            ON oi.order_item_id = oim.order_item_id
+        INNER JOIN {$wpdb->term_relationships} tr 
+            ON tr.object_id = oim.meta_value
+        INNER JOIN {$wpdb->term_taxonomy} tt 
+            ON tr.term_taxonomy_id = tt.term_taxonomy_id
+        INNER JOIN {$wpdb->terms} t 
+            ON tt.term_id = t.term_id
+        WHERE p.post_type = 'shop_order'
+          AND oim.meta_key = '_product_id'
+          AND tt.taxonomy = 'product_cat'
+          AND t.slug = 'emathsmart-woo'
+          AND p.post_date_gmt >= FROM_UNIXTIME(%d)
+          AND p.post_date_gmt <= FROM_UNIXTIME(%d)
         ORDER BY p.post_date_gmt DESC
-
         LIMIT %d OFFSET %d
     ",
-        //$user->ID,
         $startTime,
         $endTime,
         $pageSize,
         $offset
     );
-    //AND customer_meta.meta_value = %d
 
     $results = $wpdb->get_results($sql);
-
     $list = [];
 
     foreach ($results as $row) {
-        $payStatus = 0;
-        switch ($row->post_status) {
-            case 'wc-active':
-                $payStatus = 1;
-                break;
-            case 'wc-on-hold':
-                $payStatus = 2;
-                break;
-            case 'wc-cancelled':
-            case 'wc-failed':
-                $payStatus = 0;
-                break;
-            default:
-                $payStatus = 0;
-                break;
+        $order = wc_get_order($row->ID);
+        if (!$order) {
+            continue;
         }
-        $order = wc_get_order( $row->order_id );
-        $user_id = $order->get_user_id(); 
+
+        $order_status = $order->get_status();
+        $payStatus = 0;
+        if (in_array($order_status, ['completed', 'processing', 'refunded'])) {
+            $payStatus = 1;
+        } elseif (in_array($order_status, ['on-hold', 'pending'])) {
+            $payStatus = 2;
+        } else {
+            $payStatus = 0;
+        }
+
+        $user_id = $order->get_user_id();
+        $coupons = $order->get_coupon_codes();
+        $discount_code = !empty($coupons) ? $coupons[0] : null;
+
+        $type = 1;
+        $subscribeId = null;
+        $subscriptionType = 2; // Default Month
+        $trialType = null;
+        $additionalPackageQuantity = null;
+
+        $additional_packages = (int) emathsmart_order_has_additional_packages($order);
+        if ($additional_packages > 0) {
+            // Type 2: AI Coins
+            $type = 2;
+            $additionalPackageQuantity = $additional_packages;
+            $subscriptionType = null;
+        } else {
+            // Type 1: Subscription
+            $type = 1;
+            if (function_exists('wcs_get_subscriptions_for_order')) {
+                $subscriptions = wcs_get_subscriptions_for_order($order->get_id(), array('order_type' => 'any'));
+                foreach ($subscriptions as $sub_obj) {
+                    $subscribeId = (string) $sub_obj->get_id();
+                    $billing_period = $sub_obj->get_billing_period();
+                    $trial_end = $sub_obj->get_date('trial_end');
+                    $start_date = $sub_obj->get_date('date_created');
+
+                    if (!empty($trial_end)) {
+                        $subscriptionType = 1; // Trial
+                        $trial_end_ts = strtotime($trial_end);
+                        $start_date_ts = !empty($start_date) ? strtotime($start_date) : strtotime($row->post_date_gmt);
+                        $diff_days = round(($trial_end_ts - $start_date_ts) / 86400);
+                        if ($diff_days > 10) {
+                            $trialType = 2; // 14 days
+                        } else {
+                            $trialType = 1; // 7 days
+                        }
+                    } else if ($billing_period === 'year') {
+                        $subscriptionType = 3;
+                    } else {
+                        $subscriptionType = 2;
+                    }
+                    break; // One-by-one subscription model
+                }
+            }
+        }
 
         $list[] = [
-
-            'appId' => 'ParentClub',
-            'type' => 1,
-            'orderId' => (string)$row->order_id,
-            'parentId' => (string)$user_id,
-            'subscribeId' => (string)$row->subscription_id,
-            'payStatus' => $payStatus,
-            'payAmount' => (float)$row->pay_amount,
-            'payTimestamp' => strtotime($row->post_date_gmt),
-            'subscriptionType' => 2,
-            'trialType' => null,
-            'additionalPackageQuantity' => null,
-            'discountCode' => $row->discount_code,
-            'activityTag' => null
+            'appId'                     => 'ParentClub',
+            'type'                      => $type,
+            'orderId'                   => (string)$order->get_id(),
+            'parentId'                  => (string)$user_id,
+            'subscribeId'               => $subscribeId,
+            'payStatus'                 => $payStatus,
+            'payAmount'                 => (float)$order->get_total(),
+            'payTimestamp'              => strtotime($row->post_date_gmt),
+            'subscriptionType'          => $subscriptionType,
+            'trialType'                 => $trialType,
+            'additionalPackageQuantity' => $additionalPackageQuantity,
+            'discountCode'              => $discount_code,
+            'activityTag'               => null
         ];
     }
+
     return new WP_REST_Response([
         'code' => 200,
         'message' => 'success',
@@ -492,7 +451,6 @@ function restapi_orderPaymentCompensate($request) {
             'totalPages' => $totalPages,
             'list' => $list
         ]
-
     ], 200);
 }
 
@@ -519,7 +477,6 @@ add_action('rest_api_init', function () {
     ]);
 });
 function restapi_orderRefundCompensate($request) {
-
     global $wpdb;
     $error_id = uniqid();
     $params = $request->get_json_params();
@@ -540,86 +497,55 @@ function restapi_orderRefundCompensate($request) {
     $pageSize  = !empty($params['pageSize']) ? (int)$params['pageSize'] : 20;
     $offset = ($pageNo - 1) * $pageSize;
 
-    /*
-    $user = null;
-    $auth_header = $request->get_header('Authorization');
-    if ($auth_header && strpos($auth_header, 'Bearer ') === 0) {
-        $access_token = str_replace('Bearer ', '', $auth_header);
-        if (function_exists('wo_public_get_access_token')) {
-            $token_data = wo_public_get_access_token($access_token);
-            if ($token_data && isset($token_data['user_id'])) {
-                $user = get_user_by('ID', $token_data['user_id']);
-            }
-        }
-    }
-
-    if (!$user) {
-        if (empty($params)) {
-            $params = $_REQUEST;
-        }
-        if (!empty($params['email'])) {
-            $user = get_user_by(
-                'email',
-                sanitize_email($params['email'])
-            );
-        } else if (!empty($params['parentId'])) {
-            $user = get_user_by(
-                'ID',
-                (int)$params['parentId']
-            );
-        }
-    }
-
-    if (!$user) {
-        emathsmart_log_api_error(
-            1,      // The Order ID involved
-            'API #8',     // The API type
-            1,       // Which retry attempt this was
-            $params,  // The JSON payload we tried to send/receive
-            'User not found.',      // The error response from the server
-            'InBound Connection Error'.$error_id,    // Any connection errors (optional)
-            '200'    // HTTP code, e.g. 500 or 403 (optional)
-        );
-        return new WP_REST_Response([
-            'code' => 404,
-            'message' => 'User not found',
-            'traceId' => $error_id,
-            'data' => null
-        ], 404);
-    }
-    */
-
     $count_sql = $wpdb->prepare("
-        SELECT COUNT(DISTINCT refund.ID)
-        FROM {$wpdb->posts} refund
-        INNER JOIN {$wpdb->postmeta} customer_meta
-            ON refund.ID = customer_meta.post_id
-            AND customer_meta.meta_key = '_customer_user'
-        WHERE refund.post_status = 'wc-refunded'
-            AND refund.post_date_gmt >= FROM_UNIXTIME(%d)
-            AND refund.post_date_gmt <= FROM_UNIXTIME(%d)
+        SELECT COUNT(DISTINCT p.ID)
+        FROM {$wpdb->posts} p
+        INNER JOIN {$wpdb->prefix}woocommerce_order_items oi 
+            ON p.ID = oi.order_id
+        INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta oim 
+            ON oi.order_item_id = oim.order_item_id
+        INNER JOIN {$wpdb->term_relationships} tr 
+            ON tr.object_id = oim.meta_value
+        INNER JOIN {$wpdb->term_taxonomy} tt 
+            ON tr.term_taxonomy_id = tt.term_taxonomy_id
+        INNER JOIN {$wpdb->terms} t 
+            ON tt.term_id = t.term_id
+        WHERE p.post_type = 'shop_order'
+          AND p.post_status = 'wc-refunded'
+          AND oim.meta_key = '_product_id'
+          AND tt.taxonomy = 'product_cat'
+          AND t.slug = 'emathsmart-woo'
+          AND p.post_date_gmt >= FROM_UNIXTIME(%d)
+          AND p.post_date_gmt <= FROM_UNIXTIME(%d)
     ",
         $startTime,
         $endTime
     );
 
     $totalCount = (int)$wpdb->get_var($count_sql);
-
     $totalPages = ceil($totalCount / $pageSize);
 
     $sql = $wpdb->prepare("
-        SELECT
-            refund.ID AS order_id,
-            refund.post_parent AS order_parent_id,
-            refund.post_date_gmt
-        FROM {$wpdb->posts} refund
-        INNER JOIN {$wpdb->postmeta} customer_meta
-            ON refund.ID = customer_meta.post_id
-            AND customer_meta.meta_key = '_customer_user'
-        WHERE refund.post_status = 'wc-refunded'
-            AND refund.post_date_gmt >= FROM_UNIXTIME(%d)
-            AND refund.post_date_gmt <= FROM_UNIXTIME(%d)
-        ORDER BY refund.post_date_gmt DESC
+        SELECT DISTINCT p.ID, p.post_date_gmt
+        FROM {$wpdb->posts} p
+        INNER JOIN {$wpdb->prefix}woocommerce_order_items oi 
+            ON p.ID = oi.order_id
+        INNER JOIN {$wpdb->prefix}woocommerce_order_itemmeta oim 
+            ON oi.order_item_id = oim.order_item_id
+        INNER JOIN {$wpdb->term_relationships} tr 
+            ON tr.object_id = oim.meta_value
+        INNER JOIN {$wpdb->term_taxonomy} tt 
+            ON tr.term_taxonomy_id = tt.term_taxonomy_id
+        INNER JOIN {$wpdb->terms} t 
+            ON tt.term_id = t.term_id
+        WHERE p.post_type = 'shop_order'
+          AND p.post_status = 'wc-refunded'
+          AND oim.meta_key = '_product_id'
+          AND tt.taxonomy = 'product_cat'
+          AND t.slug = 'emathsmart-woo'
+          AND p.post_date_gmt >= FROM_UNIXTIME(%d)
+          AND p.post_date_gmt <= FROM_UNIXTIME(%d)
+        ORDER BY p.post_date_gmt DESC
         LIMIT %d OFFSET %d
     ",
         $startTime,
@@ -629,17 +555,22 @@ function restapi_orderRefundCompensate($request) {
     );
 
     $results = $wpdb->get_results($sql);
-    
     $list = [];
 
     foreach ($results as $row) {
-        $order = wc_get_order( $row->order_id );
-        $user_id = $order->get_user_id(); 
+        $order = wc_get_order($row->ID);
+        if (!$order) {
+            continue;
+        }
+        $user_id = $order->get_user_id();
+        $date_modified = $order->get_date_modified();
+        $refund_ts = $date_modified ? $date_modified->getTimestamp() : strtotime($row->post_date_gmt);
+
         $list[] = [
             'appId' => 'ParentClub',
-            'orderId' => (string)$row->order_id,
+            'orderId' => (string)$order->get_id(),
             'parentId' => (string)$user_id,
-            'refundTimestamp' => strtotime($row->post_date_gmt)
+            'refundTimestamp' => $refund_ts
         ];
     }
 

@@ -53,8 +53,7 @@ $response_valid = restapi_orderPaymentCompensate($request_valid);
 echo "Valid Request Result:\n";
 echo "HTTP Status: " . $response_valid->get_status() . "\n";
 $data_valid = $response_valid->get_data();
-echo "Response Message: " . $data_valid['message'] . "\n";
-echo "Total Records: " . (isset($data_valid['data']['totalCount']) ? $data_valid['data']['totalCount'] : 'N/A') . "\n\n";
+echo "Response: " . json_encode($data_valid, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n\n";
 
 // Test case 2: Invalid signature
 $invalid_params = $valid_params;
@@ -95,5 +94,4 @@ $response_refund = restapi_orderRefundCompensate($request_refund);
 echo "Refund Request Result (Valid Signature):\n";
 echo "HTTP Status: " . $response_refund->get_status() . "\n";
 $data_refund = $response_refund->get_data();
-echo "Response Message: " . $data_refund['message'] . "\n";
-echo "Total Records: " . (isset($data_refund['data']['totalCount']) ? $data_refund['data']['totalCount'] : 'N/A') . "\n";
+echo "Response: " . json_encode($data_refund, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n";
