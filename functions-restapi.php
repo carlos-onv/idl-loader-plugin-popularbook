@@ -302,6 +302,8 @@ function restapi_orderPaymentCompensate($request) {
 
     $offset = ($pageNo - 1) * $pageSize;
 
+    $category_slug = get_option('emathsmart_product_category_slug', 'emathsmart-woo');
+
     $count_sql = $wpdb->prepare("
         SELECT COUNT(DISTINCT p.ID)
         FROM {$wpdb->posts} p
@@ -318,10 +320,11 @@ function restapi_orderPaymentCompensate($request) {
         WHERE p.post_type = 'shop_order'
           AND oim.meta_key = '_product_id'
           AND tt.taxonomy = 'product_cat'
-          AND t.slug = 'emathsmart-woo'
+          AND t.slug = %s
           AND p.post_date_gmt >= FROM_UNIXTIME(%d)
           AND p.post_date_gmt <= FROM_UNIXTIME(%d)
     ",
+        $category_slug,
         $startTime,
         $endTime
     );
@@ -345,12 +348,13 @@ function restapi_orderPaymentCompensate($request) {
         WHERE p.post_type = 'shop_order'
           AND oim.meta_key = '_product_id'
           AND tt.taxonomy = 'product_cat'
-          AND t.slug = 'emathsmart-woo'
+          AND t.slug = %s
           AND p.post_date_gmt >= FROM_UNIXTIME(%d)
           AND p.post_date_gmt <= FROM_UNIXTIME(%d)
         ORDER BY p.post_date_gmt DESC
         LIMIT %d OFFSET %d
     ",
+        $category_slug,
         $startTime,
         $endTime,
         $pageSize,
@@ -497,6 +501,8 @@ function restapi_orderRefundCompensate($request) {
     $pageSize  = !empty($params['pageSize']) ? (int)$params['pageSize'] : 20;
     $offset = ($pageNo - 1) * $pageSize;
 
+    $category_slug = get_option('emathsmart_product_category_slug', 'emathsmart-woo');
+
     $count_sql = $wpdb->prepare("
         SELECT COUNT(DISTINCT p.ID)
         FROM {$wpdb->posts} p
@@ -514,10 +520,11 @@ function restapi_orderRefundCompensate($request) {
           AND p.post_status = 'wc-refunded'
           AND oim.meta_key = '_product_id'
           AND tt.taxonomy = 'product_cat'
-          AND t.slug = 'emathsmart-woo'
+          AND t.slug = %s
           AND p.post_date_gmt >= FROM_UNIXTIME(%d)
           AND p.post_date_gmt <= FROM_UNIXTIME(%d)
     ",
+        $category_slug,
         $startTime,
         $endTime
     );
@@ -542,12 +549,13 @@ function restapi_orderRefundCompensate($request) {
           AND p.post_status = 'wc-refunded'
           AND oim.meta_key = '_product_id'
           AND tt.taxonomy = 'product_cat'
-          AND t.slug = 'emathsmart-woo'
+          AND t.slug = %s
           AND p.post_date_gmt >= FROM_UNIXTIME(%d)
           AND p.post_date_gmt <= FROM_UNIXTIME(%d)
         ORDER BY p.post_date_gmt DESC
         LIMIT %d OFFSET %d
     ",
+        $category_slug,
         $startTime,
         $endTime,
         $pageSize,

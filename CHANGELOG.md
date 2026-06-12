@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file for both hum
 - **HMAC-SHA256 Signature Verification Helper**:
   - Created `restapi_verify_emathsmart_signature()` inside [functions-restapi.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-restapi.php) to validate incoming request body parameters against an HMAC-SHA256 signature signed with the shared webhook secret.
   - Implemented request timestamp check (5-minute window) to prevent replay attacks.
+- **Dynamic Product Category Settings Option**:
+  - Registered `emathsmart_product_category_slug` (defaulting to `'emathsmart-woo'`) and added a setting input field to the WooCommerce → eMathSmart Settings page ([functions-esmart-admin.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-esmart-admin.php)).
 
 ### Changed
 - **API Security Upgrades**:
@@ -17,13 +19,13 @@ All notable changes to this project will be documented in this file for both hum
   - Commented out the PKCE checks for `/orderpaymentcompensate` and `/orderrefundcompensate` inside `enforce_pkce_for_specific_url()` as these endpoints now run server-to-server via `client_credentials` grant type.
 - **Refactored APIs #7 and #8 Data Mappings**:
   - Refactored `/orderpaymentcompensate` to query `shop_order` posts rather than `shop_subscription` posts, ensuring renewals, trial starts, and AI Coins purchases are all reported.
-  - Restricted both `/orderpaymentcompensate` and `/orderrefundcompensate` query results to orders/items belonging to the `emathsmart-woo` product category slug.
+  - Restricted both `/orderpaymentcompensate` and `/orderrefundcompensate` query results to orders/items belonging to the dynamically configured WooCommerce product category slug.
   - Updated `/orderpaymentcompensate` loops to dynamically categorize transaction types (Type 1 = Subscription, Type 2 = AI Coins) and parse properties (AI Coins package counts, subscription type, trial type, and trial length calculation) from WooCommerce objects.
-  - Updated `/orderrefundcompensate` to return only refunded orders belonging to the `emathsmart-woo` category and dynamically retrieve the refund timestamp from the order modification date.
+  - Updated `/orderrefundcompensate` to return only refunded orders belonging to the configured category and dynamically retrieve the refund timestamp from the order modification date.
 
 ### Technical Notes for AI Agents
 - Inbound API #7 and API #8 endpoints require OAuth Client Credentials token checks and HMAC-SHA256 signatures.
-- Filtering WooCommerce orders by category is implemented using term taxonomy tables for `product_cat` term slug `emathsmart-woo`.
+- Filtering WooCommerce orders by category is done dynamically using the term slug retrieved from `get_option('emathsmart_product_category_slug', 'emathsmart-woo')`.
 - WooCommerce Subscriptions dates (created, trial end, billing periods) are resolved programmatically to derive `subscriptionType` (`1` = Trial, `2` = Monthly, `3` = Yearly) and `trialType` (`1` = 7 days, `2` = 14 days) values contextually.
 
 ## [2026-06-10] - Update Brand Column Element Margins and Actions

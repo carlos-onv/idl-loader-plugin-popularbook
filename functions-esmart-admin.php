@@ -45,25 +45,33 @@ function emathsmart_render_settings_page() {
     // Handle save
     if (isset($_POST['emathsmart_save_settings']) && check_admin_referer('emathsmart_settings_nonce')) {
         $new_key = isset($_POST['emathsmart_api_secret']) ? trim(sanitize_text_field($_POST['emathsmart_api_secret'])) : '';
+        $new_cat = isset($_POST['emathsmart_product_category_slug']) ? trim(sanitize_title($_POST['emathsmart_product_category_slug'])) : '';
+
         if (strlen($new_key) < 8) {
             $error = 'Secret key is too short (minimum 8 characters).';
+        } elseif (empty($new_cat)) {
+            $error = 'Category slug cannot be empty.';
         } else {
             update_option('emathsmart_api_secret', $new_key);
+            update_option('emathsmart_product_category_slug', $new_cat);
             $saved = true;
-            $notice = 'API secret key updated successfully. Next payment notification will use the new key.';
+            $notice = 'Settings updated successfully.';
         }
     }
 
     // Handle reset to default
     if (isset($_POST['emathsmart_reset_secret']) && check_admin_referer('emathsmart_settings_nonce')) {
         delete_option('emathsmart_api_secret');
+        delete_option('emathsmart_product_category_slug');
         $saved  = true;
-        $notice = 'API secret key reset to built-in default.';
+        $notice = 'Settings reset to built-in defaults.';
     }
 
     $current_key  = get_option('emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm');
+    $current_cat  = get_option('emathsmart_product_category_slug', 'emathsmart-woo');
     $default_key  = 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm';
-    $is_default   = ($current_key === $default_key);
+    $default_cat  = 'emathsmart-woo';
+    $is_default   = ($current_key === $default_key && $current_cat === $default_cat);
     $key_hash     = substr(hash('sha256', $current_key), 0, 16);
     ?>
     <style>
@@ -97,18 +105,17 @@ function emathsmart_render_settings_page() {
         <?php endif; ?>
 
         <div class="esmart-settings-card">
-            <h2>🔑 API Secret Key</h2>
+            <h2>🔑 API Secret Key & Settings</h2>
             <p class="desc">
-                Used to sign all outbound HMAC-SHA256 webhook payloads sent to eMathSmart (paymentNotify, refundNotify, publicExams).
-                If eMathSmart rotates the staging or production secret, paste the new key here — no file upload required.
+                Manage webhook secrets and category settings for eMathSmart integration.
             </p>
 
             <div class="esmart-key-meta">
                 <span>Status: <?php echo $is_default
-                    ? '<span class="esmart-badge-default">✓ Using built-in default key</span>'
-                    : '<span class="esmart-badge-custom">★ Custom key active</span>'; ?></span>
+                    ? '<span class="esmart-badge-default">✓ Using built-in default settings</span>'
+                    : '<span class="esmart-badge-custom">★ Custom settings active</span>'; ?></span>
                 <span>SHA-256 fingerprint (first 16 chars): <strong><?php echo esc_html($key_hash); ?>…</strong></span>
-                <span>Key length: <strong><?php echo strlen($current_key); ?> characters</strong></span>
+                <span>Category Slug: <strong><?php echo esc_html($current_cat); ?></strong></span>
             </div>
 
             <form method="post">
@@ -123,12 +130,25 @@ function emathsmart_render_settings_page() {
                            spellcheck="false"
                            placeholder="Paste new secret key from eMathSmart here">
                 </div>
+                <div class="esmart-field-row">
+                    <label for="esmart_cat_input">WooCommerce Category Slug</label>
+                    <input type="text"
+                           id="esmart_cat_input"
+                           name="emathsmart_product_category_slug"
+                           value="<?php echo esc_attr($current_cat); ?>"
+                           autocomplete="off"
+                           spellcheck="false"
+                           placeholder="Enter category slug (e.g. emathsmart-woo)">
+                    <p class="description" style="color: #666; font-size: 12px; margin-top: 4px;">
+                        Orders containing products from this WooCommerce category will be synchronized in billing history, API #7, and API #8.
+                    </p>
+                </div>
                 <div class="esmart-action-row">
-                    <button type="submit" name="emathsmart_save_settings" class="button button-primary">Save Key</button>
+                    <button type="submit" name="emathsmart_save_settings" class="button button-primary">Save Settings</button>
                     <?php if (!$is_default): ?>
                         <button type="submit" name="emathsmart_reset_secret"
                                 class="button button-link-delete"
-                                onclick="return confirm('Reset to built-in default key?')"
+                                onclick="return confirm('Reset to built-in defaults?')"
                                 style="color:#d63638;">
                             Reset to Default
                         </button>
