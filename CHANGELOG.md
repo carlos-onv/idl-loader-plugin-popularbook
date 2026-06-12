@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-12] - Upgrade APIs #7 and #8 Security to Client Credentials + HMAC-SHA256
+
+### Added
+- **HMAC-SHA256 Signature Verification Helper**:
+  - Created `restapi_verify_emathsmart_signature()` inside [functions-restapi.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-restapi.php) to validate incoming request body parameters against an HMAC-SHA256 signature signed with the shared webhook secret.
+  - Implemented request timestamp check (5-minute window) to prevent replay attacks.
+
+### Changed
+- **API Security Upgrades**:
+  - Upgraded API #7 (`/orderpaymentcompensate`) and API #8 (`/orderrefundcompensate`) to use the signature verification helper, returning `401 Unauthorized` on invalid or expired signatures.
+  - Enabled server-to-server OAuth 2.0 Client Credentials token checks on these routes.
+- **Disabled PKCE Checks**:
+  - Commented out the PKCE checks for `/orderpaymentcompensate` and `/orderrefundcompensate` inside `enforce_pkce_for_specific_url()` as these endpoints now run server-to-server via `client_credentials` grant type.
+
+### Technical Notes for AI Agents
+- Incoming requests to `/orderpaymentcompensate` and `/orderrefundcompensate` must be authenticated via Bearer token (obtained via OAuth Client Credentials) and signed using the shared secret `get_option('emathsmart_api_secret')`.
+
 ## [2026-06-10] - Update Brand Column Element Margins and Actions
 
 ### Changed

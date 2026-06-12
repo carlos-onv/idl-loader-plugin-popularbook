@@ -1606,12 +1606,6 @@ function required_checkout_fields() {
 
             function um_pc_default_page_user_login()
             {
-                // If there is an explicit redirect_to parameter in the request (e.g. from eMathSmart OAuth), respect it
-                if ( ! empty( $_REQUEST['redirect_to'] ) ) {
-                    $redirect_to = esc_url_raw( $_REQUEST['redirect_to'] );
-                    wp_redirect( $redirect_to );
-                    exit;
-                }
 
                 $user_id = um_user("ID");
 
@@ -3161,7 +3155,7 @@ echo "<pre>";
 print_r($sign_string);
 print_r($sign_string_post);
 
-$ch = curl_init("https://test.emathsmart.ca/api/user-center/order/paymentNotify");
+$ch = curl_init("https://placeholder.emathsmart.ca/api/user-center/order/paymentNotify");
 
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
@@ -3218,7 +3212,7 @@ curl_close($ch);
             print_r($order_array);
             echo "<br>\n\n";
             //exit;
-            $url = "https://test.emathsmart.ca/api/user-center/order/paymentNotify";
+            $url = "https://placeholder.emathsmart.ca/api/user-center/order/paymentNotify";
             
             
             $payload = json_encode($order_array);
@@ -3254,7 +3248,7 @@ $data = "appId={$appId}&nonce={$nonce}&&timestamp={$timestamp}&type={$type}";
 $signature = base64_encode(hash_hmac('sha256', $data, $secret_key, true));
 
 
-$url = "https://test.emathsmart.ca/api/user-center/order/paymentNotify";
+$url = "https://placeholder.emathsmart.ca/api/user-center/order/paymentNotify";
 
 // POST fields (if required)
 $postFields = $order_array;
@@ -3434,5 +3428,3 @@ function idl_loader_parents_club_template_styles() {
         wp_enqueue_style( 'parents-club-plan-not-ready', plugins_url( 'templates/css/parents-club-plan-not-ready.css', __FILE__ ) );
     }
 }
-
-

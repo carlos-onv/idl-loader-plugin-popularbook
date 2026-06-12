@@ -130,6 +130,7 @@ function restapi_getuserinfo_by_token($request) {
     }
 
     // 2. Fallback to params (Legacy/Search mode)
+    /*
     if (!$user) {
         $params = $request->get_json_params();
         if (empty($params)) {
@@ -142,6 +143,7 @@ function restapi_getuserinfo_by_token($request) {
             $user = get_user_by('ID', (int)$params['parentId']);
         }
     }
+    */
 
     if (!$user) {
         $error_id = uniqid();
@@ -282,6 +284,16 @@ function restapi_orderPaymentCompensate($request) {
     global $wpdb;
     $params = $request->get_json_params();
 
+    // Verify signature
+    if (!restapi_verify_emathsmart_signature($params)) {
+        return new WP_REST_Response([
+            'code' => 401,
+            'message' => 'Invalid or expired signature',
+            'traceId' => uniqid(),
+            'data' => null
+        ], 401);
+    }
+
     $startTime = !empty($params['startTime']) ? (int)$params['startTime'] : 0;
     $endTime   = !empty($params['endTime']) ? (int)$params['endTime'] : time();
 
@@ -290,6 +302,7 @@ function restapi_orderPaymentCompensate($request) {
 
     $offset = ($pageNo - 1) * $pageSize;
     
+    /*
     $user = null;
 
     $auth_header = $request->get_header('Authorization');
@@ -302,7 +315,6 @@ function restapi_orderPaymentCompensate($request) {
             }
         }
     }
-
 
     if (!$user) {
         if (empty($params)) {
@@ -339,6 +351,7 @@ function restapi_orderPaymentCompensate($request) {
             'data' => null
         ], 200);
     }
+    */
 
 
     $count_sql = $wpdb->prepare("
@@ -448,13 +461,15 @@ function restapi_orderPaymentCompensate($request) {
                 $payStatus = 0;
                 break;
         }
+        $order = wc_get_order( $row->order_id );
+        $user_id = $order->get_user_id(); 
 
         $list[] = [
 
             'appId' => 'ParentClub',
             'type' => 1,
             'orderId' => (string)$row->order_id,
-            'parentId' => (string)$user->ID,
+            'parentId' => (string)$user_id,
             'subscribeId' => (string)$row->subscription_id,
             'payStatus' => $payStatus,
             'payAmount' => (float)$row->pay_amount,
@@ -508,12 +523,24 @@ function restapi_orderRefundCompensate($request) {
     global $wpdb;
     $error_id = uniqid();
     $params = $request->get_json_params();
+
+    // Verify signature
+    if (!restapi_verify_emathsmart_signature($params)) {
+        return new WP_REST_Response([
+            'code' => 401,
+            'message' => 'Invalid or expired signature',
+            'traceId' => uniqid(),
+            'data' => null
+        ], 401);
+    }
+
     $startTime = !empty($params['startTime']) ? (int)$params['startTime'] : 0;
     $endTime   = !empty($params['endTime']) ? (int)$params['endTime'] : time();
     $pageNo    = !empty($params['pageNo']) ? (int)$params['pageNo'] : 1;
     $pageSize  = !empty($params['pageSize']) ? (int)$params['pageSize'] : 20;
     $offset = ($pageNo - 1) * $pageSize;
 
+    /*
     $user = null;
     $auth_header = $request->get_header('Authorization');
     if ($auth_header && strpos($auth_header, 'Bearer ') === 0) {
@@ -560,6 +587,7 @@ function restapi_orderRefundCompensate($request) {
             'data' => null
         ], 404);
     }
+    */
 
     $count_sql = $wpdb->prepare("
         SELECT COUNT(DISTINCT refund.ID)
@@ -605,11 +633,12 @@ function restapi_orderRefundCompensate($request) {
     $list = [];
 
     foreach ($results as $row) {
-
+        $order = wc_get_order( $row->order_id );
+        $user_id = $order->get_user_id(); 
         $list[] = [
             'appId' => 'ParentClub',
             'orderId' => (string)$row->order_id,
-            'parentId' => (string)$user->ID,
+            'parentId' => (string)$user_id,
             'refundTimestamp' => strtotime($row->post_date_gmt)
         ];
     }
@@ -638,38 +667,89 @@ function restapi_orderRefundCompensate($request) {
     ], 200);
 }
 
-/**
- * REST API Endpoint for retrieving current user's AI Coin balance
- * Endpoint: GET /wp-json/wp/v2/member/coin-balance
- */
-add_action('rest_api_init', function () {
-    register_rest_route('wp/v2', '/member/coin-balance', [
-        'methods'             => 'GET',
-        'callback'            => 'restapi_get_user_coin_balance',
-        'permission_callback' => function () {
-            return is_user_logged_in();
+
+
+
+
+
+add_action('wo_before_authorize_method', 'enforce_pkce_for_specific_url');
+function enforce_pkce_for_specific_url() {
+    // Commented out as eMathSmart APIs #7 and #8 now use Client Credentials, and getuserinfo PKCE is disabled.
+    /*
+    if (isset($_GET['response_type']) && $_GET['response_type'] === 'code') {
+        if (strpos($_SERVER['REQUEST_URI'], 'getuserinfo') !== false) {
+            if (!isset($_GET['code_challenge']) || empty($_GET['code_challenge'])) {
+                wp_die(
+                    'Authorization failed: Missing required PKCE parameters for this endpoint.', 
+                    'OAuth 2.0 Error', 
+                    array('response' => 400)
+                );
+            }
         }
-    ]);
-});
-
-function restapi_get_user_coin_balance($request) {
-    $user_id = get_current_user_id();
-    if (empty($user_id)) {
-        return new WP_REST_Response([
-            'success' => 0,
-            'message' => 'User not logged in'
-        ], 401);
+        if (strpos($_SERVER['REQUEST_URI'], 'orderpaymentcompensate') !== false) {
+            if (!isset($_GET['code_challenge']) || empty($_GET['code_challenge'])) {
+                wp_die(
+                    'Authorization failed: Missing required PKCE parameters for this endpoint.', 
+                    'OAuth 2.0 Error', 
+                    array('response' => 400)
+                );
+            }
+        }
+        if (strpos($_SERVER['REQUEST_URI'], 'orderrefundcompensate') !== false) {
+            if (!isset($_GET['code_challenge']) || empty($_GET['code_challenge'])) {
+                wp_die(
+                    'Authorization failed: Missing required PKCE parameters for this endpoint.', 
+                    'OAuth 2.0 Error', 
+                    array('response' => 400)
+                );
+            }
+        }
     }
-
-    $bypass_cache = $request->get_param('refresh') === 'true';
-    if ($bypass_cache) {
-        delete_transient('emathsmart_coin_balance_' . $user_id);
-    }
-
-    $balance = emathsmart_get_user_coin_balance($user_id);
-
-    return new WP_REST_Response([
-        'success' => 1,
-        'coinBalance' => $balance
-    ], 200);
+    */
 }
+
+/**
+ * Verifies the HMAC-SHA256 signature for incoming REST API requests (APIs #7 and #8)
+ */
+function restapi_verify_emathsmart_signature($params) {
+    if (empty($params['signature']) || empty($params['timestamp']) || empty($params['nonce'])) {
+        return false;
+    }
+
+    // 1. Replay attack protection (check if timestamp is within 5 minutes)
+    $time_diff = abs(time() - (int)$params['timestamp']);
+    if ($time_diff > 300) {
+        return false; // Request expired
+    }
+
+    // 2. Retrieve the shared secret from WP options
+    $secret = get_option('emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm');
+
+    // 3. Filter out signature and nulls, cast values to string
+    $filtered = [];
+    foreach ($params as $key => $value) {
+        if ($key === 'signature' || $value === null) {
+            continue;
+        }
+        $filtered[$key] = is_bool($value) ? ($value ? 'true' : 'false') : (string) $value;
+    }
+
+    // 4. Sort keys alphabetically (ASCII ascending)
+    ksort($filtered, SORT_STRING);
+
+    // 5. Build signing content string
+    $pairs = [];
+    foreach ($filtered as $key => $value) {
+        $pairs[] = $key . '=' . $value;
+    }
+    $content = implode('&', $pairs);
+
+    // 6. Calculate signature using base64url format
+    $raw = hash_hmac('sha256', $content, $secret, true);
+    $calculated_signature = rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
+
+    // 7. Strict timing-attack-safe comparison
+    return hash_equals($calculated_signature, $params['signature']);
+}
+
+?>
