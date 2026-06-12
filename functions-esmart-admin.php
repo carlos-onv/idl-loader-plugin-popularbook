@@ -71,8 +71,15 @@ function emathsmart_render_settings_page() {
     $current_cat  = get_option('emathsmart_product_category_slug', 'emathsmart-woo');
     $default_key  = 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm';
     $default_cat  = 'emathsmart-woo';
-    $is_default   = ($current_key === $default_key && $current_cat === $default_cat);
-    $key_hash     = substr(hash('sha256', $current_key), 0, 16);
+
+    $active_key = emathsmart_get_api_secret();
+    $active_cat = emathsmart_get_product_category_slug();
+
+    $is_default = ($current_key === $default_key && $current_cat === $default_cat);
+    $key_hash   = substr(hash('sha256', $active_key), 0, 16);
+
+    $has_key_override = ($active_key !== $current_key);
+    $has_cat_override = ($active_cat !== $current_cat);
     ?>
     <style>
         .esmart-settings-wrap { max-width: 700px; margin: 30px 0; }
@@ -111,11 +118,20 @@ function emathsmart_render_settings_page() {
             </p>
 
             <div class="esmart-key-meta">
-                <span>Status: <?php echo $is_default
-                    ? '<span class="esmart-badge-default">✓ Using built-in default settings</span>'
-                    : '<span class="esmart-badge-custom">★ Custom settings active</span>'; ?></span>
+                <span>Status: <?php 
+                    if ($has_key_override || $has_cat_override) {
+                        echo '<span class="esmart-badge-custom" style="background:#d1ecf1; color:#0c5460; border-color:#bee5eb;">★ Constant / Environment Override Active</span>';
+                    } elseif ($is_default) {
+                        echo '<span class="esmart-badge-default">✓ Using built-in default settings</span>';
+                    } else {
+                        echo '<span class="esmart-badge-custom">★ Custom settings active</span>';
+                    }
+                ?></span>
                 <span>SHA-256 fingerprint (first 16 chars): <strong><?php echo esc_html($key_hash); ?>…</strong></span>
-                <span>Category Slug: <strong><?php echo esc_html($current_cat); ?></strong></span>
+                <span>Category Slug: <strong><?php echo esc_html($active_cat); ?></strong><?php if ($has_cat_override) echo ' <em>(Overridden by server)</em>'; ?></span>
+                <?php if ($has_key_override): ?>
+                    <span style="color:#721c24; margin-top:8px; display:block;">⚠️ Note: The API Secret Key is currently overridden by a server environment variable or constant (e.g. in <code>wp-config.php</code>). Saving here will update the database, but the server override takes precedence.</span>
+                <?php endif; ?>
             </div>
 
             <form method="post">

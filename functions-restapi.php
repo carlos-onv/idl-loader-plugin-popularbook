@@ -302,7 +302,7 @@ function restapi_orderPaymentCompensate($request) {
 
     $offset = ($pageNo - 1) * $pageSize;
 
-    $category_slug = get_option('emathsmart_product_category_slug', 'emathsmart-woo');
+    $category_slug = emathsmart_get_product_category_slug();
 
     $count_sql = $wpdb->prepare("
         SELECT COUNT(DISTINCT p.ID)
@@ -501,7 +501,7 @@ function restapi_orderRefundCompensate($request) {
     $pageSize  = !empty($params['pageSize']) ? (int)$params['pageSize'] : 20;
     $offset = ($pageNo - 1) * $pageSize;
 
-    $category_slug = get_option('emathsmart_product_category_slug', 'emathsmart-woo');
+    $category_slug = emathsmart_get_product_category_slug();
 
     $count_sql = $wpdb->prepare("
         SELECT COUNT(DISTINCT p.ID)
@@ -662,7 +662,7 @@ function restapi_verify_emathsmart_signature($params) {
     }
 
     // 2. Retrieve the shared secret from WP options
-    $secret = get_option('emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm');
+    $secret = emathsmart_get_api_secret();
 
     // 3. Filter out signature and nulls, cast values to string
     $filtered = [];

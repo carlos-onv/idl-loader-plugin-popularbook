@@ -173,9 +173,7 @@ function emathsmart_get_public_exam_links($order_id) {
         }
     }
 
-    // Secret key is managed via WP admin: eMathSmart Settings > API Secret Key
-    // Fallback to known key if option is not set.
-    $secret = get_option('emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm');
+    $secret = emathsmart_get_api_secret();
 
     $user_id = $order->get_user_id();
 
@@ -461,9 +459,7 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                 return;
             }
 
-            // Secret key is managed via WP admin: eMathSmart Settings > API Secret Key
-            // Update via admin when eMathSmart provides a new key — no file upload needed.
-            $secret = get_option('emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm');
+            $secret = emathsmart_get_api_secret();
 
             
             // DEBUG OVERRIDE: Allow test suite to poison the request
@@ -1397,7 +1393,7 @@ function emathsmart_get_user_coin_balance( $user_id ) {
     $now = time();
     $nonce = bin2hex( random_bytes( 16 ) );
     $url = emathsmart_get_api_url() . "/api/customer-center/getUserCoinBalance";
-    $secret = get_option( 'emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm' );
+    $secret = emathsmart_get_api_secret();
 
     $sign_params = [
         'appId'    => 'ParentClub',
@@ -1461,5 +1457,37 @@ function emathsmart_get_user_coin_balance( $user_id ) {
     }
 
     return 0;
+}
+
+/**
+ * Helper to retrieve the eMathSmart API secret key.
+ * Checks for environment variable first, then wp-config.php constant, and falls back to database option.
+ */
+function emathsmart_get_api_secret() {
+    // 1. Check for environment variable
+    $env_secret = getenv('EMATHSMART_API_SECRET');
+    if ($env_secret !== false && $env_secret !== '') {
+        return $env_secret;
+    }
+
+    // 2. Check for wp-config.php constant
+    if (defined('EMATHSMART_API_SECRET') && EMATHSMART_API_SECRET !== '') {
+        return EMATHSMART_API_SECRET;
+    }
+
+    // 3. Fall back to WooCommerce / WordPress database option setting
+    return get_option('emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm');
+}
+
+/**
+ * Helper to retrieve the WooCommerce product category slug for eMathSmart products.
+ * Checks for constant first, and falls back to database option.
+ */
+function emathsmart_get_product_category_slug() {
+    if (defined('EMATHSMART_PRODUCT_CATEGORY_SLUG') && EMATHSMART_PRODUCT_CATEGORY_SLUG !== '') {
+        return EMATHSMART_PRODUCT_CATEGORY_SLUG;
+    }
+
+    return get_option('emathsmart_product_category_slug', 'emathsmart-woo');
 }
 
