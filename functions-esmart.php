@@ -4,6 +4,9 @@
  * Falls back to 'https://test.emathsmart.ca' if the option is not set.
  */
 function emathsmart_get_api_url() {
+    if ( defined( 'EMATHSMART_API_URL' ) && EMATHSMART_API_URL !== '' ) {
+        return rtrim( EMATHSMART_API_URL, '/' );
+    }
     $url = get_option( 'wc_emathsmart_url', 'https://test.emathsmart.ca/' );
     return rtrim( $url, '/' );
 }

@@ -45,44 +45,59 @@ function emathsmart_render_settings_page() {
     // Handle save
     if (isset($_POST['emathsmart_save_settings']) && check_admin_referer('emathsmart_settings_nonce')) {
         $new_key = isset($_POST['emathsmart_api_secret']) ? trim(sanitize_text_field($_POST['emathsmart_api_secret'])) : '';
+        $new_url = isset($_POST['emathsmart_api_url']) ? trim(sanitize_text_field($_POST['emathsmart_api_url'])) : '';
+
+        $has_error = false;
         if (strlen($new_key) < 8) {
             $error = 'Secret key is too short (minimum 8 characters).';
-        } else {
+            $has_error = true;
+        }
+
+        if (!$has_error) {
             update_option('emathsmart_api_secret', $new_key);
+            update_option('wc_emathsmart_url', $new_url);
             $saved = true;
-            $notice = 'API secret key updated successfully. Next payment notification will use the new key.';
+            $notice = 'eMathSmart integration settings updated successfully.';
         }
     }
 
     // Handle reset to default
     if (isset($_POST['emathsmart_reset_secret']) && check_admin_referer('emathsmart_settings_nonce')) {
         delete_option('emathsmart_api_secret');
+        delete_option('wc_emathsmart_url');
         $saved  = true;
-        $notice = 'API secret key reset to built-in default.';
+        $notice = 'eMathSmart settings reset to built-in defaults.';
     }
 
     $current_key  = get_option('emathsmart_api_secret', 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm');
     $default_key  = 'yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm';
+    $current_url  = get_option('wc_emathsmart_url', 'https://test.emathsmart.ca/');
+    $default_url  = 'https://test.emathsmart.ca/';
 
     $active_key = defined('EMATHSMART_API_SECRET') && EMATHSMART_API_SECRET !== '' ? EMATHSMART_API_SECRET : $current_key;
+    $active_url = defined('EMATHSMART_API_URL') && EMATHSMART_API_URL !== '' ? EMATHSMART_API_URL : $current_url;
+
     $is_default = ($active_key === $default_key);
+    $is_url_default = (rtrim($active_url, '/') === rtrim($default_url, '/'));
+
     $key_hash   = substr(hash('sha256', $active_key), 0, 16);
     $has_override = (defined('EMATHSMART_API_SECRET') && EMATHSMART_API_SECRET !== '');
+    $has_url_override = (defined('EMATHSMART_API_URL') && EMATHSMART_API_URL !== '');
     ?>
     <style>
         .esmart-settings-wrap { max-width: 700px; margin: 30px 0; }
         .esmart-settings-card { background: #fff; border: 1px solid #ccd0d4; border-radius: 4px; padding: 28px 32px; margin-bottom: 20px; }
         .esmart-settings-card h2 { margin: 0 0 6px; font-size: 18px; }
         .esmart-settings-card p.desc { color: #666; margin: 0 0 24px; font-size: 13px; }
-        .esmart-field-row { margin-bottom: 20px; }
+        .esmart-field-row { margin-bottom: 24px; }
         .esmart-field-row label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; }
         .esmart-field-row input[type=text] { width: 100%; font-family: monospace; font-size: 13px; padding: 8px 10px; border: 1px solid #8c8f94; border-radius: 3px; }
-        .esmart-key-meta { background: #f8f9fa; border: 1px solid #e1e1e1; border-radius: 4px; padding: 12px 16px; font-size: 12px; font-family: monospace; margin-bottom: 20px; }
+        .esmart-key-meta { background: #f8f9fa; border: 1px solid #e1e1e1; border-radius: 4px; padding: 10px 14px; font-size: 11px; font-family: monospace; margin-top: 8px; }
         .esmart-key-meta span { display: block; margin-bottom: 4px; color: #555; }
         .esmart-key-meta strong { color: #23282d; }
-        .esmart-badge-default { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
-        .esmart-badge-custom  { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
-        .esmart-badge-error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+        .esmart-badge-default { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+        .esmart-badge-custom  { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+        .esmart-badge-error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
         .esmart-alert { background: #d4edda; border-left: 4px solid #28a745; padding: 12px 16px; margin-bottom: 20px; border-radius: 0 4px 4px 0; font-size: 13px; }
         .esmart-alert.error { background: #f8d7da; border-left-color: #dc3545; }
         .esmart-action-row { display: flex; gap: 12px; align-items: center; }
@@ -100,33 +115,41 @@ function emathsmart_render_settings_page() {
         <?php endif; ?>
 
         <div class="esmart-settings-card">
-            <h2>🔑 API Secret Key</h2>
+            <h2>🔑 API Integration Configuration</h2>
             <p class="desc">
-                Used to sign all outbound HMAC-SHA256 webhook payloads sent to eMathSmart (paymentNotify, refundNotify, publicExams).
-                If eMathSmart rotates the staging or production secret, paste the new key here — no file upload required.
+                Configure the API Base URL and Secret Key used for outbound webhook payloads (paymentNotify, refundNotify, publicExams).
             </p>
-
-            <div class="esmart-key-meta">
-                <span>Status: <?php 
-                    if ($has_override) {
-                        echo '<span class="esmart-badge-custom" style="background:#d1ecf1; color:#0c5460; border-color:#bee5eb;">✓ Overridden by wp-config.php</span>';
-                    } elseif ($is_default) {
-                        echo '<span class="esmart-badge-default">✓ Using built-in default key</span>';
-                    } else {
-                        echo '<span class="esmart-badge-custom">★ Custom key active</span>';
-                    }
-                ?></span>
-                <span>SHA-256 fingerprint (first 16 chars): <strong><?php echo esc_html($key_hash); ?>…</strong></span>
-                <span>Key length: <strong><?php echo strlen($active_key); ?> characters</strong></span>
-                <?php if ($has_override): ?>
-                    <span style="color:#721c24; margin-top:8px; display:block;">⚠️ Note: The API Secret Key is currently overridden by a constant in <code>wp-config.php</code>. Saving here will update the database, but the wp-config constant takes precedence.</span>
-                <?php endif; ?>
-            </div>
 
             <form method="post">
                 <?php wp_nonce_field('emathsmart_settings_nonce'); ?>
+
                 <div class="esmart-field-row">
-                    <label for="esmart_secret_input">Secret Key</label>
+                    <label for="esmart_url_input">API Base URL</label>
+                    <input type="text"
+                           id="esmart_url_input"
+                           name="emathsmart_api_url"
+                           value="<?php echo esc_attr($current_url); ?>"
+                           autocomplete="off"
+                           spellcheck="false"
+                           placeholder="https://test.emathsmart.ca/">
+                    <div class="esmart-key-meta">
+                        <span>Status: <?php 
+                            if ($has_url_override) {
+                                echo '<span class="esmart-badge-custom" style="background:#d1ecf1; color:#0c5460; border-color:#bee5eb;">✓ Overridden by wp-config.php</span>';
+                            } elseif ($is_url_default) {
+                                echo '<span class="esmart-badge-default">✓ Using default staging URL</span>';
+                            } else {
+                                echo '<span class="esmart-badge-custom">★ Custom URL active</span>';
+                            }
+                        ?></span>
+                        <?php if ($has_url_override): ?>
+                            <span style="color:#721c24; margin-top:4px; display:block;">⚠️ Note: The API Base URL is currently overridden by the <code>EMATHSMART_API_URL</code> constant in <code>wp-config.php</code>.</span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="esmart-field-row">
+                    <label for="esmart_secret_input">API Secret Key</label>
                     <input type="text"
                            id="esmart_secret_input"
                            name="emathsmart_api_secret"
@@ -134,15 +157,32 @@ function emathsmart_render_settings_page() {
                            autocomplete="off"
                            spellcheck="false"
                            placeholder="Paste new secret key from eMathSmart here">
+                    <div class="esmart-key-meta">
+                        <span>Status: <?php 
+                            if ($has_override) {
+                                echo '<span class="esmart-badge-custom" style="background:#d1ecf1; color:#0c5460; border-color:#bee5eb;">✓ Overridden by wp-config.php</span>';
+                            } elseif ($is_default) {
+                                echo '<span class="esmart-badge-default">✓ Using built-in default key</span>';
+                            } else {
+                                echo '<span class="esmart-badge-custom">★ Custom key active</span>';
+                            }
+                        ?></span>
+                        <span>SHA-256 fingerprint (first 16 chars): <strong><?php echo esc_html($key_hash); ?>…</strong></span>
+                        <span>Key length: <strong><?php echo strlen($active_key); ?> characters</strong></span>
+                        <?php if ($has_override): ?>
+                            <span style="color:#721c24; margin-top:8px; display:block;">⚠️ Note: The API Secret Key is currently overridden by the <code>EMATHSMART_API_SECRET</code> constant in <code>wp-config.php</code>.</span>
+                        <?php endif; ?>
+                    </div>
                 </div>
+
                 <div class="esmart-action-row">
-                    <button type="submit" name="emathsmart_save_settings" class="button button-primary">Save Key</button>
-                    <?php if (!$is_default && !$has_override): ?>
+                    <button type="submit" name="emathsmart_save_settings" class="button button-primary">Save Settings</button>
+                    <?php if ((!$is_default || !$is_url_default) && !$has_override && !$has_url_override): ?>
                         <button type="submit" name="emathsmart_reset_secret"
                                 class="button button-link-delete"
-                                onclick="return confirm('Reset to built-in default key?')"
+                                onclick="return confirm('Reset settings to defaults?')"
                                 style="color:#d63638;">
-                            Reset to Default
+                            Reset to Defaults
                         </button>
                     <?php endif; ?>
                 </div>
