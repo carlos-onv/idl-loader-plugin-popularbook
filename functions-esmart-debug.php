@@ -2033,4 +2033,41 @@ function emathsmart_debug_page_header_check() {
     exit;
 }
 
+/**
+ * Temporary Debug Shortcode for API #11
+ * Usage: [test_api_11 parent_id="60770" subscribe_id="116675"]
+ */
+add_shortcode('test_api_11', 'emathsmart_debug_test_api_11_shortcode');
+function emathsmart_debug_test_api_11_shortcode($atts) {
+    // Only allow admins to run this
+    if (!current_user_can('manage_options')) {
+        return '<p>Unauthorized to run test.</p>';
+    }
+
+    $atts = shortcode_atts([
+        'parent_id' => '60770',
+        'subscribe_id' => '116675'
+    ], $atts, 'test_api_11');
+
+    $students = emathsmart_get_student_list($atts['parent_id'], $atts['subscribe_id']);
+
+    ob_start();
+    echo '<div style="background:#222; color:#0f0; padding:20px; font-family:monospace; border-radius:5px; margin:20px 0;">';
+    echo '<h3 style="color:#fff; margin-top:0;">API #11 Test Result</h3>';
+    echo '<p style="color:#ccc;">Parent ID: ' . esc_html($atts['parent_id']) . ' | Subscribe ID: ' . esc_html($atts['subscribe_id']) . '</p>';
+    
+    if ($students !== false) {
+        echo '<p style="color:#0f0;">✅ Success! Received Data:</p>';
+        echo '<pre style="background:#111; color:#0f0; padding:15px; border:1px solid #333; overflow-x:auto;">';
+        echo esc_html(json_encode($students, JSON_PRETTY_PRINT));
+        echo '</pre>';
+    } else {
+        echo '<p style="color:#f00;">❌ Failed! Check the WP Admin `emathsmart_log` table for raw error details.</p>';
+    }
+    
+    echo '</div>';
+    
+    return ob_get_clean();
+}
+
 
