@@ -225,6 +225,104 @@ function emathsmart_get_public_exam_links($order_id) {
     return [];
 }
 
+/**
+ * API #10: Outbound Logout Notification
+ * Triggers when a parent logs out from WordPress
+ */
+add_action('wp_logout', 'emathsmart_trigger_logout_notification');
+function emathsmart_trigger_logout_notification($user_id) {
+    if (!$user_id) return;
+
+    $now = time();
+    $nonce = bin2hex(random_bytes(16));
+    $url = emathsmart_get_api_url() . "/api/user-center/logoutNotify";
+    $secret = emathsmart_get_api_secret();
+
+    $sign_params = [
+        'appId' => 'ParentClub',
+        'parentId' => (string) $user_id,
+        'timestamp' => (string) $now,
+        'nonce' => $nonce,
+    ];
+    
+    ksort($sign_params, SORT_STRING);
+    $pairs = [];
+    foreach ($sign_params as $k => $v) $pairs[] = "$k=$v";
+    $string = implode('&', $pairs);
+    
+    $signature = base64_encode(hash_hmac('sha256', $string, $secret, true));
+    $signature = str_replace(['+', '/', '='], ['-', '_', ''], $signature);
+
+    $post_body = $sign_params;
+    $post_body['signature'] = $signature;
+
+    $response = wp_remote_post($url, [
+        'body' => json_encode($post_body),
+        'headers' => ['Content-Type' => 'application/json'],
+        'timeout' => 5, // Fast timeout so we don't hold up the logout redirect
+        'blocking' => false // Send in background if possible
+    ]);
+
+    // If blocking was true and we wanted to log errors:
+    // if (is_wp_error($response)) {
+    //     emathsmart_log_api_error($user_id, 'logoutNotify', 1, json_encode($post_body), '', $response->get_error_message());
+    // }
+}
+
+/**
+ * API #11: Get Student Info
+ * Helper to fetch a list of students bound to a parent.
+ */
+function emathsmart_get_student_list($parent_id, $subscribe_id = null) {
+    $now = time();
+    $nonce = bin2hex(random_bytes(16));
+    $url = emathsmart_get_api_url() . "/api/user-center/getStudentList";
+    $secret = emathsmart_get_api_secret();
+
+    $sign_params = [
+        'appId' => 'ParentClub',
+        'parentId' => (string) $parent_id,
+        'timestamp' => (string) $now,
+        'nonce' => $nonce,
+    ];
+    if ($subscribe_id !== null) {
+        $sign_params['subscribeId'] = (string) $subscribe_id;
+    }
+    
+    ksort($sign_params, SORT_STRING);
+    $pairs = [];
+    foreach ($sign_params as $k => $v) $pairs[] = "$k=$v";
+    $string = implode('&', $pairs);
+    
+    $signature = base64_encode(hash_hmac('sha256', $string, $secret, true));
+    $signature = str_replace(['+', '/', '='], ['-', '_', ''], $signature);
+
+    $post_body = $sign_params;
+    $post_body['signature'] = $signature;
+
+    $response = wp_remote_post($url, [
+        'body' => json_encode($post_body),
+        'headers' => ['Content-Type' => 'application/json'],
+        'timeout' => 15
+    ]);
+
+    if (is_wp_error($response)) {
+        emathsmart_log_api_error($parent_id, 'getStudentList', 1, json_encode($post_body), '', $response->get_error_message());
+        return false;
+    }
+
+    $body_raw = wp_remote_retrieve_body($response);
+    $body = json_decode($body_raw, true);
+    
+    if (isset($body['code']) && $body['code'] == 200 && isset($body['data'])) {
+        return $body['data']; // Returns the list array of students
+    } else {
+        $http_code = wp_remote_retrieve_response_code($response);
+        emathsmart_log_api_error($parent_id, 'getStudentList', 1, json_encode($post_body), $body_raw, '', $http_code);
+        return false;
+    }
+}
+
 
 /**
  * FEATURE 2: Error Logging Helper

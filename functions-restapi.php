@@ -104,7 +104,9 @@ add_action('rest_api_init', function () {
 add_filter('rest_authentication_errors', function($result) {
     if (!empty($result)) {
         if (strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/user-center/user/info') !== false || 
-            strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/getUserInfo') !== false) {
+            strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/getUserInfo') !== false ||
+            strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/orderpaymentcompensate') !== false ||
+            strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/orderrefundcompensate') !== false) {
             return null;
         }
     }
@@ -434,7 +436,7 @@ function restapi_orderPaymentCompensate($request) {
             'parentId'                  => (string)$user_id,
             'subscribeId'               => $subscribeId,
             'payStatus'                 => $payStatus,
-            'payAmount'                 => (float)$order->get_total(),
+            'payAmount'                 => round((float)$order->get_total(), 2),
             'payTimestamp'              => strtotime($row->post_date_gmt),
             'subscriptionType'          => $subscriptionType,
             'trialType'                 => $trialType,

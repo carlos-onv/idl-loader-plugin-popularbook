@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-12] - Implement APIs #10 and #11 (Logout Notify & Get Student Info)
+
+### Added
+- **API #10 (Logout Notification)**:
+  - Created `emathsmart_trigger_logout_notification()` in [functions-esmart.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-esmart.php) hooked to `wp_logout`.
+  - Dispatches a background JSON payload with HMAC-SHA256 signature to `/api/user-center/logoutNotify` using `wp_remote_post`.
+- **API #11 (Get Student Info)**:
+  - Created reusable helper `emathsmart_get_student_list($parent_id, $subscribe_id)` in [functions-esmart.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-esmart.php) to retrieve bound students.
+  - Generates secure requests to `/api/user-center/getStudentList` and parses the JSON response data array.
+- **Outbound API Test Script**:
+  - Added [scratch/test_outbound.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/scratch/test_outbound.php) to mock network requests and verify the integrity of payload structures and signature hashing algorithms for outbound endpoints.
+
+### Technical Notes for AI Agents
+- Outbound API endpoints calculate their own 16-byte nonce and current timestamp locally, returning errors only if the internal WP HTTP request fails. Errors and raw JSON responses are saved to the custom database logging table via `emathsmart_log_api_error`.
+
 ## [2026-06-12] - Upgrade APIs #7 and #8 Security and Data Mappings
 
 ### Added
