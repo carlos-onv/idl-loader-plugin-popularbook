@@ -148,19 +148,6 @@ function emathsmart_render_settings_page() {
                 </div>
             </form>
         </div>
-
-        <div class="esmart-settings-card" style="border-left: 4px solid #d63638;">
-            <h2 style="color:#d63638;">🚨 Current Status: Staging Server Secret Key Mismatch</h2>
-            <p style="margin:0; font-size:13px; color:#444;">
-                As of <strong>May 28, 2026</strong>, the eMathSmart <strong>staging server was upgraded to v1.4</strong>.
-                The new server now requires <code>parentId</code> in every request body, and uses a <strong>new HMAC secret key</strong>
-                that has not yet been provided to us.<br><br>
-                <strong>All 15 field-subset combinations and 5 secret key variants return <code>20306 Invalid webhook signature</code>.</strong><br><br>
-                ✅ Contact eMathSmart (Jatin) and request: <em>"Please provide the current staging API secret key for the ParentClub appId — 
-                the key was rotated during the v1.4 server update and our webhook integration is returning 20306."</em><br><br>
-                Once you receive the new key, paste it in the field above and click Save.
-            </p>
-        </div>
     </div>
     <?php
 }
