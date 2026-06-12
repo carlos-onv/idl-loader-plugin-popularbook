@@ -17,6 +17,9 @@ All notable changes to this project will be documented in this file for both hum
   - Enabled server-to-server OAuth 2.0 Client Credentials token checks on these routes.
 - **Disabled PKCE Checks**:
   - Commented out the PKCE checks for `/orderpaymentcompensate` and `/orderrefundcompensate` inside `enforce_pkce_for_specific_url()` as these endpoints now run server-to-server via `client_credentials` grant type.
+- **Code Privacy & Coworker Name Cleanup**:
+  - Removed all occurrences of coworker name ("Jatin") from comments in `functions-esmart.php` and `functions-restapi.php`, and from the changelog descriptions.
+  - Refined the workspace rules in `AGENTS.md` to strictly forbid coworker names, developer references, or internal tasks in setting screens, logs, or codebase files.
 - **Refactored APIs #7 and #8 Data Mappings**:
   - Refactored `/orderpaymentcompensate` to query `shop_order` posts rather than `shop_subscription` posts, ensuring renewals, trial starts, and AI Coins purchases are all reported.
   - Restricted both `/orderpaymentcompensate` and `/orderrefundcompensate` query results to orders/items belonging to the dynamically configured WooCommerce product category slug.
@@ -449,7 +452,7 @@ All notable changes to this project will be documented in this file for both hum
     - The eMathSmart **staging server was upgraded to v1.4** at some point after our last successful call (orderId 116377).
     - The v1.4 server **mandates `parentId`** in every request body (v1.3 format now returns `400 parentClubParentId is required`).
     - The v1.4 server uses a **NEW HMAC secret key** that has not been provided to us. Our key `yZ.qmUuVYz,h_=Wzj:4!naWAoxW.vjLm` is rejected for ALL request formats.
-  - **Action Required:** Contact eMathSmart (Jatin) and request the new staging API secret key for `appId=ParentClub`.
+  - **Action Required:** Contact eMathSmart support and request the new staging API secret key for `appId=ParentClub`.
   - **Message to send:** *"Please provide the current staging API secret key for the ParentClub appId — the key was rotated during the v1.4 server update and our webhook integration is returning 20306 for all request formats."*
 
 - **API Secret Key Admin Panel** (`WooCommerce → eMathSmart Settings`):

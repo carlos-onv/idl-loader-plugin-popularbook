@@ -89,7 +89,7 @@ add_action('rest_api_init', function () {
         'permission_callback' => '__return_true'
     ]);
 
-    // Legacy/Jatin's route
+    // Legacy route
     register_rest_route('wp/v2', '/getUserInfo', [
         'methods'  => 'POST',
         'callback' => 'restapi_getuserinfo_by_token',

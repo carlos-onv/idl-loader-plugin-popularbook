@@ -163,7 +163,7 @@ function emathsmart_get_public_exam_links($order_id) {
     $url = emathsmart_get_api_url() . "/api/customer-center/getPublicExamQuestions";
     $expireTimestamp = $now + (365 * 86400);
 
-    // Get the real WooCommerce Subscription ID (As per Jatin's feedback)
+    // Get the real WooCommerce Subscription ID
     $wc_subscription_id = (string) $order_id;
     if (function_exists('wcs_get_subscriptions_for_order')) {
         $subs = wcs_get_subscriptions_for_order($order_id, array('order_type' => 'any'));
