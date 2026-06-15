@@ -43,6 +43,8 @@ All notable changes to this project will be documented in this file for both hum
   - Added mobile responsive override style for `.pc-plan-card` (set `margin-bottom: 20px`) under the `(max-width: 768px)` media query in [parents-club-plans-base.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-plans-base.css).
   - Added mobile responsive override style for `#parents-club-section-6 .need-help-illustration` (absolute positioning, width: 238px, low opacity background blend) under the `(max-width: 768px)` media query in [parents-club-need-help.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-need-help.css).
   - Updated `#parents-club-cta-banner` `margin` from `60px 0` to `0` in [parents-club-cta-banner.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-cta-banner.css) to remove default spacing overrides.
+  - Updated `.member-perks-card` padding to `10px` and commented out `font-family` property in [parents-club-member-perks-bar.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-perks-bar.css).
+
 
 
 
