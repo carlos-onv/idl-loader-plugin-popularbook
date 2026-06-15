@@ -254,6 +254,7 @@ function emathsmart_trigger_logout_notification($user_id) {
     $signature = str_replace(['+', '/', '='], ['-', '_', ''], $signature);
 
     $post_body = $sign_params;
+    $post_body['timestamp'] = (int) $now;
     $post_body['signature'] = $signature;
 
     $response = wp_remote_post($url, [
@@ -298,6 +299,7 @@ function emathsmart_get_student_list($parent_id, $subscribe_id = null) {
     $signature = str_replace(['+', '/', '='], ['-', '_', ''], $signature);
 
     $post_body = $sign_params;
+    $post_body['timestamp'] = (int) $now;
     $post_body['signature'] = $signature;
 
     $response = wp_remote_post($url, [

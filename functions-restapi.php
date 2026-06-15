@@ -392,6 +392,8 @@ function restapi_orderPaymentCompensate($request) {
         $trialType = null;
         $additionalPackageQuantity = null;
 
+        $expireTimestamp = strtotime($row->post_date_gmt) + (365 * 86400);
+
         $additional_packages = (int) emathsmart_order_has_additional_packages($order);
         if ($additional_packages > 0) {
             // Type 2: AI Coins
@@ -408,6 +410,11 @@ function restapi_orderPaymentCompensate($request) {
                     $billing_period = $sub_obj->get_billing_period();
                     $trial_end = $sub_obj->get_date('trial_end');
                     $start_date = $sub_obj->get_date('date_created');
+                    $next_payment = $sub_obj->get_date('next_payment');
+
+                    if (!empty($next_payment)) {
+                        $expireTimestamp = strtotime($next_payment);
+                    }
 
                     if (!empty($trial_end)) {
                         $subscriptionType = 1; // Trial
@@ -438,6 +445,7 @@ function restapi_orderPaymentCompensate($request) {
             'payStatus'                 => $payStatus,
             'payAmount'                 => round((float)$order->get_total(), 2),
             'payTimestamp'              => strtotime($row->post_date_gmt),
+            'expireTimestamp'           => (int)$expireTimestamp,
             'subscriptionType'          => $subscriptionType,
             'trialType'                 => $trialType,
             'additionalPackageQuantity' => $additionalPackageQuantity,

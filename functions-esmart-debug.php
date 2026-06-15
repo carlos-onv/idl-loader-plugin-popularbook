@@ -2070,4 +2070,73 @@ function emathsmart_debug_test_api_11_shortcode($atts) {
     return ob_get_clean();
 }
 
+/**
+ * Temporary Debug Shortcode for API #10
+ * Usage: [test_api_10 parent_id="60793"]
+ */
+add_shortcode('test_api_10', 'emathsmart_debug_test_api_10_shortcode');
+function emathsmart_debug_test_api_10_shortcode($atts) {
+    if (!current_user_can('manage_options')) {
+        return '<p>Unauthorized to run test.</p>';
+    }
 
+    $atts = shortcode_atts(['parent_id' => '60793'], $atts, 'test_api_10');
+    $parent_id = $atts['parent_id'];
+
+    $now = time();
+    $nonce = bin2hex(random_bytes(16));
+    $url = emathsmart_get_api_url() . "/api/user-center/logoutNotify";
+    $secret = emathsmart_get_api_secret();
+
+    $sign_params = [
+        'appId' => 'ParentClub',
+        'parentId' => (string) $parent_id,
+        'timestamp' => (string) $now,
+        'nonce' => $nonce,
+    ];
+    
+    ksort($sign_params, SORT_STRING);
+    $pairs = [];
+    foreach ($sign_params as $k => $v) $pairs[] = "$k=$v";
+    $string = implode('&', $pairs);
+    
+    $signature = base64_encode(hash_hmac('sha256', $string, $secret, true));
+    $signature = str_replace(['+', '/', '='], ['-', '_', ''], $signature);
+
+    $post_body = $sign_params;
+    $post_body['timestamp'] = (int) $now;
+    $post_body['signature'] = $signature;
+
+    // Use blocking=true for the test so we can read the response
+    $response = wp_remote_post($url, [
+        'body' => json_encode($post_body),
+        'headers' => ['Content-Type' => 'application/json'],
+        'timeout' => 15,
+        'blocking' => true 
+    ]);
+
+    ob_start();
+    echo '<div style="background:#222; color:#0f0; padding:20px; font-family:monospace; border-radius:5px; margin:20px 0;">';
+    echo '<h3 style="color:#fff; margin-top:0;">API #10 Test Result (Logout Notification)</h3>';
+    echo '<p style="color:#ccc;">Parent ID: ' . esc_html($parent_id) . '</p>';
+    
+    if (is_wp_error($response)) {
+        echo '<p style="color:#f00;">❌ HTTP Request Failed: ' . esc_html($response->get_error_message()) . '</p>';
+    } else {
+        $body_raw = wp_remote_retrieve_body($response);
+        $body = json_decode($body_raw, true);
+        
+        if (isset($body['code']) && $body['code'] == 200) {
+            echo '<p style="color:#0f0;">✅ Success! eMathSmart acknowledged the logout.</p>';
+        } else {
+            echo '<p style="color:#f00;">❌ eMathSmart returned an error.</p>';
+        }
+        echo '<pre style="background:#111; color:#0f0; padding:15px; border:1px solid #333; overflow-x:auto;">';
+        echo esc_html(json_encode($body ? $body : $body_raw, JSON_PRETTY_PRINT));
+        echo '</pre>';
+    }
+    
+    echo '</div>';
+    
+    return ob_get_clean();
+}
