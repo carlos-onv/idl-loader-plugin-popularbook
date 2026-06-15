@@ -35,6 +35,7 @@
 }
 
 /* Dynamic Registration Form Title and Description styling */
+.ur-custom-header .user-registration-registration-title,
 .user-registration.ur-frontend-form .user-registration-registration-title {
     font-family: 'Outfit', sans-serif !important;
     font-size: 26px !important;
@@ -47,6 +48,7 @@
     line-height: 1.25 !important;
 }
 
+.ur-custom-header .user-registration-registration-description,
 .user-registration.ur-frontend-form .user-registration-registration-description {
     font-family: 'Inter', sans-serif !important;
     font-size: 13.5px !important;

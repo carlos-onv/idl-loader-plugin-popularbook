@@ -44,6 +44,27 @@ function idl_loader_get_subscription_products() {
     return $options;
 }
 
+/**
+ * Query and return User Registration forms.
+ */
+function idl_loader_get_user_registration_forms() {
+    $forms = get_posts( array(
+        'post_type'      => 'user_registration',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+    ) );
+    
+    $options = array();
+    $options[ esc_html__( 'Select a registration form...', 'book-junky' ) ] = '';
+    
+    if ( ! empty( $forms ) ) {
+        foreach ( $forms as $form ) {
+            $options[ $form->post_title . ' (#' . $form->ID . ')' ] = $form->ID;
+        }
+    }
+    return $options;
+}
+
 add_action( 'vc_before_init', 'idl_loader_register_parents_club_elements' );
 
 
@@ -3444,6 +3465,46 @@ function idl_loader_register_parents_club_elements() {
                     "element" => "icon_source",
                     "value"   => array( "custom" )
                 )
+            ),
+        )
+    ) );
+
+    // Register [parents_club_user_registration_form] Element
+    vc_map( array(
+        "name"        => esc_html__( "User Registration Form", "book-junky" ),
+        "base"        => "parents_club_user_registration_form",
+        "icon"        => "cs_icon_for_vc",
+        "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
+        "description" => esc_html__( "Embeds a custom styled User Registration form.", "book-junky" ),
+        "params"      => array(
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Form Title", "book-junky" ),
+                "param_name"  => "form_title",
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "textarea",
+                "heading"     => esc_html__( "Form Description", "book-junky" ),
+                "param_name"  => "form_description",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Select Form", "book-junky" ),
+                "param_name"  => "form_id",
+                "value"       => idl_loader_get_user_registration_forms(),
+                "admin_label" => true,
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Footer Text", "book-junky" ),
+                "param_name"  => "footer_text",
+                "value"       => "Already a member?",
+            ),
+            array(
+                "type"        => "vc_link",
+                "heading"     => esc_html__( "Footer Link", "book-junky" ),
+                "param_name"  => "footer_link",
             ),
         )
     ) );
@@ -7280,5 +7341,61 @@ function idl_loader_parents_club_member_billing_shortcode( $atts ) {
     return ob_get_clean();
 }
 
+// -----------------------------------------------------------------------------
+// SECTION: [parents_club_user_registration_form] Shortcode Handler
+// -----------------------------------------------------------------------------
 
+add_shortcode( 'parents_club_user_registration_form', 'idl_loader_parents_club_user_registration_form_shortcode' );
 
+function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
+    $atts = shortcode_atts( array(
+        'form_title'       => '',
+        'form_description' => '',
+        'form_id'          => '',
+        'footer_text'      => 'Already a member?',
+        'footer_link'      => '',
+    ), $atts, 'parents_club_user_registration_form' );
+
+    // Extract link
+    $link = function_exists('vc_build_link') ? vc_build_link( $atts['footer_link'] ) : array();
+    $link_url = ! empty( $link['url'] ) ? esc_url( $link['url'] ) : '';
+    $link_title = ! empty( $link['title'] ) ? esc_html( $link['title'] ) : 'Login';
+    $link_target = ! empty( $link['target'] ) ? esc_attr( $link['target'] ) : '_self';
+
+    ob_start();
+    ?>
+    <div class="custom-ur-form-wrapper">
+        <?php if ( ! empty( $atts['form_title'] ) || ! empty( $atts['form_description'] ) ) : ?>
+            <div class="ur-custom-header" style="background: transparent !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: -10px;">
+                <?php if ( ! empty( $atts['form_title'] ) ) : ?>
+                    <h2 class="user-registration-registration-title"><?php echo esc_html( $atts['form_title'] ); ?></h2>
+                <?php endif; ?>
+                <?php if ( ! empty( $atts['form_description'] ) ) : ?>
+                    <p class="user-registration-registration-description"><?php echo esc_html( $atts['form_description'] ); ?></p>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
+        <?php 
+        if ( ! empty( $atts['form_id'] ) ) {
+            echo do_shortcode( '[user_registration_form id="' . esc_attr( $atts['form_id'] ) . '"]' );
+        }
+        ?>
+
+        <?php if ( ! empty( $atts['footer_text'] ) || ! empty( $link_url ) ) : ?>
+            <div class="ur-footer-text" style="text-align: center; margin-top: 15px; font-family: 'Inter', sans-serif; font-size: 13.5px; color: #666666;">
+                <?php echo esc_html( $atts['footer_text'] ); ?> 
+                <?php if ( ! empty( $link_url ) ) : ?>
+                    <a href="<?php echo $link_url; ?>" target="<?php echo $link_target; ?>" style="color: #af0128; font-weight: 600; text-decoration: none;"><?php echo $link_title; ?></a>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+// Register WPBakery class for this shortcode
+if ( class_exists( 'WPBakeryShortCode' ) && ! class_exists( 'WPBakeryShortCode_parents_club_user_registration_form' ) ) {
+    class WPBakeryShortCode_parents_club_user_registration_form extends WPBakeryShortCode {}
+}

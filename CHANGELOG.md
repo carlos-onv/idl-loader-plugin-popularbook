@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-06-15] - Update User Registration and Brand Elements CSS Rules
+## [2026-06-15] - Add User Registration WPBakery Element and Update CSS Rules
+
+### Added
+- **WPBakery Elements**:
+  - Created a new `[parents_club_user_registration_form]` WPBakery element in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php) to allow embedding "User Registration & Membership" forms.
+  - Included parameters for custom form title, description, form selection dropdown (using new `idl_loader_get_user_registration_forms()` helper), footer text, and footer login link.
+  - Added new `.ur-custom-header` selectors in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to apply the existing dynamic registration form title and description styling to the custom WPBakery element's header wrapper.
 
 ### Changed
 - **WPBakery Element Styles**:
