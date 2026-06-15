@@ -277,3 +277,10 @@
 .user-registration.ur-frontend-form input.ur-input-border-green {
     border-color: #10b981 !important;
 }
+
+@media (min-width: 576px) {
+    .user-registration.ur-frontend-form {
+        margin-bottom: 20px !important;
+    }
+}
+

@@ -27,6 +27,9 @@ All notable changes to this project will be documented in this file for both hum
   - Changed `margin-bottom` from `50px` to `30px` for `.brand-column .brand-attribute-list` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css).
   - Changed `max-width` from `395px` to `360px` for `.brand-column .brand-logo-wrapper` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css).
   - Moved `max-height: 36px;` from `.brand-column .brand-actions` directly to `.brand-column .btn-crimson` and `.brand-column .btn-outline-crimson` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css).
+  - Added media query for `min-width: 576px` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css) to set `.brand-column` `margin-bottom` to `20px`.
+  - Added media query for `min-width: 576px` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to set `.user-registration.ur-frontend-form` `margin-bottom` to `20px !important`.
+
 
 ## [2026-06-12] - Implement APIs #10 and #11 (Logout Notify & Get Student Info)
 
