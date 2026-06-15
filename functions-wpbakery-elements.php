@@ -7366,7 +7366,7 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
     ?>
     <div class="user-registration ur-frontend-form custom-ur-form-wrapper">
         <?php if ( ! empty( $atts['form_title'] ) || ! empty( $atts['form_description'] ) ) : ?>
-            <div class="ur-custom-header" style="background: transparent !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: -10px;">
+            <div class="ur-custom-header" style="background: transparent !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: 0;">
                 <?php if ( ! empty( $atts['form_title'] ) ) : ?>
                     <h2 class="user-registration-registration-title"><?php echo esc_html( $atts['form_title'] ); ?></h2>
                 <?php endif; ?>
