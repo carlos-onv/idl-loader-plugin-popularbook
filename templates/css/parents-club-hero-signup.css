@@ -221,7 +221,7 @@
 .user-registration.ur-frontend-form .ur-button-container button,
 .user-registration.ur-frontend-form button {
     width: 100% !important;
-    height: 46px !important;
+    height: 35px !important;
     background-color: var(--brand-red) !important;
     background: var(--brand-red) !important;
     color: #ffffff !important;
@@ -235,6 +235,7 @@
     cursor: pointer !important;
     transition: background-color 0.2s ease, box-shadow 0.2s ease !important;
     box-shadow: 0 4px 12px rgba(175, 1, 40, 0.15) !important;
+    line-height: 1 !important;
 }
 
 .user-registration.ur-frontend-form button.ur-submit-button:hover,

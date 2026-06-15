@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-06-15] - Update User Registration CSS Rules
+## [2026-06-15] - Update User Registration and Brand Elements CSS Rules
 
 ### Changed
 - **WPBakery Element Styles**:
@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file for both hum
   - Removed `min-width: 180px !important;` from `.user-registration.ur-frontend-form .ur-form-row .ur-form-grid` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
   - Changed `padding` from `20px 24px !important;` to `20px !important;` for `.user-registration.ur-frontend-form` container in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
   - Added `padding: 0 !important;` to `.user-registration.ur-frontend-form .ur-button-container` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
+  - Updated `height` from `46px` to `35px` and added `line-height: 1 !important;` for submit buttons in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
+  - Updated `max-height` from `40px` to `36px` for `.brand-column .brand-actions` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css).
 
 ## [2026-06-12] - Implement APIs #10 and #11 (Logout Notify & Get Student Info)
 
