@@ -37,6 +37,7 @@
     overflow: hidden;
     border: 1px solid var(--border-light);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    max-height: 240px;
 }
 
 .benefits-column .benefits-image-wrapper img {

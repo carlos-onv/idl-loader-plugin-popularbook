@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file for both hum
   - Added `padding: 0 !important;` to `.user-registration.ur-frontend-form .ur-button-container` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
   - Updated `height` from `46px` to `35px` and added `line-height: 1 !important;` for submit buttons in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
   - Updated `max-height` from `40px` to `36px` for `.brand-column .brand-actions` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css).
+  - Added `max-height: 240px;` to `.benefits-column .benefits-image-wrapper` in [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css).
 
 ## [2026-06-12] - Implement APIs #10 and #11 (Logout Notify & Get Student Info)
 
