@@ -370,6 +370,15 @@
     #parents-club-dashboard .sub-card {
         z-index: 1;
         position: relative; /* Ensure absolute positioning on child .illu is relative to the card */
+        margin-bottom: 20px;
+    }
+    #parents-club-dashboard .actions {
+        display: flex !important;
+        gap: 16px !important;
+        margin-top: auto !important;
+        padding: 28px 0 0 !important;
+        justify-content: space-between !important;
+        flex-direction: column;
     }
 }
 
