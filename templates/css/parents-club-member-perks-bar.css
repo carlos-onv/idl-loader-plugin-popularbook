@@ -98,8 +98,8 @@
 }
 
 .member-perks-card .member-perk-icon svg {
-    width: 40px !important;
-    height: 40px !important;
+    width: 30px !important;
+    height: 30px !important;
     stroke: currentColor !important;
     fill: none !important;
     display: block !important;
