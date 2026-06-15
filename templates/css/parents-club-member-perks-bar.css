@@ -105,11 +105,10 @@
     display: block !important;
 }
 
-/* Label */
 .member-perks-card .member-perk-label {
     font-family: 'Inter', sans-serif !important;
-    font-size: 13px !important;
-    font-weight: 700 !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
     color: var(--perks-text-dark) !important;
     line-height: 1.45 !important;
     text-align: center !important;
@@ -119,6 +118,6 @@
 
 @media (min-width: 768px) {
     .member-perks-card .member-perk-label {
-        font-size: 13.5px !important;
+        font-size: 12px !important;
     }
 }

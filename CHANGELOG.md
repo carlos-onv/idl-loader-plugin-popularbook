@@ -49,6 +49,8 @@ All notable changes to this project will be documented in this file for both hum
   - Updated `.member-perks-card .member-perks-title` under the `(min-width: 768px)` media query to have `font-size: 20px !important` and `margin-bottom: 5px !important` in [parents-club-member-perks-bar.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-perks-bar.css).
   - Updated `.member-perks-card .member-perk-icon svg` dimensions from `40px` to `30px` in [parents-club-member-perks-bar.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-perks-bar.css).
   - Updated `.member-perks-card .member-perk-item` gap size from `12px` to `5px` in [parents-club-member-perks-bar.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-perks-bar.css).
+  - Updated `.member-perks-card .member-perk-label` to set font-size to `12px` (both mobile and desktop query) and font-weight to `600` in [parents-club-member-perks-bar.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-perks-bar.css).
+
 
 
 
