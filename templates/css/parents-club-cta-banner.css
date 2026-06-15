@@ -59,9 +59,9 @@
 }
 
 .cta-banner-text h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 27px;
-    font-weight: 700;
+    /* font-family: 'Outfit', sans-serif; */
+    font-size: 22px;
+    font-weight: 400;
     margin: 0 0 8px 0;
     color: #ffffff;
     line-height: 1.25;
@@ -69,8 +69,8 @@
 }
 
 .cta-banner-text p {
-    font-family: 'Inter', sans-serif;
-    font-size: 14.5px;
+    /* font-family: 'Inter', sans-serif; */
+    font-size: 14px;
     font-weight: 400;
     margin: 0;
     color: rgba(255, 255, 255, 0.9);
