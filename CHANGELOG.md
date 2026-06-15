@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-06-15] - Add User Registration WPBakery Element and Update CSS Rules
+## [2026-06-15] - Add User Registration Element, Benefits Image Option, and CSS Updates
 
 ### Added
 - **WPBakery Elements**:
@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file for both hum
   - Added new `.ur-custom-header` selectors in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to apply the existing dynamic registration form title and description styling to the custom WPBakery element's header wrapper.
 
 ### Changed
+- **Parents Club Benefits Glance Element**: Added `show_banner_image` option (`yes`/`no`) to the WPBakery settings, and updated the shortcode rendering logic to completely omit the `.benefits-image-wrapper` container from the HTML output when "No (No Image)" is selected.
 - **WPBakery Element Styles**:
   - Adjusted font sizes for the custom User Registration WPBakery element in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css): Title from `26px` to `21px`, Description from `13.5px` to `12px`.
   - Wrapped the entire `[parents_club_user_registration_form]` output in the primary `.user-registration.ur-frontend-form` class so the white background card covers the title, form, and footer link natively.

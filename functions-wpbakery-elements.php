@@ -210,9 +210,24 @@ function idl_loader_register_parents_club_elements() {
         "description" => esc_html__( "Overlapping crimson benefits glance card and top study banner illustration.", "book-junky" ),
         "params"      => array(
             array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Show Banner Image", "book-junky" ),
+                "param_name"  => "show_banner_image",
+                "value"       => array(
+                    esc_html__( "Yes", "book-junky" ) => "yes",
+                    esc_html__( "No (No Image)", "book-junky" ) => "no",
+                ),
+                "std"         => "yes",
+                "description" => esc_html__( "Choose whether to display the top banner image.", "book-junky" ),
+            ),
+            array(
                 "type"        => "attach_image",
                 "heading"     => esc_html__( "Top Banner Image", "book-junky" ),
                 "param_name"  => "banner_image",
+                "dependency"  => array(
+                    "element" => "show_banner_image",
+                    "value"   => array( "yes" ),
+                ),
                 "description" => esc_html__( "Upload an optional custom banner image. If left blank, the default study banner is loaded.", "book-junky" ),
             ),
             array(
@@ -3856,6 +3871,7 @@ add_shortcode( 'parents_club_benefits_glance', 'idl_loader_parents_club_benefits
 
 function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
     $attributes = shortcode_atts( array(
+        'show_banner_image'            => 'yes',
         'banner_image'                 => '',
         'card_title'                   => 'Benefits at a Glance',
         'benefit1_text'                => '50% OFF Complete Canadian Curriculum Series',
@@ -3948,14 +3964,16 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
 
     // Resolve Banner Image URL
     $banner_url = '';
-    if ( ! empty( $banner_image ) && is_numeric( $banner_image ) ) {
-        $img_src = wp_get_attachment_image_src( $banner_image, 'full' );
-        if ( $img_src ) {
-            $banner_url = esc_url( $img_src[0] );
+    if ( isset( $attributes['show_banner_image'] ) && $attributes['show_banner_image'] === 'yes' ) {
+        if ( ! empty( $banner_image ) && is_numeric( $banner_image ) ) {
+            $img_src = wp_get_attachment_image_src( $banner_image, 'full' );
+            if ( $img_src ) {
+                $banner_url = esc_url( $img_src[0] );
+            }
         }
-    }
-    if ( empty( $banner_url ) ) {
-        $banner_url = plugins_url( 'templates/images/parents-club-banner.jpg', __FILE__ );
+        if ( empty( $banner_url ) ) {
+            $banner_url = plugins_url( 'templates/images/parents-club-banner.jpg', __FILE__ );
+        }
     }
 
     // Helper closure to render visual SVGs, libraries or custom uploaded media
