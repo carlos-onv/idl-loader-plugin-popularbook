@@ -358,5 +358,17 @@
     #parents-club-dashboard .go-btn {
         margin-left: 0 !important;
     }
+    #parents-club-dashboard .illu {
+        width: 100% !important;
+        max-width: 100%;
+        position: absolute;
+        z-index: -1;
+        opacity: 0.1;
+        left: 0;
+    }
+    #parents-club-dashboard .sub-card {
+        z-index: 1;
+        position: relative; /* Ensure absolute positioning on child .illu is relative to the card */
+    }
 }
 
