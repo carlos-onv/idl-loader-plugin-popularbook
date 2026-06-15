@@ -144,3 +144,10 @@
     display: block !important;
     white-space: nowrap !important;
 }
+
+@media (max-width: 768px) {
+    .pc-plan-card {
+        margin-bottom: 20px;
+    }
+}
+

@@ -131,3 +131,10 @@
         margin-top: -50px; /* Offset alignment to badges */
     }
 }
+
+@media (max-width: 768px) {
+    .how-it-works-card {
+        margin-bottom: 20px;
+    }
+}
+

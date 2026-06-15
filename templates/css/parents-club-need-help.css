@@ -151,3 +151,17 @@
     color: #af0128 !important; /* Red hover for feedback */
     text-decoration: underline !important;
 }
+
+@media (max-width: 768px) {
+    #parents-club-section-6 .need-help-illustration {
+        position: absolute !important;
+        width: 238px !important;
+        height: auto !important;
+        display: block !important;
+        z-index: 0 !important;
+        right: 10px !important;
+        bottom: 10px !important;
+        opacity: 0.5 !important;
+    }
+}
+
