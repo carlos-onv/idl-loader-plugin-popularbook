@@ -6,7 +6,7 @@
 #parents-club-cta-banner {
     width: 100%;
     background-color: #af0128; /* Primary Crimson Red */
-    margin: 60px 0;
+    margin: 0;
     box-shadow: 0 12px 36px rgba(175, 1, 40, 0.12);
     box-sizing: border-box;
 }
