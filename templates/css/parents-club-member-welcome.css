@@ -8,7 +8,6 @@
     --brand-text-dark: #1e293b;
     --brand-text-muted: #64748b;
     
-    font-family: 'Inter', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -36,7 +35,6 @@
 }
 
 .member-welcome-title {
-    font-family: 'Outfit', sans-serif;
     font-size: 38px;
     font-weight: 800;
     line-height: 1.1;

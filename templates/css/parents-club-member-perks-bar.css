@@ -21,12 +21,10 @@
     border-radius: 16px;
     padding: 10px;
     width: 100%;
-    /* font-family: 'Inter', sans-serif; */
 }
 
 /* Section title */
 .member-perks-card .member-perks-title {
-    /* font-family: 'Outfit', sans-serif !important; */
     font-size: 20px !important;
     font-weight: 800 !important;
     color: var(--perks-text-dark) !important;
@@ -106,7 +104,6 @@
 }
 
 .member-perks-card .member-perk-label {
-    font-family: 'Inter', sans-serif !important;
     font-size: 12px !important;
     font-weight: 600 !important;
     color: var(--perks-text-dark) !important;

@@ -7,7 +7,6 @@
     --brand-red: #af0128;
     --brand-red-hover: #960122;
     
-    font-family: 'Inter', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,7 +25,6 @@
 }
 
 .member-benefits-column h3 {
-    font-family: 'Outfit', sans-serif;
     font-size: 24px;
     font-weight: 800;
     color: #ffffff;
@@ -92,7 +90,6 @@
 }
 
 .member-benefits-column .bullet-content p {
-    font-family: 'Inter', sans-serif !important;
     font-size: 14px !important;
     color: #ffffff !important;
     font-weight: 600 !important;

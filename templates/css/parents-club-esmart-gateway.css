@@ -7,7 +7,6 @@
     --btn-gradient: #ff5a36;
     --btn-gradient-hover: #e04a28;
     
-    font-family: 'Inter', sans-serif;
     background-color: #fafafa;
     border: 1px solid #f1f3f5;
     border-radius: 16px;
@@ -30,7 +29,6 @@
 
 /* Styled text logo if image is not preferred */
 .esmart-text-logo {
-    font-family: 'Outfit', sans-serif;
     font-size: 32px;
     font-weight: 800;
     letter-spacing: -0.02em;
@@ -68,7 +66,6 @@
     color: #ffffff !important;
     padding: 14px 28px;
     border-radius: 100px;
-    font-family: 'Outfit', sans-serif;
     font-size: 14px;
     font-weight: 700;
     text-decoration: none !important;

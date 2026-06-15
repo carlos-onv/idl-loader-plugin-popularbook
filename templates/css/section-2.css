@@ -12,7 +12,6 @@
     --border-light: #e1e8ed;
     --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.03);
     
-    font-family: 'Inter', sans-serif;
     color: var(--brand-text-dark);
     background-color: #fafafa !important;
     border: 1px solid #e5e7eb !important;
@@ -50,7 +49,6 @@
 }
 
 .feature-bar-wrapper .bar-title-block h2 {
-    font-family: 'Outfit', sans-serif;
     font-size: 20px;
     font-weight: 800;
     line-height: 1.25;
@@ -134,7 +132,6 @@
 }
 
 .feature-bar-wrapper .feature-title {
-    font-family: 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 800;
     color: var(--brand-text-dark);
@@ -142,7 +139,6 @@
 }
 
 .feature-bar-wrapper .feature-desc {
-    font-family: 'Inter', sans-serif;
     font-size: 10.5px;
     color: var(--brand-text-muted);
     font-weight: 500;

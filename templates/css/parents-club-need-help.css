@@ -54,7 +54,6 @@
 
 /* Title */
 #parents-club-section-6 .need-help-title {
-    font-family: 'Outfit', sans-serif !important;
     font-size: 20px !important;
     font-weight: 800 !important;
     color: #1e293b !important; /* Dark slate */
@@ -68,7 +67,6 @@
 
 /* Subtitle */
 #parents-club-section-6 .need-help-subtitle {
-    font-family: 'Inter', sans-serif !important;
     font-size: 13.5px !important;
     font-weight: 500 !important;
     color: #475569 !important; /* Slate-600 */
@@ -126,7 +124,6 @@
 }
 
 #parents-club-section-6 .contact-label {
-    font-family: 'Inter', sans-serif !important;
     font-size: 13.5px !important;
     font-weight: 700 !important;
     color: #1e293b !important; /* Dark slate */
@@ -134,7 +131,6 @@
 }
 
 #parents-club-section-6 .contact-value {
-    font-family: 'Inter', sans-serif !important;
     font-size: 12.5px !important;
     font-weight: 500 !important;
     color: #475569 !important; /* Slate-600 instead of active red */

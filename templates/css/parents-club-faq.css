@@ -18,7 +18,6 @@
     --s6-text-dark: #1e293b;
     --s6-text-muted: #475569;
 
-    font-family: 'Inter', sans-serif;
     background-color: #ffffff;
     padding: 50px 0 70px;
     width: 100%;
@@ -53,7 +52,6 @@
 }
 
 #parents-club-section-6 .faq-title {
-    font-family: 'Outfit', sans-serif !important;
     font-size: 22px !important;
     font-weight: 800 !important;
     color: var(--s6-text-dark) !important;
@@ -116,7 +114,6 @@
     border: none !important;
     cursor: pointer !important;
     text-align: left !important;
-    font-family: 'Inter', sans-serif !important;
     font-size: 13.5px !important; /* Correct readable size */
     font-weight: 700 !important; /* Bold as per design */
     color: var(--s6-text-dark) !important;
@@ -150,7 +147,6 @@
 #parents-club-section-6 .faq-answer {
     display: none;
     padding: 0 18px 18px; /* Matching increased padding */
-    font-family: 'Inter', sans-serif;
     font-size: 13px !important; /* Perfect readable sizing */
     color: var(--s6-text-muted);
     line-height: 1.6;
