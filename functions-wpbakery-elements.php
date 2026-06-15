@@ -6768,8 +6768,11 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
         <section class="card sub-card">
             <div class="sub-top">
                 <div class="sub-logo-group">
-                    <img class="logo" src="<?php echo esc_url( $logo_url ); ?>" alt="eMathSmart">
-                    <span class="active-pill"><?php echo esc_html( $status_pill_text ); ?></span>
+                    <div class="sub-logo-badge">
+                        <img class="logo" src="<?php echo esc_url( $logo_url ); ?>" alt="eMathSmart">
+                        <span class="active-pill"><?php echo esc_html( $status_pill_text ); ?></span>
+                    </div>
+                    <h2 class="sub-title"><?php echo esc_html( $attributes['title'] ); ?></h2>
                 </div>
                 <?php if ( ! empty( $attributes['portal_btn_text'] ) ) : ?>
                     <a href="<?php echo esc_url( $portal_url ); ?>" class="go-btn" <?php echo ! empty( $portal_target ) ? 'target="' . $portal_target . '"' : ''; ?>>
@@ -6780,8 +6783,6 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                     </a>
                 <?php endif; ?>
             </div>
-
-            <h2 class="sub-title"><?php echo esc_html( $attributes['title'] ); ?></h2>
 
             <div class="sub-body">
                 <!-- Illustration -->
