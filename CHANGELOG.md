@@ -51,6 +51,8 @@ All notable changes to this project will be documented in this file for both hum
   - Updated `.member-perks-card .member-perk-item` gap size from `12px` to `5px` in [parents-club-member-perks-bar.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-perks-bar.css).
   - Updated `.member-perks-card .member-perk-label` to set font-size to `12px` (both mobile and desktop query) and font-weight to `600` in [parents-club-member-perks-bar.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-perks-bar.css).
   - Updated padding from `13px 20px` to `6px 20px` on CTA banner buttons `.btn-join-club` and `.btn-explore-emath` in [parents-club-cta-banner.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-cta-banner.css).
+  - Updated `.cta-banner-actions` layout properties, replacing fixed `width: 280px` with `width: 100%` and `max-width: 325px` in [parents-club-cta-banner.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-cta-banner.css).
+
 
 
 

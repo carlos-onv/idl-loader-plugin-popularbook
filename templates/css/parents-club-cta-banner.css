@@ -84,7 +84,8 @@
     gap: 12px;
     justify-content: center;
     flex-shrink: 0;
-    width: 280px;
+    max-width: 325px;
+    width: 100%;
 }
 
 /* White Join Button */
