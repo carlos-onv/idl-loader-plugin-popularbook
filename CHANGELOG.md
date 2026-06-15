@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file for both hum
   - Added `max-height: 240px;` to `.benefits-column .benefits-image-wrapper` in [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css).
   - Changed `padding` from `20px 24px !important;` to `15px !important;` for `.benefits-column .benefits-glance-card` in [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css).
   - Changed `font-weight` from `800` to `400` and removed custom `font-family` for `.benefits-column .benefits-glance-card h3` in [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css).
+  - Changed `margin-bottom` from `50px` to `30px` for `.brand-column .brand-attribute-list` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css).
 
 ## [2026-06-12] - Implement APIs #10 and #11 (Logout Notify & Get Student Info)
 
