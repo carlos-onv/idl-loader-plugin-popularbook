@@ -71,7 +71,6 @@
 /* Sub-grid columns responsiveness override (overrides inline styles) */
 .user-registration.ur-frontend-form .ur-form-row .ur-form-grid {
     flex: 1 1 45% !important;
-    min-width: 180px !important;
     width: auto !important;
     margin: 0 !important;
     padding: 0 !important;

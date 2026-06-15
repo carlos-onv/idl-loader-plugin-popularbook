@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-06-15] - Update User Registration Field Item CSS Margin
+## [2026-06-15] - Update User Registration CSS Rules
 
 ### Changed
 - **WPBakery Element Styles**:
   - Removed `margin-bottom: 12px !important;` from `.user-registration.ur-frontend-form .ur-field-item` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
+  - Removed `min-width: 180px !important;` from `.user-registration.ur-frontend-form .ur-form-row .ur-form-grid` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
 
 ## [2026-06-12] - Implement APIs #10 and #11 (Logout Notify & Get Student Info)
 
