@@ -34,6 +34,17 @@
     box-sizing: border-box !important;
 }
 
+/* Remove box styling from the inner form when wrapped by the custom WPBakery element */
+.custom-ur-form-wrapper .user-registration.ur-frontend-form {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+}
+
 /* Dynamic Registration Form Title and Description styling */
 .ur-custom-header .user-registration-registration-title,
 .user-registration.ur-frontend-form .user-registration-registration-title {

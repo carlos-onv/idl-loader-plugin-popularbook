@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file for both hum
 
 ### Changed
 - **WPBakery Element Styles**:
+  - Wrapped the entire `[parents_club_user_registration_form]` output in the primary `.user-registration.ur-frontend-form` class so the white background card covers the title, form, and footer link natively.
+  - Reset the inner form's padding, background, and box-shadow in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) when wrapped inside `.custom-ur-form-wrapper` to prevent double-boxing.
   - Removed `margin-bottom: 12px !important;` from `.user-registration.ur-frontend-form .ur-field-item` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
   - Removed `min-width: 180px !important;` from `.user-registration.ur-frontend-form .ur-form-row .ur-form-grid` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
   - Changed `padding` from `20px 24px !important;` to `20px !important;` for `.user-registration.ur-frontend-form` container in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
