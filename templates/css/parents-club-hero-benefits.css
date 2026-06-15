@@ -58,9 +58,9 @@
 }
 
 .benefits-column .benefits-glance-card h3 {
-    font-family: 'Outfit', sans-serif;
+    /* font-family: 'Outfit', sans-serif; */
     font-size: 19px;
-    font-weight: 800;
+    font-weight: 400;
     color: #ffffff;
     margin-bottom: 25px !important;
     border-bottom: none !important;
