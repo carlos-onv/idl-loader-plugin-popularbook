@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file for both hum
 - **Parents Club Benefits Glance Element**: Removed duplicate closing `div` tags at the end of the HTML output template which were causing subsequent rows on page layouts to break out and expand to full width.
 
 - **WPBakery Element Styles**:
+  - Added `height: stretch;` to `.benefits-column .benefits-glance-card` in [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css).
   - Adjusted font sizes for the custom User Registration WPBakery element in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css): Title from `26px` to `21px`, Description from `13.5px` to `12px`.
   - Wrapped the entire `[parents_club_user_registration_form]` output in the primary `.user-registration.ur-frontend-form` class so the white background card covers the title, form, and footer link natively.
   - Reset the inner form's padding, background, and box-shadow in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) when wrapped inside `.custom-ur-form-wrapper` to prevent double-boxing.
