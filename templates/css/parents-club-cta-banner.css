@@ -45,15 +45,15 @@
     flex-grow: 1;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 25px 50px;
-    gap: 40px;
+    gap: 90px;
     background-color: #af0128; /* Matches container */
 }
 
 /* Text Stack */
 .cta-banner-text {
-    flex: 1;
+    flex: none;
     color: #ffffff;
     text-align: left;
 }
