@@ -37,8 +37,8 @@
 
 @media (min-width: 768px) {
     .member-perks-card .member-perks-title {
-        font-size: 22px !important;
-        margin-bottom: 32px !important;
+        font-size: 20px !important;
+        margin-bottom: 5px !important;
     }
 }
 

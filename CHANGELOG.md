@@ -46,6 +46,8 @@ All notable changes to this project will be documented in this file for both hum
   - Updated `.member-perks-card` padding to `10px` and commented out `font-family` property in [parents-club-member-perks-bar.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-perks-bar.css).
   - Updated `.member-perks-card .member-perks-title` to comment out `font-family`, set `line-height: 1`, and reset `margin: 0` in [parents-club-member-perks-bar.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-perks-bar.css).
   - Changed default icon color variable `--perks-brand-red` to `#eb1f23` in [parents-club-member-perks-bar.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-perks-bar.css) to update default perks card icon colors.
+  - Updated `.member-perks-card .member-perks-title` under the `(min-width: 768px)` media query to have `font-size: 20px !important` and `margin-bottom: 5px !important` in [parents-club-member-perks-bar.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-perks-bar.css).
+
 
 
 
