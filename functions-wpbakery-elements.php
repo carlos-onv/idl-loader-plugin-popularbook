@@ -6767,8 +6767,10 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
     <section id="parents-club-dashboard" style="padding: 0 !important; background-color: transparent !important;">
         <section class="card sub-card">
             <div class="sub-top">
-                <img class="logo" src="<?php echo esc_url( $logo_url ); ?>" alt="eMathSmart">
-                <span class="active-pill"><?php echo esc_html( $status_pill_text ); ?></span>
+                <div class="sub-logo-group">
+                    <img class="logo" src="<?php echo esc_url( $logo_url ); ?>" alt="eMathSmart">
+                    <span class="active-pill"><?php echo esc_html( $status_pill_text ); ?></span>
+                </div>
                 <?php if ( ! empty( $attributes['portal_btn_text'] ) ) : ?>
                     <a href="<?php echo esc_url( $portal_url ); ?>" class="go-btn" <?php echo ! empty( $portal_target ) ? 'target="' . $portal_target . '"' : ''; ?>>
                         <?php echo esc_html( $attributes['portal_btn_text'] ); ?>

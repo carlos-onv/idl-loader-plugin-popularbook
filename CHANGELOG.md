@@ -31,6 +31,8 @@ All notable changes to this project will be documented in this file for both hum
   - Added media query for `min-width: 576px` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to set `.user-registration.ur-frontend-form` `margin-bottom` to `20px !important`.
   - Updated `.member-attribute-list .attribute-text span` and `.member-attribute-list .attribute-text strong` in [parents-club-member-welcome.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-welcome.css) to set font size to 13.5px, color to `#111`, and font-weight to 500.
   - Adjusted the mobile `(max-width: 768px)` background gradient configuration and style rules for `.member-welcome-column` in [parents-club-member-welcome.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-welcome.css).
+  - Wrapped the eMathSmart logo and active status pill inside a new `.sub-logo-group` flexbox container in [parents-club_member.html](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/parents-club_member.html) and [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php), declaring its layout styles in [parents-club-dashboard-subscription.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-subscription.css).
+
 
 
 

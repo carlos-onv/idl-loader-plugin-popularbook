@@ -75,6 +75,13 @@
     padding-left: 50px !important;
 }
 
+#parents-club-dashboard .sub-logo-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+}
+
+
 #parents-club-dashboard .logo {
     height: 42px !important;
     width: auto !important;
