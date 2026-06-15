@@ -355,5 +355,8 @@
     #parents-club-dashboard .sub-title {
         padding-left: 0 !important;
     }
+    #parents-club-dashboard .go-btn {
+        margin-left: 0 !important;
+    }
 }
 
