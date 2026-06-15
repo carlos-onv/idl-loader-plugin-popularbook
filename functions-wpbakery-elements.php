@@ -4270,10 +4270,6 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
             </div>
         </div>
     </div>
-                
-            </div>
-        </div>
-    </div>
     <?php
     return ob_get_clean();
 }
