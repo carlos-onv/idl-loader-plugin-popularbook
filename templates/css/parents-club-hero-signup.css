@@ -47,7 +47,7 @@
 /* Dynamic Registration Form Title and Description styling */
 .ur-custom-header .user-registration-registration-title,
 .user-registration.ur-frontend-form .user-registration-registration-title {
-    font-size: 18px !important;
+    font-size: 19px !important;
     font-weight: 800 !important;
     color: var(--brand-text-dark) !important;
     margin-bottom: 0px !important;
@@ -59,13 +59,14 @@
 
 .ur-custom-header .user-registration-registration-description,
 .user-registration.ur-frontend-form .user-registration-registration-description {
-    font-size: 12px !important;
-    color: var(--brand-text-muted) !important;
+    font-size: 10px !important;
+    color: var(--brand-text-dark) !important;
     margin-top: 6px !important;
     margin-bottom: 25px !important;
     display: block !important;
     text-align: center !important;
     line-height: 1.45 !important;
+    font-weight: 600 !important;
 }
 
 /* Form Row Grid - Force flex alignment and responsiveness */
