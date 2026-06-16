@@ -132,3 +132,11 @@
     }
 }
 
+#parents-club-dashboard .coin-child-name {
+    color: #6E6E73 !important;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    padding-left: 45px !important;
+    margin: -2px 0 6px !important;
+}
+

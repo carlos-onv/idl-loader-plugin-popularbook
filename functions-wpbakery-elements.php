@@ -6103,23 +6103,33 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
 
                 $access_grade = '';
                 $credits_balance = 0;
+                $child_names = array();
                 if ( function_exists( 'emathsmart_get_student_list' ) ) {
                     $students = emathsmart_get_student_list( $user_id, $subscription->get_id() );
                     if ( ! empty( $students ) && is_array( $students ) ) {
-                        $grade_names = array();
+                        $access_details = array();
                         foreach ( $students as $student ) {
+                            $part = '';
                             if ( ! empty( $student['gradeName'] ) ) {
-                                $grade_names[] = $student['gradeName'];
+                                $part .= $student['gradeName'];
+                            }
+                            if ( ! empty( $student['name'] ) ) {
+                                $part .= ' (' . $student['name'] . ')';
+                                $child_names[] = $student['name'];
+                            }
+                            if ( ! empty( $part ) ) {
+                                $access_details[] = $part;
                             }
                             if ( isset( $student['creditsBalance'] ) ) {
                                 $credits_balance += intval( $student['creditsBalance'] );
                             }
                         }
-                        if ( ! empty( $grade_names ) ) {
-                            $access_grade = implode( ', ', array_unique( $grade_names ) );
+                        if ( ! empty( $access_details ) ) {
+                            $access_grade = implode( ', ', array_unique( $access_details ) );
                         }
                     }
                 }
+                $sub_child_name = ! empty( $child_names ) ? implode( ', ', array_unique( $child_names ) ) : 'None';
 
                 $details_data[] = array(
                     'label'                => 'Access',
@@ -6169,6 +6179,7 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                     'details_data'     => $details_data,
                     'actions_data'     => $actions_data,
                     'credits_balance'  => $credits_balance,
+                    'child_name'       => $sub_child_name,
                 );
             }
         } else {
@@ -6519,14 +6530,14 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                 <div class="sub-logo-group">
                     <h2 class="sub-title" style="margin: 0;">All Subscriptions</h2>
                 </div>
-                <a href="javascript:void(0);" class="go-btn" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-0').removeClass('hidden-card'); jQuery('#pc-member-coin-balance-val').html('<?php echo esc_js( $formatted_subs[0]['credits_balance'] ); ?> <span>coins</span>'); return false;" style="background: transparent; color: var(--brand-text-dark); border: 1px solid #ccc; font-weight: 500;">
+                <a href="javascript:void(0);" class="go-btn" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-0').removeClass('hidden-card'); jQuery('#pc-member-coin-balance-val').html('<?php echo esc_js( $formatted_subs[0]['credits_balance'] ); ?> <span>coins</span>'); jQuery('#pc-member-coin-child-name').text('Child: ' + '<?php echo esc_js( $formatted_subs[0]['child_name'] ); ?>'); return false;" style="background: transparent; color: var(--brand-text-dark); border: 1px solid #ccc; font-weight: 500;">
                     Go Back
                 </a>
             </div>
             <div class="sub-body" style="padding: 0;">
                 <div class="subscription-list-items">
                     <?php foreach ( $formatted_subs as $index => $sub ) : ?>
-                        <a href="javascript:void(0);" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-<?php echo esc_attr( $index ); ?>').removeClass('hidden-card'); jQuery('#pc-member-coin-balance-val').html('<?php echo esc_js( $sub['credits_balance'] ); ?> <span>coins</span>'); return false;" class="sub-list-item">
+                        <a href="javascript:void(0);" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-<?php echo esc_attr( $index ); ?>').removeClass('hidden-card'); jQuery('#pc-member-coin-balance-val').html('<?php echo esc_js( $sub['credits_balance'] ); ?> <span>coins</span>'); jQuery('#pc-member-coin-child-name').text('Child: ' + '<?php echo esc_js( $sub['child_name'] ); ?>'); return false;" class="sub-list-item">
                             <div class="sub-list-item-info">
                                 <span class="sub-list-item-title"><?php echo esc_html( $sub['sub_type'] ); ?></span>
                                 <span class="sub-list-item-status"><?php echo esc_html( $sub['status_val'] ); ?></span>
@@ -6736,6 +6747,7 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
     // Fetch dynamic balance if user is logged in
     $user_id = get_current_user_id();
     $balance_val = '0';
+    $child_name_val = 'None';
     if ( $user_id ) {
         // Fetch credits balance of the first active subscription (API #11)
         $subscriptions = function_exists( 'wcs_get_users_subscriptions' ) ? wcs_get_users_subscriptions( $user_id ) : array();
@@ -6748,13 +6760,20 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
                     $students = emathsmart_get_student_list( $user_id, $sub_id );
                     if ( ! empty( $students ) && is_array( $students ) ) {
                         $credits_balance = 0;
+                        $names = array();
                         foreach ( $students as $student ) {
                             if ( isset( $student['creditsBalance'] ) ) {
                                 $credits_balance += intval( $student['creditsBalance'] );
                             }
+                            if ( ! empty( $student['name'] ) ) {
+                                $names[] = $student['name'];
+                            }
                         }
                         $balance_val = strval( $credits_balance );
                         $found_balance = true;
+                        if ( ! empty( $names ) ) {
+                            $child_name_val = implode( ', ', array_unique( $names ) );
+                        }
                     }
                 }
             }
@@ -6852,6 +6871,9 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
                 <span class="coin-amt" id="pc-member-coin-balance-val">
                     <?php echo esc_html( $balance_val ); ?> <span>coins</span>
                 </span>
+            </div>
+            <div class="coin-child-name" id="pc-member-coin-child-name">
+                Child: <?php echo esc_html( $child_name_val ); ?>
             </div>
             <p class="coins-desc"><?php echo $description; ?></p>
 
