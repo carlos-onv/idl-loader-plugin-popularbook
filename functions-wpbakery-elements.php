@@ -6427,11 +6427,11 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                 }
             }
 
-            // Append the "See ALL Subscriptions" link if applicable
+            // Prepend the "See ALL Subscriptions" link if applicable
             if ( $has_multiple_subs ) {
-                $rendered_details .= '<div class="drow-all-subs">
-                    <a href="javascript:void(0);" onclick="document.querySelectorAll(\'.sub-card-view\').forEach(el=>el.style.display=\'none\'); document.getElementById(\'sub-list-view\').style.display=\'block\'; return false;">See ALL Subscriptions</a>
-                </div>';
+                $rendered_details = '<div class="drow-all-subs">
+                    <a href="javascript:void(0);" onclick="jQuery(\'.sub-card-view\').hide(); jQuery(\'#sub-list-view\').show(); return false;">See ALL Subscriptions</a>
+                </div>' . $rendered_details;
             }
 
             // Render Actions
@@ -6468,7 +6468,7 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
             }
         ?>
 
-        <section class="card sub-card sub-card-view" id="sub-card-view-<?php echo esc_attr( $index ); ?>" <?php echo $index === 0 ? '' : 'style="display:none;"'; ?>>
+        <section class="card sub-card sub-card-view <?php echo $index === 0 ? '' : 'hidden-card'; ?>" id="sub-card-view-<?php echo esc_attr( $index ); ?>">
             <div class="sub-top">
                 <div class="sub-logo-group">
                     <div class="sub-logo-badge">
@@ -6513,19 +6513,19 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
         <?php endforeach; ?>
 
         <?php if ( $has_multiple_subs ) : ?>
-        <section class="card sub-card" id="sub-list-view" style="display: none;">
+        <section class="card sub-card hidden-card" id="sub-list-view">
             <div class="sub-top" style="border-bottom: 1px solid #eaeaea; padding-bottom: 20px; margin-bottom: 20px;">
                 <div class="sub-logo-group">
                     <h2 class="sub-title" style="margin: 0;">All Subscriptions</h2>
                 </div>
-                <a href="javascript:void(0);" class="go-btn" onclick="document.getElementById('sub-list-view').style.display='none'; document.getElementById('sub-card-view-0').style.display='block'; return false;" style="background: transparent; color: var(--brand-text-dark); border: 1px solid #ccc; font-weight: 500;">
+                <a href="javascript:void(0);" class="go-btn" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-0').removeClass('hidden-card'); return false;" style="background: transparent; color: var(--brand-text-dark); border: 1px solid #ccc; font-weight: 500;">
                     Go Back
                 </a>
             </div>
             <div class="sub-body" style="padding: 0;">
                 <div class="subscription-list-items">
                     <?php foreach ( $formatted_subs as $index => $sub ) : ?>
-                        <a href="javascript:void(0);" onclick="document.getElementById('sub-list-view').style.display='none'; document.getElementById('sub-card-view-<?php echo esc_attr( $index ); ?>').style.display='block'; return false;" class="sub-list-item">
+                        <a href="javascript:void(0);" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-<?php echo esc_attr( $index ); ?>').removeClass('hidden-card'); return false;" class="sub-list-item">
                             <div class="sub-list-item-info">
                                 <span class="sub-list-item-title"><?php echo esc_html( $sub['sub_type'] ); ?></span>
                                 <span class="sub-list-item-status"><?php echo esc_html( $sub['status_val'] ); ?></span>
