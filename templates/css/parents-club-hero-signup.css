@@ -47,7 +47,7 @@
 /* Dynamic Registration Form Title and Description styling */
 .ur-custom-header .user-registration-registration-title,
 .user-registration.ur-frontend-form .user-registration-registration-title {
-    font-size: 21px !important;
+    font-size: 18px !important;
     font-weight: 800 !important;
     color: var(--brand-text-dark) !important;
     margin-bottom: 0px !important;

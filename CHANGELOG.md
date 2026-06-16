@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-16] - User Registration Title Font Size Adjustment
+
+### Changed
+- **WPBakery Element Styles**:
+  - Adjusted the font size of the user registration form title (`.user-registration-registration-title`) from `21px` to `18px` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
+
 ## [2026-06-15] - Add User Registration Element, Benefits Image Option, and CSS Updates
 
 ### Added
