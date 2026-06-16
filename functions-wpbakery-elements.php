@@ -2695,11 +2695,11 @@ function idl_loader_register_parents_club_elements() {
 
     // Register [parents_club_member_subscription] Element
     vc_map( array(
-        "name"        => esc_html__( "Parents Club Member Subscription Card", "book-junky" ),
+        "name"        => esc_html__( "Parents Club Member Subscription Card (Active Subscribers Only)", "book-junky" ),
         "base"        => "parents_club_member_subscription",
         "icon"        => "cs_icon_for_vc",
         "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
-        "description" => esc_html__( "Subscription card showing logo, active status pill, portal button, details list, what's included list, and bottom actions.", "book-junky" ),
+        "description" => esc_html__( "Active Subscribers Only. Subscription card showing logo, active status pill, portal button, details list, what's included list, and bottom actions.", "book-junky" ),
         "params"      => array(
             array(
                 "type"        => "attach_image",
@@ -3244,11 +3244,11 @@ function idl_loader_register_parents_club_elements() {
 
     // Register [parents_club_member_coins] Element
     vc_map( array(
-        "name"        => esc_html__( "Parents Club AI Coins Card", "book-junky" ),
+        "name"        => esc_html__( "Parents Club AI Coins Card (Active Subscribers Only)", "book-junky" ),
         "base"        => "parents_club_member_coins",
         "icon"        => "cs_icon_for_vc",
         "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
-        "description" => esc_html__( "AI Coins balance card showing parent's coins and coin package purchase grids.", "book-junky" ),
+        "description" => esc_html__( "Active Subscribers Only. AI Coins balance card showing parent's coins and coin package purchase grids.", "book-junky" ),
         "params"      => array(
             array(
                 "type"        => "textfield",
@@ -3326,11 +3326,11 @@ function idl_loader_register_parents_club_elements() {
 
     // Register [parents_club_member_billing] Element
     vc_map( array(
-        "name"        => esc_html__( "Parents Club Billing History Card", "book-junky" ),
+        "name"        => esc_html__( "Parents Club Billing History Card (Active Subscribers Only)", "book-junky" ),
         "base"        => "parents_club_member_billing",
         "icon"        => "cs_icon_for_vc",
         "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
-        "description" => esc_html__( "Billing history card showing past payments, details, and download options.", "book-junky" ),
+        "description" => esc_html__( "Active Subscribers Only. Billing history card showing past payments, details, and download options.", "book-junky" ),
         "params"      => array(
             array(
                 "type"        => "textfield",
@@ -6225,6 +6225,16 @@ function idl_loader_get_subscription_payment_details( $subscription ) {
 add_shortcode( 'parents_club_member_subscription', 'idl_loader_parents_club_member_subscription_shortcode' );
 
 function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
+    // Check active subscription (only hide on frontend)
+    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
+    if ( ! $is_vc_editor ) {
+        $user_id = get_current_user_id();
+        $has_sub = ( $user_id && function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
+        if ( ! $has_sub ) {
+            return '';
+        }
+    }
+
     $attributes = shortcode_atts( array(
         'logo_image'      => '',
         'status_text'     => 'Active',
@@ -6987,6 +6997,16 @@ function idl_loader_parents_club_member_account_overview_shortcode( $atts ) {
 add_shortcode( 'parents_club_member_coins', 'idl_loader_parents_club_member_coins_shortcode' );
 
 function idl_loader_parents_club_member_coins_shortcode( $atts ) {
+    // Check active subscription (only hide on frontend)
+    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
+    if ( ! $is_vc_editor ) {
+        $user_id = get_current_user_id();
+        $has_sub = ( $user_id && function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
+        if ( ! $has_sub ) {
+            return '';
+        }
+    }
+
     $attributes = shortcode_atts( array(
         'title'          => 'AI Coins Balance',
         'balance'        => '120',
@@ -7118,6 +7138,16 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
 add_shortcode( 'parents_club_member_billing', 'idl_loader_parents_club_member_billing_shortcode' );
 
 function idl_loader_parents_club_member_billing_shortcode( $atts ) {
+    // Check active subscription (only hide on frontend)
+    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
+    if ( ! $is_vc_editor ) {
+        $user_id = get_current_user_id();
+        $has_sub = ( $user_id && function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
+        if ( ! $has_sub ) {
+            return '';
+        }
+    }
+
     $attributes = shortcode_atts( array(
         'title'                => 'Billing History',
         'view_all_text'        => 'View all',

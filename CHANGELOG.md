@@ -14,6 +14,9 @@ All notable changes to this project will be documented in this file for both hum
   - Added `height: stretch;` to `.benefits-column` in [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css).
   - Adjusted the font weight of `.quick-link-btn` from `700` to `400` in [parents-club-member-quick-links.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-quick-links.css).
   - Adjusted the padding of `.quick-link-btn` from `16px 28px` to `13px 28px` in [parents-club-member-quick-links.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-quick-links.css).
+- **WPBakery Elements**:
+  - Gated the Member Subscription Card, AI Coins Card, and Billing History Card WPBakery elements to render on the frontend only if the user has an active WooCommerce subscription.
+  - Updated their names and descriptions in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php) to append "(Active Subscribers Only)" and display this constraint clearly in the WordPress admin panel.
 
 ## [2026-06-15] - Add User Registration Element, Benefits Image Option, and CSS Updates
 
