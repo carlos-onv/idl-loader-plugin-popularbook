@@ -2709,13 +2709,6 @@ function idl_loader_register_parents_club_elements() {
             ),
             array(
                 "type"        => "textfield",
-                "heading"     => esc_html__( "Status Text", "book-junky" ),
-                "param_name"  => "status_text",
-                "value"       => esc_html__( "Active", "book-junky" ),
-                "admin_label" => true,
-            ),
-            array(
-                "type"        => "textfield",
                 "heading"     => esc_html__( "Portal Button Text", "book-junky" ),
                 "param_name"  => "portal_btn_text",
                 "value"       => esc_html__( "Go to eMathSmart", "book-junky" ),
@@ -2738,202 +2731,6 @@ function idl_loader_register_parents_club_elements() {
                 "heading"     => esc_html__( "Tablet Illustration Image", "book-junky" ),
                 "param_name"  => "tablet_image",
                 "description" => esc_html__( "Select a tablet illustration image. Defaults to subscription-active.png if left blank.", "book-junky" ),
-            ),
-            // Repeatable Details List
-            array(
-                "type"        => "param_group",
-                "heading"     => esc_html__( "Subscription Details List", "book-junky" ),
-                "param_name"  => "details_list",
-                "description" => esc_html__( "Add subscription metadata rows (e.g. Type, Plan, Status, Next Charge, Payment Method, etc.)", "book-junky" ),
-                "value"       => urlencode( json_encode( array(
-                    array(
-                        'label'                => 'Subscription Type',
-                        'value'                => 'eMathSmart Annual',
-                        'value_type'           => 'normal',
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'checkmark',
-                    ),
-                    array(
-                        'label'                => 'Plan',
-                        'value'                => 'Full Access Plan',
-                        'value_type'           => 'normal',
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'checkmark',
-                    ),
-                    array(
-                        'label'                => 'Status',
-                        'value'                => 'On Free Trial',
-                        'value_type'           => 'pill',
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'checkmark',
-                    ),
-                    array(
-                        'label'                => 'Trial Ends',
-                        'value'                => 'June 15, 2025 (7 days left)',
-                        'value_type'           => 'blue_highlight',
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'checkmark',
-                    ),
-                    array(
-                        'label'                => 'Next Billing Date',
-                        'value'                => 'June 15, 2025',
-                        'value_type'           => 'normal',
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'checkmark',
-                    ),
-                    array(
-                        'label'                => 'Billing Cycle',
-                        'value'                => '$69.95 / year',
-                        'value_type'           => 'normal',
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'checkmark',
-                    ),
-                    array(
-                        'label'                => 'Payment Method',
-                        'value'                => 'ending in 4242',
-                        'value_type'           => 'card',
-                        'card_type'            => 'VISA',
-                        'card_subtext'         => 'Next Charge: June 15, 2026',
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'card',
-                    ),
-                    array(
-                        'label'                => 'Access',
-                        'value'                => 'Grade 3',
-                        'value_type'           => 'normal',
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'user',
-                    ),
-                ) ) ),
-                "params"      => array(
-                    array(
-                        "type"        => "textfield",
-                        "heading"     => esc_html__( "Detail Label", "book-junky" ),
-                        "param_name"  => "label",
-                        "admin_label" => true,
-                    ),
-                    array(
-                        "type"        => "textfield",
-                        "heading"     => esc_html__( "Detail Value", "book-junky" ),
-                        "param_name"  => "value",
-                        "admin_label" => true,
-                    ),
-                    array(
-                        "type"        => "dropdown",
-                        "heading"     => esc_html__( "Value Display Type", "book-junky" ),
-                        "param_name"  => "value_type",
-                        "value"       => array(
-                            esc_html__( "Normal Text", "book-junky" )           => "normal",
-                            esc_html__( "Blue Highlight Text", "book-junky" )   => "blue_highlight",
-                            esc_html__( "Status Pill", "book-junky" )           => "pill",
-                            esc_html__( "Payment Card Details", "book-junky" )   => "card",
-                        ),
-                        "std"         => "normal",
-                    ),
-                    array(
-                        "type"        => "dropdown",
-                        "heading"     => esc_html__( "Card Type", "book-junky" ),
-                        "param_name"  => "card_type",
-                        "value"       => array(
-                            esc_html__( "VISA", "book-junky" )       => "VISA",
-                            esc_html__( "MasterCard", "book-junky" ) => "MasterCard",
-                            esc_html__( "Amex", "book-junky" )       => "Amex",
-                            esc_html__( "Generic Card", "book-junky" ) => "Generic",
-                        ),
-                        "std"         => "VISA",
-                        "dependency"  => array(
-                            "element" => "value_type",
-                            "value"   => array( "card" )
-                        )
-                    ),
-                    array(
-                        "type"        => "textfield",
-                        "heading"     => esc_html__( "Card Next Charge Subtext", "book-junky" ),
-                        "param_name"  => "card_subtext",
-                        "dependency"  => array(
-                            "element" => "value_type",
-                            "value"   => array( "card" )
-                        )
-                    ),
-                    array(
-                        "type"        => "dropdown",
-                        "heading"     => esc_html__( "Icon Source", "book-junky" ),
-                        "param_name"  => "icon_source",
-                        "value"       => array(
-                            esc_html__( "Predefined Brand SVG", "book-junky" )       => "brand",
-                            esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
-                            esc_html__( "Custom Image Upload", "book-junky" )         => "custom",
-                        ),
-                        "std"         => "brand",
-                    ),
-                    array(
-                        "type"        => "dropdown",
-                        "heading"     => esc_html__( "Predefined Icon", "book-junky" ),
-                        "param_name"  => "predefined_icon_type",
-                        "value"       => array(
-                            esc_html__( "Checkmark Box", "book-junky" )  => "checkmark",
-                            esc_html__( "Credit Card", "book-junky" )     => "card",
-                            esc_html__( "User Outline", "book-junky" )    => "user",
-                        ),
-                        "std"         => "checkmark",
-                        "dependency"  => array(
-                            "element" => "icon_source",
-                            "value"   => array( "brand" )
-                        )
-                    ),
-                    array(
-                        "type"        => "dropdown",
-                        "heading"     => esc_html__( "Icon Library", "book-junky" ),
-                        "param_name"  => "icon_library",
-                        "value"       => array(
-                            esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
-                            esc_html__( "Linecons", "book-junky" )     => "linecons",
-                        ),
-                        "std"         => "fontawesome",
-                        "dependency"  => array(
-                            "element" => "icon_source",
-                            "value"   => array( "library" )
-                        )
-                    ),
-                    array(
-                        "type"        => "iconpicker",
-                        "heading"     => esc_html__( "Font Awesome Icon", "book-junky" ),
-                        "param_name"  => "icon_fontawesome",
-                        "value"       => "fa fa-check",
-                        "settings"    => array(
-                            "emptyIcon"    => false,
-                            "iconsPerPage" => 4000,
-                        ),
-                        "dependency"  => array(
-                            "element" => "icon_library",
-                            "value"   => array( "fontawesome" )
-                        )
-                    ),
-                    array(
-                        "type"        => "iconpicker",
-                        "heading"     => esc_html__( "Linecons Icon", "book-junky" ),
-                        "param_name"  => "icon_linecons",
-                        "value"       => "vc_li vc_li-check",
-                        "settings"    => array(
-                            "emptyIcon"    => false,
-                            "type"         => "linecons",
-                            "iconsPerPage" => 4000,
-                        ),
-                        "dependency"  => array(
-                            "element" => "icon_library",
-                            "value"   => array( "linecons" )
-                        )
-                    ),
-                    array(
-                        "type"        => "attach_image",
-                        "heading"     => esc_html__( "Custom Icon", "book-junky" ),
-                        "param_name"  => "custom_icon",
-                        "dependency"  => array(
-                            "element" => "icon_source",
-                            "value"   => array( "custom" )
-                        )
-                    ),
-                )
             ),
             // Repeatable Included Checklist
             array(
@@ -2963,123 +2760,7 @@ function idl_loader_register_parents_club_elements() {
                     )
                 )
             ),
-            // Repeatable Action Buttons
-            array(
-                "type"        => "param_group",
-                "heading"     => esc_html__( "Bottom Action Buttons", "book-junky" ),
-                "param_name"  => "actions_list",
-                "description" => esc_html__( "Manage custom action outline buttons shown at the bottom of the subscription card.", "book-junky" ),
-                "value"       => urlencode( json_encode( array(
-                    array(
-                        'btn_text'             => 'Update Payment Method',
-                        'btn_link'             => '#update-payment',
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'card',
-                    ),
-                    array(
-                        'btn_text'             => 'Add Another Subscription',
-                        'btn_link'             => '/subscription',
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'plus',
-                    ),
-                    array(
-                        'btn_text'             => 'Cancel Subscription',
-                        'btn_link'             => '#cancel-sub',
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'cancel',
-                    ),
-                ) ) ),
-                "params"      => array(
-                    array(
-                        "type"        => "textfield",
-                        "heading"     => esc_html__( "Button Text", "book-junky" ),
-                        "param_name"  => "btn_text",
-                        "admin_label" => true,
-                    ),
-                    array(
-                        "type"        => "vc_link",
-                        "heading"     => esc_html__( "Button Link", "book-junky" ),
-                        "param_name"  => "btn_link",
-                    ),
-                    array(
-                        "type"        => "dropdown",
-                        "heading"     => esc_html__( "Icon Source", "book-junky" ),
-                        "param_name"  => "icon_source",
-                        "value"       => array(
-                            esc_html__( "Predefined Brand SVG", "book-junky" )       => "brand",
-                            esc_html__( "WPBakery Icon Picker Library", "book-junky" ) => "library",
-                            esc_html__( "Custom Image Upload", "book-junky" )         => "custom",
-                            esc_html__( "No Icon", "book-junky" )                     => "none",
-                        ),
-                        "std"         => "brand",
-                    ),
-                    array(
-                        "type"        => "dropdown",
-                        "heading"     => esc_html__( "Predefined Icon", "book-junky" ),
-                        "param_name"  => "predefined_icon_type",
-                        "value"       => array(
-                            esc_html__( "Credit Card", "book-junky" ) => "card",
-                            esc_html__( "Plus Circle", "book-junky" ) => "plus",
-                            esc_html__( "X Circle", "book-junky" )    => "cancel",
-                        ),
-                        "std"         => "card",
-                        "dependency"  => array(
-                            "element" => "icon_source",
-                            "value"   => array( "brand" )
-                        )
-                    ),
-                    array(
-                        "type"        => "dropdown",
-                        "heading"     => esc_html__( "Icon Library", "book-junky" ),
-                        "param_name"  => "icon_library",
-                        "value"       => array(
-                            esc_html__( "Font Awesome", "book-junky" ) => "fontawesome",
-                            esc_html__( "Linecons", "book-junky" )     => "linecons",
-                        ),
-                        "std"         => "fontawesome",
-                        "dependency"  => array(
-                            "element" => "icon_source",
-                            "value"   => array( "library" )
-                        )
-                    ),
-                    array(
-                        "type"        => "iconpicker",
-                        "heading"     => esc_html__( "Font Awesome Icon", "book-junky" ),
-                        "param_name"  => "icon_fontawesome",
-                        "settings"    => array(
-                            "emptyIcon"    => false,
-                            "iconsPerPage" => 4000,
-                        ),
-                        "dependency"  => array(
-                            "element" => "icon_library",
-                            "value"   => array( "fontawesome" )
-                        )
-                    ),
-                    array(
-                        "type"        => "iconpicker",
-                        "heading"     => esc_html__( "Linecons Icon", "book-junky" ),
-                        "param_name"  => "icon_linecons",
-                        "settings"    => array(
-                            "emptyIcon"    => false,
-                            "type"         => "linecons",
-                            "iconsPerPage" => 4000,
-                        ),
-                        "dependency"  => array(
-                            "element" => "icon_library",
-                            "value"   => array( "linecons" )
-                        )
-                    ),
-                    array(
-                        "type"        => "attach_image",
-                        "heading"     => esc_html__( "Custom Icon", "book-junky" ),
-                        "param_name"  => "custom_icon",
-                        "dependency"  => array(
-                            "element" => "icon_source",
-                            "value"   => array( "custom" )
-                        )
-                    ),
-                )
-            ),
+
         )
     ) );
 
@@ -3257,13 +2938,7 @@ function idl_loader_register_parents_club_elements() {
                 "value"       => esc_html__( "AI Coins Balance", "book-junky" ),
                 "admin_label" => true,
             ),
-            array(
-                "type"        => "textfield",
-                "heading"     => esc_html__( "AI Coins Balance (Placeholder)", "book-junky" ),
-                "param_name"  => "balance",
-                "value"       => "120",
-                "description" => esc_html__( "Set the static balance value to display until the API is implemented.", "book-junky" ),
-            ),
+
             array(
                 "type"        => "attach_image",
                 "heading"     => esc_html__( "Coin Image", "book-junky" ),
@@ -3350,50 +3025,7 @@ function idl_loader_register_parents_club_elements() {
                 "heading"     => esc_html__( "View All Link", "book-junky" ),
                 "param_name"  => "view_all_link",
             ),
-            // Repeatable billing rows
-            array(
-                "type"        => "param_group",
-                "heading"     => esc_html__( "Billing History Rows", "book-junky" ),
-                "param_name"  => "billing_rows",
-                "description" => esc_html__( "Configure each transaction row.", "book-junky" ),
-                "value"       => urlencode( json_encode( array(
-                    array(
-                        'date'      => 'May 15, 2024',
-                        'plan_name' => 'Annual Plan',
-                        'amount'    => '$69.95',
-                    ),
-                    array(
-                        'date'      => 'May 15, 2023',
-                        'plan_name' => 'Annual Plan',
-                        'amount'    => '$69.95',
-                    ),
-                    array(
-                        'date'      => 'May 15, 2022',
-                        'plan_name' => 'Annual Plan',
-                        'amount'    => '$69.95',
-                    ),
-                ) ) ),
-                "params"      => array(
-                    array(
-                        "type"        => "textfield",
-                        "heading"     => esc_html__( "Payment Date (e.g. May 15, 2024)", "book-junky" ),
-                        "param_name"  => "date",
-                        "admin_label" => true,
-                    ),
-                    array(
-                        "type"        => "textfield",
-                        "heading"     => esc_html__( "Plan Name (e.g. Annual Plan)", "book-junky" ),
-                        "param_name"  => "plan_name",
-                        "admin_label" => true,
-                    ),
-                    array(
-                        "type"        => "textfield",
-                        "heading"     => esc_html__( "Amount Paid (e.g. $69.95)", "book-junky" ),
-                        "param_name"  => "amount",
-                        "admin_label" => true,
-                    ),
-                )
-            ),
+
             array(
                 "type"        => "textfield",
                 "heading"     => esc_html__( "Download Button Text", "book-junky" ),
@@ -7009,7 +6641,6 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
 
     $attributes = shortcode_atts( array(
         'title'          => 'AI Coins Balance',
-        'balance'        => '120',
         'coin_image'     => '',
         'description'    => 'Use AI coins to chat with your AI helper, and mark worksheets.',
         'purchase_title' => 'Purchase AI Coins',
@@ -7020,9 +6651,20 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
     wp_enqueue_style( 'parents-club-dashboard-coins', plugins_url( 'templates/css/parents-club-dashboard-coins.css', __FILE__ ) );
 
     $title = esc_html( $attributes['title'] );
-    $balance = esc_html( $attributes['balance'] );
     $description = esc_html( $attributes['description'] );
     $purchase_title = esc_html( $attributes['purchase_title'] );
+
+    // Fetch dynamic balance if user is logged in
+    $user_id = get_current_user_id();
+    $balance_val = '0';
+    if ( $user_id ) {
+        if ( function_exists( 'emathsmart_get_user_coin_balance' ) ) {
+            $real_balance = emathsmart_get_user_coin_balance( $user_id );
+            if ( $real_balance !== false && is_numeric( $real_balance ) ) {
+                $balance_val = $real_balance;
+            }
+        }
+    }
 
     // Resolve Coin Image
     $coin_img_url = '';
@@ -7105,7 +6747,7 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
             <div class="coin-row">
                 <img class="coin-ic" src="<?php echo esc_url( $coin_img_url ); ?>" alt="AI coin">
                 <span class="coin-amt" id="pc-member-coin-balance-val">
-                    <?php echo $balance; ?> <span>coins</span>
+                    <?php echo esc_html( $balance_val ); ?> <span>coins</span>
                 </span>
             </div>
             <p class="coins-desc"><?php echo $description; ?></p>

@@ -17,6 +17,8 @@ All notable changes to this project will be documented in this file for both hum
 - **WPBakery Elements**:
   - Gated the Member Subscription Card, AI Coins Card, and Billing History Card WPBakery elements to render on the frontend only if the user has an active WooCommerce subscription.
   - Updated their names and descriptions in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php) to append "(Active Subscribers Only)" and display this constraint clearly in the WordPress admin panel.
+  - Removed static placeholder/manual data parameters (`status_text`, `details_list`, and `actions_list` from the Member Subscription Card; `balance` from the AI Coins Card; and `billing_rows` from the Billing History Card) from their `vc_map()` configurations since these elements pull real, dynamic data when rendered.
+  - Modified the AI Coins shortcode rendering logic in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php) to pull the logged-in user's actual balance dynamically via `emathsmart_get_user_coin_balance()`.
 
 ## [2026-06-15] - Add User Registration Element, Benefits Image Option, and CSS Updates
 
