@@ -6105,17 +6105,20 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                 );
             }
 
-            $access_grade = get_user_meta( $user_id, 'user_registration_grade_level', true );
-            if ( empty( $access_grade ) ) {
-                foreach ( $subscription->get_items() as $item ) {
-                    if ( preg_match( '/Grade\s*[1-8]/i', $item->get_name(), $matches ) ) {
-                        $access_grade = $matches[0];
-                        break;
+            $access_grade = '';
+            if ( function_exists( 'emathsmart_get_student_list' ) ) {
+                $students = emathsmart_get_student_list( $user_id, $subscription->get_id() );
+                if ( ! empty( $students ) && is_array( $students ) ) {
+                    $grade_names = array();
+                    foreach ( $students as $student ) {
+                        if ( ! empty( $student['gradeName'] ) ) {
+                            $grade_names[] = $student['gradeName'];
+                        }
+                    }
+                    if ( ! empty( $grade_names ) ) {
+                        $access_grade = implode( ', ', array_unique( $grade_names ) );
                     }
                 }
-            }
-            if ( empty( $access_grade ) ) {
-                $access_grade = 'Grade 3';
             }
 
             $details_data[] = array(
@@ -6163,9 +6166,20 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
 
         } else {
             // Logged in, NO subscription
-            $access_grade = get_user_meta( $user_id, 'user_registration_grade_level', true );
-            if ( empty( $access_grade ) ) {
-                $access_grade = 'Grade 3';
+            $access_grade = '';
+            if ( function_exists( 'emathsmart_get_student_list' ) ) {
+                $students = emathsmart_get_student_list( $user_id );
+                if ( ! empty( $students ) && is_array( $students ) ) {
+                    $grade_names = array();
+                    foreach ( $students as $student ) {
+                        if ( ! empty( $student['gradeName'] ) ) {
+                            $grade_names[] = $student['gradeName'];
+                        }
+                    }
+                    if ( ! empty( $grade_names ) ) {
+                        $access_grade = implode( ', ', array_unique( $grade_names ) );
+                    }
+                }
             }
 
             $details_data = array(
