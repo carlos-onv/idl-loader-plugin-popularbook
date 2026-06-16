@@ -79,6 +79,10 @@
     width: 100% !important;
 }
 
+.user-registration.ur-frontend-form .ur-form-row:nth-of-type(2) {
+    margin-bottom: 0 !important;
+}
+
 /* Sub-grid columns responsiveness override (overrides inline styles) */
 .user-registration.ur-frontend-form .ur-form-row .ur-form-grid {
     flex: 1 1 45% !important;
