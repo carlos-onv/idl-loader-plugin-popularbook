@@ -10,6 +10,10 @@ All notable changes to this project will be documented in this file for both hum
   - Fixed action buttons rendering in `[parents_club_member_subscription]` shortcode. Removed status-based constraints (`active` and `on-hold`) so that "Update Payment Method", "Add Another Subscription", and "Cancel Subscription" buttons consistently render for all subscriptions.
 
 ### Changed
+- **WPBakery Elements**:
+  - Integrated dynamic context synchronization between the Member Subscription Card and the AI Coins Balance Card.
+  - Modified the AI Coins Balance Card (`[parents_club_member_coins]`) shortcode handler to calculate and render the initial balance using the first active subscription's `creditsBalance` retrieved via API #11 (`emathsmart_get_student_list`), falling back to general user balance if not found.
+  - Appended client-side jQuery updates to the subscription list view click handlers so that the displayed coin balance updates dynamically when a user switches subscriptions.
 - **WPBakery Element Styles**:
   - Adjusted the user registration title (`.user-registration-registration-title`) font-size to `19px` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
   - Adjusted the user registration description (`.user-registration-registration-description`) to `10px` font-size, `600` font-weight, and `var(--brand-text-dark)` color in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).

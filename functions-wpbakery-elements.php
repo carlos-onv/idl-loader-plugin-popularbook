@@ -6102,6 +6102,7 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                 }
 
                 $access_grade = '';
+                $credits_balance = 0;
                 if ( function_exists( 'emathsmart_get_student_list' ) ) {
                     $students = emathsmart_get_student_list( $user_id, $subscription->get_id() );
                     if ( ! empty( $students ) && is_array( $students ) ) {
@@ -6109,6 +6110,9 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                         foreach ( $students as $student ) {
                             if ( ! empty( $student['gradeName'] ) ) {
                                 $grade_names[] = $student['gradeName'];
+                            }
+                            if ( isset( $student['creditsBalance'] ) ) {
+                                $credits_balance += intval( $student['creditsBalance'] );
                             }
                         }
                         if ( ! empty( $grade_names ) ) {
@@ -6164,6 +6168,7 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                     'portal_url'       => $portal_url,
                     'details_data'     => $details_data,
                     'actions_data'     => $actions_data,
+                    'credits_balance'  => $credits_balance,
                 );
             }
         } else {
@@ -6514,14 +6519,14 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                 <div class="sub-logo-group">
                     <h2 class="sub-title" style="margin: 0;">All Subscriptions</h2>
                 </div>
-                <a href="javascript:void(0);" class="go-btn" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-0').removeClass('hidden-card'); return false;" style="background: transparent; color: var(--brand-text-dark); border: 1px solid #ccc; font-weight: 500;">
+                <a href="javascript:void(0);" class="go-btn" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-0').removeClass('hidden-card'); jQuery('#pc-member-coin-balance-val').html('<?php echo esc_js( $formatted_subs[0]['credits_balance'] ); ?> <span>coins</span>'); return false;" style="background: transparent; color: var(--brand-text-dark); border: 1px solid #ccc; font-weight: 500;">
                     Go Back
                 </a>
             </div>
             <div class="sub-body" style="padding: 0;">
                 <div class="subscription-list-items">
                     <?php foreach ( $formatted_subs as $index => $sub ) : ?>
-                        <a href="javascript:void(0);" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-<?php echo esc_attr( $index ); ?>').removeClass('hidden-card'); return false;" class="sub-list-item">
+                        <a href="javascript:void(0);" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-<?php echo esc_attr( $index ); ?>').removeClass('hidden-card'); jQuery('#pc-member-coin-balance-val').html('<?php echo esc_js( $sub['credits_balance'] ); ?> <span>coins</span>'); return false;" class="sub-list-item">
                             <div class="sub-list-item-info">
                                 <span class="sub-list-item-title"><?php echo esc_html( $sub['sub_type'] ); ?></span>
                                 <span class="sub-list-item-status"><?php echo esc_html( $sub['status_val'] ); ?></span>
@@ -6732,10 +6737,34 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
     $user_id = get_current_user_id();
     $balance_val = '0';
     if ( $user_id ) {
-        if ( function_exists( 'emathsmart_get_user_coin_balance' ) ) {
+        // Fetch credits balance of the first active subscription (API #11)
+        $subscriptions = function_exists( 'wcs_get_users_subscriptions' ) ? wcs_get_users_subscriptions( $user_id ) : array();
+        $found_balance = false;
+        if ( ! empty( $subscriptions ) ) {
+            $first_sub = reset( $subscriptions );
+            if ( $first_sub ) {
+                $sub_id = $first_sub->get_id();
+                if ( function_exists( 'emathsmart_get_student_list' ) ) {
+                    $students = emathsmart_get_student_list( $user_id, $sub_id );
+                    if ( ! empty( $students ) && is_array( $students ) ) {
+                        $credits_balance = 0;
+                        foreach ( $students as $student ) {
+                            if ( isset( $student['creditsBalance'] ) ) {
+                                $credits_balance += intval( $student['creditsBalance'] );
+                            }
+                        }
+                        $balance_val = strval( $credits_balance );
+                        $found_balance = true;
+                    }
+                }
+            }
+        }
+
+        // Fallback to general coin balance if subscription list didn't provide credits balance
+        if ( ! $found_balance && function_exists( 'emathsmart_get_user_coin_balance' ) ) {
             $real_balance = emathsmart_get_user_coin_balance( $user_id );
             if ( $real_balance !== false && is_numeric( $real_balance ) ) {
-                $balance_val = $real_balance;
+                $balance_val = strval( $real_balance );
             }
         }
     }
