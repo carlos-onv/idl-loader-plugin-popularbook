@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file for both hum
   - Adjusted `.ur-button-container` `margin-top` from `20px` to `0px` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
   - Adjusted the second `.ur-form-row` (`.ur-form-row:nth-of-type(2)`) `margin-bottom` to `0 !important` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
   - Adjusted `.brand-column .brand-logo-wrapper` `margin-bottom` from `50px` to `30px` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css).
+  - Added `height: stretch;` to `.benefits-column` in [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css).
 
 ## [2026-06-15] - Add User Registration Element, Benefits Image Option, and CSS Updates
 
