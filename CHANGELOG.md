@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file for both hum
   - Adjusted `.brand-column .brand-logo-wrapper` `margin-bottom` from `50px` to `30px` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css).
   - Added `height: stretch;` to `.benefits-column` in [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css).
   - Adjusted the font weight of `.quick-link-btn` from `700` to `400` in [parents-club-member-quick-links.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-quick-links.css).
+  - Adjusted the padding of `.quick-link-btn` from `16px 28px` to `13px 28px` in [parents-club-member-quick-links.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-quick-links.css).
 
 ## [2026-06-15] - Add User Registration Element, Benefits Image Option, and CSS Updates
 
