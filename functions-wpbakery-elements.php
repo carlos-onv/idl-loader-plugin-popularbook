@@ -6430,7 +6430,7 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
             // Prepend the "See ALL Subscriptions" link if applicable
             if ( $has_multiple_subs ) {
                 $rendered_details = '<div class="drow-all-subs">
-                    <a href="javascript:void(0);" onclick="jQuery(\'.sub-card-view\').hide(); jQuery(\'#sub-list-view\').show(); return false;">See ALL Subscriptions</a>
+                    <a href="javascript:void(0);" onclick="jQuery(\'.sub-card-view\').addClass(\'hidden-card\'); jQuery(\'#sub-list-view\').removeClass(\'hidden-card\'); return false;">See ALL Subscriptions</a>
                 </div>' . $rendered_details;
             }
 

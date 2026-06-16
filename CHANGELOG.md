@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file for both hum
 
 ## [2026-06-16] - User Registration Header Styles Adjustment
 
+### Fixed
+- **WPBakery Elements**:
+  - Fixed "See ALL Subscriptions" toggling issue in `[parents_club_member_subscription]` shortcode where the element would completely disappear. Replaced jQuery `.hide()` and `.show()` calls with class toggling (`.addClass('hidden-card')` and `.removeClass('hidden-card')`) to prevent display conflicts with the `display: none !important;` rule on the `.hidden-card` class.
+
 ### Changed
 - **WPBakery Element Styles**:
   - Adjusted the user registration title (`.user-registration-registration-title`) font-size to `19px` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
