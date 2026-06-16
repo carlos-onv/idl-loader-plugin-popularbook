@@ -379,3 +379,67 @@
     }
 }
 
+
+/* ---------- Multi-subscription UI ---------- */
+#parents-club-dashboard .drow-all-subs {
+    text-align: right !important;
+    margin-top: 15px !important;
+}
+
+#parents-club-dashboard .drow-all-subs a {
+    color: var(--orange) !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    transition: filter 0.2s !important;
+}
+
+#parents-club-dashboard .drow-all-subs a:hover {
+    filter: brightness(0.8) !important;
+    text-decoration: underline !important;
+}
+
+#parents-club-dashboard .subscription-list-items {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+#parents-club-dashboard .sub-list-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: #fff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 12px !important;
+    padding: 16px 20px !important;
+    text-decoration: none !important;
+    color: var(--ink) !important;
+    transition: all 0.2s ease !important;
+}
+
+#parents-club-dashboard .sub-list-item:hover {
+    border-color: var(--orange-border) !important;
+    box-shadow: 0 4px 12px rgba(242, 97, 34, 0.08) !important;
+}
+
+#parents-club-dashboard .sub-list-item-info {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+}
+
+#parents-club-dashboard .sub-list-item-title {
+    font-weight: 600 !important;
+    font-size: 16px !important;
+}
+
+#parents-club-dashboard .sub-list-item-status {
+    font-size: 13px !important;
+    color: var(--muted) !important;
+}
+
+#parents-club-dashboard .sub-list-item-arrow {
+    color: var(--orange) !important;
+}

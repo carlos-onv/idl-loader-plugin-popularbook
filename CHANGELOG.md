@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file for both hum
   - Adjusted the font weight of `.quick-link-btn` from `700` to `400` in [parents-club-member-quick-links.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-quick-links.css).
   - Adjusted the padding of `.quick-link-btn` from `16px 28px` to `13px 28px` in [parents-club-member-quick-links.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-quick-links.css).
 - **WPBakery Elements**:
+  - Added multi-subscription support to the Member Subscription Card (`[parents_club_member_subscription]`) shortcode handler. If a user has > 1 subscription, a "See ALL Subscriptions" link toggles a new right-aligned list view, allowing them to switch contexts between multiple active subscriptions.
   - Removed the static fallback (e.g., 'Grade 3') and `user_meta` lookup for the "Access" field inside the Member Subscription Card (`[parents_club_member_subscription]`) shortcode handler.
   - Replaced the logic to fetch real `gradeName` data dynamically using API #11 (`emathsmart_get_student_list`), passing the WooCommerce `subscribe_id` when available. If no grades are returned, the Access field is gracefully left blank.
   - Gated the Member Subscription Card, AI Coins Card, and Billing History Card WPBakery elements to render on the frontend only if the user has an active WooCommerce subscription.
