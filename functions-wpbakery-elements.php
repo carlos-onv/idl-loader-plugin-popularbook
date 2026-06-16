@@ -6126,15 +6126,13 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                 );
 
                 // Actions
-                if ( in_array( $sub_status, array( 'active', 'on-hold' ) ) ) {
-                    $update_payment_url = wp_nonce_url( add_query_arg( array( 'change_payment_method' => $subscription->get_id() ), $subscription->get_checkout_payment_url() ) );
-                    $actions_data[] = array(
-                        'btn_text'             => 'Update Payment Method',
-                        'btn_link'             => $update_payment_url,
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'card',
-                    );
-                }
+                $update_payment_url = wp_nonce_url( add_query_arg( array( 'change_payment_method' => $subscription->get_id() ), $subscription->get_checkout_payment_url() ) );
+                $actions_data[] = array(
+                    'btn_text'             => 'Update Payment Method',
+                    'btn_link'             => $update_payment_url,
+                    'icon_source'          => 'brand',
+                    'predefined_icon_type' => 'card',
+                );
 
                 $actions_data[] = array(
                     'btn_text'             => 'Add Another Subscription',
@@ -6143,17 +6141,15 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                     'predefined_icon_type' => 'plus',
                 );
 
-                if ( in_array( $sub_status, array( 'active', 'on-hold' ) ) && $subscription->can_be_updated_to( 'cancelled' ) ) {
-                    $cancel_url = function_exists( 'wcs_get_users_change_status_link' )
-                        ? wcs_get_users_change_status_link( $subscription->get_id(), 'cancelled' )
-                        : $subscription->get_view_order_url();
-                    $actions_data[] = array(
-                        'btn_text'             => 'Cancel Subscription',
-                        'btn_link'             => $cancel_url,
-                        'icon_source'          => 'brand',
-                        'predefined_icon_type' => 'cancel',
-                    );
-                }
+                $cancel_url = function_exists( 'wcs_get_users_change_status_link' )
+                    ? wcs_get_users_change_status_link( $subscription->get_id(), 'cancelled' )
+                    : $subscription->get_view_order_url();
+                $actions_data[] = array(
+                    'btn_text'             => 'Cancel Subscription',
+                    'btn_link'             => $cancel_url,
+                    'icon_source'          => 'brand',
+                    'predefined_icon_type' => 'cancel',
+                );
 
                 // Override Portal URL for active subscriptions
                 if ( in_array( $sub_status, array( 'active', 'on-hold' ) ) ) {

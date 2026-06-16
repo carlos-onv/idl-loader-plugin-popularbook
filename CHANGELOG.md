@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file for both hum
 ### Fixed
 - **WPBakery Elements**:
   - Fixed "See ALL Subscriptions" toggling issue in `[parents_club_member_subscription]` shortcode where the element would completely disappear. Replaced jQuery `.hide()` and `.show()` calls with class toggling (`.addClass('hidden-card')` and `.removeClass('hidden-card')`) to prevent display conflicts with the `display: none !important;` rule on the `.hidden-card` class.
+  - Fixed action buttons rendering in `[parents_club_member_subscription]` shortcode. Removed status-based constraints (`active` and `on-hold`) so that "Update Payment Method", "Add Another Subscription", and "Cancel Subscription" buttons consistently render for all subscriptions.
 
 ### Changed
 - **WPBakery Element Styles**:
