@@ -1179,7 +1179,7 @@ function emathsmart_order_has_additional_packages($order)
             
             $coins_val = intval($coins_attribute);
             if ($coins_val > 0) {
-                $packages = ($coins_val / 100) * $item->get_quantity();
+                $packages = $coins_val * $item->get_quantity();
                 $total_packages += $packages;
             }
         }

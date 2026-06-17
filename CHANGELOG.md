@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file for both hum
 - **WPBakery Elements**:
   - Modified the Parents Club Account Overview Panel (`[parents_club_member_account_overview]`) shortcode handler to fetch total students count and their grades dynamically from API 11 (`emathsmart_get_student_list`), displaying them on the Students card.
   - Updated action URLs for matched cards: "Manage Students" and "View Reports" point to the external `{API_BASE_URL}/parent` with `target="_blank"`. "Manage Settings" points to `/my-account/`.
+- **Webhook Integration**:
+  - Fixed `additionalPackageQuantity` calculation in `emathsmart_order_has_additional_packages()` to remove the `/ 100` divisor, sending the raw coin count to eMathSmart as expected.
 
 ## [2026-06-17] - Child to Student Label Update
 
