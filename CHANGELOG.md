@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file for both hum
 ## [2026-06-17] - Child to Student Label Update
 
 ### Changed
+- **WPBakery Element Styles**:
+  - Adjusted `.feature-bar-wrapper .bar-title-block h2` font-size to `17px`, font-weight to `600`, and line-height to `1.5` in [section-2.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/section-2.css).
 - **WPBakery Elements**:
   - Gated the Parents Club Account Overview Panel (`[parents_club_member_account_overview]`) element so it is only visible on the frontend to logged-in users with an active subscription.
   - Changed the "Child:" labels to "Student:" inside the AI Coins Balance Card (`[parents_club_member_coins]`) and its dynamic switch click handlers.
