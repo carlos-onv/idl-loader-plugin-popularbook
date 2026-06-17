@@ -140,3 +140,73 @@
     margin: -2px 0 6px !important;
 }
 
+#parents-club-dashboard .see-details-btn {
+    background: none !important;
+    border: none !important;
+    color: #cc1024 !important;
+    font-weight: 600 !important;
+    font-size: 11px !important;
+    cursor: pointer !important;
+    text-decoration: underline !important;
+    padding: 0 !important;
+    margin-left: auto !important;
+    margin-right: 15px !important;
+    line-height: 1 !important;
+    transition: color 0.15s !important;
+}
+
+#parents-club-dashboard .see-details-btn:hover {
+    color: #900a18 !important;
+}
+
+#parents-club-dashboard .coin-breakdown-panel {
+    background: #fcfcfc !important;
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 8px !important;
+    padding: 12px 15px !important;
+    margin: 10px 15px 12px 45px !important;
+    font-size: 13px !important;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.02) !important;
+}
+
+#parents-club-dashboard .coin-breakdown-title {
+    font-weight: 700 !important;
+    margin-bottom: 8px !important;
+    color: #33240E !important;
+    font-size: 13px !important;
+}
+
+#parents-club-dashboard .coin-breakdown-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 6px !important;
+}
+
+#parents-club-dashboard .coin-breakdown-row:last-child {
+    margin-bottom: 0 !important;
+}
+
+#parents-club-dashboard .coin-breakdown-row span.label {
+    color: #6E6E73 !important;
+    font-weight: 500 !important;
+}
+
+#parents-club-dashboard .coin-breakdown-row span.val {
+    display: flex !important;
+    align-items: center !important;
+    font-weight: 600 !important;
+    color: #2b2b2b !important;
+}
+
+#parents-club-dashboard .coin-breakdown-row img.small-coin-ic {
+    width: 14px !important;
+    height: 14px !important;
+    margin-right: 4px !important;
+}
+
+#parents-club-dashboard .coin-breakdown-divider {
+    border-top: 1px dashed #e1e4e8 !important;
+    margin: 8px 0 !important;
+}
+

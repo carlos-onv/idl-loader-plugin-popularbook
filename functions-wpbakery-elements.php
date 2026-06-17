@@ -6889,43 +6889,44 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
     $user_id = get_current_user_id();
     $balance_val = '0';
     $child_name_val = 'None';
+    $unallocated_balance = 0;
+    $students_list = array();
+
     if ( $user_id ) {
-        // Fetch credits balance of the first active subscription (API #11)
-        $subscriptions = function_exists( 'wcs_get_users_subscriptions' ) ? wcs_get_users_subscriptions( $user_id ) : array();
-        $found_balance = false;
-        if ( ! empty( $subscriptions ) ) {
-            $first_sub = reset( $subscriptions );
-            if ( $first_sub ) {
-                $sub_id = $first_sub->get_id();
-                if ( function_exists( 'emathsmart_get_student_list' ) ) {
-                    $students = emathsmart_get_student_list( $user_id, $sub_id );
-                    if ( ! empty( $students ) && is_array( $students ) ) {
-                        $credits_balance = 0;
-                        $names = array();
-                        foreach ( $students as $student ) {
-                            if ( isset( $student['creditsBalance'] ) ) {
-                                $credits_balance += intval( $student['creditsBalance'] );
-                            }
-                            if ( ! empty( $student['name'] ) ) {
-                                $names[] = $student['name'];
-                            }
-                        }
-                        $balance_val = strval( $credits_balance );
-                        $found_balance = true;
-                        if ( ! empty( $names ) ) {
-                            $child_name_val = implode( ', ', array_unique( $names ) );
-                        }
-                    }
+        // 1. Fetch parent's unallocated coin balance from eMathSmart
+        if ( function_exists( 'emathsmart_get_user_coin_balance' ) ) {
+            $real_balance = emathsmart_get_user_coin_balance( $user_id );
+            if ( $real_balance !== false && is_numeric( $real_balance ) ) {
+                $unallocated_balance = intval( $real_balance );
+            }
+        }
+
+        // 2. Fetch all students under the parent across all subscriptions
+        $allocated_total = 0;
+        $student_names = array();
+        if ( function_exists( 'emathsmart_get_student_list' ) ) {
+            $students = emathsmart_get_student_list( $user_id );
+            if ( ! empty( $students ) && is_array( $students ) ) {
+                foreach ( $students as $student ) {
+                    $s_name = isset( $student['name'] ) ? $student['name'] : 'Student';
+                    $s_coins = isset( $student['creditsBalance'] ) ? intval( $student['creditsBalance'] ) : 0;
+                    
+                    $students_list[] = array(
+                        'name'  => $s_name,
+                        'coins' => $s_coins,
+                    );
+                    $allocated_total += $s_coins;
+                    $student_names[] = $s_name;
                 }
             }
         }
 
-        // Fallback to general coin balance if subscription list didn't provide credits balance
-        if ( ! $found_balance && function_exists( 'emathsmart_get_user_coin_balance' ) ) {
-            $real_balance = emathsmart_get_user_coin_balance( $user_id );
-            if ( $real_balance !== false && is_numeric( $real_balance ) ) {
-                $balance_val = strval( $real_balance );
-            }
+        // 3. Compute total balance
+        $total_balance = $unallocated_balance + $allocated_total;
+        $balance_val = strval( $total_balance );
+
+        if ( ! empty( $student_names ) ) {
+            $child_name_val = implode( ', ', array_unique( $student_names ) );
         }
     }
 
@@ -7053,12 +7054,58 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
     <section id="parents-club-dashboard" style="padding: 0 !important; background-color: transparent !important;">
         <div class="card coins-card">
             <div class="rh"><?php echo $title; ?></div>
-            <div class="coin-row">
+            <div class="coin-row" style="position: relative !important; display: flex !important; align-items: center !important;">
                 <img class="coin-ic" src="<?php echo esc_url( $coin_img_url ); ?>" alt="AI coin">
                 <span class="coin-amt" id="pc-member-coin-balance-val">
                     <?php echo esc_html( $balance_val ); ?> <span>coins</span>
                 </span>
+                <?php if ( $user_id && ( ! empty( $students_list ) || $unallocated_balance > 0 ) ) : ?>
+                    <button class="see-details-btn" onclick="toggleCoinBreakdown()"><?php esc_html_e( 'See details', 'book-junky' ); ?></button>
+                <?php endif; ?>
             </div>
+            
+            <?php if ( $user_id && ( ! empty( $students_list ) || $unallocated_balance > 0 ) ) : ?>
+                <div id="coin-breakdown-details" class="coin-breakdown-panel" style="display: none;">
+                    <div class="coin-breakdown-title"><?php esc_html_e( 'Coin Balance Breakdown', 'book-junky' ); ?></div>
+                    
+                    <?php if ( ! empty( $students_list ) ) : ?>
+                        <?php foreach ( $students_list as $student ) : ?>
+                            <div class="coin-breakdown-row">
+                                <span class="label"><?php echo esc_html( $student['name'] ); ?></span>
+                                <span class="val">
+                                    <img src="<?php echo esc_url( $coin_img_url ); ?>" class="small-coin-ic" alt="coin">
+                                    <?php echo esc_html( $student['coins'] ); ?> coins
+                                </span>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    
+                    <div class="coin-breakdown-divider"></div>
+                    
+                    <div class="coin-breakdown-row">
+                        <span class="label" style="font-style: italic;"><?php esc_html_e( 'Unallocated balance', 'book-junky' ); ?></span>
+                        <span class="val">
+                            <img src="<?php echo esc_url( $coin_img_url ); ?>" class="small-coin-ic" alt="coin">
+                            <?php echo esc_html( $unallocated_balance ); ?> coins
+                        </span>
+                    </div>
+                </div>
+                
+                <script>
+                    function toggleCoinBreakdown() {
+                        var panel = document.getElementById("coin-breakdown-details");
+                        var btn = document.querySelector(".see-details-btn");
+                        if (panel.style.display === "none" || panel.style.display === "") {
+                            panel.style.display = "block";
+                            btn.innerText = "<?php esc_html_e( 'Hide details', 'book-junky' ); ?>";
+                        } else {
+                            panel.style.display = "none";
+                            btn.innerText = "<?php esc_html_e( 'See details', 'book-junky' ); ?>";
+                        }
+                    }
+                </script>
+            <?php endif; ?>
+
             <div class="coin-child-name" id="pc-member-coin-child-name">
                 Student: <?php echo esc_html($child_name_val); ?>
             </div>

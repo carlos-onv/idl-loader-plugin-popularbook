@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file for both hum
   - Modified the Parents Club Account Overview Panel (`[parents_club_member_account_overview]`) shortcode handler to fetch total students count and their grades dynamically from API 11 (`emathsmart_get_student_list`), displaying them on the Students card.
   - Updated action URLs for matched cards: "Manage Students" and "View Reports" point to the external `{API_BASE_URL}/parent` with `target="_blank"`. "Manage Settings" points to `/my-account/`.
   - Added `product_id` dropdown selector to the Parents Club AI Coins Card (`[parents_club_member_coins]`) WPBakery element settings. This allows choosing a product from the eMathSmart product category to dynamically query, sort, and render its variations (showing coins amount and price) on the frontend.
+  - Enhanced the Parents Club AI Coins Card (`[parents_club_member_coins]`) element to query and calculate the **Total Balance** (combining all student-allocated balances and parent-level unallocated balance). Added a toggleable "See details" breakdown panel listing student coin balances and unallocated coins.
 - **Webhook Integration**:
   - Fixed `additionalPackageQuantity` calculation in `emathsmart_order_has_additional_packages()` to remove the `/ 100` divisor, sending the raw coin count to eMathSmart as expected.
 
