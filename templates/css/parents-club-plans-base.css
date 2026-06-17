@@ -89,11 +89,16 @@
     list-style-type: none !important;
     width: 100% !important;
     padding: 0 !important;
-    margin: 0 !important;
+    margin: 0;
     flex-grow: 1 !important;
     display: flex !important;
     flex-direction: column !important;
     gap: 10px !important;
+}
+
+.pc-plan-card.pc-plan-monthly ul.pc-plan-list,
+.pc-plan-card.pc-plan-annual ul.pc-plan-list {
+    margin-top: 30px;
 }
 
 .pc-plan-card .pc-plan-item {
