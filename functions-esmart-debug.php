@@ -1748,8 +1748,8 @@ function emathsmart_run_coin_balance_diagnostic() {
     }
 
     // Default test user ID
-    $user_id = get_current_user_id();
-    if (empty($user_id)) {
+    $user_id = isset($_GET['test_user_id']) ? intval($_GET['test_user_id']) : get_current_user_id();
+    if (empty($user_id) || $user_id === 1) {
         $users = get_users(['role' => 'customer', 'number' => 1]);
         if (!empty($users)) {
             $user_id = $users[0]->ID;
