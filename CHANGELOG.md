@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-17] - Account Overview API Integration & URLs
+
+### Changed
+- **WPBakery Elements**:
+  - Modified the Parents Club Account Overview Panel (`[parents_club_member_account_overview]`) shortcode handler to fetch total students count and their grades dynamically from API 11 (`emathsmart_get_student_list`), displaying them on the Students card.
+  - Updated action URLs for matched cards: "Manage Students" and "View Reports" point to the external `{API_BASE_URL}/parent` with `target="_blank"`. "Manage Settings" points to `/my-account/`.
+
 ## [2026-06-17] - Child to Student Label Update
 
 ### Changed

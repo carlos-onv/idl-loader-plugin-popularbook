@@ -6690,6 +6690,31 @@ function idl_loader_parents_club_member_account_overview_shortcode( $atts ) {
         </svg>';
     };
 
+    // Fetch dynamic student data from API 11
+    $api_success = false;
+    $student_count = 0;
+    $grades_list = array();
+    $user_id = get_current_user_id();
+
+    if ( $user_id ) {
+        if ( function_exists( 'emathsmart_get_student_list' ) ) {
+            $students = emathsmart_get_student_list( $user_id );
+            if ( is_array( $students ) ) {
+                $api_success = true;
+                $student_count = count( $students );
+                foreach ( $students as $student ) {
+                    if ( ! empty( $student['gradeName'] ) ) {
+                        $grades_list[] = $student['gradeName'];
+                    }
+                }
+                $grades_list = array_unique( $grades_list );
+            }
+        }
+    }
+
+    $api_base_url = function_exists( 'emathsmart_get_api_url' ) ? emathsmart_get_api_url() : 'https://test.emathsmart.ca';
+    $parent_link  = rtrim( $api_base_url, '/' ) . '/parent';
+
     $rendered_items = '';
     if ( is_array( $items_data ) && ! empty( $items_data ) ) {
         $count = count( $items_data );
@@ -6717,6 +6742,26 @@ function idl_loader_parents_club_member_account_overview_shortcode( $atts ) {
                 } else {
                     $action_url = $action_link;
                 }
+            }
+
+            // Identify card type and override settings contextually
+            $is_students = ( $predefined_icon_type === 'graduation' || stripos( $item_title, 'student' ) !== false || stripos( $action_text, 'student' ) !== false );
+            $is_reports  = ( $predefined_icon_type === 'chart' || stripos( $item_title, 'report' ) !== false || stripos( $action_text, 'report' ) !== false || stripos( $item_title, 'progress' ) !== false );
+            $is_settings = ( $predefined_icon_type === 'gear' || stripos( $item_title, 'setting' ) !== false || stripos( $action_text, 'setting' ) !== false );
+
+            if ( $is_students ) {
+                if ( $api_success ) {
+                    $desc_line1 = $student_count . ' Student' . ( $student_count !== 1 ? 's' : '' );
+                    $desc_line2 = ! empty( $grades_list ) ? implode( ', ', $grades_list ) : 'No Grades';
+                }
+                $action_url    = $parent_link;
+                $action_target = '_blank';
+            } elseif ( $is_reports ) {
+                $action_url    = $parent_link;
+                $action_target = '_blank';
+            } elseif ( $is_settings ) {
+                $action_url    = home_url( '/my-account/' );
+                $action_target = '';
             }
 
             $item_icon_html = $render_item_icon( $icon_source, $predefined_icon_type, $icon_library, $fa_icon, $li_icon, $custom_icon );
