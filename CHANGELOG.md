@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-17] - Child to Student Label Update
+
+### Changed
+- **WPBakery Elements**:
+  - Changed the "Child:" labels to "Student:" inside the AI Coins Balance Card (`[parents_club_member_coins]`) and its dynamic switch click handlers.
+
 ## [2026-06-16] - User Registration Header Styles Adjustment
 
 ### Fixed

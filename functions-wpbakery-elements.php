@@ -6530,14 +6530,14 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                 <div class="sub-logo-group">
                     <h2 class="sub-title" style="margin: 0;">All Subscriptions</h2>
                 </div>
-                <a href="javascript:void(0);" class="go-btn" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-0').removeClass('hidden-card'); jQuery('#pc-member-coin-balance-val').html('<?php echo esc_js( $formatted_subs[0]['credits_balance'] ); ?> <span>coins</span>'); jQuery('#pc-member-coin-child-name').text('Child: ' + '<?php echo esc_js( $formatted_subs[0]['child_name'] ); ?>'); return false;" style="background: transparent; color: var(--brand-text-dark); border: 1px solid #ccc; font-weight: 500;">
+                <a href="javascript:void(0);" class="go-btn" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-0').removeClass('hidden-card'); jQuery('#pc-member-coin-balance-val').html('<?php echo esc_js( $formatted_subs[0]['credits_balance'] ); ?> <span>coins</span>'); jQuery('#pc-member-coin-child-name').text('Student: ' + '<?php echo esc_js( $formatted_subs[0]['child_name'] ); ?>'); return false;" style="background: transparent; color: var(--brand-text-dark); border: 1px solid #ccc; font-weight: 500;">
                     Go Back
                 </a>
             </div>
             <div class="sub-body" style="padding: 0;">
                 <div class="subscription-list-items">
                     <?php foreach ( $formatted_subs as $index => $sub ) : ?>
-                        <a href="javascript:void(0);" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-<?php echo esc_attr( $index ); ?>').removeClass('hidden-card'); jQuery('#pc-member-coin-balance-val').html('<?php echo esc_js( $sub['credits_balance'] ); ?> <span>coins</span>'); jQuery('#pc-member-coin-child-name').text('Child: ' + '<?php echo esc_js( $sub['child_name'] ); ?>'); return false;" class="sub-list-item">
+                        <a href="javascript:void(0);" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-<?php echo esc_attr( $index ); ?>').removeClass('hidden-card'); jQuery('#pc-member-coin-balance-val').html('<?php echo esc_js( $sub['credits_balance'] ); ?> <span>coins</span>'); jQuery('#pc-member-coin-child-name').text('Student: ' + '<?php echo esc_js( $sub['child_name'] ); ?>'); return false;" class="sub-list-item">
                             <div class="sub-list-item-info">
                                 <span class="sub-list-item-title"><?php echo esc_html( $sub['sub_type'] ); ?></span>
                                 <span class="sub-list-item-status"><?php echo esc_html( $sub['status_val'] ); ?></span>
@@ -6873,7 +6873,7 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
                 </span>
             </div>
             <div class="coin-child-name" id="pc-member-coin-child-name">
-                Child: <?php echo esc_html( $child_name_val ); ?>
+                Student: <?php echo esc_html($child_name_val); ?>
             </div>
             <p class="coins-desc"><?php echo $description; ?></p>
 
