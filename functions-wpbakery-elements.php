@@ -4359,6 +4359,18 @@ function idl_loader_esmart_login_card_shortcode( $atts ) {
 add_shortcode( 'emathsmart_plan_card', 'idl_loader_emathsmart_plan_card_shortcode' );
 
 function idl_loader_emathsmart_plan_card_shortcode( $atts ) {
+    // Check active subscription (hide for users with subscription)
+    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
+    if ( ! $is_vc_editor ) {
+        $user_id = get_current_user_id();
+        if ( $user_id ) {
+            $has_sub = ( function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
+            if ( $has_sub ) {
+                return '';
+            }
+        }
+    }
+
     $attributes = shortcode_atts( array(
         'card_layout'        => 'digital',
         'highlighted_border' => '',
@@ -4994,6 +5006,18 @@ function idl_loader_parents_club_need_help_shortcode( $atts ) {
 add_shortcode( 'emathsmart_subscription_product_card', 'idl_loader_emathsmart_subscription_product_card_shortcode' );
 
 function idl_loader_emathsmart_subscription_product_card_shortcode( $atts ) {
+    // Check active subscription (hide for users with subscription)
+    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
+    if ( ! $is_vc_editor ) {
+        $user_id = get_current_user_id();
+        if ( $user_id ) {
+            $has_sub = ( function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
+            if ( $has_sub ) {
+                return '';
+            }
+        }
+    }
+
     $attributes = shortcode_atts( array(
         'product_id'          => '',
         'product_id_override' => '',
