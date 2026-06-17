@@ -6858,6 +6858,42 @@ function idl_loader_parents_club_member_account_overview_shortcode( $atts ) {
 
 add_shortcode( 'parents_club_member_coins', 'idl_loader_parents_club_member_coins_shortcode' );
 
+/**
+ * Query and sum all coins purchased by the customer via completed or processing WooCommerce orders.
+ */
+function idl_loader_get_user_total_purchased_coins( $user_id ) {
+    if ( empty( $user_id ) || ! function_exists( 'wc_get_orders' ) ) {
+        return 0;
+    }
+    
+    $orders = wc_get_orders( array(
+        'customer' => $user_id,
+        'status'   => array( 'completed', 'processing' ),
+        'limit'    => -1,
+    ) );
+    
+    $total_coins = 0;
+    foreach ( $orders as $order ) {
+        foreach ( $order->get_items() as $item ) {
+            $product = $item->get_product();
+            if ( $product ) {
+                $coins = $product->get_attribute( 'coins' );
+                if ( empty( $coins ) ) {
+                    $coins = $product->get_meta( 'attribute_pa_coins', true );
+                    if ( empty( $coins ) ) {
+                        $coins = $product->get_meta( 'attribute_coins', true );
+                    }
+                }
+                $coins_num = intval( $coins );
+                if ( $coins_num > 0 ) {
+                    $total_coins += $coins_num * $item->get_quantity();
+                }
+            }
+        }
+    }
+    return $total_coins;
+}
+
 function idl_loader_parents_club_member_coins_shortcode( $atts ) {
     // Check active subscription (only hide on frontend)
     $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
@@ -6893,16 +6929,12 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
     $students_list = array();
 
     if ( $user_id ) {
-        // 1. Fetch parent's unallocated coin balance from eMathSmart
-        if ( function_exists( 'emathsmart_get_user_coin_balance' ) ) {
-            $real_balance = emathsmart_get_user_coin_balance( $user_id );
-            if ( $real_balance !== false && is_numeric( $real_balance ) ) {
-                $unallocated_balance = intval( $real_balance );
-            }
-        }
+        // 1. Calculate parent's total purchased coins from WooCommerce
+        $total_purchased_coins = idl_loader_get_user_total_purchased_coins( $user_id );
 
         // 2. Fetch all students under the parent across all subscriptions
         $allocated_total = 0;
+        $student_total = 0;
         $student_names = array();
         if ( function_exists( 'emathsmart_get_student_list' ) ) {
             $students = emathsmart_get_student_list( $user_id );
@@ -6910,19 +6942,22 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
                 foreach ( $students as $student ) {
                     $s_name = isset( $student['name'] ) ? $student['name'] : 'Student';
                     $s_coins = isset( $student['creditsBalance'] ) ? intval( $student['creditsBalance'] ) : 0;
+                    $s_allocated = isset( $student['allocatedCredits'] ) ? intval( $student['allocatedCredits'] ) : 0;
                     
                     $students_list[] = array(
                         'name'  => $s_name,
                         'coins' => $s_coins,
                     );
-                    $allocated_total += $s_coins;
+                    $allocated_total += $s_allocated;
+                    $student_total += $s_coins;
                     $student_names[] = $s_name;
                 }
             }
         }
 
-        // 3. Compute total balance
-        $total_balance = $unallocated_balance + $allocated_total;
+        // 3. Compute unallocated and total balance
+        $unallocated_balance = max( 0, $total_purchased_coins - $allocated_total );
+        $total_balance = $unallocated_balance + $student_total;
         $balance_val = strval( $total_balance );
 
         if ( ! empty( $student_names ) ) {
