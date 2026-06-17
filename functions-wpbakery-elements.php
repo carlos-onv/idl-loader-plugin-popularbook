@@ -3910,6 +3910,18 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
 add_shortcode( 'parents_club_why_join', 'idl_loader_parents_club_why_join_shortcode' );
 
 function idl_loader_parents_club_why_join_shortcode( $atts ) {
+    // Check active subscription (hide for users with subscription)
+    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
+    if ( ! $is_vc_editor ) {
+        $user_id = get_current_user_id();
+        if ( $user_id ) {
+            $has_sub = ( function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
+            if ( $has_sub ) {
+                return '';
+            }
+        }
+    }
+
     $attributes = shortcode_atts( array(
         'section_title' => "Why Join<br>Parents' Club?",
         'feat1_title'   => 'Save More',
@@ -3926,7 +3938,12 @@ function idl_loader_parents_club_why_join_shortcode( $atts ) {
         'feat6_desc'    => 'Optional digital learning upgrade',
     ), $atts );
 
-    $section_title = wp_kses_post( $attributes['section_title'] );
+    $user_id = get_current_user_id();
+    if ( $user_id ) {
+        $section_title = "Your Parent's Club<br>Membership Perks";
+    } else {
+        $section_title = wp_kses_post( $attributes['section_title'] );
+    }
     $feat1_title   = esc_html( $attributes['feat1_title'] );
     $feat1_desc    = esc_html( $attributes['feat1_desc'] );
     $feat2_title   = esc_html( $attributes['feat2_title'] );

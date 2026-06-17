@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file for both hum
 ### Changed
 - **WPBakery Elements**:
   - Changed the "Child:" labels to "Student:" inside the AI Coins Balance Card (`[parents_club_member_coins]`) and its dynamic switch click handlers.
+  - Added visibility gating to the Parents Club Why Join Bar (`[parents_club_why_join]`) element so it is only visible to non-logged-in users and logged-in users without an active subscription (hidden for active subscribers).
+  - Dynamically override the section title of the Why Join Bar to "Your Parent's Club<br>Membership Perks" for logged-in users without an active subscription.
 
 ## [2026-06-16] - User Registration Header Styles Adjustment
 
