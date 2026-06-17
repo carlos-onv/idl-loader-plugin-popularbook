@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file for both hum
 
 ### Changed
 - **WPBakery Element Styles**:
+  - Added `.parents-club-faq.active label` color to `white !important` in [parents-club-faq.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-faq.css).
   - Adjusted `.pc-plan-card .pc-plan-list` margin and added a `margin-top: 30px` rule for monthly/annual plans in [parents-club-plans-base.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-plans-base.css).
   - Updated `.pc-plan-card` height property to `stretch` instead of `auto !important` in [parents-club-plans-base.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-plans-base.css).
   - Adjusted `.feature-bar-wrapper .bar-title-block h2` font-size to `17px`, font-weight to `600`, and line-height to `1.5` in [section-2.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/section-2.css).
