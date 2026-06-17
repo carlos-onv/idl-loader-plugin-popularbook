@@ -2766,11 +2766,11 @@ function idl_loader_register_parents_club_elements() {
 
     // Register [parents_club_member_account_overview] Element
     vc_map( array(
-        "name"        => esc_html__( "Parents Club Account Overview Panel", "book-junky" ),
+        "name"        => esc_html__( "Parents Club Account Overview Panel (Active Subscribers Only)", "book-junky" ),
         "base"        => "parents_club_member_account_overview",
         "icon"        => "cs_icon_for_vc",
         "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
-        "description" => esc_html__( "Account overview section showing dynamic grids of student management, progress reports, and settings.", "book-junky" ),
+        "description" => esc_html__( "Active Subscribers Only. Account overview section showing dynamic grids of student management, progress reports, and settings.", "book-junky" ),
         "params"      => array(
             array(
                 "type"        => "textfield",
@@ -6606,6 +6606,16 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
 add_shortcode( 'parents_club_member_account_overview', 'idl_loader_parents_club_member_account_overview_shortcode' );
 
 function idl_loader_parents_club_member_account_overview_shortcode( $atts ) {
+    // Check active subscription (only hide on frontend)
+    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
+    if ( ! $is_vc_editor ) {
+        $user_id = get_current_user_id();
+        $has_sub = ( $user_id && function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
+        if ( ! $has_sub ) {
+            return '';
+        }
+    }
+
     $attributes = shortcode_atts( array(
         'title'      => 'Account Overview',
         'items_list' => '',
