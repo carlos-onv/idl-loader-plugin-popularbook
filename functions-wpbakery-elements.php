@@ -45,6 +45,42 @@ function idl_loader_get_subscription_products() {
 }
 
 /**
+ * Query and return WooCommerce products within the eMathSmart product category in a key-value dropdown format.
+ */
+function idl_loader_get_emathsmart_coins_products() {
+    if ( ! taxonomy_exists( 'product_cat' ) ) {
+        return array();
+    }
+    
+    $slug = function_exists('emathsmart_get_product_category_slug') ? emathsmart_get_product_category_slug() : 'emathsmart-woo';
+    
+    $args = array(
+        'post_type'      => 'product',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'tax_query'      => array(
+            array(
+                'taxonomy' => 'product_cat',
+                'field'    => 'slug',
+                'terms'    => $slug,
+            ),
+        ),
+    );
+    
+    $products = get_posts( $args );
+    $options = array();
+    $options[ esc_html__( 'Select AI Coins Product...', 'book-junky' ) ] = '';
+    
+    foreach ( $products as $post ) {
+        $product = wc_get_product( $post->ID );
+        if ( $product && $product->is_type( 'variable' ) ) {
+            $options[ $product->get_name() . ' (#' . $product->get_id() . ')' ] = $product->get_id();
+        }
+    }
+    return $options;
+}
+
+/**
  * Query and return User Registration forms.
  */
 function idl_loader_get_user_registration_forms() {
@@ -2956,6 +2992,14 @@ function idl_loader_register_parents_club_elements() {
                 "heading"     => esc_html__( "Purchase Header", "book-junky" ),
                 "param_name"  => "purchase_title",
                 "value"       => esc_html__( "Purchase AI Coins", "book-junky" ),
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "AI Coins Product Source", "book-junky" ),
+                "param_name"  => "product_id",
+                "value"       => idl_loader_get_emathsmart_coins_products(),
+                "description" => esc_html__( "Select the variable AI Coins product from the eMathSmart category. The card will dynamically render its variations.", "book-junky" ),
+                "admin_label" => true,
             ),
             // Repeatable packages grid
             array(
@@ -6830,6 +6874,7 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
         'coin_image'     => '',
         'description'    => 'Use AI coins to chat with your AI helper, and mark worksheets.',
         'purchase_title' => 'Purchase AI Coins',
+        'product_id'     => '',
         'packages_list'  => '',
     ), $atts );
 
@@ -6900,13 +6945,59 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
         $coin_img_url = plugins_url( 'templates/images/coin.png', __FILE__ );
     }
 
-    // Parse packages list repeatable container
+    // Parse packages list repeatable container or load variations dynamically from selected product
     $packages_data = array();
-    if ( ! empty( $attributes['packages_list'] ) ) {
-        if ( function_exists( 'vc_param_group_parse_atts' ) ) {
-            $packages_data = vc_param_group_parse_atts( $attributes['packages_list'] );
-        } else {
-            $packages_data = json_decode( urldecode( $attributes['packages_list'] ), true );
+    $selected_product_id = isset( $attributes['product_id'] ) ? intval( $attributes['product_id'] ) : 0;
+
+    if ( $selected_product_id > 0 && function_exists( 'wc_get_product' ) ) {
+        $product = wc_get_product( $selected_product_id );
+        if ( $product && $product->is_type( 'variable' ) ) {
+            $variations = $product->get_available_variations();
+            foreach ( $variations as $var_data ) {
+                $var_id = $var_data['variation_id'];
+                $var_obj = wc_get_product( $var_id );
+                if ( $var_obj ) {
+                    $coins = $var_obj->get_attribute('coins');
+                    if ( empty( $coins ) ) {
+                        $coins = $var_obj->get_meta('attribute_pa_coins', true);
+                        if ( empty( $coins ) ) {
+                            $coins = $var_obj->get_meta('attribute_coins', true);
+                        }
+                    }
+                    $coins_num = intval( $coins );
+                    if ( $coins_num > 0 ) {
+                        $qty_text = $coins_num . ' Coins';
+                        
+                        // Extract cleanly formatted price
+                        $price_val = html_entity_decode(strip_tags(wc_price($var_obj->get_price())));
+                        
+                        $packages_data[] = array(
+                            'package_qty'   => $qty_text,
+                            'package_price' => $price_val,
+                            'package_link'  => add_query_arg('add-to-cart', $var_id, wc_get_checkout_url()),
+                        );
+                    }
+                }
+            }
+
+            // Sort variations by coin quantity ascending
+            if ( ! empty( $packages_data ) ) {
+                usort( $packages_data, function( $a, $b ) {
+                    $a_coins = intval( preg_replace( '/[^0-9]/', '', $a['package_qty'] ) );
+                    $b_coins = intval( preg_replace( '/[^0-9]/', '', $b['package_qty'] ) );
+                    return $a_coins - $b_coins;
+                });
+            }
+        }
+    }
+
+    if ( empty( $packages_data ) ) {
+        if ( ! empty( $attributes['packages_list'] ) ) {
+            if ( function_exists( 'vc_param_group_parse_atts' ) ) {
+                $packages_data = vc_param_group_parse_atts( $attributes['packages_list'] );
+            } else {
+                $packages_data = json_decode( urldecode( $attributes['packages_list'] ), true );
+            }
         }
     }
 
