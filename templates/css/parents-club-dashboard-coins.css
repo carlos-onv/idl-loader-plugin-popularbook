@@ -210,3 +210,24 @@
     margin: 8px 0 !important;
 }
 
+/* General Pulse Skeleton Animation */
+.pc-skeleton-loader {
+    display: inline-block !important;
+    background: rgba(0, 0, 0, 0.08) !important;
+    border-radius: 4px !important;
+    animation: pc-pulse 1.5s infinite ease-in-out !important;
+}
+
+@keyframes pc-pulse {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+

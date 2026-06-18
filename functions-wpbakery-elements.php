@@ -6186,35 +6186,9 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                     );
                 }
 
-                $access_grade = '';
+                $access_grade = '<span class="pc-sub-access-val" data-sub-id="' . esc_attr( $subscription->get_id() ) . '"><span class="pc-skeleton-loader" style="display:inline-block; width:140px; height: 16px; background: rgba(0,0,0,0.08); border-radius:4px; animation: pc-pulse 1.5s infinite ease-in-out;"></span></span>';
                 $credits_balance = 0;
-                $child_names = array();
-                if ( function_exists( 'emathsmart_get_student_list' ) ) {
-                    $students = emathsmart_get_student_list( $user_id, $subscription->get_id() );
-                    if ( ! empty( $students ) && is_array( $students ) ) {
-                        $access_details = array();
-                        foreach ( $students as $student ) {
-                            $part = '';
-                            if ( ! empty( $student['gradeName'] ) ) {
-                                $part .= $student['gradeName'];
-                            }
-                            if ( ! empty( $student['name'] ) ) {
-                                $part .= ' (' . $student['name'] . ')';
-                                $child_names[] = $student['name'];
-                            }
-                            if ( ! empty( $part ) ) {
-                                $access_details[] = $part;
-                            }
-                            if ( isset( $student['creditsBalance'] ) ) {
-                                $credits_balance += intval( $student['creditsBalance'] );
-                            }
-                        }
-                        if ( ! empty( $access_details ) ) {
-                            $access_grade = implode( ', ', array_unique( $access_details ) );
-                        }
-                    }
-                }
-                $sub_child_name = ! empty( $child_names ) ? implode( ', ', array_unique( $child_names ) ) : 'None';
+                $sub_child_name = 'None';
 
                 $details_data[] = array(
                     'label'                => 'Access',
@@ -6269,21 +6243,7 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
             }
         } else {
             // Logged in, NO subscription
-            $access_grade = '';
-            if ( function_exists( 'emathsmart_get_student_list' ) ) {
-                $students = emathsmart_get_student_list( $user_id );
-                if ( ! empty( $students ) && is_array( $students ) ) {
-                    $grade_names = array();
-                    foreach ( $students as $student ) {
-                        if ( ! empty( $student['gradeName'] ) ) {
-                            $grade_names[] = $student['gradeName'];
-                        }
-                    }
-                    if ( ! empty( $grade_names ) ) {
-                        $access_grade = implode( ', ', array_unique( $grade_names ) );
-                    }
-                }
-            }
+            $access_grade = '<span class="pc-sub-access-val" data-sub-id="none"><span class="pc-skeleton-loader" style="display:inline-block; width:140px; height: 16px; background: rgba(0,0,0,0.08); border-radius:4px; animation: pc-pulse 1.5s infinite ease-in-out;"></span></span>';
 
             $formatted_subs[] = array(
                 'id'               => 'none',
@@ -6513,7 +6473,7 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                         }
                         $value_html .= '</span>';
                     } else {
-                        $value_html = '<span class="dval">' . esc_html( $value ) . '</span>';
+                        $value_html = '<span class="dval">' . wp_kses_post( $value ) . '</span>';
                     }
 
                     $rendered_details .= '<div class="drow">
@@ -6615,14 +6575,14 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
                 <div class="sub-logo-group">
                     <h2 class="sub-title" style="margin: 0;">All Subscriptions</h2>
                 </div>
-                <a href="javascript:void(0);" class="go-btn" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-0').removeClass('hidden-card'); jQuery('#pc-member-coin-balance-val').html('<?php echo esc_js( $formatted_subs[0]['credits_balance'] ); ?> <span>coins</span>'); jQuery('#pc-member-coin-child-name').text('Student: ' + '<?php echo esc_js( $formatted_subs[0]['child_name'] ); ?>'); return false;" style="background: transparent; color: var(--brand-text-dark); border: 1px solid #ccc; font-weight: 500;">
+                <a href="javascript:void(0);" class="go-btn" onclick="if(window.pcSwitchSubscription){ window.pcSwitchSubscription(0, '<?php echo esc_js( $formatted_subs[0]['id'] ); ?>'); } else { jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-0').removeClass('hidden-card'); } return false;" style="background: transparent; color: var(--brand-text-dark); border: 1px solid #ccc; font-weight: 500;">
                     Go Back
                 </a>
             </div>
             <div class="sub-body" style="padding: 0;">
                 <div class="subscription-list-items">
                     <?php foreach ( $formatted_subs as $index => $sub ) : ?>
-                        <a href="javascript:void(0);" onclick="jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-<?php echo esc_attr( $index ); ?>').removeClass('hidden-card'); jQuery('#pc-member-coin-balance-val').html('<?php echo esc_js( $sub['credits_balance'] ); ?> <span>coins</span>'); jQuery('#pc-member-coin-child-name').text('Student: ' + '<?php echo esc_js( $sub['child_name'] ); ?>'); return false;" class="sub-list-item">
+                        <a href="javascript:void(0);" onclick="if(window.pcSwitchSubscription){ window.pcSwitchSubscription(<?php echo esc_attr( $index ); ?>, '<?php echo esc_js( $sub['id'] ); ?>'); } else { jQuery('#sub-list-view').addClass('hidden-card'); jQuery('#sub-card-view-<?php echo esc_attr( $index ); ?>').removeClass('hidden-card'); } return false;" class="sub-list-item">
                             <div class="sub-list-item-info">
                                 <span class="sub-list-item-title"><?php echo esc_html( $sub['sub_type'] ); ?></span>
                                 <span class="sub-list-item-status"><?php echo esc_html( $sub['status_val'] ); ?></span>
@@ -6734,27 +6694,7 @@ function idl_loader_parents_club_member_account_overview_shortcode( $atts ) {
         </svg>';
     };
 
-    // Fetch dynamic student data from API 11
-    $api_success = false;
-    $student_count = 0;
-    $grades_list = array();
     $user_id = get_current_user_id();
-
-    if ( $user_id ) {
-        if ( function_exists( 'emathsmart_get_student_list' ) ) {
-            $students = emathsmart_get_student_list( $user_id );
-            if ( is_array( $students ) ) {
-                $api_success = true;
-                $student_count = count( $students );
-                foreach ( $students as $student ) {
-                    if ( ! empty( $student['gradeName'] ) ) {
-                        $grades_list[] = $student['gradeName'];
-                    }
-                }
-                $grades_list = array_unique( $grades_list );
-            }
-        }
-    }
 
     $api_base_url = function_exists( 'emathsmart_get_api_url' ) ? emathsmart_get_api_url() : 'https://test.emathsmart.ca';
     $parent_link  = rtrim( $api_base_url, '/' ) . '/parent';
@@ -6794,9 +6734,9 @@ function idl_loader_parents_club_member_account_overview_shortcode( $atts ) {
             $is_settings = ( $predefined_icon_type === 'gear' || stripos( $item_title, 'setting' ) !== false || stripos( $action_text, 'setting' ) !== false );
 
             if ( $is_students ) {
-                if ( $api_success ) {
-                    $desc_line1 = $student_count . ' Student' . ( $student_count !== 1 ? 's' : '' );
-                    $desc_line2 = ! empty( $grades_list ) ? implode( ', ', $grades_list ) : 'No Grades';
+                if ( $user_id ) {
+                    $desc_line1 = '<span id="pc-member-student-count"><span class="pc-skeleton-loader" style="display:inline-block; width:80px; height: 16px; background: rgba(0,0,0,0.08); border-radius:4px; animation: pc-pulse 1.5s infinite ease-in-out; margin-top: 4px;"></span></span>';
+                    $desc_line2 = '<span id="pc-member-student-grades"><span class="pc-skeleton-loader" style="display:inline-block; width:120px; height: 16px; background: rgba(0,0,0,0.08); border-radius:4px; animation: pc-pulse 1.5s infinite ease-in-out; margin-top: 4px;"></span></span>';
                 }
                 $action_url    = $parent_link;
                 $action_target = '_blank';
@@ -6817,10 +6757,10 @@ function idl_loader_parents_club_member_account_overview_shortcode( $atts ) {
                 <div class="overview-details">
                     <div class="item-title">' . esc_html( $item_title ) . '</div>';
             if ( ! empty( $desc_line1 ) ) {
-                $rendered_items .= '<div class="item-desc">' . esc_html( $desc_line1 ) . '</div>';
+                $rendered_items .= '<div class="item-desc">' . wp_kses_post( $desc_line1 ) . '</div>';
             }
             if ( ! empty( $desc_line2 ) ) {
-                $rendered_items .= '<div class="item-desc">' . esc_html( $desc_line2 ) . '</div>';
+                $rendered_items .= '<div class="item-desc">' . wp_kses_post( $desc_line2 ) . '</div>';
             }
             if ( ! empty( $action_text ) ) {
                 $rendered_items .= '<a class="item-link" href="' . esc_url( $action_url ) . '" ' . ( ! empty( $action_target ) ? 'target="' . esc_attr( $action_target ) . '"' : '' ) . '>' . esc_html( $action_text ) . '</a>';
@@ -6933,46 +6873,9 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
 
     // Fetch dynamic balance if user is logged in
     $user_id = get_current_user_id();
-    $balance_val = '0';
-    $child_name_val = 'None';
-    $unallocated_balance = 0;
-    $students_list = array();
-
+    $balance_html = '0';
     if ( $user_id ) {
-        // 1. Calculate parent's total purchased coins from WooCommerce
-        $total_purchased_coins = idl_loader_get_user_total_purchased_coins( $user_id );
-
-        // 2. Fetch all students under the parent across all subscriptions
-        $allocated_total = 0;
-        $student_total = 0;
-        $student_names = array();
-        if ( function_exists( 'emathsmart_get_student_list' ) ) {
-            $students = emathsmart_get_student_list( $user_id );
-            if ( ! empty( $students ) && is_array( $students ) ) {
-                foreach ( $students as $student ) {
-                    $s_name = isset( $student['name'] ) ? $student['name'] : 'Student';
-                    $s_coins = isset( $student['creditsBalance'] ) ? intval( $student['creditsBalance'] ) : 0;
-                    $s_allocated = isset( $student['allocatedCredits'] ) ? intval( $student['allocatedCredits'] ) : 0;
-                    
-                    $students_list[] = array(
-                        'name'  => $s_name,
-                        'coins' => $s_coins,
-                    );
-                    $allocated_total += $s_allocated;
-                    $student_total += $s_coins;
-                    $student_names[] = $s_name;
-                }
-            }
-        }
-
-        // 3. Compute unallocated and total balance
-        $unallocated_balance = max( 0, $total_purchased_coins - $allocated_total );
-        $total_balance = $unallocated_balance + $student_total;
-        $balance_val = strval( $total_balance );
-
-        if ( ! empty( $student_names ) ) {
-            $child_name_val = implode( ', ', array_unique( $student_names ) );
-        }
+        $balance_html = '<span class="pc-skeleton-loader" style="display:inline-block; width:50px; height: 24px; background: rgba(0,0,0,0.08); border-radius:4px; animation: pc-pulse 1.5s infinite ease-in-out; vertical-align: middle;"></span>';
     }
 
     // Resolve Coin Image
@@ -7102,44 +7005,21 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
             <div class="coin-row" style="position: relative !important; display: flex !important; align-items: center !important;">
                 <img class="coin-ic" src="<?php echo esc_url( $coin_img_url ); ?>" alt="AI coin">
                 <span class="coin-amt" id="pc-member-coin-balance-val">
-                    <?php echo esc_html( $balance_val ); ?> <span>coins</span>
+                    <?php echo $balance_html; ?> <span>coins</span>
                 </span>
-                <?php if ( $user_id && ( ! empty( $students_list ) || $unallocated_balance > 0 ) ) : ?>
-                    <button class="see-details-btn" onclick="toggleCoinBreakdown()"><?php esc_html_e( 'See details', 'book-junky' ); ?></button>
+                <?php if ( $user_id ) : ?>
+                    <button class="see-details-btn" id="pc-member-see-details-btn" style="display: none;" onclick="toggleCoinBreakdown()"><?php esc_html_e( 'See details', 'book-junky' ); ?></button>
                 <?php endif; ?>
             </div>
             
-            <?php if ( $user_id && ( ! empty( $students_list ) || $unallocated_balance > 0 ) ) : ?>
+            <?php if ( $user_id ) : ?>
                 <div id="coin-breakdown-details" class="coin-breakdown-panel" style="display: none;">
-                    <div class="coin-breakdown-title"><?php esc_html_e( 'Coin Balance Breakdown', 'book-junky' ); ?></div>
-                    
-                    <?php if ( ! empty( $students_list ) ) : ?>
-                        <?php foreach ( $students_list as $student ) : ?>
-                            <div class="coin-breakdown-row">
-                                <span class="label"><?php echo esc_html( $student['name'] ); ?></span>
-                                <span class="val">
-                                    <img src="<?php echo esc_url( $coin_img_url ); ?>" class="small-coin-ic" alt="coin">
-                                    <?php echo esc_html( $student['coins'] ); ?> coins
-                                </span>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                    
-                    <div class="coin-breakdown-divider"></div>
-                    
-                    <div class="coin-breakdown-row">
-                        <span class="label" style="font-style: italic;"><?php esc_html_e( 'Unallocated balance', 'book-junky' ); ?></span>
-                        <span class="val">
-                            <img src="<?php echo esc_url( $coin_img_url ); ?>" class="small-coin-ic" alt="coin">
-                            <?php echo esc_html( $unallocated_balance ); ?> coins
-                        </span>
-                    </div>
                 </div>
                 
                 <script>
                     function toggleCoinBreakdown() {
                         var panel = document.getElementById("coin-breakdown-details");
-                        var btn = document.querySelector(".see-details-btn");
+                        var btn = document.getElementById("pc-member-see-details-btn");
                         if (panel.style.display === "none" || panel.style.display === "") {
                             panel.style.display = "block";
                             btn.innerText = "<?php esc_html_e( 'Hide details', 'book-junky' ); ?>";
@@ -7167,6 +7047,118 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
                         </div>
                     <?php endforeach; ?>
                 </div>
+            <?php endif; ?>
+            <?php if ( $user_id ) : ?>
+                <script>
+                jQuery(document).ready(function($) {
+                    var endpoint = '/wp-json/idl-parents-club/v1/dashboard-data';
+                    $.ajax({
+                        url: endpoint,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response && response.success) {
+                                // Update Coins Card Total Balance
+                                var balanceValEl = $('#pc-member-coin-balance-val');
+                                if (balanceValEl.length) {
+                                    balanceValEl.html(response.total_balance + ' <span>coins</span>');
+                                }
+
+                                // Update Coins Card Details Panel
+                                var seeDetailsBtn = $('#pc-member-see-details-btn');
+                                var breakdownPanel = $('#coin-breakdown-details');
+                                
+                                if (breakdownPanel.length) {
+                                    var html = '<div class="coin-breakdown-title">Coin Balance Breakdown</div>';
+                                    
+                                    if (response.students && response.students.length > 0) {
+                                        response.students.forEach(function(student) {
+                                            html += '<div class="coin-breakdown-row">' +
+                                                '<span class="label">' + escHtml(student.name) + '</span>' +
+                                                '<span class="val">' +
+                                                '<img src="' + getCoinImgUrl() + '" class="small-coin-ic" alt="coin"> ' +
+                                                student.coins + ' coins' +
+                                                '</span>' +
+                                                '</div>';
+                                        });
+                                    }
+                                    
+                                    html += '<div class="coin-breakdown-divider"></div>' +
+                                        '<div class="coin-breakdown-row">' +
+                                        '<span class="label" style="font-style: italic;">Unallocated balance</span>' +
+                                        '<span class="val">' +
+                                        '<img src="' + getCoinImgUrl() + '" class="small-coin-ic" alt="coin"> ' +
+                                        response.unallocated_balance + ' coins' +
+                                        '</span>' +
+                                        '</div>';
+                                    
+                                    breakdownPanel.html(html);
+                                    
+                                    if (response.students.length > 0 || response.unallocated_balance > 0) {
+                                        seeDetailsBtn.show();
+                                    }
+                                }
+
+                                // Update Overview Card (Student count and Grades)
+                                var studentCountEl = $('#pc-member-student-count');
+                                var studentGradesEl = $('#pc-member-student-grades');
+                                if (studentCountEl.length) {
+                                    studentCountEl.html(response.student_desc);
+                                }
+                                if (studentGradesEl.length) {
+                                    studentGradesEl.html(response.grades_desc);
+                                }
+
+                                // Update Subscription Card(s) Access Fields
+                                if (response.subscriptions_access) {
+                                    $('.pc-sub-access-val').each(function() {
+                                        var subId = $(this).attr('data-sub-id');
+                                        if (response.subscriptions_access[subId]) {
+                                            $(this).html(escHtml(response.subscriptions_access[subId]));
+                                        } else {
+                                            $(this).html('None');
+                                        }
+                                    });
+                                }
+                                
+                                window.pcDashboardData = response;
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Parents Club Dashboard AJAX error:', error);
+                            $('#pc-member-coin-balance-val').html('0 <span>coins</span>');
+                            $('#pc-member-student-count').html('0 Students');
+                            $('#pc-member-student-grades').html('No Grades');
+                            $('.pc-sub-access-val').html('None');
+                        }
+                    });
+
+                    function escHtml(str) {
+                        if (!str) return '';
+                        return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+                    }
+                    
+                    function getCoinImgUrl() {
+                        return '<?php echo esc_url( $coin_img_url ); ?>';
+                    }
+                });
+
+                window.pcSwitchSubscription = function(index, subId) {
+                    jQuery('#sub-list-view').addClass('hidden-card');
+                    jQuery('.sub-card-view').addClass('hidden-card');
+                    jQuery('#sub-card-view-' + index).removeClass('hidden-card');
+                    
+                    if (window.pcDashboardData) {
+                        var bal = window.pcDashboardData.total_balance;
+                        if (subId && subId !== 'none' && subId !== 'guest') {
+                            if (window.pcDashboardData.subscriptions_credits && window.pcDashboardData.subscriptions_credits[subId] !== undefined) {
+                                bal = window.pcDashboardData.subscriptions_credits[subId];
+                            }
+                        }
+                        jQuery('#pc-member-coin-balance-val').html(bal + ' <span>coins</span>');
+                    }
+                };
+                </script>
             <?php endif; ?>
         </div>
     </section>

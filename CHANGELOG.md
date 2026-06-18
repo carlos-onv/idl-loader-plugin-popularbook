@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-18] - Asynchronous Dashboard Data Loading (Strategy C)
+
+### Added
+- **REST API Endpoint**:
+  - Registered a new endpoint `/wp-json/idl-parents-club/v1/dashboard-data` in [functions-restapi.php](file:///wp-content/plugins/idl-loader/functions-restapi.php) to retrieve all dynamic eMathSmart student list data and WooCommerce coins balance in a single JSON response.
+  - Whitelisted this endpoint inside the `rest_authentication_errors` filter to bypass OAuth token checks while preserving standard cookie/browser-session authentication.
+
+### Changed
+- **WPBakery Elements**:
+  - Modified the shortcode handlers `parents_club_member_coins`, `parents_club_member_account_overview`, and `parents_club_member_subscription` in [functions-wpbakery-elements.php](file:///wp-content/plugins/idl-loader/functions-wpbakery-elements.php) to render lightweight pulse skeleton loaders on the server-side instead of performing slow, blocking backend HTTP API calls.
+  - Appended a client-side JavaScript synchronization script to the coins shortcode output. It triggers a single AJAX request on page load, fetches the dashboard data, and populates the coin balance, breakdown toggle details, student count, grades list, and subscription access fields dynamically.
+  - Updated the multi-subscription click handlers to fetch individual student credit balances from the locally-cached AJAX response instead of hardcoded server values.
+  - Replaced `esc_html()` calls with `wp_kses_post()` in WPBakery loops to support HTML skeleton tags in loading states.
+- **Styles**:
+  - Appended pulse loader classes and keyframes to [parents-club-dashboard-coins.css](file:///wp-content/plugins/idl-loader/templates/css/parents-club-dashboard-coins.css).
+
 ## [2026-06-18] - Local Coins Purchase Query Meta Fix
 
 ### Changed

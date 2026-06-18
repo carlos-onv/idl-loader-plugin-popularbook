@@ -95,6 +95,15 @@ add_action('rest_api_init', function () {
         'callback' => 'restapi_getuserinfo_by_token',
         'permission_callback' => '__return_true'
     ]);
+
+    // Parents Club AJAX Dashboard Data
+    register_rest_route('idl-parents-club/v1', '/dashboard-data', [
+        'methods'             => 'GET',
+        'callback'            => 'idl_loader_get_dashboard_data',
+        'permission_callback' => function() {
+            return is_user_logged_in();
+        }
+    ]);
 });
 
 /**
@@ -106,7 +115,8 @@ add_filter('rest_authentication_errors', function($result) {
         if (strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/user-center/user/info') !== false || 
             strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/getUserInfo') !== false ||
             strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/orderpaymentcompensate') !== false ||
-            strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/orderrefundcompensate') !== false) {
+            strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/orderrefundcompensate') !== false ||
+            strpos($_SERVER['REQUEST_URI'], '/wp-json/idl-parents-club/v1/dashboard-data') !== false) {
             return null;
         }
     }
@@ -699,6 +709,110 @@ function restapi_verify_emathsmart_signature($params) {
 
     // 7. Strict timing-attack-safe comparison
     return hash_equals($calculated_signature, $params['signature']);
+}
+
+/**
+ * REST API Callback to retrieve eMathSmart and WooCommerce dashboard data for logged-in parent
+ */
+function idl_loader_get_dashboard_data( $request ) {
+    $user_id = get_current_user_id();
+    if ( ! $user_id ) {
+        return new WP_Error( 'rest_forbidden', __( 'You must be logged in.', 'book-junky' ), [ 'status' => 401 ] );
+    }
+
+    // 1. Get user WooCommerce total purchased coins
+    $total_purchased_coins = 0;
+    if ( function_exists( 'idl_loader_get_user_total_purchased_coins' ) ) {
+        $total_purchased_coins = idl_loader_get_user_total_purchased_coins( $user_id );
+    }
+
+    // 2. Fetch all students under the parent across all subscriptions
+    $allocated_total = 0;
+    $student_total = 0;
+    $students_list = [];
+    $student_names = [];
+    $grades_list = [];
+    $subscriptions_access = [];
+
+    // Fetch dynamic student data from API 11
+    if ( function_exists( 'emathsmart_get_student_list' ) ) {
+        // First get general student list (for Coins card and Overview)
+        $students = emathsmart_get_student_list( $user_id );
+        if ( is_array( $students ) ) {
+            foreach ( $students as $student ) {
+                $s_name = isset( $student['name'] ) ? $student['name'] : 'Student';
+                $s_coins = isset( $student['creditsBalance'] ) ? intval( $student['creditsBalance'] ) : 0;
+                $s_allocated = isset( $student['allocatedCredits'] ) ? intval( $student['allocatedCredits'] ) : 0;
+                
+                $students_list[] = [
+                    'name'  => $s_name,
+                    'coins' => $s_coins,
+                ];
+                $allocated_total += $s_allocated;
+                $student_total += $s_coins;
+                $student_names[] = $s_name;
+
+                if ( ! empty( $student['gradeName'] ) ) {
+                    $grades_list[] = $student['gradeName'];
+                }
+            }
+            $grades_list = array_values( array_unique( $grades_list ) );
+        }
+
+        // Second, get student mappings per subscription (for Subscription card Access fields)
+        $subscriptions_credits = [];
+        if ( function_exists( 'wcs_get_users_subscriptions' ) ) {
+            $subscriptions = wcs_get_users_subscriptions( $user_id );
+            foreach ( $subscriptions as $subscription ) {
+                $sub_id = $subscription->get_id();
+                $sub_students = emathsmart_get_student_list( $user_id, $sub_id );
+                $credits_balance = 0;
+                if ( is_array( $sub_students ) && ! empty( $sub_students ) ) {
+                    $access_details = [];
+                    foreach ( $sub_students as $student ) {
+                        $part = '';
+                        if ( ! empty( $student['gradeName'] ) ) {
+                            $part .= $student['gradeName'];
+                        }
+                        if ( ! empty( $student['name'] ) ) {
+                            $part .= ' (' . $student['name'] . ')';
+                        }
+                        if ( ! empty( $part ) ) {
+                            $access_details[] = $part;
+                        }
+                        if ( isset( $student['creditsBalance'] ) ) {
+                            $credits_balance += intval( $student['creditsBalance'] );
+                        }
+                    }
+                    if ( ! empty( $access_details ) ) {
+                        $subscriptions_access[ $sub_id ] = implode( ', ', array_unique( $access_details ) );
+                    }
+                }
+                $subscriptions_credits[ $sub_id ] = $credits_balance;
+            }
+        }
+    }
+
+    // 3. Compute unallocated and total balance
+    $unallocated_balance = max( 0, $total_purchased_coins - $allocated_total );
+    $total_balance = $unallocated_balance + $student_total;
+
+    // Grades formatted string
+    $student_count = count( $students_list );
+    $student_desc = $student_count . ' Student' . ( $student_count !== 1 ? 's' : '' );
+    $grades_desc = ! empty( $grades_list ) ? implode( ', ', $grades_list ) : 'No Grades';
+
+    return new WP_REST_Response( [
+        'success'               => true,
+        'total_balance'         => $total_balance,
+        'unallocated_balance'  => $unallocated_balance,
+        'students'              => $students_list,
+        'student_count'         => $student_count,
+        'student_desc'          => $student_desc,
+        'grades_desc'           => $grades_desc,
+        'subscriptions_access'  => $subscriptions_access,
+        'subscriptions_credits' => $subscriptions_credits,
+    ], 200 );
 }
 
 ?>
