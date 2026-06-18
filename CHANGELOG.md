@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-18] - Login Card Height CSS Update
+
+### Changed
+- **Styles**:
+  - Updated the `.esmart-login-card` class in [parents-club-esmart-gateway.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-esmart-gateway.css) to set `height: stretch;`.
+
 ## [2026-06-18] - Unified Registration and Login Form Switcher
 
 ### Added
