@@ -9,12 +9,12 @@ All notable changes to this project will be documented in this file for both hum
   - Upgraded the `parents_club_user_registration_form` element to a unified Registration/Login auth panel switcher.
   - Added new configuration params in `vc_map()`: `login_title`, `login_description`, `default_view`, and `enable_toggle`.
   - Upgraded the shortcode handler `idl_loader_parents_club_user_registration_form_shortcode` to render both panels (Registration form via `[user_registration_form]` and Login form via `[user_registration_login]`).
-  - Refactored the client-side jQuery script to centralize switching logic, force DOM reflow on every click/toggle to guarantee CSS keyframe animation restarts, and clean up the animation class using 'animationend' event listeners.
+  - Refactored client-side switcher script to use centralized switch logic, DOM reflow on clicks, and a safety `setTimeout` highlight cleanup to support transition animations.
   - Integrated global CTA links and Hero Intro buttons (Join/Login) to trigger smooth scrolling, auto-toggle the respective register/login panel, and temporarily highlight the card border.
   - Added forgot password link referencing `/password-reset` inside the Login footer.
   - Appended remember-me, forgot-password, switcher link styling rules to [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
   - Added scoped CSS overrides strictly for the `.ur-login-panel` container to clean box-sizing, align login form fields/recaptcha nodes, remove double-boxing margins, and hide default WPEverest lost-password/register fallback links.
-  - Added a keyframe `borderPulse` animation and styled `.temp-highlight-border` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to pulse and glow the main outer `.user-registration.ur-frontend-form.custom-ur-form-wrapper` border in red/crimson on CTA toggle triggers.
+  - Replaced the keyframe animation with a transition-based compound selector (`.user-registration.ur-frontend-form.custom-ur-form-wrapper.temp-highlight-border`) to successfully override existing `!important` border rules on the outer card container and ensure visual flash feedback triggers on every toggle/button click.
 
 ## [2026-06-18] - Need Help Panel CSS Update
 

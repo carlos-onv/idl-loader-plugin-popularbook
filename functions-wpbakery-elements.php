@@ -7564,13 +7564,19 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
         (function($) {
             $(function() {
                 // Helper to flash border with animation restart
+                var borderTimeout;
                 function flashBorder($card) {
                     $card.removeClass('temp-highlight-border');
                     if ($card.length && $card[0]) {
-                        // Force DOM reflow to restart CSS keyframe animation
+                        // Force DOM reflow to restart CSS transitions
                         void $card[0].offsetWidth;
                     }
                     $card.addClass('temp-highlight-border');
+
+                    clearTimeout(borderTimeout);
+                    borderTimeout = setTimeout(function() {
+                        $card.removeClass('temp-highlight-border');
+                    }, 1600);
                 }
 
                 // Switch panels helper
@@ -7625,11 +7631,6 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
                     $('html, body').animate({
                         scrollTop: $targetForm.offset().top - 120
                     }, 600);
-                });
-
-                // Clean animation class when finished
-                $(document).on('animationend webkitAnimationEnd oAnimationEnd', '.custom-ur-form-wrapper', function() {
-                    $(this).removeClass('temp-highlight-border');
                 });
 
                 // Check URL parameter on page load
