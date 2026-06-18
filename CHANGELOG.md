@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file for both hum
   - Upgraded the shortcode handler `idl_loader_parents_club_user_registration_form_shortcode` to render both panels (Registration form via `[user_registration_form]` and Login form via `[user_registration_login]`).
   - Refactored client-side switcher script to use centralized switch logic, DOM reflow on clicks, and a safety `setTimeout` highlight cleanup to support transition animations.
   - Integrated global CTA links and Hero Intro buttons (Join/Login) to trigger smooth scrolling, auto-toggle the respective register/login panel, and temporarily highlight the card border.
-  - Integrated a 3D card flip toggle animation during form transitions (rotating 90 degrees and fading out, switching form views, and rotating back into view).
+  - Integrated a subtle scale-and-fade toggle transition during form switches (scaling down slightly by 1.5% and fading out over 0.25s, then fading back and scaling up to normal).
   - Added forgot password link referencing `/password-reset` inside the Login footer.
   - Appended remember-me, forgot-password, switcher link styling rules to [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
   - Added scoped CSS overrides strictly for the `.ur-login-panel` container to clean box-sizing, align login form fields/recaptcha nodes, remove double-boxing margins, and hide default WPEverest lost-password/register fallback links.

@@ -7579,9 +7579,9 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
                     }, 1600);
                 }
 
-                // Switch panels helper with 3D Card Flip animation
+                // Switch panels helper with subtle scale-and-fade transition
                 function switchAuthPanel($wrapper, view) {
-                    // Start flip animation (rotates card 90 degrees edge-on and fades out)
+                    // Start transition (scales down slightly and fades out)
                     $wrapper.addClass('is-flipping');
                     
                     setTimeout(function() {
@@ -7593,12 +7593,12 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
                             $wrapper.find('.ur-register-panel').show();
                         }
                         
-                        // Spin card back in
+                        // Transition back in
                         $wrapper.removeClass('is-flipping');
                         
                         // Flash border glow
                         flashBorder($wrapper);
-                    }, 400); // matches 0.4s CSS transition duration
+                    }, 250); // matches 0.25s CSS transition duration
                 }
 
                 <?php if ( $enable_toggle ) : ?>

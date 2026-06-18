@@ -364,18 +364,16 @@
     color: var(--brand-red-hover) !important;
 }
 
-/* Scoped transitional red border pulse and 3D card flip */
+/* Scoped transitional red border pulse and subtle card transition */
 .user-registration.ur-frontend-form.custom-ur-form-wrapper {
-    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease !important;
-    transform-style: preserve-3d !important;
-    perspective: 1000px !important;
-    transform: rotateY(0deg) scale(1);
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease !important;
+    transform: scale(1);
     opacity: 1;
 }
 
-/* 3D Flip state - rotates card 90 degrees and fades out */
+/* Subtle flip/switch transition state - scales down slightly and fades */
 .user-registration.ur-frontend-form.custom-ur-form-wrapper.is-flipping {
-    transform: rotateY(90deg) scale(0.95) !important;
+    transform: scale(0.985) !important;
     opacity: 0 !important;
 }
 
