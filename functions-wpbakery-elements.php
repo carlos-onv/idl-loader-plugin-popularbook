@@ -7151,9 +7151,6 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
                 </script>
             <?php endif; ?>
 
-            <div class="coin-child-name" id="pc-member-coin-child-name">
-                Student: <?php echo esc_html($child_name_val); ?>
-            </div>
             <p class="coins-desc"><?php echo $description; ?></p>
 
             <?php if ( ! empty( $purchase_title ) ) : ?>

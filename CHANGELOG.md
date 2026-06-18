@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file for both hum
 ### Changed
 - **WPBakery Elements**:
   - Updated the helper function `idl_loader_get_user_total_purchased_coins()` in [functions-wpbakery-elements.php](file:///wp-content/plugins/idl-loader/functions-wpbakery-elements.php) to query coin attributes directly from past WooCommerce order item metadata first, falling back to global catalog product variations. This allows manual database adjustments on specific orders (e.g. via phpMyAdmin) to be properly reflected.
+  - Removed the "Student: [names]" label display line after the total balance in the AI Coins Balance card (`[parents_club_member_coins]`) shortcode handler.
 
 ## [2026-06-17] - Account Overview API Integration & URLs
 
