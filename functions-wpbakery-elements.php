@@ -2633,17 +2633,17 @@ function idl_loader_register_parents_club_elements() {
                 "value"       => urlencode( json_encode( array(
                     array(
                         'btn_text'    => 'Our Canadian Teachers',
-                        'btn_link'    => '#canadian-teachers',
+                        'btn_link'    => '/nominate-a-teacher',
                         'icon_source' => 'default',
                     ),
                     array(
                         'btn_text'    => 'Learning Tips',
-                        'btn_link'    => '#learning-tips',
+                        'btn_link'    => '/blog',
                         'icon_source' => 'default',
                     ),
                     array(
                         'btn_text'    => 'Free Worksheets',
-                        'btn_link'    => '#free-worksheets',
+                        'btn_link'    => '/download-centre',
                         'icon_source' => 'default',
                     ),
                 ) ) ),
@@ -5780,17 +5780,17 @@ function idl_loader_parents_club_member_quick_links_shortcode( $atts ) {
         $buttons_data = array(
             array(
                 'btn_text'    => 'Our Canadian Teachers',
-                'btn_link'    => '#canadian-teachers',
+                'btn_link'    => '/nominate-a-teacher',
                 'icon_source' => 'default',
             ),
             array(
                 'btn_text'    => 'Learning Tips',
-                'btn_link'    => '#learning-tips',
+                'btn_link'    => '/blog',
                 'icon_source' => 'default',
             ),
             array(
                 'btn_text'    => 'Free Worksheets',
-                'btn_link'    => '#free-worksheets',
+                'btn_link'    => '/download-centre',
                 'icon_source' => 'default',
             ),
         );

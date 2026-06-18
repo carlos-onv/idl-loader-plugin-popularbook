@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-18] - Quick Links Default Link Paths
+
+### Changed
+- **WPBakery Elements**:
+  - Updated the default `btn_link` values inside the `[parents_club_member_quick_links]` WPBakery element configuration and shortcode fallback from anchor placeholders (`#canadian-teachers`, `#learning-tips`, `#free-worksheets`) to actual site URLs (`/nominate-a-teacher`, `/blog`, `/download-centre`).
+- **Mockups**:
+  - Updated corresponding links in static sandbox mockup [parents-club_member.html](file:///wp-content/plugins/idl-loader/templates/parents-club_member.html).
+
 ## [2026-06-18] - Asynchronous Dashboard Data Loading (Strategy C)
 
 ### Added
