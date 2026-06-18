@@ -9,6 +9,10 @@ All notable changes to this project will be documented in this file for both hum
   - Registered a new endpoint `/wp-json/idl-parents-club/v1/dashboard-data` in [functions-restapi.php](file:///wp-content/plugins/idl-loader/functions-restapi.php) to retrieve all dynamic eMathSmart student list data and WooCommerce coins balance in a single JSON response.
   - Whitelisted this endpoint inside the `rest_authentication_errors` filter to bypass OAuth token checks while preserving standard cookie/browser-session authentication.
 
+### Fixed
+- **AJAX Authentication**:
+  - Added the `X-WP-Nonce` header to the dashboard client-side AJAX request inside the `parents_club_member_coins` shortcode template in [functions-wpbakery-elements.php](file:///wp-content/plugins/idl-loader/functions-wpbakery-elements.php) to authenticate cookie sessions for REST API requests.
+
 ### Changed
 - **WPBakery Elements**:
   - Modified the shortcode handlers `parents_club_member_coins`, `parents_club_member_account_overview`, and `parents_club_member_subscription` in [functions-wpbakery-elements.php](file:///wp-content/plugins/idl-loader/functions-wpbakery-elements.php) to render lightweight pulse skeleton loaders on the server-side instead of performing slow, blocking backend HTTP API calls.

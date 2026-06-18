@@ -7056,6 +7056,9 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
                         url: endpoint,
                         method: 'GET',
                         dataType: 'json',
+                        headers: {
+                            'X-WP-Nonce': '<?php echo esc_js( wp_create_nonce( 'wp_rest' ) ); ?>'
+                        },
                         success: function(response) {
                             if (response && response.success) {
                                 // Update Coins Card Total Balance
