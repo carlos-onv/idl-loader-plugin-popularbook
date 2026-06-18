@@ -3166,7 +3166,7 @@ function idl_loader_register_parents_club_elements() {
         "base"        => "parents_club_user_registration_form",
         "icon"        => "cs_icon_for_vc",
         "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
-        "description" => esc_html__( "Embeds a custom styled User Registration form.", "book-junky" ),
+        "description" => esc_html__( "Embeds a custom styled User Registration form with Login Switcher.", "book-junky" ),
         "params"      => array(
             array(
                 "type"        => "textfield",
@@ -3185,6 +3185,38 @@ function idl_loader_register_parents_club_elements() {
                 "param_name"  => "form_id",
                 "value"       => idl_loader_get_user_registration_forms(),
                 "admin_label" => true,
+            ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Login Form Title", "book-junky" ),
+                "param_name"  => "login_title",
+                "value"       => "Welcome Back",
+            ),
+            array(
+                "type"        => "textarea",
+                "heading"     => esc_html__( "Login Form Description", "book-junky" ),
+                "param_name"  => "login_description",
+                "value"       => "Login to your Parents Club account",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Default View", "book-junky" ),
+                "param_name"  => "default_view",
+                "value"       => array(
+                    esc_html__( "Registration Form", "book-junky" ) => "register",
+                    esc_html__( "Login Form", "book-junky" )        => "login",
+                ),
+                "std"         => "register",
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Enable Switcher Toggle", "book-junky" ),
+                "param_name"  => "enable_toggle",
+                "value"       => array(
+                    esc_html__( "Yes", "book-junky" ) => "yes",
+                    esc_html__( "No", "book-junky" )  => "no",
+                ),
+                "std"         => "yes",
             ),
             array(
                 "type"        => "textfield",
@@ -7434,11 +7466,15 @@ add_shortcode( 'parents_club_user_registration_form', 'idl_loader_parents_club_u
 
 function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
     $atts = shortcode_atts( array(
-        'form_title'       => '',
-        'form_description' => '',
-        'form_id'          => '',
-        'footer_text'      => 'Already a member?',
-        'footer_link'      => '',
+        'form_title'        => '',
+        'form_description'  => '',
+        'form_id'           => '',
+        'login_title'       => 'Welcome Back',
+        'login_description' => 'Login to your Parents Club account',
+        'default_view'      => 'register',
+        'enable_toggle'     => 'yes',
+        'footer_text'       => 'Already a member?',
+        'footer_link'       => '',
     ), $atts, 'parents_club_user_registration_form' );
 
     // Extract link
@@ -7447,33 +7483,114 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
     $link_title = ! empty( $link['title'] ) ? esc_html( $link['title'] ) : 'Login';
     $link_target = ! empty( $link['target'] ) ? esc_attr( $link['target'] ) : '_self';
 
+    $default_view = in_array( $atts['default_view'], array( 'register', 'login' ), true ) ? $atts['default_view'] : 'register';
+    $enable_toggle = ( 'yes' === $atts['enable_toggle'] );
+
+    $register_style = ( 'register' === $default_view ) ? '' : 'display: none;';
+    $login_style    = ( 'login' === $default_view ) ? '' : 'display: none;';
+
+    // Enqueue style to ensure design is loaded
+    wp_enqueue_style(
+        'parents-club-hero-signup',
+        plugins_url( 'templates/css/parents-club-hero-signup.css', __FILE__ ),
+        array(),
+        '1.0.0'
+    );
+
     ob_start();
     ?>
     <div class="user-registration ur-frontend-form custom-ur-form-wrapper">
-        <?php if ( ! empty( $atts['form_title'] ) || ! empty( $atts['form_description'] ) ) : ?>
-            <div class="ur-custom-header" style="background: transparent !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: 0;">
-                <?php if ( ! empty( $atts['form_title'] ) ) : ?>
-                    <h2 class="user-registration-registration-title"><?php echo esc_html( $atts['form_title'] ); ?></h2>
-                <?php endif; ?>
-                <?php if ( ! empty( $atts['form_description'] ) ) : ?>
-                    <p class="user-registration-registration-description"><?php echo esc_html( $atts['form_description'] ); ?></p>
+        <!-- Registration Panel -->
+        <div class="ur-panel-wrapper ur-register-panel" style="<?php echo $register_style; ?>">
+            <?php if ( ! empty( $atts['form_title'] ) || ! empty( $atts['form_description'] ) ) : ?>
+                <div class="ur-custom-header" style="background: transparent !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: 0;">
+                    <?php if ( ! empty( $atts['form_title'] ) ) : ?>
+                        <h2 class="user-registration-registration-title"><?php echo esc_html( $atts['form_title'] ); ?></h2>
+                    <?php endif; ?>
+                    <?php if ( ! empty( $atts['form_description'] ) ) : ?>
+                        <p class="user-registration-registration-description"><?php echo esc_html( $atts['form_description'] ); ?></p>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php 
+            if ( ! empty( $atts['form_id'] ) ) {
+                echo do_shortcode( '[user_registration_form id="' . esc_attr( $atts['form_id'] ) . '"]' );
+            }
+            ?>
+
+            <?php if ( ! empty( $atts['footer_text'] ) || ! empty( $link_url ) || $enable_toggle ) : ?>
+                <div class="ur-footer-text" style="text-align: center; margin-top: 15px; font-family: 'Inter', sans-serif; font-size: 13.5px; color: #666666;">
+                    <?php echo esc_html( $atts['footer_text'] ); ?> 
+                    <?php if ( $enable_toggle ) : ?>
+                        <a href="#" class="ur-toggle-to-login" style="color: #af0128; font-weight: 600; text-decoration: none;"><?php esc_html_e( 'Login', 'book-junky' ); ?></a>
+                    <?php elseif ( ! empty( $link_url ) ) : ?>
+                        <a href="<?php echo $link_url; ?>" target="<?php echo $link_target; ?>" style="color: #af0128; font-weight: 600; text-decoration: none;"><?php echo $link_title; ?></a>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Login Panel -->
+        <div class="ur-panel-wrapper ur-login-panel" style="<?php echo $login_style; ?>">
+            <?php if ( ! empty( $atts['login_title'] ) || ! empty( $atts['login_description'] ) ) : ?>
+                <div class="ur-custom-header" style="background: transparent !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: 0;">
+                    <?php if ( ! empty( $atts['login_title'] ) ) : ?>
+                        <h2 class="user-registration-registration-title"><?php echo esc_html( $atts['login_title'] ); ?></h2>
+                    <?php endif; ?>
+                    <?php if ( ! empty( $atts['login_description'] ) ) : ?>
+                        <p class="user-registration-registration-description"><?php echo esc_html( $atts['login_description'] ); ?></p>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php 
+            echo do_shortcode( '[user_registration_login]' );
+            ?>
+
+            <div class="ur-login-footer-links" style="margin-top: 15px; font-family: 'Inter', sans-serif; font-size: 13.5px; color: #666666; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                <a href="<?php echo esc_url( home_url( '/password-reset/' ) ); ?>" class="ur-password-reset-link" style="color: #666666; text-decoration: underline; font-weight: 500; font-size: 13px;"><?php esc_html_e( 'Forgot Password?', 'book-junky' ); ?></a>
+                
+                <?php if ( $enable_toggle ) : ?>
+                    <div style="font-size: 13.5px;">
+                        <?php esc_html_e( 'Not a member?', 'book-junky' ); ?> 
+                        <a href="#" class="ur-toggle-to-register" style="color: #af0128; font-weight: 600; text-decoration: none;"><?php esc_html_e( 'Register', 'book-junky' ); ?></a>
+                    </div>
                 <?php endif; ?>
             </div>
-        <?php endif; ?>
+        </div>
 
-        <?php 
-        if ( ! empty( $atts['form_id'] ) ) {
-            echo do_shortcode( '[user_registration_form id="' . esc_attr( $atts['form_id'] ) . '"]' );
-        }
-        ?>
+        <?php if ( $enable_toggle ) : ?>
+            <script type="text/javascript">
+            (function($) {
+                $(function() {
+                    // Toggling registration -> login
+                    $(document).on('click', '.ur-toggle-to-login', function(e) {
+                        e.preventDefault();
+                        var $wrapper = $(this).closest('.custom-ur-form-wrapper');
+                        $wrapper.find('.ur-register-panel').hide();
+                        $wrapper.find('.ur-login-panel').fadeIn(300);
+                    });
 
-        <?php if ( ! empty( $atts['footer_text'] ) || ! empty( $link_url ) ) : ?>
-            <div class="ur-footer-text" style="text-align: center; margin-top: 15px; font-family: 'Inter', sans-serif; font-size: 13.5px; color: #666666;">
-                <?php echo esc_html( $atts['footer_text'] ); ?> 
-                <?php if ( ! empty( $link_url ) ) : ?>
-                    <a href="<?php echo $link_url; ?>" target="<?php echo $link_target; ?>" style="color: #af0128; font-weight: 600; text-decoration: none;"><?php echo $link_title; ?></a>
-                <?php endif; ?>
-            </div>
+                    // Toggling login -> registration
+                    $(document).on('click', '.ur-toggle-to-register', function(e) {
+                        e.preventDefault();
+                        var $wrapper = $(this).closest('.custom-ur-form-wrapper');
+                        $wrapper.find('.ur-login-panel').hide();
+                        $wrapper.find('.ur-register-panel').fadeIn(300);
+                    });
+
+                    // Check URL parameter on page load
+                    var params = new URLSearchParams(window.location.search);
+                    if (params.get('action') === 'login') {
+                        $('.custom-ur-form-wrapper').each(function() {
+                            $(this).find('.ur-register-panel').hide();
+                            $(this).find('.ur-login-panel').show();
+                        });
+                    }
+                });
+            })(jQuery);
+            </script>
         <?php endif; ?>
     </div>
     <?php

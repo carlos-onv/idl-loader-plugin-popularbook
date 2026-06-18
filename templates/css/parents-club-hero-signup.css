@@ -282,3 +282,54 @@
     }
 }
 
+/* Login panel form adjustments */
+.ur-login-panel form {
+    margin-bottom: 0 !important;
+}
+
+.ur-login-panel .ur-form-row {
+    margin-bottom: 15px !important;
+}
+
+/* Remember Me Checkbox Alignment */
+.ur-login-panel .ur-form-grid input[type="checkbox"] {
+    width: auto !important;
+    height: auto !important;
+    margin-right: 6px !important;
+    vertical-align: middle !important;
+    cursor: pointer !important;
+}
+
+.ur-login-panel .ur-form-grid label[for="rememberme"] {
+    display: inline-block !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--brand-text-dark) !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    margin-bottom: 0 !important;
+    vertical-align: middle !important;
+    cursor: pointer !important;
+}
+
+/* Auth Switcher & Footer Links */
+.ur-login-footer-links a.ur-password-reset-link {
+    color: var(--brand-text-muted) !important;
+    transition: color 0.2s ease !important;
+}
+
+.ur-login-footer-links a.ur-password-reset-link:hover {
+    color: var(--brand-red) !important;
+}
+
+.ur-toggle-to-login,
+.ur-toggle-to-register {
+    transition: color 0.2s ease !important;
+}
+
+.ur-toggle-to-login:hover,
+.ur-toggle-to-register:hover {
+    text-decoration: underline !important;
+    color: var(--brand-red-hover) !important;
+}
+
