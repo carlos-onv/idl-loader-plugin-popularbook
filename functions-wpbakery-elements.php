@@ -6875,19 +6875,29 @@ function idl_loader_get_user_total_purchased_coins( $user_id ) {
     $total_coins = 0;
     foreach ( $orders as $order ) {
         foreach ( $order->get_items() as $item ) {
-            $product = $item->get_product();
-            if ( $product ) {
-                $coins = $product->get_attribute( 'coins' );
-                if ( empty( $coins ) ) {
-                    $coins = $product->get_meta( 'attribute_pa_coins', true );
+            // 1. Try to read coins directly from the order item metadata (allows database/phpMyAdmin adjustments)
+            $coins = $item->get_meta( 'coins' );
+            if ( empty( $coins ) ) {
+                $coins = $item->get_meta( 'pa_coins' );
+            }
+            
+            // 2. Fallback to product variation catalog settings if not found in order item metadata
+            if ( empty( $coins ) ) {
+                $product = $item->get_product();
+                if ( $product ) {
+                    $coins = $product->get_attribute( 'coins' );
                     if ( empty( $coins ) ) {
-                        $coins = $product->get_meta( 'attribute_coins', true );
+                        $coins = $product->get_meta( 'attribute_pa_coins', true );
+                        if ( empty( $coins ) ) {
+                            $coins = $product->get_meta( 'attribute_coins', true );
+                        }
                     }
                 }
-                $coins_num = intval( $coins );
-                if ( $coins_num > 0 ) {
-                    $total_coins += $coins_num * $item->get_quantity();
-                }
+            }
+            
+            $coins_num = intval( $coins );
+            if ( $coins_num > 0 ) {
+                $total_coins += $coins_num * $item->get_quantity();
             }
         }
     }
