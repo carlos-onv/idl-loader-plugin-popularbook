@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file for both hum
   - Added forgot password link referencing `/password-reset` inside the Login footer.
   - Appended remember-me, forgot-password, switcher link styling rules to [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
   - Added scoped CSS overrides strictly for the `.ur-login-panel` container to clean box-sizing, align login form fields/recaptcha nodes, remove double-boxing margins, and hide default WPEverest lost-password/register fallback links.
-  - Added CSS transitions and a `.temp-highlight-border` rule in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to support a smooth red brand-colored border flash after toggle animations.
+  - Added a keyframe `borderPulse` animation and styled `.temp-highlight-border` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to pulse and glow the main outer `.user-registration.ur-frontend-form.custom-ur-form-wrapper` border in red/crimson on CTA toggle triggers.
 
 ## [2026-06-18] - Need Help Panel CSS Update
 
