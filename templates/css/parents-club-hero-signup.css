@@ -364,3 +364,13 @@
     color: var(--brand-red-hover) !important;
 }
 
+/* Temporary highlight border after toggling from CTA buttons */
+.custom-ur-form-wrapper .user-registration.ur-frontend-form {
+    transition: border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+.custom-ur-form-wrapper.temp-highlight-border .user-registration.ur-frontend-form {
+    border-color: var(--brand-red) !important;
+    box-shadow: 0 0 0 4px rgba(175, 1, 40, 0.15), var(--shadow-soft) !important;
+}
+

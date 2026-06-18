@@ -7560,38 +7560,75 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
             </div>
         </div>
 
-        <?php if ( $enable_toggle ) : ?>
-            <script type="text/javascript">
-            (function($) {
-                $(function() {
-                    // Toggling registration -> login
-                    $(document).on('click', '.ur-toggle-to-login', function(e) {
-                        e.preventDefault();
-                        var $wrapper = $(this).closest('.custom-ur-form-wrapper');
-                        $wrapper.find('.ur-register-panel').hide();
-                        $wrapper.find('.ur-login-panel').fadeIn(300);
-                    });
-
-                    // Toggling login -> registration
-                    $(document).on('click', '.ur-toggle-to-register', function(e) {
-                        e.preventDefault();
-                        var $wrapper = $(this).closest('.custom-ur-form-wrapper');
-                        $wrapper.find('.ur-login-panel').hide();
-                        $wrapper.find('.ur-register-panel').fadeIn(300);
-                    });
-
-                    // Check URL parameter on page load
-                    var params = new URLSearchParams(window.location.search);
-                    if (params.get('action') === 'login') {
-                        $('.custom-ur-form-wrapper').each(function() {
-                            $(this).find('.ur-register-panel').hide();
-                            $(this).find('.ur-login-panel').show();
-                        });
-                    }
+        <script type="text/javascript">
+        (function($) {
+            $(function() {
+                <?php if ( $enable_toggle ) : ?>
+                // Toggling registration -> login
+                $(document).on('click', '.ur-toggle-to-login', function(e) {
+                    e.preventDefault();
+                    var $wrapper = $(this).closest('.custom-ur-form-wrapper');
+                    $wrapper.find('.ur-register-panel').hide();
+                    $wrapper.find('.ur-login-panel').fadeIn(300);
                 });
-            })(jQuery);
-            </script>
-        <?php endif; ?>
+
+                // Toggling login -> registration
+                $(document).on('click', '.ur-toggle-to-register', function(e) {
+                    e.preventDefault();
+                    var $wrapper = $(this).closest('.custom-ur-form-wrapper');
+                    $wrapper.find('.ur-login-panel').hide();
+                    $wrapper.find('.ur-register-panel').fadeIn(300);
+                });
+                <?php endif; ?>
+
+                // Handle global CTA anchors pointing to #signup, #login, or .brand-actions buttons
+                $(document).on('click', 'a[href^="#signup"], a[href^="#login"], a[href^="#parents-club-login"], .brand-actions a', function(e) {
+                    var href = $(this).attr('href');
+                    if (!href || href.indexOf('#') !== 0) {
+                        return;
+                    }
+                    
+                    var $targetForm = $('.custom-ur-form-wrapper');
+                    if (!$targetForm.length) {
+                        return;
+                    }
+                    
+                    e.preventDefault();
+                    
+                    // Determine which panel to show
+                    var showLogin = (href.indexOf('login') !== -1 || $(this).hasClass('btn-outline-crimson'));
+                    
+                    if (showLogin) {
+                        $targetForm.find('.ur-register-panel').hide();
+                        $targetForm.find('.ur-login-panel').show();
+                    } else {
+                        $targetForm.find('.ur-login-panel').hide();
+                        $targetForm.find('.ur-register-panel').show();
+                    }
+                    
+                    // Scroll to the form card smoothly
+                    $('html, body').animate({
+                        scrollTop: $targetForm.offset().top - 120
+                    }, 600, function() {
+                        // Temporary red border flash effect
+                        $targetForm.addClass('temp-highlight-border');
+                        setTimeout(function() {
+                            $targetForm.removeClass('temp-highlight-border');
+                        }, 1800);
+                    });
+                });
+
+                // Check URL parameter on page load
+                var params = new URLSearchParams(window.location.search);
+                if (params.get('action') === 'login') {
+                    $('.custom-ur-form-wrapper').each(function() {
+                        $(this).find('.ur-register-panel').hide();
+                        $(this).find('.ur-login-panel').show();
+                    });
+                }
+            });
+        })(jQuery);
+        </script>
     </div>
     <?php
     return ob_get_clean();
