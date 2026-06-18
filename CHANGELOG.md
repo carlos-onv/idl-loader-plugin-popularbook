@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-18] - Need Help Panel CSS Update
+
+### Changed
+- **Styles**:
+  - Updated the media query (`@media (min-width: 768px)`) gap property from `30px` to `3px` for `#parents-club-section-6 .need-help-panel` in [parents-club-need-help.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-need-help.css).
+
 ## [2026-06-18] - Quick Links Default Link Paths
 
 ### Changed
