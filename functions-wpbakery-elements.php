@@ -7579,16 +7579,26 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
                     }, 1600);
                 }
 
-                // Switch panels helper
+                // Switch panels helper with 3D Card Flip animation
                 function switchAuthPanel($wrapper, view) {
-                    if (view === 'login') {
-                        $wrapper.find('.ur-register-panel').hide();
-                        $wrapper.find('.ur-login-panel').show();
-                    } else {
-                        $wrapper.find('.ur-login-panel').hide();
-                        $wrapper.find('.ur-register-panel').show();
-                    }
-                    flashBorder($wrapper);
+                    // Start flip animation (rotates card 90 degrees edge-on and fades out)
+                    $wrapper.addClass('is-flipping');
+                    
+                    setTimeout(function() {
+                        if (view === 'login') {
+                            $wrapper.find('.ur-register-panel').hide();
+                            $wrapper.find('.ur-login-panel').show();
+                        } else {
+                            $wrapper.find('.ur-login-panel').hide();
+                            $wrapper.find('.ur-register-panel').show();
+                        }
+                        
+                        // Spin card back in
+                        $wrapper.removeClass('is-flipping');
+                        
+                        // Flash border glow
+                        flashBorder($wrapper);
+                    }, 400); // matches 0.4s CSS transition duration
                 }
 
                 <?php if ( $enable_toggle ) : ?>
@@ -7623,14 +7633,26 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
                     
                     // Determine which panel to show
                     var showLogin = (href.indexOf('login') !== -1 || $(this).hasClass('btn-outline-crimson'));
+                    var currentView = $targetForm.find('.ur-login-panel').is(':visible') ? 'login' : 'register';
+                    var targetView = showLogin ? 'login' : 'register';
                     
-                    // Switch view panels & trigger animated border glow
-                    switchAuthPanel($targetForm, showLogin ? 'login' : 'register');
-                    
-                    // Scroll to the form card smoothly
-                    $('html, body').animate({
-                        scrollTop: $targetForm.offset().top - 120
-                    }, 600);
+                    if (currentView !== targetView) {
+                        // Scroll first, then flip during scroll
+                        $('html, body').animate({
+                            scrollTop: $targetForm.offset().top - 120
+                        }, 500);
+                        
+                        setTimeout(function() {
+                            switchAuthPanel($targetForm, targetView);
+                        }, 200);
+                    } else {
+                        // Already on target view: scroll and trigger animation flash
+                        $('html, body').animate({
+                            scrollTop: $targetForm.offset().top - 120
+                        }, 600, function() {
+                            flashBorder($targetForm);
+                        });
+                    }
                 });
 
                 // Check URL parameter on page load
