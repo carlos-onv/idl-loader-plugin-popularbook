@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file for both hum
   - Upgraded the `parents_club_user_registration_form` element to a unified Registration/Login auth panel switcher.
   - Added new configuration params in `vc_map()`: `login_title`, `login_description`, `default_view`, and `enable_toggle`.
   - Upgraded the shortcode handler `idl_loader_parents_club_user_registration_form_shortcode` to render both panels (Registration form via `[user_registration_form]` and Login form via `[user_registration_login]`).
-  - Integrated a client-side jQuery script to switch panels dynamically, and support an `?action=login` URL query parameter on page load.
+  - Refactored the client-side jQuery script to centralize switching logic, force DOM reflow on every click/toggle to guarantee CSS keyframe animation restarts, and clean up the animation class using 'animationend' event listeners.
   - Integrated global CTA links and Hero Intro buttons (Join/Login) to trigger smooth scrolling, auto-toggle the respective register/login panel, and temporarily highlight the card border.
   - Added forgot password link referencing `/password-reset` inside the Login footer.
   - Appended remember-me, forgot-password, switcher link styling rules to [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).

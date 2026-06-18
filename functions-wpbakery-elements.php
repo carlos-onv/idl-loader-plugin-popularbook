@@ -7563,21 +7563,41 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
         <script type="text/javascript">
         (function($) {
             $(function() {
+                // Helper to flash border with animation restart
+                function flashBorder($card) {
+                    $card.removeClass('temp-highlight-border');
+                    if ($card.length && $card[0]) {
+                        // Force DOM reflow to restart CSS keyframe animation
+                        void $card[0].offsetWidth;
+                    }
+                    $card.addClass('temp-highlight-border');
+                }
+
+                // Switch panels helper
+                function switchAuthPanel($wrapper, view) {
+                    if (view === 'login') {
+                        $wrapper.find('.ur-register-panel').hide();
+                        $wrapper.find('.ur-login-panel').show();
+                    } else {
+                        $wrapper.find('.ur-login-panel').hide();
+                        $wrapper.find('.ur-register-panel').show();
+                    }
+                    flashBorder($wrapper);
+                }
+
                 <?php if ( $enable_toggle ) : ?>
                 // Toggling registration -> login
                 $(document).on('click', '.ur-toggle-to-login', function(e) {
                     e.preventDefault();
                     var $wrapper = $(this).closest('.custom-ur-form-wrapper');
-                    $wrapper.find('.ur-register-panel').hide();
-                    $wrapper.find('.ur-login-panel').fadeIn(300);
+                    switchAuthPanel($wrapper, 'login');
                 });
 
                 // Toggling login -> registration
                 $(document).on('click', '.ur-toggle-to-register', function(e) {
                     e.preventDefault();
                     var $wrapper = $(this).closest('.custom-ur-form-wrapper');
-                    $wrapper.find('.ur-login-panel').hide();
-                    $wrapper.find('.ur-register-panel').fadeIn(300);
+                    switchAuthPanel($wrapper, 'register');
                 });
                 <?php endif; ?>
 
@@ -7598,24 +7618,18 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
                     // Determine which panel to show
                     var showLogin = (href.indexOf('login') !== -1 || $(this).hasClass('btn-outline-crimson'));
                     
-                    if (showLogin) {
-                        $targetForm.find('.ur-register-panel').hide();
-                        $targetForm.find('.ur-login-panel').show();
-                    } else {
-                        $targetForm.find('.ur-login-panel').hide();
-                        $targetForm.find('.ur-register-panel').show();
-                    }
+                    // Switch view panels & trigger animated border glow
+                    switchAuthPanel($targetForm, showLogin ? 'login' : 'register');
                     
                     // Scroll to the form card smoothly
                     $('html, body').animate({
                         scrollTop: $targetForm.offset().top - 120
-                    }, 600, function() {
-                        // Temporary red border flash effect
-                        $targetForm.addClass('temp-highlight-border');
-                        setTimeout(function() {
-                            $targetForm.removeClass('temp-highlight-border');
-                        }, 1800);
-                    });
+                    }, 600);
+                });
+
+                // Clean animation class when finished
+                $(document).on('animationend webkitAnimationEnd oAnimationEnd', '.custom-ur-form-wrapper', function() {
+                    $(this).removeClass('temp-highlight-border');
                 });
 
                 // Check URL parameter on page load
