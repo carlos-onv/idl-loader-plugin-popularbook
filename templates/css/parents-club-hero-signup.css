@@ -291,6 +291,37 @@
     margin-bottom: 15px !important;
 }
 
+/* User Registration form specific overrides for Login view only */
+.ur-login-panel .user-registration.ur-frontend-form * {
+    box-sizing: border-box !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.ur-login-panel #user-registration .ur-frontend-form .user-registration-form-login .ur-form-row .ur-form-grid>div:not(#ur-recaptcha-node) {
+    float: right;
+    align-items: center;
+    gap: 0px;
+    margin-top: 10px !important;
+}
+
+.ur-login-panel .ur-frontend-form .user-registration-form .ur-form-row .ur-form-grid .user-registration-before-login-btn .user-registration-LostPassword {
+    display: none !important;
+}
+
+.ur-login-panel .ur-frontend-form .user-registration-form .ur-form-row .ur-form-grid .user-registration-register {
+    display: none !important;
+}
+
+/* Remove double-boxing/padding/shadow for the inner login form */
+.ur-login-panel .ur-frontend-form.login,
+.ur-login-panel .user-registration.ur-frontend-form {
+    padding: 0px !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+}
+
 /* Remember Me Checkbox Alignment */
 .ur-login-panel .ur-form-grid input[type="checkbox"] {
     width: auto !important;

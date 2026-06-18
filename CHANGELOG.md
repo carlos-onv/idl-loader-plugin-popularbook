@@ -11,8 +11,8 @@ All notable changes to this project will be documented in this file for both hum
   - Upgraded the shortcode handler `idl_loader_parents_club_user_registration_form_shortcode` to render both panels (Registration form via `[user_registration_form]` and Login form via `[user_registration_login]`).
   - Integrated a client-side jQuery script to switch panels dynamically, and support an `?action=login` URL query parameter on page load.
   - Added forgot password link referencing `/password-reset` inside the Login footer.
-- **Styles**:
   - Appended remember-me, forgot-password, switcher link styling rules to [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css).
+  - Added scoped CSS overrides strictly for the `.ur-login-panel` container to clean box-sizing, align login form fields/recaptcha nodes, remove double-boxing margins, and hide default WPEverest lost-password/register fallback links.
 
 ## [2026-06-18] - Need Help Panel CSS Update
 
