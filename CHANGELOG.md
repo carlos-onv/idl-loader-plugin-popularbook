@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-19] - Support WooCommerce Processing Status for Webhook Notifications
+
+### Changed
+- **eMathSmart API Webhook**:
+  - Modified `emathsmart_trigger_payment_notification` in [functions-esmart.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-esmart.php) to trigger on both `completed` and `processing` order status transitions. This ensures checkout webhooks fire immediately for physical or hybrid virtual/physical packages that go into `processing` status upon payment.
+  - Added a check against `wp_emathsmart_log` to prevent sending duplicate `paymentNotify` (API #5) calls if an order transitions from `processing` to `completed` later.
+
 ## [2026-06-19] - Added Active Subscriber Visibility Option to Subscription Product Card
 
 ### Added

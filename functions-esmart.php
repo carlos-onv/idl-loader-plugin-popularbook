@@ -87,7 +87,18 @@ function emathsmart_create_log_table()
 add_action('woocommerce_order_status_changed', 'emathsmart_trigger_payment_notification', 20, 4);
 function emathsmart_trigger_payment_notification($order_id, $from, $to, $order)
 {
-    if ($to !== 'completed') return;
+    if ($to !== 'completed' && $to !== 'processing') return;
+
+    // Prevent duplicate triggers if the status moves from processing -> completed later
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'emathsmart_log';
+    $already_synced = $wpdb->get_var($wpdb->prepare(
+        "SELECT COUNT(*) FROM $table_name WHERE order_id = %d AND api_type = 'Payment' AND response_code = 200",
+        $order_id
+    ));
+    if ($already_synced) {
+        return;
+    }
 
     $has_subscription = false;
     if (function_exists('wcs_get_subscriptions_for_order')) {
