@@ -1987,6 +1987,46 @@ function emathsmart_debug_page_header_check() {
     echo '<li><strong>Page Template File:</strong> ' . esc_html(get_post_meta($post_id, '_wp_page_template', true)) . '</li>';
     echo '</ul>';
 
+    // List all navigation menus
+    $menus = wp_get_nav_menus();
+    echo '<h2>🗺️ Registered Navigation Menus</h2>';
+    echo '<table>';
+    echo '<tr><th>Menu ID</th><th>Name</th><th>Slug</th><th>Count</th></tr>';
+    foreach ($menus as $menu) {
+        echo '<tr>';
+        echo '<td>' . esc_html($menu->term_id) . '</td>';
+        echo '<td>' . esc_html($menu->name) . '</td>';
+        echo '<td>' . esc_html($menu->slug) . '</td>';
+        echo '<td>' . esc_html($menu->count) . '</td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+
+    // List navigation menu locations
+    $locations = get_nav_menu_locations();
+    $registered_menus = get_registered_nav_menus();
+    echo '<h2>📍 Nav Menu Locations Map</h2>';
+    echo '<table>';
+    echo '<tr><th>Location Key</th><th>Location Name</th><th>Assigned Menu ID</th><th>Assigned Menu Name</th></tr>';
+    foreach ($registered_menus as $location => $name) {
+        $menu_id = isset($locations[$location]) ? $locations[$location] : 0;
+        $menu_name = '';
+        if ($menu_id) {
+            $menu_obj = wp_get_nav_menu_object($menu_id);
+            if ($menu_obj) {
+                $menu_name = $menu_obj->name . ' (' . $menu_obj->slug . ')';
+            }
+        }
+        echo '<tr>';
+        echo '<td>' . esc_html($location) . '</td>';
+        echo '<td>' . esc_html($name) . '</td>';
+        echo '<td>' . esc_html($menu_id) . '</td>';
+        echo '<td>' . esc_html($menu_name) . '</td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+
+
     // Retrieve all metadata
     $meta = get_post_meta($post_id);
     

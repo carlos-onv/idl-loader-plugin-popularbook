@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-19] - Added Menu Diagnostics to Header Tool
+
+### Added
+- **Debugging**:
+  - Expanded `emathsmart_debug_page_header_check` in [functions-esmart-debug.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-esmart-debug.php) to output lists of all registered navigation menus and the menu locations map.
+
 ## [2026-06-18] - Login Card Height CSS Update
 
 ### Changed
