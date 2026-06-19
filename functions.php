@@ -3448,6 +3448,7 @@ function idl_loader_add_wpbakery_visibility_tag_css() {
             border: 1px solid #900120 !important;
             text-transform: uppercase !important;
             letter-spacing: 0.5px !important;
+            transition: all 0.3s ease !important;
         }
         .vc_admin_label.admin_label_pc_visibility label {
             color: rgba(255, 255, 255, 0.85) !important;
@@ -3455,7 +3456,72 @@ function idl_loader_add_wpbakery_visibility_tag_css() {
             margin-right: 3px !important;
             text-transform: none !important;
         }
+        /* Custom colors based on visibility values */
+        .vc_admin_label.admin_label_pc_visibility[data-vis-type="guests"] {
+            background-color: #e67e22 !important; /* Amber Orange */
+            border-color: #d35400 !important;
+        }
+        .vc_admin_label.admin_label_pc_visibility[data-vis-type="non-members"] {
+            background-color: #7f8c8d !important; /* Asbestos Gray */
+            border-color: #95a5a6 !important;
+        }
+        .vc_admin_label.admin_label_pc_visibility[data-vis-type="members"] {
+            background-color: #2980b9 !important; /* Belize Hole Blue */
+            border-color: #3498db !important;
+        }
+        .vc_admin_label.admin_label_pc_visibility[data-vis-type="members-no-sub"] {
+            background-color: #16a085 !important; /* Turquoise Greenish Teal */
+            border-color: #1abc9c !important;
+        }
+        .vc_admin_label.admin_label_pc_visibility[data-vis-type="active-subscribers"] {
+            background-color: #27ae60 !important; /* Nephrite Green */
+            border-color: #2ecc71 !important;
+        }
+        .vc_admin_label.admin_label_pc_visibility[data-vis-type="exclude-subscribers"] {
+            background-color: #8e44ad !important; /* Wisteria Purple */
+            border-color: #9b59b6 !important;
+        }
     </style>
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        function updateVisibilityTags() {
+            var labels = document.querySelectorAll('.admin_label_pc_visibility');
+            labels.forEach(function(span) {
+                var text = span.textContent || span.innerText;
+                var valText = text.replace(/Visibility\s*:\s*/i, '').trim().toLowerCase();
+                
+                var slug = 'all';
+                if (valText.indexOf('guests') !== -1) {
+                    slug = 'guests';
+                } else if (valText.indexOf('non parents') !== -1) {
+                    slug = 'non-members';
+                } else if (valText.indexOf('no active subscription') !== -1) {
+                    slug = 'members-no-sub';
+                } else if (valText.indexOf('active subscription') !== -1) {
+                    slug = 'active-subscribers';
+                } else if (valText.indexOf('except active') !== -1) {
+                    slug = 'exclude-subscribers';
+                } else if (valText.indexOf('members only') !== -1) {
+                    slug = 'members';
+                }
+                
+                if (span.getAttribute('data-vis-type') !== slug) {
+                    span.setAttribute('data-vis-type', slug);
+                }
+            });
+        }
+
+        // Run initially
+        updateVisibilityTags();
+
+        // Observe changes inside Visual Composer editor
+        var target = document.getElementById('visual_composer_content') || document.body;
+        var observer = new MutationObserver(function(mutations) {
+            updateVisibilityTags();
+        });
+        observer.observe(target, { childList: true, subtree: true });
+    });
+    </script>
     <?php
 }
 
