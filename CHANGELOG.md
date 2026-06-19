@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-19] - Dynamic WPBakery Element Visibility Controls
+
+### Added
+- **WPBakery Elements**:
+  - Registered a reusable `pc_visibility` dropdown parameter to all 18 custom Parents Club elements. The parameter is placed in a separate "Visibility" settings tab in WPBakery.
+  - Implemented `idl_loader_is_parents_club_member($user_id)` helper function to verify a user's Parents Club membership status by checking user metadata.
+  - Registered a global filter hook on `do_shortcode_tag` to intercept Parents Club shortcodes and dynamically check if the current user meets the selected visibility criteria before rendering.
+  - Configured legacy shortcodes to automatically fall back to their prior hardcoded visibility behaviors (e.g. member dashboard sections default to showing only for active subscribers) if the parameter has not yet been saved in the database.
+- **Admin Interface Styling**:
+  - Registered an `admin_head` hook to inject custom styles for WPBakery's admin labels. Renders the visibility parameter as a distinct crimson badge (`.admin_label_pc_visibility`) in the page builder editor view.
+
+### Changed
+- **WPBakery Elements**:
+  - Removed legacy, hardcoded login/subscription check logic in shortcode callback functions (`parents_club_why_join`, `emathsmart_plan_card`, `emathsmart_subscription_product_card`, `parents_club_member_subscription`, `parents_club_member_account_overview`, `parents_club_member_coins`, and `parents_club_member_billing`) to let the new visibility setting completely control rendering.
+
+### Technical Notes for AI Agents
+- **Visibility Parameter Name**: `pc_visibility`
+- **Supported Values**:
+  - `all`: Show to Everyone (default)
+  - `guests`: Guests Only (Logged Out)
+  - `non_members`: Logged in Users who are NOT Parents Club members
+  - `members`: Parent's Club Members Only (All)
+  - `members_no_sub`: Parent's Club Members (No Active Subscription) Only
+  - `active_subscribers`: Parent's Club Members with Active Subscription Only
+  - `exclude_active_subscribers`: Everyone Except Active Subscribers (includes guests, non-members, and unsubscribed members; hides from active subscribers)
+- **Membership Check**: Leverages the user meta key `user_registration_check_box_1661192013` and checks if it equals `parent_club_member`.
+- **Shortcode Filter Logic**: Enforced via `do_shortcode_tag` filter. When `is_admin()` or `vc_is_frontend_editor()` is active, the filter is bypassed so the admin interface continues to display all elements.
+
 ## [2026-06-19] - Support WooCommerce Processing Status for Webhook Notifications
 
 ### Changed

@@ -3238,6 +3238,34 @@ function idl_loader_register_parents_club_elements() {
             ),
         )
     ) );
+
+    // Add Visibility Parameter to all custom Parents Club elements
+    if ( function_exists( 'vc_add_param' ) ) {
+        $custom_tags = array(
+            'parents_club_hero',
+            'parents_club_hero_intro',
+            'parents_club_benefits_glance',
+            'parents_club_why_join',
+            'parents_club_how_works',
+            'esmart_login_card',
+            'emathsmart_plan_card',
+            'parents_club_member_perks',
+            'parents_club_need_help',
+            'emathsmart_subscription_product_card',
+            'parents_club_cta_banner',
+            'parents_club_member_welcome',
+            'parents_club_member_quick_links',
+            'parents_club_member_subscription',
+            'parents_club_member_account_overview',
+            'parents_club_member_coins',
+            'parents_club_member_billing',
+            'parents_club_user_registration_form'
+        );
+        $visibility_param = idl_loader_get_visibility_param();
+        foreach ( $custom_tags as $tag ) {
+            vc_add_param( $tag, $visibility_param );
+        }
+    }
 }
 
 
@@ -3993,17 +4021,7 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
 add_shortcode( 'parents_club_why_join', 'idl_loader_parents_club_why_join_shortcode' );
 
 function idl_loader_parents_club_why_join_shortcode( $atts ) {
-    // Check active subscription (hide for users with subscription)
-    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
-    if ( ! $is_vc_editor ) {
-        $user_id = get_current_user_id();
-        if ( $user_id ) {
-            $has_sub = ( function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
-            if ( $has_sub ) {
-                return '';
-            }
-        }
-    }
+
 
     $attributes = shortcode_atts( array(
         'section_title' => "Why Join<br>Parents' Club?",
@@ -4442,17 +4460,7 @@ function idl_loader_esmart_login_card_shortcode( $atts ) {
 add_shortcode( 'emathsmart_plan_card', 'idl_loader_emathsmart_plan_card_shortcode' );
 
 function idl_loader_emathsmart_plan_card_shortcode( $atts ) {
-    // Check active subscription (hide for users with subscription)
-    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
-    if ( ! $is_vc_editor ) {
-        $user_id = get_current_user_id();
-        if ( $user_id ) {
-            $has_sub = ( function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
-            if ( $has_sub ) {
-                return '';
-            }
-        }
-    }
+
 
     $attributes = shortcode_atts( array(
         'card_layout'        => 'digital',
@@ -5104,17 +5112,8 @@ function idl_loader_emathsmart_subscription_product_card_shortcode( $atts ) {
         'show_to_subscribers' => '',
     ), $atts );
 
-    // Check active subscription (hide for users with subscription unless show_to_subscribers is checked)
-    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
-    if ( ! $is_vc_editor && 'yes' !== $attributes['show_to_subscribers'] ) {
-        $user_id = get_current_user_id();
-        if ( $user_id ) {
-            $has_sub = ( function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
-            if ( $has_sub ) {
-                return '';
-            }
-        }
-    }
+
+
 
     // Enqueue the modular stylesheets
     wp_enqueue_style( 'parents-club-plans-base', plugins_url( 'templates/css/parents-club-plans-base.css', __FILE__ ) );
@@ -5982,15 +5981,7 @@ function idl_loader_get_subscription_payment_details( $subscription ) {
 add_shortcode( 'parents_club_member_subscription', 'idl_loader_parents_club_member_subscription_shortcode' );
 
 function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
-    // Check active subscription (only hide on frontend)
-    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
-    if ( ! $is_vc_editor ) {
-        $user_id = get_current_user_id();
-        $has_sub = ( $user_id && function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
-        if ( ! $has_sub ) {
-            return '';
-        }
-    }
+
 
     $attributes = shortcode_atts( array(
         'logo_image'      => '',
@@ -6650,15 +6641,7 @@ function idl_loader_parents_club_member_subscription_shortcode( $atts ) {
 add_shortcode( 'parents_club_member_account_overview', 'idl_loader_parents_club_member_account_overview_shortcode' );
 
 function idl_loader_parents_club_member_account_overview_shortcode( $atts ) {
-    // Check active subscription (only hide on frontend)
-    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
-    if ( ! $is_vc_editor ) {
-        $user_id = get_current_user_id();
-        $has_sub = ( $user_id && function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
-        if ( ! $has_sub ) {
-            return '';
-        }
-    }
+
 
     $attributes = shortcode_atts( array(
         'title'      => 'Account Overview',
@@ -6885,15 +6868,7 @@ function idl_loader_get_user_total_purchased_coins( $user_id ) {
 }
 
 function idl_loader_parents_club_member_coins_shortcode( $atts ) {
-    // Check active subscription (only hide on frontend)
-    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
-    if ( ! $is_vc_editor ) {
-        $user_id = get_current_user_id();
-        $has_sub = ( $user_id && function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
-        if ( ! $has_sub ) {
-            return '';
-        }
-    }
+
 
     $attributes = shortcode_atts( array(
         'title'          => 'AI Coins Balance',
@@ -7216,15 +7191,7 @@ function idl_loader_parents_club_member_coins_shortcode( $atts ) {
 add_shortcode( 'parents_club_member_billing', 'idl_loader_parents_club_member_billing_shortcode' );
 
 function idl_loader_parents_club_member_billing_shortcode( $atts ) {
-    // Check active subscription (only hide on frontend)
-    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
-    if ( ! $is_vc_editor ) {
-        $user_id = get_current_user_id();
-        $has_sub = ( $user_id && function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
-        if ( ! $has_sub ) {
-            return '';
-        }
-    }
+
 
     $attributes = shortcode_atts( array(
         'title'                => 'Billing History',
@@ -7683,3 +7650,171 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
 if ( class_exists( 'WPBakeryShortCode' ) && ! class_exists( 'WPBakeryShortCode_parents_club_user_registration_form' ) ) {
     class WPBakeryShortCode_parents_club_user_registration_form extends WPBakeryShortCode {}
 }
+
+/**
+ * Check if a user is a Parents Club member by checking their user profile meta value.
+ */
+function idl_loader_is_parents_club_member( $user_id ) {
+    if ( ! $user_id ) {
+        return false;
+    }
+    $pc_meta = get_user_meta( $user_id, 'user_registration_check_box_1661192013', true );
+    if ( is_array( $pc_meta ) ) {
+        return in_array( 'parent_club_member', $pc_meta, true );
+    }
+    return ( $pc_meta === 'parent_club_member' );
+}
+
+/**
+ * Reusable parameter for WPBakery element visibility controls.
+ */
+function idl_loader_get_visibility_param() {
+    return array(
+        "type"        => "dropdown",
+        "heading"     => esc_html__( "Visibility", "book-junky" ),
+        "param_name"  => "pc_visibility",
+        "value"       => array(
+            esc_html__( "Show to Everyone", "book-junky" ) => "all",
+            esc_html__( "Guests Only (Logged Out)", "book-junky" ) => "guests",
+            esc_html__( "Users non Parent's Club Members Only", "book-junky" ) => "non_members",
+            esc_html__( "Parent's Club Members Only (All)", "book-junky" ) => "members",
+            esc_html__( "Parent's Club Members (No Active Subscription) Only", "book-junky" ) => "members_no_sub",
+            esc_html__( "Parent's Club Members with Active Subscription Only", "book-junky" ) => "active_subscribers",
+            esc_html__( "Everyone Except Active Subscribers", "book-junky" ) => "exclude_active_subscribers",
+        ),
+        "std"         => "all",
+        "admin_label" => true,
+        "description" => esc_html__( "Select who can see this element on the frontend.", "book-junky" ),
+        "group"       => esc_html__( "Visibility", "book-junky" ),
+    );
+}
+
+/**
+ * Global shortcode filter to enforce custom element visibility restrictions.
+ */
+add_filter( 'do_shortcode_tag', 'idl_loader_parents_club_shortcode_visibility_filter', 10, 3 );
+function idl_loader_parents_club_shortcode_visibility_filter( $output, $tag, $attr ) {
+    $custom_tags = array(
+        'parents_club_hero',
+        'parents_club_hero_intro',
+        'parents_club_benefits_glance',
+        'parents_club_why_join',
+        'parents_club_how_works',
+        'esmart_login_card',
+        'emathsmart_plan_card',
+        'parents_club_member_perks',
+        'parents_club_need_help',
+        'emathsmart_subscription_product_card',
+        'parents_club_cta_banner',
+        'parents_club_member_welcome',
+        'parents_club_member_quick_links',
+        'parents_club_member_subscription',
+        'parents_club_member_account_overview',
+        'parents_club_member_coins',
+        'parents_club_member_billing',
+        'parents_club_user_registration_form'
+    );
+
+    if ( ! in_array( $tag, $custom_tags, true ) ) {
+        return $output;
+    }
+
+    // Do not filter in backend/frontend VC editor
+    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
+    if ( $is_vc_editor ) {
+        return $output;
+    }
+
+    // Determine the visibility setting with fallback to legacy hardcoded defaults if parameter is not set/saved
+    $visibility = isset( $attr['pc_visibility'] ) ? $attr['pc_visibility'] : null;
+
+    if ( $visibility === null || $visibility === 'all' ) {
+        // Fallback checks for legacy shortcodes
+        if ( $visibility === null ) {
+            // Dashboard modules require active subscription by default
+            $active_sub_only_tags = array(
+                'parents_club_member_subscription',
+                'parents_club_member_account_overview',
+                'parents_club_member_coins',
+                'parents_club_member_billing'
+            );
+            if ( in_array( $tag, $active_sub_only_tags, true ) ) {
+                $visibility = 'active_subscribers';
+            }
+            
+            // Plan cards and why_join default to excluding active subscribers
+            $exclude_sub_tags = array(
+                'parents_club_why_join',
+                'emathsmart_plan_card'
+            );
+            if ( in_array( $tag, $exclude_sub_tags, true ) ) {
+                $visibility = 'exclude_active_subscribers';
+            }
+
+            if ( 'emathsmart_subscription_product_card' === $tag ) {
+                $show_to_subscribers = isset( $attr['show_to_subscribers'] ) ? $attr['show_to_subscribers'] : '';
+                if ( 'yes' !== $show_to_subscribers ) {
+                    $visibility = 'exclude_active_subscribers';
+                } else {
+                    $visibility = 'all';
+                }
+            }
+        }
+        
+        // If still all or not matched by fallbacks, show to everyone
+        if ( $visibility === null || $visibility === 'all' ) {
+            return $output;
+        }
+    }
+
+    $user_id = get_current_user_id();
+    $is_logged_in = ! empty( $user_id );
+    
+    // Check if user is Parents Club Member
+    $is_member = false;
+    if ( $is_logged_in ) {
+        $is_member = idl_loader_is_parents_club_member( $user_id );
+    }
+
+    // Check if user has active subscription
+    $has_sub = false;
+    if ( $is_logged_in && function_exists( 'wcs_user_has_subscription' ) ) {
+        $has_sub = wcs_user_has_subscription( $user_id, '', 'active' );
+    }
+
+    switch ( $visibility ) {
+        case 'guests':
+            if ( $is_logged_in ) {
+                return '';
+            }
+            break;
+        case 'non_members':
+            if ( ! $is_logged_in || $is_member ) {
+                return '';
+            }
+            break;
+        case 'members':
+            if ( ! $is_logged_in || ! $is_member ) {
+                return '';
+            }
+            break;
+        case 'members_no_sub':
+            if ( ! $is_logged_in || ! $is_member || $has_sub ) {
+                return '';
+            }
+            break;
+        case 'active_subscribers':
+            if ( ! $is_logged_in || ! $is_member || ! $has_sub ) {
+                return '';
+            }
+            break;
+        case 'exclude_active_subscribers':
+            if ( $has_sub ) {
+                return '';
+            }
+            break;
+    }
+
+    return $output;
+}
+

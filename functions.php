@@ -3428,3 +3428,34 @@ function idl_loader_parents_club_template_styles() {
         wp_enqueue_style( 'parents-club-plan-not-ready', plugins_url( 'templates/css/parents-club-plan-not-ready.css', __FILE__ ) );
     }
 }
+
+/**
+ * Inject custom CSS into admin head to style the WPBakery element visibility parameter tag.
+ */
+add_action( 'admin_head', 'idl_loader_add_wpbakery_visibility_tag_css' );
+function idl_loader_add_wpbakery_visibility_tag_css() {
+    ?>
+    <style>
+        .vc_admin_label.admin_label_pc_visibility {
+            background-color: #af0128 !important;
+            color: #ffffff !important;
+            padding: 3px 8px !important;
+            border-radius: 4px !important;
+            font-size: 11px !important;
+            font-weight: bold !important;
+            display: inline-block !important;
+            margin: 4px 0 !important;
+            border: 1px solid #900120 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+        }
+        .vc_admin_label.admin_label_pc_visibility label {
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-weight: normal !important;
+            margin-right: 3px !important;
+            text-transform: none !important;
+        }
+    </style>
+    <?php
+}
+
