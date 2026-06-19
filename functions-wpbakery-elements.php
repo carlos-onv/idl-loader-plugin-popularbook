@@ -2228,6 +2228,13 @@ function idl_loader_register_parents_club_elements() {
                 "param_name"  => "button_link",
                 "description" => esc_html__( "Optional. Leave blank to automatically route user to empty-cart redirect checkout: /subscription/?add-to-cart-login=PRODUCT_ID", "book-junky" ),
             ),
+            array(
+                "type"        => "checkbox",
+                "heading"     => esc_html__( "Show to Active Subscribers", "book-junky" ),
+                "param_name"  => "show_to_subscribers",
+                "value"       => array( esc_html__( "Yes, display this card even to logged-in users with an active subscription", "book-junky" ) => "yes" ),
+                "description" => esc_html__( "Check this box to bypass the default visibility constraint that hides pricing/trial cards from existing subscribers.", "book-junky" ),
+            ),
         )
     ) );
 
@@ -5082,18 +5089,6 @@ function idl_loader_parents_club_need_help_shortcode( $atts ) {
 add_shortcode( 'emathsmart_subscription_product_card', 'idl_loader_emathsmart_subscription_product_card_shortcode' );
 
 function idl_loader_emathsmart_subscription_product_card_shortcode( $atts ) {
-    // Check active subscription (hide for users with subscription)
-    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
-    if ( ! $is_vc_editor ) {
-        $user_id = get_current_user_id();
-        if ( $user_id ) {
-            $has_sub = ( function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
-            if ( $has_sub ) {
-                return '';
-            }
-        }
-    }
-
     $attributes = shortcode_atts( array(
         'product_id'          => '',
         'product_id_override' => '',
@@ -5106,7 +5101,20 @@ function idl_loader_emathsmart_subscription_product_card_shortcode( $atts ) {
         'list_items'          => '',
         'button_text'         => '',
         'button_link'         => '',
+        'show_to_subscribers' => '',
     ), $atts );
+
+    // Check active subscription (hide for users with subscription unless show_to_subscribers is checked)
+    $is_vc_editor = is_admin() || ( function_exists( 'vc_is_frontend_editor' ) && vc_is_frontend_editor() );
+    if ( ! $is_vc_editor && 'yes' !== $attributes['show_to_subscribers'] ) {
+        $user_id = get_current_user_id();
+        if ( $user_id ) {
+            $has_sub = ( function_exists( 'wcs_user_has_subscription' ) && wcs_user_has_subscription( $user_id, '', 'active' ) );
+            if ( $has_sub ) {
+                return '';
+            }
+        }
+    }
 
     // Enqueue the modular stylesheets
     wp_enqueue_style( 'parents-club-plans-base', plugins_url( 'templates/css/parents-club-plans-base.css', __FILE__ ) );

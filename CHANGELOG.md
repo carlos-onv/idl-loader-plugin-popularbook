@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-19] - Added Active Subscriber Visibility Option to Subscription Product Card
+
+### Added
+- **WPBakery Elements**:
+  - Added a new `show_to_subscribers` checkbox parameter to the `emathsmart_subscription_product_card` element (`vc_map`), allowing admins to bypass the active WooCommerce subscription visibility check. It is unchecked (disabled) by default.
+  - Updated the shortcode handler `idl_loader_emathsmart_subscription_product_card_shortcode` to parse this attribute and bypass the active WooCommerce subscription visibility check when enabled.
+
 ## [2026-06-19] - Added WooCommerce Log Viewer to Diagnostics
 
 ### Added
