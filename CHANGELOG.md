@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-19] - Added WooCommerce Log Viewer to Diagnostics
+
+### Added
+- **Debugging**:
+  - Added `emathsmart_debug_wc_logs_check` in [functions-esmart-debug.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-esmart-debug.php) to list and view WooCommerce log files (`wp-content/uploads/wc-logs/`) directly via the diagnostic bypass route.
+
 ## [2026-06-19] - Added Menu Diagnostics to Header Tool
 
 ### Added

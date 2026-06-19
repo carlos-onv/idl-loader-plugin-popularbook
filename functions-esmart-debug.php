@@ -2180,3 +2180,89 @@ function emathsmart_debug_test_api_10_shortcode($atts) {
     
     return ob_get_clean();
 }
+
+/**
+ * WooCommerce Remote Log Viewer for Diagnostics
+ * URL Trigger: https://dev.popularbook.ca/?debug_wc_logs=1&bypass=83d09a
+ */
+add_action('init', 'emathsmart_debug_wc_logs_check');
+function emathsmart_debug_wc_logs_check() {
+    if (!isset($_GET['debug_wc_logs'])) {
+        return;
+    }
+
+    if (!current_user_can('manage_options') && (!isset($_GET['bypass']) || $_GET['bypass'] !== '83d09a')) {
+        wp_die('Unauthorized access.');
+    }
+
+    $log_dir = WP_CONTENT_DIR . '/uploads/wc-logs/';
+    if (!is_dir($log_dir)) {
+        wp_die('wc-logs directory not found at: ' . esc_html($log_dir));
+    }
+
+    // If a specific file is requested to be read
+    if (isset($_GET['log_file'])) {
+        $file = sanitize_text_field($_GET['log_file']);
+        // Prevent path traversal
+        $file = basename($file);
+        $file_path = $log_dir . $file;
+        
+        if (!file_exists($file_path)) {
+            wp_die('File not found.');
+        }
+
+        echo '<html><head><title>WC Log: ' . esc_html($file) . '</title>';
+        echo '<style>body { font-family: monospace; background: #222; color: #eee; padding: 20px; } pre { white-space: pre-wrap; word-wrap: break-word; }</style></head><body>';
+        echo '<h1>Log: ' . esc_html($file) . '</h1>';
+        echo '<a href="?debug_wc_logs=1&bypass=83d09a" style="color: #00bcd4; text-decoration: none;">&larr; Back to list</a><br/><br/>';
+        
+        $size = filesize($file_path);
+        $bytes_to_read = min($size, 150 * 1024); // read last 150KB
+        $fp = fopen($file_path, 'r');
+        if ($size > $bytes_to_read) {
+            fseek($fp, $size - $bytes_to_read);
+            fread($fp, 1); // skip partial line
+        }
+        $content = fread($fp, $bytes_to_read);
+        fclose($fp);
+
+        echo '<pre>' . esc_html($content) . '</pre>';
+        echo '</body></html>';
+        exit;
+    }
+
+    // Otherwise, list files
+    $files = glob($log_dir . '*.log');
+    // Sort by modified time descending
+    usort($files, function($a, $b) {
+        return filemtime($b) - filemtime($a);
+    });
+
+    echo '<html><head><title>WC Logs List</title>';
+    echo '<style>
+        body { font-family: sans-serif; background: #fafbfc; color: #333; padding: 40px; } 
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; } 
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; } 
+        th { background: #f4f4f4; } 
+        a { color: #00bcd4; text-decoration: none; font-weight: bold; }
+    </style></head><body>';
+    echo '<h1>📋 WooCommerce Log Files (Latest First)</h1>';
+    echo '<table>';
+    echo '<tr><th>File Name</th><th>Size</th><th>Last Modified</th><th>Action</th></tr>';
+    foreach ($files as $file_path) {
+        $filename = basename($file_path);
+        $size = size_format(filesize($file_path));
+        $modified = date('Y-m-d H:i:s', filemtime($file_path));
+        $view_url = '?debug_wc_logs=1&log_file=' . urlencode($filename) . '&bypass=83d09a';
+        echo '<tr>';
+        echo '<td>' . esc_html($filename) . '</td>';
+        echo '<td>' . esc_html($size) . '</td>';
+        echo '<td>' . esc_html($modified) . '</td>';
+        echo '<td><a href="' . esc_url($view_url) . '">View Log</a></td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+    echo '</body></html>';
+    exit;
+}
+
