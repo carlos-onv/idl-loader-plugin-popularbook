@@ -101,6 +101,27 @@ function idl_loader_get_user_registration_forms() {
     return $options;
 }
 
+/**
+ * Query and return Contact Form 7 forms.
+ */
+function idl_loader_get_contact_form_7_forms() {
+    $forms = get_posts( array(
+        'post_type'      => 'wpcf7_contact_form',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+    ) );
+    
+    $options = array();
+    $options[ esc_html__( 'Select a contact form...', 'book-junky' ) ] = '';
+    
+    if ( ! empty( $forms ) ) {
+        foreach ( $forms as $form ) {
+            $options[ $form->post_title . ' (#' . $form->ID . ')' ] = $form->ID;
+        }
+    }
+    return $options;
+}
+
 add_action( 'vc_before_init', 'idl_loader_register_parents_club_elements' );
 
 
@@ -3188,10 +3209,18 @@ function idl_loader_register_parents_club_elements() {
             ),
             array(
                 "type"        => "dropdown",
-                "heading"     => esc_html__( "Select Form", "book-junky" ),
+                "heading"     => esc_html__( "Select Registration Form (For Guests / Logged-Out)", "book-junky" ),
                 "param_name"  => "form_id",
                 "value"       => idl_loader_get_user_registration_forms(),
                 "admin_label" => true,
+            ),
+            array(
+                "type"        => "dropdown",
+                "heading"     => esc_html__( "Select Upgrade Form (Contact Form 7 for Logged-In Non-Members)", "book-junky" ),
+                "param_name"  => "logged_in_cf7_form_id",
+                "value"       => idl_loader_get_contact_form_7_forms(),
+                "admin_label" => true,
+                "description" => esc_html__( "This Contact Form 7 form will show to logged-in users who are not yet Parents Club members.", "book-junky" ),
             ),
             array(
                 "type"        => "textfield",
@@ -7441,15 +7470,16 @@ add_shortcode( 'parents_club_user_registration_form', 'idl_loader_parents_club_u
 
 function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
     $atts = shortcode_atts( array(
-        'form_title'        => '',
-        'form_description'  => '',
-        'form_id'           => '',
-        'login_title'       => 'Welcome Back',
-        'login_description' => 'Login to your Parents Club account',
-        'default_view'      => 'register',
-        'enable_toggle'     => 'yes',
-        'footer_text'       => 'Already a member?',
-        'footer_link'       => '',
+        'form_title'             => '',
+        'form_description'       => '',
+        'form_id'                => '',
+        'logged_in_cf7_form_id'  => '',
+        'login_title'            => 'Welcome Back',
+        'login_description'      => 'Login to your Parents Club account',
+        'default_view'           => 'register',
+        'enable_toggle'          => 'yes',
+        'footer_text'            => 'Already a member?',
+        'footer_link'            => '',
     ), $atts, 'parents_club_user_registration_form' );
 
     // Extract link
@@ -7471,6 +7501,43 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
         array(),
         '1.0.0'
     );
+
+    $user_id = get_current_user_id();
+    $is_logged_in = ! empty( $user_id );
+    $is_member = $is_logged_in ? idl_loader_is_parents_club_member( $user_id ) : false;
+
+    if ( $is_logged_in ) {
+        if ( $is_member ) {
+            // Already a member - visibility rules should hide this, but return empty just in case
+            return '';
+        }
+
+        // Logged-in non-member: show the Contact Form 7 Form
+        ob_start();
+        ?>
+        <div class="user-registration ur-frontend-form custom-ur-form-wrapper parents-club-cf7-wrapper">
+            <div class="ur-panel-wrapper">
+                <?php if ( ! empty( $atts['form_title'] ) || ! empty( $atts['form_description'] ) ) : ?>
+                    <div class="ur-custom-header" style="background: transparent !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: 0;">
+                        <?php if ( ! empty( $atts['form_title'] ) ) : ?>
+                            <h2 class="user-registration-registration-title"><?php echo esc_html( $atts['form_title'] ); ?></h2>
+                        <?php endif; ?>
+                        <?php if ( ! empty( $atts['form_description'] ) ) : ?>
+                            <p class="user-registration-registration-description"><?php echo esc_html( $atts['form_description'] ); ?></p>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php 
+                if ( ! empty( $atts['logged_in_cf7_form_id'] ) ) {
+                    echo do_shortcode( '[contact-form-7 id="' . esc_attr( $atts['logged_in_cf7_form_id'] ) . '"]' );
+                }
+                ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
 
     ob_start();
     ?>

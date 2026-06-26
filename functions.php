@@ -3525,3 +3525,48 @@ function idl_loader_add_wpbakery_visibility_tag_css() {
     <?php
 }
 
+/**
+ * Process Contact Form 7 Parents Club upgrade form submissions.
+ */
+add_action( 'wpcf7_mail_sent', 'idl_loader_process_parents_club_cf7_upgrade' );
+function idl_loader_process_parents_club_cf7_upgrade( $contact_form ) {
+    $submission = WPCF7_Submission::get_instance();
+    if ( ! $submission ) {
+        return;
+    }
+
+    $posted_data = $submission->get_posted_data();
+    $user_id = get_current_user_id();
+
+    // Only run for logged-in users
+    if ( ! $user_id ) {
+        return;
+    }
+
+    // Identify if it's the upgrade form by checking for the presence of count and grades fields
+    if ( isset( $posted_data['children-count'] ) || isset( $posted_data['children-grades'] ) ) {
+        // 1. Mark user as Parents Club member
+        update_user_meta( $user_id, 'user_registration_check_box_1661192013', 'parent_club_member' );
+
+        // 2. Opt-in to Mailchimp (if required by site flow)
+        update_user_meta( $user_id, 'user_registration_mailchimp_1661195342', '1' );
+
+        // 3. Save children count
+        if ( isset( $posted_data['children-count'] ) ) {
+            $count = is_array( $posted_data['children-count'] ) ? implode( '', $posted_data['children-count'] ) : $posted_data['children-count'];
+            update_user_meta( $user_id, 'parents_club_children_count', sanitize_text_field( $count ) );
+        }
+
+        // 4. Save children grades
+        if ( isset( $posted_data['children-grades'] ) ) {
+            $grades = $posted_data['children-grades'];
+            if ( is_array( $grades ) ) {
+                $grades = array_map( 'sanitize_text_field', $grades );
+            } else {
+                $grades = sanitize_text_field( $grades );
+            }
+            update_user_meta( $user_id, 'parents_club_children_grades', $grades );
+        }
+    }
+}
+

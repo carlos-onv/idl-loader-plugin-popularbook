@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-06-26] - Logged-In Non-Members Upgrade Form Integration
+
+### Added
+- **Contact Form 7 integration**:
+  - Implemented `idl_loader_process_parents_club_cf7_upgrade` hook on `wpcf7_mail_sent` to process submission of the upgrade form.
+  - Automatically updates submitting user's meta:
+    - Sets `'user_registration_check_box_1661192013'` to `'parent_club_member'` (joining the Parents Club).
+    - Sets `'user_registration_mailchimp_1661195342'` to `'1'` (opting into Mailchimp).
+    - Saves `'parents_club_children_count'` and `'parents_club_children_grades'` to user meta.
+- **WPBakery Elements**:
+  - Added helper `idl_loader_get_contact_form_7_forms()` to query and return Contact Form 7 forms as options in WPBakery.
+  - Registered a new parameter `logged_in_cf7_form_id` in the `parents_club_user_registration_form` element mapping to select the Contact Form 7 upgrade form.
+
+### Changed
+- **WPBakery Elements**:
+  - Updated mapping for `parents_club_user_registration_form` parameter `form_id` heading to `"Select Registration Form (For Guests / Logged-Out)"`.
+  - Updated shortcode handler `idl_loader_parents_club_user_registration_form_shortcode` to conditionally render the Contact Form 7 upgrade form if a logged-in user is not yet a Parents Club member, while keeping the standard registration/login switcher form for guests.
+
+### Technical Notes for AI Agents
+- **Upgrade Hook**: Hooked to `wpcf7_mail_sent`. Automatically identifies the Parents Club upgrade form by testing the presence of submitted fields `children-count` and `children-grades`.
+- **User Meta Keys**:
+  - Parents Club Member checkbox key: `user_registration_check_box_1661192013`
+  - Mailchimp checkbox key: `user_registration_mailchimp_1661195342`
+  - Local children metadata keys: `parents_club_children_count`, `parents_club_children_grades`
+
 ## [2026-06-19] - Dynamic WPBakery Element Visibility Controls
 
 ### Added
