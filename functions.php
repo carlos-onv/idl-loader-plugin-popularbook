@@ -3641,3 +3641,30 @@ function idl_loader_cf7_skip_mail_for_upgrade( $skip_mail, $contact_form ) {
     return $skip_mail;
 }
 
+/**
+ * Filter Contact Form 7 form elements to support dynamic user greeting and tags.
+ */
+add_filter( 'wpcf7_form_elements', 'idl_loader_cf7_form_elements_user_greeting' );
+function idl_loader_cf7_form_elements_user_greeting( $content ) {
+    if ( is_user_logged_in() ) {
+        $current_user = wp_get_current_user();
+        $name = ! empty( $current_user->user_firstname ) ? $current_user->user_firstname : $current_user->display_name;
+
+        // 1. Dynamic placeholder replacement (gives administrator ultimate control)
+        $content = str_replace( '[user_first_name]', esc_html( $name ), $content );
+        $content = str_replace( '[user_display_name]', esc_html( $current_user->display_name ), $content );
+
+        // 2. Automatic fallback replacement for the specific text
+        $target_text = 'Please provide a few details to activate your membership:';
+        if ( strpos( $content, $target_text ) !== false ) {
+            $greeting = 'Hi ' . esc_html( $name ) . ', please provide a few details to activate your membership:';
+            $content = str_replace( $target_text, $greeting, $content );
+        }
+    } else {
+        // Safe fallbacks for guests
+        $content = str_replace( '[user_first_name]', '', $content );
+        $content = str_replace( '[user_display_name]', '', $content );
+    }
+    return $content;
+}
+
