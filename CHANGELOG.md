@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file for both hum
 - **Multi-badge Admin Renders**:
   - Rewrote CSS inside [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php) to clear WPBakery standard admin label container backgrounds and allow nested tags.
   - Implemented visual parser in Javascript mutation observer inside [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php) to extract comma-separated selected options and map them to inline badges (e.g., Guest badge, Subscribers badge).
+  - Updated Javascript observer in [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php) to use keyword/substring-based matches instead of exact string checks, ensuring human-readable checkbox option labels are styled with their respective brand colors instead of default colors.
 
 ### Changed
 - **WPBakery Parameters**:

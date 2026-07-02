@@ -3529,22 +3529,22 @@ function idl_loader_add_wpbakery_visibility_tag_css() {
                     var badge = document.createElement('span');
                     badge.className = 'vis-badge';
                     
-                    if (item === 'guests') {
+                    if (item.indexOf('guest') !== -1) {
                         badge.classList.add('guests');
                         badge.innerText = 'Guests';
-                    } else if (item === 'non_members' || item === 'non-members') {
+                    } else if (item.indexOf('non parents') !== -1 || item.indexOf('non_members') !== -1 || item.indexOf('non-members') !== -1) {
                         badge.classList.add('non-members');
                         badge.innerText = 'Non-Members';
-                    } else if (item === 'members_no_sub' || item === 'members-no-sub') {
+                    } else if (item.indexOf('no active') !== -1 || item.indexOf('members_no_sub') !== -1 || item.indexOf('members-no-sub') !== -1) {
                         badge.classList.add('members-no-sub');
                         badge.innerText = 'Members (No Sub)';
-                    } else if (item === 'active_subscribers' || item === 'active-subscribers') {
+                    } else if (item.indexOf('active subscription') !== -1 || item.indexOf('active_subscribers') !== -1 || item.indexOf('active-subscribers') !== -1) {
                         badge.classList.add('active-subscribers');
                         badge.innerText = 'Subscribers';
-                    } else if (item === 'members') {
+                    } else if (item.indexOf('members only') !== -1 || item === 'members') {
                         badge.classList.add('members');
                         badge.innerText = 'Members (All)';
-                    } else if (item === 'exclude_active_subscribers' || item === 'exclude-subscribers') {
+                    } else if (item.indexOf('except active') !== -1 || item.indexOf('exclude') !== -1) {
                         badge.classList.add('exclude-subscribers');
                         badge.innerText = 'Non-Subscribers';
                     } else {
