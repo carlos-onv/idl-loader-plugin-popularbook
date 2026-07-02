@@ -418,6 +418,17 @@
     border: none !important;
 }
 
+.parents-club-cf7-wrapper .screen-reader-response {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    border: 0 !important;
+}
+
 /* Select2 Styling Customization to match form styles */
 .parents-club-cf7-wrapper .select2-container--default .select2-selection--multiple {
     border: 1px solid var(--input-border) !important;
