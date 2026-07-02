@@ -7766,21 +7766,17 @@ function idl_loader_is_parents_club_member( $user_id ) {
  */
 function idl_loader_get_visibility_param() {
     return array(
-        "type"        => "dropdown",
+        "type"        => "checkbox",
         "heading"     => esc_html__( "Visibility", "book-junky" ),
         "param_name"  => "pc_visibility",
         "value"       => array(
-            __( "Show to Everyone", "book-junky" ) => "all",
-            __( "Guests Only (Logged Out)", "book-junky" ) => "guests",
-            __( "Users non Parents Club Members Only", "book-junky" ) => "non_members",
-            __( "Parents Club Members Only (All)", "book-junky" ) => "members",
-            __( "Parents Club Members (No Active Subscription) Only", "book-junky" ) => "members_no_sub",
-            __( "Parents Club Members with Active Subscription Only", "book-junky" ) => "active_subscribers",
-            __( "Everyone Except Active Subscribers", "book-junky" ) => "exclude_active_subscribers",
+            __( "Guests (Logged Out)", "book-junky" ) => "guests",
+            __( "Logged-in Non Parents Club Members", "book-junky" ) => "non_members",
+            __( "Parents Club Members (No Active Subscription)", "book-junky" ) => "members_no_sub",
+            __( "Parents Club Members with Active Subscription", "book-junky" ) => "active_subscribers",
         ),
-        "std"         => "all",
         "admin_label" => true,
-        "description" => esc_html__( "Select who can see this element on the frontend.", "book-junky" ),
+        "description" => esc_html__( "Check which user groups can see this element. If none are checked, default visibility fallbacks apply (which shows to everyone for most elements, but restricts dashboard modules to active subscribers).", "book-junky" ),
         "group"       => esc_html__( "Visibility", "book-junky" ),
     );
 }
@@ -7822,11 +7818,11 @@ function idl_loader_parents_club_shortcode_visibility_filter( $output, $tag, $at
     }
 
     // Determine the visibility setting with fallback to legacy hardcoded defaults if parameter is not set/saved
-    $visibility = isset( $attr['pc_visibility'] ) ? $attr['pc_visibility'] : null;
+    $visibility = isset( $attr['pc_visibility'] ) ? trim( $attr['pc_visibility'] ) : null;
 
-    if ( $visibility === null || $visibility === 'all' ) {
+    if ( $visibility === null || $visibility === '' || $visibility === 'all' ) {
         // Fallback checks for legacy shortcodes
-        if ( $visibility === null ) {
+        if ( $visibility === null || $visibility === '' ) {
             // Dashboard modules require active subscription by default
             $active_sub_only_tags = array(
                 'parents_club_member_subscription',
@@ -7858,8 +7854,41 @@ function idl_loader_parents_club_shortcode_visibility_filter( $output, $tag, $at
         }
         
         // If still all or not matched by fallbacks, show to everyone
-        if ( $visibility === null || $visibility === 'all' ) {
+        if ( $visibility === null || $visibility === '' || $visibility === 'all' ) {
             return $output;
+        }
+    }
+
+    // Parse $visibility into an array of allowed groups.
+    // If it contains commas, split it. Otherwise, handle single/legacy values.
+    $allowed_groups = array();
+    if ( strpos( $visibility, ',' ) !== false ) {
+        $allowed_groups = array_filter( array_map( 'trim', explode( ',', $visibility ) ) );
+    } else {
+        switch ( $visibility ) {
+            case 'guests':
+                $allowed_groups = array( 'guests' );
+                break;
+            case 'non_members':
+                $allowed_groups = array( 'non_members' );
+                break;
+            case 'members_no_sub':
+                $allowed_groups = array( 'members_no_sub' );
+                break;
+            case 'active_subscribers':
+                $allowed_groups = array( 'active_subscribers' );
+                break;
+            case 'members':
+                // Legacy group mapping: all members
+                $allowed_groups = array( 'members_no_sub', 'active_subscribers' );
+                break;
+            case 'exclude_active_subscribers':
+                // Legacy group mapping: everyone except active subscribers
+                $allowed_groups = array( 'guests', 'non_members', 'members_no_sub' );
+                break;
+            default:
+                // Fallback for unexpected values
+                return $output;
         }
     }
 
@@ -7878,39 +7907,25 @@ function idl_loader_parents_club_shortcode_visibility_filter( $output, $tag, $at
         $has_sub = wcs_user_has_subscription( $user_id, '', 'active' );
     }
 
-    switch ( $visibility ) {
-        case 'guests':
-            if ( $is_logged_in ) {
-                return '';
-            }
-            break;
-        case 'non_members':
-            if ( ! $is_logged_in || $is_member ) {
-                return '';
-            }
-            break;
-        case 'members':
-            if ( ! $is_logged_in || ! $is_member ) {
-                return '';
-            }
-            break;
-        case 'members_no_sub':
-            if ( ! $is_logged_in || ! $is_member || $has_sub ) {
-                return '';
-            }
-            break;
-        case 'active_subscribers':
-            if ( ! $is_logged_in || ! $is_member || ! $has_sub ) {
-                return '';
-            }
-            break;
-        case 'exclude_active_subscribers':
+    // Classify visitor into one of the 4 mutually exclusive states
+    $current_group = 'guests';
+    if ( $is_logged_in ) {
+        if ( ! $is_member ) {
+            $current_group = 'non_members';
+        } else {
             if ( $has_sub ) {
-                return '';
+                $current_group = 'active_subscribers';
+            } else {
+                $current_group = 'members_no_sub';
             }
-            break;
+        }
     }
 
-    return $output;
+    // If visitor's current state is allowed, render the element
+    if ( in_array( $current_group, $allowed_groups, true ) ) {
+        return $output;
+    }
+
+    return '';
 }
 

@@ -3437,77 +3437,114 @@ function idl_loader_add_wpbakery_visibility_tag_css() {
     ?>
     <style>
         .vc_admin_label.admin_label_pc_visibility {
-            background-color: #af0128 !important;
-            color: #ffffff !important;
-            padding: 3px 8px !important;
-            border-radius: 4px !important;
-            font-size: 11px !important;
-            font-weight: bold !important;
-            display: inline-block !important;
+            background-color: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            flex-wrap: wrap !important;
+            gap: 4px !important;
             margin: 4px 0 !important;
-            border: 1px solid #900120 !important;
-            text-transform: uppercase !important;
-            letter-spacing: 0.5px !important;
-            transition: all 0.3s ease !important;
+            box-shadow: none !important;
         }
         .vc_admin_label.admin_label_pc_visibility label {
-            color: rgba(255, 255, 255, 0.85) !important;
-            font-weight: normal !important;
-            margin-right: 3px !important;
-            text-transform: none !important;
+            color: #444444 !important;
+            font-weight: bold !important;
+            margin: 0 4px 0 0 !important;
+            font-size: 11px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            display: inline-block !important;
         }
-        /* Custom colors based on visibility values */
-        .vc_admin_label.admin_label_pc_visibility[data-vis-type="guests"] {
+        .vc_admin_label.admin_label_pc_visibility .vis-badge {
+            color: #ffffff !important;
+            padding: 2px 6px !important;
+            border-radius: 3px !important;
+            font-size: 10px !important;
+            font-weight: bold !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+            display: inline-block !important;
+            line-height: 1.4 !important;
+        }
+        /* Custom colors for vis-badges */
+        .vc_admin_label.admin_label_pc_visibility .vis-badge.guests {
             background-color: #e67e22 !important; /* Amber Orange */
-            border-color: #d35400 !important;
         }
-        .vc_admin_label.admin_label_pc_visibility[data-vis-type="non-members"] {
+        .vc_admin_label.admin_label_pc_visibility .vis-badge.non-members {
             background-color: #7f8c8d !important; /* Asbestos Gray */
-            border-color: #95a5a6 !important;
         }
-        .vc_admin_label.admin_label_pc_visibility[data-vis-type="members"] {
+        .vc_admin_label.admin_label_pc_visibility .vis-badge.members {
             background-color: #2980b9 !important; /* Belize Hole Blue */
-            border-color: #3498db !important;
         }
-        .vc_admin_label.admin_label_pc_visibility[data-vis-type="members-no-sub"] {
-            background-color: #16a085 !important; /* Turquoise Greenish Teal */
-            border-color: #1abc9c !important;
+        .vc_admin_label.admin_label_pc_visibility .vis-badge.members-no-sub {
+            background-color: #16a085 !important; /* Turquoise Teal */
         }
-        .vc_admin_label.admin_label_pc_visibility[data-vis-type="active-subscribers"] {
+        .vc_admin_label.admin_label_pc_visibility .vis-badge.active-subscribers {
             background-color: #27ae60 !important; /* Nephrite Green */
-            border-color: #2ecc71 !important;
         }
-        .vc_admin_label.admin_label_pc_visibility[data-vis-type="exclude-subscribers"] {
+        .vc_admin_label.admin_label_pc_visibility .vis-badge.exclude-subscribers {
             background-color: #8e44ad !important; /* Wisteria Purple */
-            border-color: #9b59b6 !important;
+        }
+        .vc_admin_label.admin_label_pc_visibility .vis-badge.all {
+            background-color: #34495e !important; /* Dark Blue Gray */
         }
     </style>
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
         function updateVisibilityTags() {
-            var labels = document.querySelectorAll('.admin_label_pc_visibility');
+            var labels = document.querySelectorAll('.admin_label_pc_visibility:not(.vis-processed)');
             labels.forEach(function(span) {
-                var text = span.textContent || span.innerText;
-                var valText = text.replace(/Visibility\s*:\s*/i, '').trim().toLowerCase();
+                var originalText = span.textContent || span.innerText;
+                var valText = originalText.replace(/Visibility\s*:\s*/i, '').trim();
                 
-                var slug = 'all';
-                if (valText.indexOf('guests') !== -1) {
-                    slug = 'guests';
-                } else if (valText.indexOf('non parents') !== -1) {
-                    slug = 'non-members';
-                } else if (valText.indexOf('no active subscription') !== -1) {
-                    slug = 'members-no-sub';
-                } else if (valText.indexOf('active subscription') !== -1) {
-                    slug = 'active-subscribers';
-                } else if (valText.indexOf('except active') !== -1) {
-                    slug = 'exclude-subscribers';
-                } else if (valText.indexOf('members only') !== -1) {
-                    slug = 'members';
+                span.innerHTML = '';
+                var labelNode = document.createElement('label');
+                labelNode.innerText = 'Visibility:';
+                span.appendChild(labelNode);
+                span.classList.add('vis-processed');
+
+                if (!valText || valText.toLowerCase() === 'all') {
+                    var badge = document.createElement('span');
+                    badge.className = 'vis-badge all';
+                    badge.innerText = 'Everyone';
+                    span.appendChild(badge);
+                    return;
                 }
-                
-                if (span.getAttribute('data-vis-type') !== slug) {
-                    span.setAttribute('data-vis-type', slug);
-                }
+
+                var items = valText.split(',');
+                items.forEach(function(item) {
+                    item = item.trim().toLowerCase();
+                    if (!item) return;
+
+                    var badge = document.createElement('span');
+                    badge.className = 'vis-badge';
+                    
+                    if (item === 'guests') {
+                        badge.classList.add('guests');
+                        badge.innerText = 'Guests';
+                    } else if (item === 'non_members' || item === 'non-members') {
+                        badge.classList.add('non-members');
+                        badge.innerText = 'Non-Members';
+                    } else if (item === 'members_no_sub' || item === 'members-no-sub') {
+                        badge.classList.add('members-no-sub');
+                        badge.innerText = 'Members (No Sub)';
+                    } else if (item === 'active_subscribers' || item === 'active-subscribers') {
+                        badge.classList.add('active-subscribers');
+                        badge.innerText = 'Subscribers';
+                    } else if (item === 'members') {
+                        badge.classList.add('members');
+                        badge.innerText = 'Members (All)';
+                    } else if (item === 'exclude_active_subscribers' || item === 'exclude-subscribers') {
+                        badge.classList.add('exclude-subscribers');
+                        badge.innerText = 'Non-Subscribers';
+                    } else {
+                        badge.classList.add('all');
+                        badge.innerText = item;
+                    }
+                    span.appendChild(badge);
+                });
             });
         }
 

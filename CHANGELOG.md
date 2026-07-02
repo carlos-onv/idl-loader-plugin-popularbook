@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-02] - Checkbox-Based Multi-Select WPBakery Visibility Controls
+
+### Added
+- **Multi-badge Admin Renders**:
+  - Rewrote CSS inside [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php) to clear WPBakery standard admin label container backgrounds and allow nested tags.
+  - Implemented visual parser in Javascript mutation observer inside [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php) to extract comma-separated selected options and map them to inline badges (e.g., Guest badge, Subscribers badge).
+
+### Changed
+- **WPBakery Parameters**:
+  - Converted the `pc_visibility` option type from `dropdown` to `checkbox` in `idl_loader_get_visibility_param()` inside [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php).
+  - Defined 4 distinct, mutually exclusive visitor categories as the selectable checkboxes: `guests`, `non_members`, `members_no_sub`, `active_subscribers`.
+- **Shortcode Filter Logic**:
+  - Rewrote parsing in `idl_loader_parents_club_shortcode_visibility_filter()` inside [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php) to check visitor state against comma-separated settings.
+  - Implemented legacy group mapping (e.g., `members`, `exclude_active_subscribers`, `all`) to ensure full backward compatibility.
+
+### Technical Notes for AI Agents
+- **Parameters Structure**: The `pc_visibility` parameter is now stored in the database as a comma-separated list of checked values (e.g., `'guests,non_members'`).
+- **Visitor Classification**:
+  - `guests`: User not logged in.
+  - `non_members`: User is logged in but does not have Parents Club Member meta value.
+  - `members_no_sub`: User is a Parents Club Member but does not have an active WooCommerce Subscription.
+  - `active_subscribers`: User is a Parents Club Member and has an active WooCommerce Subscription.
+- **Mapping Table**:
+  - Legacy `'members'` maps to `['members_no_sub', 'active_subscribers']`.
+  - Legacy `'exclude_active_subscribers'` maps to `['guests', 'non_members', 'members_no_sub']`.
+
 ## [2026-07-02] - Contact Form 7 Select2 Integration and Textbox Conversion
 
 ### Added
