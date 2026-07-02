@@ -3528,9 +3528,11 @@ function idl_loader_add_wpbakery_visibility_tag_css() {
 /**
  * Process Contact Form 7 Parents Club upgrade form submissions.
  */
-add_action( 'wpcf7_mail_sent', 'idl_loader_process_parents_club_cf7_upgrade' );
-function idl_loader_process_parents_club_cf7_upgrade( $contact_form ) {
-    $submission = WPCF7_Submission::get_instance();
+add_action( 'wpcf7_before_send_mail', 'idl_loader_process_parents_club_cf7_upgrade', 10, 3 );
+function idl_loader_process_parents_club_cf7_upgrade( $contact_form, &$abort, $submission ) {
+    if ( ! $submission ) {
+        $submission = WPCF7_Submission::get_instance();
+    }
     if ( ! $submission ) {
         return;
     }
@@ -3545,6 +3547,9 @@ function idl_loader_process_parents_club_cf7_upgrade( $contact_form ) {
 
     // Identify if it's the upgrade form by checking for the presence of count and grades fields
     if ( isset( $posted_data['children-count'] ) || isset( $posted_data['children-grades'] ) ) {
+        // Skip actual email sending since we only want to save data
+        $contact_form->skip_mail = true;
+
         // 1. Mark user as Parents Club member
         update_user_meta( $user_id, 'user_registration_check_box_1661192013', 'parent_club_member' );
 
