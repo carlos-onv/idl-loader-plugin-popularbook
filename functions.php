@@ -3502,10 +3502,16 @@ function idl_loader_add_wpbakery_visibility_tag_css() {
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
         function updateVisibilityTags() {
-            var labels = document.querySelectorAll('.admin_label_pc_visibility:not(.vis-processed)');
+            var labels = document.querySelectorAll('.admin_label_pc_visibility');
             labels.forEach(function(span) {
+                // If it already has vis-badges, it has been processed and hasn't been reset by WPBakery.
+                if (span.querySelector('.vis-badge')) {
+                    return;
+                }
+
                 var originalText = span.textContent || span.innerText;
-                var valText = originalText.replace(/Visibility\s*:\s*/i, '').trim();
+                // Clean the text: remove "Visibility:" and any leading colons/whitespace
+                var valText = originalText.replace(/Visibility\s*:\s*/i, '').replace(/^\s*:\s*/, '').trim();
                 
                 span.innerHTML = '';
                 var labelNode = document.createElement('label');
