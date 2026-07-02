@@ -3626,3 +3626,18 @@ function idl_loader_process_parents_club_cf7_upgrade( $contact_form, &$abort, $s
     }
 }
 
+/**
+ * Prevent Contact Form 7 from sending mail for the Parents Club upgrade form.
+ */
+add_filter( 'wpcf7_skip_mail', 'idl_loader_cf7_skip_mail_for_upgrade', 10, 2 );
+function idl_loader_cf7_skip_mail_for_upgrade( $skip_mail, $contact_form ) {
+    $submission = WPCF7_Submission::get_instance();
+    if ( $submission ) {
+        $posted_data = $submission->get_posted_data();
+        if ( isset( $posted_data['children-count'] ) || isset( $posted_data['children-grades'] ) ) {
+            return true;
+        }
+    }
+    return $skip_mail;
+}
+
