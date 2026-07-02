@@ -70,6 +70,8 @@ class clientcenter
 
 	public $send_to_techwyse=true;
 
+	public $adl_source;
+
 
 
 	public $response;

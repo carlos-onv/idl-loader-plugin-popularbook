@@ -1985,19 +1985,17 @@ if( ! function_exists( 'yith_wcaf_customization_enable_notifications_by_default1
 
             function aurora_wpcf7_mail_sent_function($contact_form)
             {
-
-
-
                 $submission = WPCF7_Submission::get_instance();
-
-
-
-                if ($submission) {
-
-                    $posted_data = $submission->get_posted_data();
+                if (!$submission) {
+                    return;
                 }
 
+                $posted_data = $submission->get_posted_data();
 
+                // Bail out early for Parents Club upgrade forms (do not submit member upgrades to AdLuge)
+                if (isset($posted_data['children-count']) || isset($posted_data['children-grades'])) {
+                    return;
+                }
 
                 require_once("clientcenter-api-library.php");
 
@@ -2005,35 +2003,21 @@ if( ! function_exists( 'yith_wcaf_customization_enable_notifications_by_default1
 
                 $lead->client_code = "flmztem1vx8b8z7"; // Mandatory. Unique identification code.
 
-
-
                 $other_fields = array();
 
+                $fName = isset($posted_data['your-name']) ? $posted_data['your-name'] : '';
+                $email = isset($posted_data['your-email']) ? $posted_data['your-email'] : '';
+                $phone = isset($posted_data['your-phone']) ? $posted_data['your-phone'] : '';
+                $comments = '';
 
-
-                if ($posted_data['your-name']) {
-
-                    $fName = $posted_data['your-name'];
-                }
-
-                if ($posted_data['your-email']) {
-
-                    $email = $posted_data['your-email'];
-                }
-
-
-
-                if ($posted_data['subject']) {
-
+                if (isset($posted_data['subject']) && !empty($posted_data['subject'])) {
                     $subject = $posted_data['subject'];
-
                     $other_fields['Subject'] = $subject;
                 }
 
-
-
-                if ($posted_data['comments']) {
-
+                if (isset($posted_data['comments']) && !empty($posted_data['comments'])) {
+                    $comments = stripslashes($posted_data['comments']);
+                } elseif (isset($posted_data['message']) && !empty($posted_data['message'])) {
                     $comments = stripslashes($posted_data['message']);
                 }
 
@@ -2051,33 +2035,27 @@ if( ! function_exists( 'yith_wcaf_customization_enable_notifications_by_default1
 
                 }
 
-
-
-
-
                 $lead->status = 1; // No need to change this
 
-                $lead->useragent = $_SERVER['HTTP_USER_AGENT']; //browser properties
+                $lead->useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''; //browser properties
 
-                $lead->remote_ip = $_SERVER['REMOTE_ADDR']; //ip address
+                $lead->remote_ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : ''; //ip address
 
-                $lead->referrer = $_SERVER['HTTP_REFERER']; // page source
+                $lead->referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''; // page source
 
                 $lead->contact_date = date("Y-m-d h:i:s");
 
-                $lead->search_engine = $_COOKIE['adl_durl'];
+                $lead->search_engine = isset($_COOKIE['adl_durl']) ? $_COOKIE['adl_durl'] : '';
 
-                $lead->keyword = $_COOKIE['adl_key'];
+                $lead->keyword = isset($_COOKIE['adl_key']) ? $_COOKIE['adl_key'] : '';
 
-                $lead->source = $_COOKIE['adl_camp'];
+                $lead->source = isset($_COOKIE['adl_camp']) ? $_COOKIE['adl_camp'] : '';
 
-                $lead->randomnum = $_COOKIE['adl_rand'];
+                $lead->randomnum = isset($_COOKIE['adl_rand']) ? $_COOKIE['adl_rand'] : '';
 
-                $lead->adl_ref = $_COOKIE['adl_ref'];
+                $lead->adl_ref = isset($_COOKIE['adl_ref']) ? $_COOKIE['adl_ref'] : '';
 
-                $lead->gclid = $_COOKIE['gclid'];
-
-
+                $lead->gclid = isset($_COOKIE['gclid']) ? $_COOKIE['gclid'] : '';
 
                 $lead->send_to_adluge = true; // Set to true If you are sending leads to adluge //default true
 
