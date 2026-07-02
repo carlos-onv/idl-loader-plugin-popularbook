@@ -3490,6 +3490,14 @@ function idl_loader_add_wpbakery_visibility_tag_css() {
         .vc_admin_label.admin_label_pc_visibility .vis-badge.all {
             background-color: #34495e !important; /* Dark Blue Gray */
         }
+        /* Force checkboxes for visibility parameter to render vertically on separate lines */
+        [data-vc-shortcode-param-name="pc_visibility"] .vc_checkbox-label label,
+        [data-vc-shortcode-param-name="pc_visibility"] .edit_form_line label,
+        [data-vc-shortcode-param-name="pc_visibility"] label.vc_checkbox {
+            display: block !important;
+            margin-bottom: 8px !important;
+            font-weight: normal !important;
+        }
     </style>
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {

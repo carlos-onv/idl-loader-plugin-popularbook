@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file for both hum
 - **WPBakery Parameters**:
   - Converted the `pc_visibility` option type from `dropdown` to `checkbox` in `idl_loader_get_visibility_param()` inside [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php).
   - Defined 4 distinct, mutually exclusive visitor categories as the selectable checkboxes: `guests`, `non_members`, `members_no_sub`, `active_subscribers`.
+  - Added CSS rule inside [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php) to display these visibility checkboxes vertically (on separate lines) inside the WPBakery backend settings modal.
 - **Shortcode Filter Logic**:
   - Rewrote parsing in `idl_loader_parents_club_shortcode_visibility_filter()` inside [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php) to check visitor state against comma-separated settings.
   - Implemented legacy group mapping (e.g., `members`, `exclude_active_subscribers`, `all`) to ensure full backward compatibility.
