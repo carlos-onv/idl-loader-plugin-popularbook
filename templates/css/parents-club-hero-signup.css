@@ -371,6 +371,9 @@
     transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease !important;
     transform: scale(1);
     opacity: 1;
+    min-height: 410px !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 /* Subtle flip/switch transition state - scales down slightly and fades */
@@ -385,14 +388,18 @@
 }
 
 /* Contact Form 7 Form Spacing adjustments to ensure submit button is at the bottom */
+.parents-club-cf7-wrapper .ur-panel-wrapper,
 .parents-club-cf7-wrapper .wpcf7,
 .parents-club-cf7-wrapper form,
 .parents-club-cf7-wrapper .parents-club-upgrade-form {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
     margin-bottom: 0 !important;
 }
 
-.parents-club-cf7-wrapper .form-row:last-child,
-.parents-club-cf7-wrapper .parents-club-upgrade-form > div:last-of-type {
+.parents-club-cf7-wrapper .parents-club-upgrade-form > .form-row:last-child {
+    margin-top: auto !important;
     margin-bottom: 0 !important;
 }
 
