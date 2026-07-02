@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file for both hum
   - Enqueued Select2 style and script inside the WPBakery registration shortcode callback for logged-in non-members.
   - Initialized Select2 dropdown dynamically on the multi-select grades field (`children-grades[]`) inside the Contact Form 7 markup.
   - Handled automated select2 re-initialization upon Contact Form 7 events (`wpcf7mailsent`, `wpcf7invalid`, etc.) to prevent layout breakage on form reload.
+  - Added an auto-refresh script to reload the page 1.5 seconds after a successful CF7 submission to apply the membership visibility settings immediately.
   - Appended dedicated CSS overrides in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to style the Select2 multi-select container and target the Contact Form 7 submit button (`input[type="submit"].wpcf7-submit`) with the same brand red styles as standard forms.
 
 ### Changed

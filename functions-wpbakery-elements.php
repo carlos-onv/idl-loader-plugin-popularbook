@@ -7554,6 +7554,12 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
                     $(document).on('wpcf7mailsent wpcf7invalid wpcf7spam wpcf7mailfailed', function() {
                         setTimeout(initSelect2, 100);
                     });
+                    // Reload page on successful form submission so that visibility settings apply immediately
+                    $(document).on('wpcf7mailsent', function() {
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1500);
+                    });
                 });
                 </script>
             </div>
