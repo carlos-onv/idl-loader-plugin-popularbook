@@ -108,7 +108,7 @@
 .user-registration.ur-frontend-form .form-row {
     display: flex !important;
     flex-direction: column !important;
-    margin: 0 !important;
+    margin: 0 0 10px !important;
     padding: 0 !important;
     width: 100% !important;
 }
@@ -231,7 +231,8 @@
 .user-registration.ur-frontend-form button.ur-submit-button,
 .user-registration.ur-frontend-form .ur-button-container button.ur-submit-button,
 .user-registration.ur-frontend-form .ur-button-container button,
-.user-registration.ur-frontend-form button {
+.user-registration.ur-frontend-form button,
+.user-registration.ur-frontend-form input[type="submit"].wpcf7-submit {
     width: 100% !important;
     height: 35px !important;
     background-color: var(--brand-red) !important;
@@ -252,7 +253,8 @@
 .user-registration.ur-frontend-form button.ur-submit-button:hover,
 .user-registration.ur-frontend-form .ur-button-container button.ur-submit-button:hover,
 .user-registration.ur-frontend-form .ur-button-container button:hover,
-.user-registration.ur-frontend-form button:hover {
+.user-registration.ur-frontend-form button:hover,
+.user-registration.ur-frontend-form input[type="submit"].wpcf7-submit:hover {
     background-color: var(--brand-red-hover) !important;
     background: var(--brand-red-hover) !important;
     box-shadow: 0 6px 16px rgba(175, 1, 40, 0.22) !important;
