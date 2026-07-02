@@ -247,7 +247,7 @@ function wps_deregister_styles()
         //wp_deregister_style('um_fonticons_ii');  // Tipsy/Raty/fonticons together required for design
 
 
-        if ($_SERVER['REQUEST_URI'] != "/create-account" && $_SERVER['REQUEST_URI'] != "/login") {
+        if ($_SERVER['REQUEST_URI'] != "/create-account" && $_SERVER['REQUEST_URI'] != "/login" && strpos($_SERVER['REQUEST_URI'], '/parents-club') === false) {
             wp_deregister_style('select2');
         }
 

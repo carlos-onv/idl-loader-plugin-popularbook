@@ -7513,6 +7513,9 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
         }
 
         // Logged-in non-member: show the Contact Form 7 Form
+        wp_enqueue_script( 'select2' );
+        wp_enqueue_style( 'select2' );
+
         ob_start();
         ?>
         <div class="user-registration ur-frontend-form custom-ur-form-wrapper parents-club-cf7-wrapper">
@@ -7533,6 +7536,26 @@ function idl_loader_parents_club_user_registration_form_shortcode( $atts ) {
                     echo do_shortcode( '[contact-form-7 id="' . esc_attr( $atts['logged_in_cf7_form_id'] ) . '"]' );
                 }
                 ?>
+
+                <script type="text/javascript">
+                jQuery(document).ready(function($) {
+                    var initSelect2 = function() {
+                        var $select = $('.parents-club-cf7-wrapper select[name="children-grades[]"]');
+                        if ($select.length && typeof $.fn.select2 !== 'undefined') {
+                            $select.select2({
+                                placeholder: "Select Grades",
+                                allowClear: true,
+                                width: '100%'
+                            });
+                        }
+                    };
+                    initSelect2();
+                    // Re-initialize if CF7 dynamically reloads the form
+                    $(document).on('wpcf7mailsent wpcf7invalid wpcf7spam wpcf7mailfailed', function() {
+                        setTimeout(initSelect2, 100);
+                    });
+                });
+                </script>
             </div>
         </div>
         <?php

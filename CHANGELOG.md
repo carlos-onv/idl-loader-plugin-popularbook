@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-02] - Contact Form 7 Select2 Integration and Textbox Conversion
+
+### Added
+- **Select2 Styling and Integration**:
+  - Enqueued Select2 style and script inside the WPBakery registration shortcode callback for logged-in non-members.
+  - Initialized Select2 dropdown dynamically on the multi-select grades field (`children-grades[]`) inside the Contact Form 7 markup.
+  - Handled automated select2 re-initialization upon Contact Form 7 events (`wpcf7mailsent`, `wpcf7invalid`, etc.) to prevent layout breakage on form reload.
+  - Appended dedicated CSS overrides in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to style the Select2 multi-select container to match standard form inputs.
+
+### Changed
+- **Style Deregistering Rules**:
+  - Modified style cleanup hook in [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php) to preserve WooCommerce's `select2` stylesheet on all `/parents-club` pages.
+
 ## [2026-06-26] - Logged-In Non-Members Upgrade Form Integration
 
 ### Added
