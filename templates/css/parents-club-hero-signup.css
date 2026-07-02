@@ -384,6 +384,33 @@
     box-shadow: 0 0 0 4px rgba(175, 1, 40, 0.22), var(--shadow-soft) !important;
 }
 
+/* Contact Form 7 Form Spacing adjustments to ensure submit button is at the bottom */
+.parents-club-cf7-wrapper .wpcf7,
+.parents-club-cf7-wrapper form,
+.parents-club-cf7-wrapper .parents-club-upgrade-form {
+    margin-bottom: 0 !important;
+}
+
+.parents-club-cf7-wrapper .form-row:last-child,
+.parents-club-cf7-wrapper .parents-club-upgrade-form > div:last-of-type {
+    margin-bottom: 0 !important;
+}
+
+.parents-club-cf7-wrapper .wpcf7-response-output {
+    margin: 15px 0 0 0 !important;
+    padding: 10px 15px !important;
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+
+.parents-club-cf7-wrapper .wpcf7-response-output:empty {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
 /* Select2 Styling Customization to match form styles */
 .parents-club-cf7-wrapper .select2-container--default .select2-selection--multiple {
     border: 1px solid var(--input-border) !important;
