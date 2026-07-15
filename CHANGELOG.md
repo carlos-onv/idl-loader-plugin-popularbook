@@ -21,6 +21,8 @@ All notable changes to this project will be documented in this file for both hum
   - Reduced `max-width` of `.pc-plan-not-ready .pc-not-ready-graphic img` from `95%` to `70%` in [parents-club-plan-not-ready.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-plan-not-ready.css).
 - **Need Help Section Styling**:
   - Updated `#parents-club-section-6 .contact-row` inside [parents-club-need-help.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-need-help.css) to override `align-items` with `center`.
+- **CTA Banner Styling**:
+  - Added a `max-height: 155px;` constraint to `.cta-banner-image-col img` inside [parents-club-cta-banner.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-cta-banner.css).
 
 ## [2026-07-02] - Checkbox-Based Multi-Select WPBakery Visibility Controls
 

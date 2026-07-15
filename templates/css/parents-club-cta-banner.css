@@ -38,6 +38,7 @@
     object-fit: cover;
     object-position: center;
     display: block;
+    max-height: 155px;
 }
 
 /* Right Content Column */
