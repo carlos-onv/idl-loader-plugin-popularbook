@@ -27,6 +27,9 @@ All notable changes to this project will be documented in this file for both hum
 - **Plans Section Styling**:
   - Reduced `margin-top` of `.pc-plan-card.pc-plan-monthly ul.pc-plan-list, .pc-plan-card.pc-plan-annual ul.pc-plan-list` from `30px` to `10px` in [parents-club-plans-base.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-plans-base.css).
   - Reduced `min-height` of `.pc-plan-card` from `470px` to `420px` in [parents-club-plans-base.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-plans-base.css).
+- **Plan Card WPBakery Element**:
+  - Added the extra CSS class name option `el_class` to the WPBakery registration `vc_map` for `emathsmart_plan_card` inside [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php).
+  - Updated the shortcode handler `idl_loader_emathsmart_plan_card_shortcode` to accept `el_class` and dynamically append the custom class to the container element wrapper `<div class="...">` across all card layouts (including Digital, Pricing, and Not Ready).
 
 ## [2026-07-02] - Checkbox-Based Multi-Select WPBakery Visibility Controls
 

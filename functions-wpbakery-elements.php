@@ -2256,6 +2256,12 @@ function idl_loader_register_parents_club_elements() {
                 "value"       => array( esc_html__( "Yes, display this card even to logged-in users with an active subscription", "book-junky" ) => "yes" ),
                 "description" => esc_html__( "Check this box to bypass the default visibility constraint that hides pricing/trial cards from existing subscribers.", "book-junky" ),
             ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Extra class name", "book-junky" ),
+                "param_name"  => "el_class",
+                "description" => esc_html__( "Style particular content element differently - add a class name and refer to it in custom CSS.", "book-junky" ),
+            ),
         )
     ) );
 
@@ -4502,6 +4508,7 @@ function idl_loader_emathsmart_plan_card_shortcode( $atts ) {
         'button_text'        => 'Start 7-Day Free Trial',
         'button_link'        => '',
         'footer_image'       => '',
+        'el_class'           => '',
     ), $atts );
 
     // Enqueue the modular stylesheets
@@ -4615,7 +4622,7 @@ function idl_loader_emathsmart_plan_card_shortcode( $atts ) {
 
     if ( 'not_ready' === $layout ) : ?>
         <!-- CARD 4: Not Ready for eMathSmart? -->
-        <div class="pc-plan-not-ready">
+        <div class="pc-plan-not-ready<?php echo ! empty( $attributes['el_class'] ) ? ' ' . esc_attr( $attributes['el_class'] ) : ''; ?>">
             <?php if ( ! empty( $title ) ) : ?>
                 <h3 class="pc-not-ready-title"><?php echo $title; ?></h3>
             <?php endif; ?>
@@ -4652,6 +4659,9 @@ function idl_loader_emathsmart_plan_card_shortcode( $atts ) {
             } else {
                 $card_classes[] = 'pc-plan-monthly';
             }
+        }
+        if ( ! empty( $attributes['el_class'] ) ) {
+            $card_classes[] = $attributes['el_class'];
         }
         $card_class_str = implode( ' ', $card_classes );
         ?>
