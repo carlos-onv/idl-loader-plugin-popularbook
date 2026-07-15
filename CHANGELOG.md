@@ -11,6 +11,8 @@ All notable changes to this project will be documented in this file for both hum
   - Updated `.user-registration.ur-frontend-form label.ur-label` inside [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to set `font-weight: 400 !important`, `text-transform: none !important`, and added `margin-left: 20px;`.
 - **Benefits Card Styling**:
   - Updated `.benefits-column .benefits-glance-card h3` inside [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css) to set `text-align: center;`.
+- **How It Works Styling**:
+  - Updated `.how-steps-wrapper` inside [parents-club-how-works.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-how-works.css) under `@media (min-width: 768px)` to set `align-items: baseline;`.
 
 ## [2026-07-02] - Checkbox-Based Multi-Select WPBakery Visibility Controls
 
