@@ -13,6 +13,8 @@ All notable changes to this project will be documented in this file for both hum
   - Updated `.benefits-column .benefits-glance-card h3` inside [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css) to set `text-align: center;`.
 - **How It Works Styling**:
   - Updated `.how-steps-wrapper` inside [parents-club-how-works.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-how-works.css) under `@media (min-width: 768px)` to set `align-items: baseline;`.
+- **eMathSmart Gateway Styling**:
+  - Updated `.btn-esmart-login` inside [parents-club-esmart-gateway.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-esmart-gateway.css) to match the size, font weight, padding, border-radius, and max-height of `.btn-crimson`.
 
 ## [2026-07-02] - Checkbox-Based Multi-Select WPBakery Visibility Controls
 
