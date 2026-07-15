@@ -2281,12 +2281,7 @@ function idl_loader_register_parents_club_elements() {
                 "value"       => esc_html__( "Our team is here to support you!", "book-junky" ),
                 "admin_label" => true,
             ),
-            array(
-                "type"        => "attach_image",
-                "heading"     => esc_html__( "Panel Top Illustration", "book-junky" ),
-                "param_name"  => "illustration",
-                "description" => esc_html__( "Select an image for the top illustration. Defaults to books-pencils.png if left blank.", "book-junky" ),
-            ),
+
             // Repeatable Contacts param_group
             array(
                 "type"        => "param_group",
@@ -4971,7 +4966,6 @@ function idl_loader_parents_club_need_help_shortcode( $atts ) {
     $attributes = shortcode_atts( array(
         'title'        => 'Need Help?',
         'subtitle'     => 'Our team is here to support you!',
-        'illustration' => '',
         'contacts'     => '',
         'bg_color'     => '#fdf9fb',
     ), $atts );
@@ -4982,19 +4976,6 @@ function idl_loader_parents_club_need_help_shortcode( $atts ) {
 
     // Enqueue the modular stylesheet
     wp_enqueue_style( 'parents-club-need-help', plugins_url( 'templates/css/parents-club-need-help.css', __FILE__ ) );
-
-    // Illustration URL
-    $illustration_url = '';
-    if ( ! empty( $attributes['illustration'] ) ) {
-        if ( is_numeric( $attributes['illustration'] ) ) {
-            $illustration_url = wp_get_attachment_image_url( absint( $attributes['illustration'] ), 'full' );
-        } else {
-            $illustration_url = $attributes['illustration'];
-        }
-    }
-    if ( empty( $illustration_url ) ) {
-        $illustration_url = plugins_url( 'templates/images/books-pencils.png', __FILE__ );
-    }
 
     // Helper closure to render dynamic icons matching custom source/library preferences
     $render_icon = function( $source, $brand_type, $library, $fa_icon, $li_icon, $custom_icon_id ) {
@@ -5107,11 +5088,7 @@ function idl_loader_parents_club_need_help_shortcode( $atts ) {
                     <?php endforeach; ?>
                 </div><!-- /.need-help-contacts -->
             </div><!-- /.need-help-body -->
-            <?php if ( ! empty( $illustration_url ) ) : ?>
-                <div class="need-help-image-wrapper">
-                    <img src="<?php echo esc_url( $illustration_url ); ?>" alt="" class="need-help-illustration" aria-hidden="true">
-                </div>
-            <?php endif; ?>
+
         </div><!-- /.need-help-panel -->
     </div><!-- /#parents-club-section-6 -->
     <?php
