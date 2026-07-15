@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file for both hum
 
 ## [2026-07-15] - Benefits Glance HTML Support & CSS Styling Updates
 
+### Added
+- **Credentials Setup**:
+  - Created a template [.env](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/dev_assets/.env) file under `app/public/dev_assets/` to store credentials for the cPanel Web Disk integration.
+
 ### Changed
 - **Benefits Glance WPBakery Element**:
   - Changed text escaping of `benefit1_text` through `benefit10_text` from `esc_html()` to `wp_kses_post()` in the shortcode rendering function `idl_loader_parents_club_benefits_glance_shortcode` in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php). This allows administrators to format benefits text with bold (`<strong>` or `<b>`) and other basic HTML tags directly on the frontend.
