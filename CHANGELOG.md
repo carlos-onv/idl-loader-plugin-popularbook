@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file for both hum
 ### Added
 - **Credentials Setup**:
   - Created a template [.env](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/dev_assets/.env) file under `app/public/dev_assets/` to store credentials for the cPanel Web Disk integration.
+  - Updated [AGENTS.md](file:///Users/carlos/Local%20Sites/dev-popularbook/AGENTS.md) to document the location and read-only access level of the cPanel Web Disk credentials for future agent runs.
 
 ### Changed
 - **Benefits Glance WPBakery Element**:
