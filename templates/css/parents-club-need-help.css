@@ -90,6 +90,7 @@
     display: flex;
     align-items: flex-start;
     gap: 14px;
+    align-items: center;
 }
 
 /* Clean transparent red outline icon */
