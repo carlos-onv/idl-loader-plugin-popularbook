@@ -227,6 +227,12 @@
     display: none !important;
 }
 
+/* Adjust margin-bottom on the field item when the password strength meter is displayed right after it */
+.user-registration.ur-frontend-form .ur-form-row .ur-form-grid .ur-field-item:has(+ .user-registration-password-strength) {
+    margin-bottom: -5px !important;
+}
+
+
 
 /* Button & Submission formatting */
 .user-registration.ur-frontend-form .ur-button-container {
