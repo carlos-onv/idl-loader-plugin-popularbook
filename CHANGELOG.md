@@ -15,6 +15,8 @@ All notable changes to this project will be documented in this file for both hum
   - Updated `.how-steps-wrapper` inside [parents-club-how-works.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-how-works.css) under `@media (min-width: 768px)` to set `align-items: baseline;`.
 - **eMathSmart Gateway Styling**:
   - Updated `.btn-esmart-login` inside [parents-club-esmart-gateway.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-esmart-gateway.css) to match the size, font weight, padding, border-radius, and max-height of `.btn-crimson`.
+- **Plan Not Ready Section Styling**:
+  - Reduced `max-width` of `.pc-plan-not-ready .pc-not-ready-graphic img` from `95%` to `70%` in [parents-club-plan-not-ready.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-plan-not-ready.css).
 
 ## [2026-07-02] - Checkbox-Based Multi-Select WPBakery Visibility Controls
 
