@@ -2,11 +2,13 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-15] - User Registration Form Label Styling Update
+## [2026-07-15] - CSS Styling Updates
 
 ### Changed
 - **Form Styling**:
   - Updated `.user-registration.ur-frontend-form label.ur-label` inside [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to set `font-weight: 400 !important`, `text-transform: none !important`, and added `margin-left: 20px;`.
+- **Benefits Card Styling**:
+  - Updated `.benefits-column .benefits-glance-card h3` inside [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css) to set `text-align: center;`.
 
 ## [2026-07-02] - Checkbox-Based Multi-Select WPBakery Visibility Controls
 
