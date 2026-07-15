@@ -116,12 +116,13 @@
 /* Label styling */
 .user-registration.ur-frontend-form label.ur-label {
     font-size: 11.5px !important;
-    font-weight: 700 !important;
+    font-weight: 400 !important;
     color: var(--brand-text-dark) !important;
-    text-transform: uppercase !important;
+    text-transform: none !important;
     letter-spacing: 0.04em !important;
     margin-bottom: 6px !important;
     display: inline-block !important;
+    margin-left: 20px;
 }
 
 .user-registration.ur-frontend-form label.ur-label abbr.required {

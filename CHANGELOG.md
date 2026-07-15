@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-15] - User Registration Form Label Styling Update
+
+### Changed
+- **Form Styling**:
+  - Updated `.user-registration.ur-frontend-form label.ur-label` inside [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to set `font-weight: 400 !important`, `text-transform: none !important`, and added `margin-left: 20px;`.
+
 ## [2026-07-02] - Checkbox-Based Multi-Select WPBakery Visibility Controls
 
 ### Added
