@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file for both hum
   - Removed the `illustration` (Panel Top Illustration) parameter from `vc_map` configuration and deleted the corresponding image rendering code block in the shortcode handler `idl_loader_parents_club_need_help_shortcode` in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php), removing the top illustration image and its configuration option.
 - **Form Styling**:
   - Updated `.user-registration.ur-frontend-form label.ur-label` inside [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to set `font-weight: 400 !important`, `text-transform: none !important`, and added `margin-left: 20px;`.
+  - Added CSS rule to hide the password complexity hint (`.user-registration-password-hint`) when the password strength meter (`.user-registration-password-strength`) receives the `.strong` class.
 - **Benefits Card Styling**:
   - Updated `.benefits-column .benefits-glance-card h3` inside [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css) to set `text-align: center;`.
 - **How It Works Styling**:

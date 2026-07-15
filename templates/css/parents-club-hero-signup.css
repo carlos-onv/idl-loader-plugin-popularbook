@@ -222,6 +222,12 @@
     display: block !important;
 }
 
+/* Hide password hint when password is strong */
+.user-registration.ur-frontend-form .user-registration-password-strength.strong + .user-registration-password-hint {
+    display: none !important;
+}
+
+
 /* Button & Submission formatting */
 .user-registration.ur-frontend-form .ur-button-container {
     width: 100% !important;
