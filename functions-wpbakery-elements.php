@@ -3720,16 +3720,16 @@ function idl_loader_parents_club_benefits_glance_shortcode( $atts ) {
 
     $banner_image  = $attributes['banner_image'];
     $card_title    = esc_html( $attributes['card_title'] );
-    $benefit1_text = esc_html( $attributes['benefit1_text'] );
-    $benefit2_text = esc_html( $attributes['benefit2_text'] );
-    $benefit3_text = esc_html( $attributes['benefit3_text'] );
-    $benefit4_text = esc_html( $attributes['benefit4_text'] );
-    $benefit5_text = esc_html( $attributes['benefit5_text'] );
-    $benefit6_text = esc_html( $attributes['benefit6_text'] );
-    $benefit7_text = esc_html( $attributes['benefit7_text'] );
-    $benefit8_text = esc_html( $attributes['benefit8_text'] );
-    $benefit9_text = esc_html( $attributes['benefit9_text'] );
-    $benefit10_text = esc_html( $attributes['benefit10_text'] );
+    $benefit1_text = wp_kses_post( $attributes['benefit1_text'] );
+    $benefit2_text = wp_kses_post( $attributes['benefit2_text'] );
+    $benefit3_text = wp_kses_post( $attributes['benefit3_text'] );
+    $benefit4_text = wp_kses_post( $attributes['benefit4_text'] );
+    $benefit5_text = wp_kses_post( $attributes['benefit5_text'] );
+    $benefit6_text = wp_kses_post( $attributes['benefit6_text'] );
+    $benefit7_text = wp_kses_post( $attributes['benefit7_text'] );
+    $benefit8_text = wp_kses_post( $attributes['benefit8_text'] );
+    $benefit9_text = wp_kses_post( $attributes['benefit9_text'] );
+    $benefit10_text = wp_kses_post( $attributes['benefit10_text'] );
 
     // Enqueue styles programmatically
     wp_enqueue_style( 'parents-club-hero-benefits', plugins_url( 'templates/css/parents-club-hero-benefits.css', __FILE__ ) );

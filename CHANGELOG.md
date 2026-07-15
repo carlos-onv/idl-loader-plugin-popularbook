@@ -2,9 +2,11 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-15] - CSS Styling Updates
+## [2026-07-15] - Benefits Glance HTML Support & CSS Styling Updates
 
 ### Changed
+- **Benefits Glance WPBakery Element**:
+  - Changed text escaping of `benefit1_text` through `benefit10_text` from `esc_html()` to `wp_kses_post()` in the shortcode rendering function `idl_loader_parents_club_benefits_glance_shortcode` in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php). This allows administrators to format benefits text with bold (`<strong>` or `<b>`) and other basic HTML tags directly on the frontend.
 - **Form Styling**:
   - Updated `.user-registration.ur-frontend-form label.ur-label` inside [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to set `font-weight: 400 !important`, `text-transform: none !important`, and added `margin-left: 20px;`.
 - **Benefits Card Styling**:
