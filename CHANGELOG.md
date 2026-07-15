@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file for both hum
 - **Form Styling**:
   - Updated `.user-registration.ur-frontend-form label.ur-label` inside [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to set `font-weight: 400 !important`, `text-transform: none !important`, and added `margin-left: 20px;`.
   - Added CSS rule to hide the password complexity hint (`.user-registration-password-hint`) when the password strength meter (`.user-registration-password-strength`) receives the `.strong` class.
+  - Adjusted the `margin-top` of `.user-registration-password-strength` from `8px` to `0px` to optimize vertical spacing.
 - **Benefits Card Styling**:
   - Updated `.benefits-column .benefits-glance-card h3` inside [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css) to set `text-align: center;`.
 - **How It Works Styling**:
