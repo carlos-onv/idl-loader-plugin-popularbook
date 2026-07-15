@@ -18,13 +18,15 @@ All notable changes to this project will be documented in this file for both hum
 - **eMathSmart Gateway Styling**:
   - Updated `.btn-esmart-login` inside [parents-club-esmart-gateway.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-esmart-gateway.css) to match the size, font weight, padding, border-radius, and max-height of `.btn-crimson`.
 - **Plan Not Ready Section Styling**:
-  - Reduced `max-width` of `.pc-plan-not-ready .pc-not-ready-graphic img` from `95%` to `70%` in [parents-club-plan-not-ready.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-plan-not-ready.css).
+  - Reduced `max-width` of `.pc-plan-not-ready .pc-not-ready-graphic img` from `95%` to `60%` in [parents-club-plan-not-ready.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-plan-not-ready.css).
+  - Adjusted `.pc-plan-not-ready` box model height constraints to `height: min-content !important`, `min-height: 420px !important`, and `max-height: 420px !important` to align with main plans.
 - **Need Help Section Styling**:
   - Updated `#parents-club-section-6 .contact-row` inside [parents-club-need-help.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-need-help.css) to override `align-items` with `center`.
 - **CTA Banner Styling**:
   - Added a `max-height: 155px;` constraint to `.cta-banner-image-col img` inside [parents-club-cta-banner.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-cta-banner.css).
 - **Plans Section Styling**:
   - Reduced `margin-top` of `.pc-plan-card.pc-plan-monthly ul.pc-plan-list, .pc-plan-card.pc-plan-annual ul.pc-plan-list` from `30px` to `10px` in [parents-club-plans-base.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-plans-base.css).
+  - Reduced `min-height` of `.pc-plan-card` from `470px` to `420px` in [parents-club-plans-base.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-plans-base.css).
 
 ## [2026-07-02] - Checkbox-Based Multi-Select WPBakery Visibility Controls
 
