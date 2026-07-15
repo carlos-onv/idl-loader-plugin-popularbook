@@ -2072,6 +2072,12 @@ function idl_loader_register_parents_club_elements() {
                 ),
                 "description" => esc_html__( "Upload custom illustration graphic. Defaults to high-fidelity theme templates graphics.", "book-junky" ),
             ),
+            array(
+                "type"        => "textfield",
+                "heading"     => esc_html__( "Extra class name", "book-junky" ),
+                "param_name"  => "el_class",
+                "description" => esc_html__( "Style particular content element differently - add a class name and refer to it in custom CSS.", "book-junky" ),
+            ),
         )
     ) );
 
@@ -2255,12 +2261,6 @@ function idl_loader_register_parents_club_elements() {
                 "param_name"  => "show_to_subscribers",
                 "value"       => array( esc_html__( "Yes, display this card even to logged-in users with an active subscription", "book-junky" ) => "yes" ),
                 "description" => esc_html__( "Check this box to bypass the default visibility constraint that hides pricing/trial cards from existing subscribers.", "book-junky" ),
-            ),
-            array(
-                "type"        => "textfield",
-                "heading"     => esc_html__( "Extra class name", "book-junky" ),
-                "param_name"  => "el_class",
-                "description" => esc_html__( "Style particular content element differently - add a class name and refer to it in custom CSS.", "book-junky" ),
             ),
         )
     ) );
