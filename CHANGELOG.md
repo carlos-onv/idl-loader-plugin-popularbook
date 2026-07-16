@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-16] - Mobile Welcome Column Styling Updates
+
+### Changed
+- **Member Welcome Column Styling**:
+  - Added `margin-bottom: 15px;` to `.member-welcome-column` inside the `(max-width: 768px)` media query in [parents-club-member-welcome.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-welcome.css).
+  - Modified the linear gradient overlay for `.member-welcome-column` on mobile screens to transition from `rgba(255, 255, 255, 0.9)` at `0%` to `rgba(255, 255, 255, 0.6)` at `63%` and `rgba(255, 255, 255, 0.85)` at `100%`, improving text legibility at the bottom overlay where the attributes list is displayed.
+
 ## [2026-07-15] - Benefits Glance HTML Support & CSS Styling Updates
 
 ### Added
