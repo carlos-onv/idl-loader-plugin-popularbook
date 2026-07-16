@@ -168,7 +168,7 @@
     background-color: rgba(175, 1, 40, 0.04);
 }
 
-@media (min-width: 576px) {
+@media (max-width: 768px) {
     .brand-column {
         margin-bottom: 20px;
     }

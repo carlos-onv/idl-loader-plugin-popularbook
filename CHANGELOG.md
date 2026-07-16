@@ -2,12 +2,15 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-16] - Mobile Welcome Column Styling Updates
+## [2026-07-16] - Mobile Welcome Column & Hero Section Styling Updates
 
 ### Changed
 - **Member Welcome Column Styling**:
   - Added `margin-bottom: 15px;` to `.member-welcome-column` inside the `(max-width: 768px)` media query in [parents-club-member-welcome.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-welcome.css).
   - Modified the linear gradient overlay for `.member-welcome-column` on mobile screens to transition from `rgba(255, 255, 255, 0.9)` at `0%` to `rgba(255, 255, 255, 0.6)` at `63%` and `rgba(255, 255, 255, 0.85)` at `100%`, improving text legibility at the bottom overlay where the attributes list is displayed.
+- **Hero Columns Mobile Spacing**:
+  - Changed the media query for `.brand-column` `margin-bottom: 20px;` from `(min-width: 576px)` to `(max-width: 768px)` in [parents-club-hero-brand.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-brand.css) to apply spacing specifically on mobile viewports.
+  - Changed the media query for `.user-registration.ur-frontend-form.custom-ur-form-wrapper` `margin-bottom: 20px !important;` from `(min-width: 576px)` (with base `.user-registration.ur-frontend-form` selector) to `(max-width: 768px)` in [parents-club-hero-signup.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-signup.css) to ensure proper vertical stacking separation on mobile.
 
 ## [2026-07-15] - Benefits Glance HTML Support & CSS Styling Updates
 
