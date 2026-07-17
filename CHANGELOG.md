@@ -2,13 +2,20 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-17] - Book Cover Banner Composition
+## [2026-07-17] - Book Cover Banner & Header Account Menu Override
 
 ### Added
+- **Header Account Menu Override Filter**:
+  - Implemented `emathsmart_override_porto_info_box_atts` filter on `shortcode_atts_porto_info_box` in [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php).
+  - This filter automatically injects `title => 'Hello!'`, `subtitle => 'My Account'`, and WooCommerce My Account link fallback when a Porto Info Box shortcode with CSS class `custom-account` is rendered but its settings are empty or missing in the WordPress database.
+- **Porto Builder Posts Diagnostic Utility**:
+  - Added `emathsmart_debug_porto_builder_posts` endpoint triggerable via `?debug_porto_builder_posts=1&bypass=83d09a` in [functions-esmart-debug.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-esmart-debug.php) to list all registered Porto Builder post types and inspect the layout template shortcodes.
+
 - **Custom Book Cover Banner Asset**:
   - Created a custom composite shop banner image at [shop25_shop_banner_books.png](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/uploads/shop25_shop_banner_books.png) featuring three popular preschool book covers: Preschool EnglishSmart Activities, Preschool FrenchSmart Activities, and Preschool MathSmart Activities.
   - The banner replicates the design style of the Porto Shop 25 banner with tilted/rotated covers, custom overlap layering, and realistic soft 3D drop shadows on a transparent background.
   - Designed the composition programmatically using a Python script with Pillow (PIL) to ensure high-fidelity resampling, transparency support, and exact padding (final resolution: 910x698 px).
+
 
 ## [2026-07-16] - Mobile Welcome Column & Hero Section Styling Updates
 

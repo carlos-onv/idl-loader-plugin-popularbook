@@ -3664,3 +3664,28 @@ function idl_loader_cf7_bypass_spam_for_upgrade( $spam, $submission ) {
     return $spam;
 }
 
+/**
+ * Override Porto Info Box attributes for the custom-account element
+ * to ensure "Hello! My Account" is displayed if the database configurations are missing.
+ */
+add_filter( 'shortcode_atts_porto_info_box', 'emathsmart_override_porto_info_box_atts', 10, 4 );
+function emathsmart_override_porto_info_box_atts( $out, $pairs, $atts, $shortcode ) {
+    if ( isset( $out['el_class'] ) && strpos( $out['el_class'], 'custom-account' ) !== false ) {
+        if ( empty( $out['title'] ) ) {
+            $out['title'] = 'Hello!';
+        }
+        if ( empty( $out['subtitle'] ) ) {
+            $out['subtitle'] = 'My Account';
+        }
+        if ( empty( $out['link'] ) ) {
+            $my_account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : '';
+            if ( ! $my_account_url ) {
+                $my_account_url = home_url( '/my-account/' );
+            }
+            $out['link'] = 'url:' . rawurlencode( $my_account_url ) . '|||';
+        }
+    }
+    return $out;
+}
+
+
