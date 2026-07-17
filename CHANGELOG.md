@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-17] - Book Cover Banner Composition
+
+### Added
+- **Custom Book Cover Banner Asset**:
+  - Created a custom composite shop banner image at [shop25_shop_banner_books.png](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/uploads/shop25_shop_banner_books.png) featuring three popular preschool book covers: Preschool EnglishSmart Activities, Preschool FrenchSmart Activities, and Preschool MathSmart Activities.
+  - The banner replicates the design style of the Porto Shop 25 banner with tilted/rotated covers, custom overlap layering, and realistic soft 3D drop shadows on a transparent background.
+  - Designed the composition programmatically using a Python script with Pillow (PIL) to ensure high-fidelity resampling, transparency support, and exact padding (final resolution: 910x698 px).
+
 ## [2026-07-16] - Mobile Welcome Column & Hero Section Styling Updates
 
 ### Changed
