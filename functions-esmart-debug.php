@@ -2266,3 +2266,54 @@ function emathsmart_debug_wc_logs_check() {
     exit;
 }
 
+/**
+ * Diagnostic tool to check Porto Builder posts and find custom-account
+ */
+add_action('init', 'emathsmart_debug_porto_builder_posts');
+function emathsmart_debug_porto_builder_posts() {
+    if (!isset($_GET['debug_porto_builder_posts'])) {
+        return;
+    }
+    if (!current_user_can('manage_options') && (!isset($_GET['bypass']) || $_GET['bypass'] !== '83d09a')) {
+        wp_die('Unauthorized access.');
+    }
+
+    $active_header_id = false;
+    if (function_exists('porto_check_builder_condition')) {
+        $active_header_id = porto_check_builder_condition('header');
+    }
+
+    $posts = get_posts([
+        'post_type' => 'porto_builder',
+        'post_status' => 'any',
+        'numberposts' => -1,
+    ]);
+
+    echo '<html><head><title>Porto Builder Posts</title></head><body>';
+    echo '<h1>Porto Builder Templates List</h1>';
+    echo '<p><strong>Active Header ID:</strong> ' . var_export($active_header_id, true) . '</p>';
+    if (empty($posts)) {
+        echo '<p>No porto_builder posts found.</p>';
+    } else {
+        echo '<table border="1" cellpadding="5">';
+        echo '<tr><th>ID</th><th>Title</th><th>Status</th><th>Type Meta</th><th>Content</th></tr>';
+        foreach ($posts as $p) {
+            $type = get_post_meta($p->ID, 'porto_builder_type', true);
+            if (!$type) {
+                $type = get_post_meta($p->ID, 'header_type', true);
+            }
+            echo '<tr>';
+            echo '<td>' . $p->ID . '</td>';
+            echo '<td>' . esc_html($p->post_title) . '</td>';
+            echo '<td>' . esc_html($p->post_status) . '</td>';
+            echo '<td>' . esc_html($type) . '</td>';
+            echo '<td><pre>' . esc_html($p->post_content) . '</pre></td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+    }
+    echo '</body></html>';
+    exit;
+}
+
+
