@@ -64,3 +64,9 @@
     color: #ffffff !important;
     box-shadow: 0 4px 15px rgba(255, 90, 54, 0.3) !important;
 }
+
+@media (max-width: 768px) {
+    .pc-plan-annual {
+        margin-top: 10px !important;
+    }
+}

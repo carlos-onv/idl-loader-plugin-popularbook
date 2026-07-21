@@ -93,3 +93,9 @@
         transform: translateY(0px) !important;
     }
 }
+
+@media (max-width: 768px) {
+    .pc-plan-not-ready {
+        margin-bottom: 20px !important;
+    }
+}
