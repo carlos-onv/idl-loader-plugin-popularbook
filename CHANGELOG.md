@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-21] - Parent's Club Hero Benefits Image Styling Update
+
+### Changed
+- **Parents Club Hero Benefits CSS**:
+  - Removed `mask-image` and `-webkit-mask-image` linear-gradient rules from `.benefits-column .benefits-image-wrapper img` inside [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css).
+
 ## [2026-07-17] - Book Cover Banner & Header Account Menu Override
 
 ### Added
