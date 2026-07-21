@@ -117,4 +117,14 @@ body.page-template-parents-club-template #main .vc_row {
     }
 }
 
+/* Hide empty WPBakery rows when inner elements are hidden by visibility rules */
+.vc_row:not(:has(.wpb_wrapper > *)),
+.vc_row_inner:not(:has(.wpb_wrapper > *)) {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+}
+
 
