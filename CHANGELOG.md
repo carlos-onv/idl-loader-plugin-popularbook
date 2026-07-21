@@ -2,9 +2,13 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-21] - Parent's Club Hero Benefits Image Styling Update
+## [2026-07-21] - Mobile Layout Spacing & Hero Benefits Image Styling Updates
 
 ### Changed
+- **Parents Club Mobile Spacing**:
+  - Updated `.member-welcome-column` `margin-bottom` from `15px` to `20px` under `(max-width: 768px)` in [parents-club-member-welcome.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-member-welcome.css).
+  - Added mobile media query `(max-width: 768px)` in [parents-club-template.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-template.css) for `body.page-template-parents-club-template #main .vc_row` setting `margin-top: 0px !important; margin-bottom: 20px !important;`.
+  - Updated `#parents-club-cta-banner` `margin` from `40px 0` to `0` under `(max-width: 991px)` in [parents-club-cta-banner.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-cta-banner.css).
 - **Parents Club Hero Benefits CSS**:
   - Removed `mask-image` and `-webkit-mask-image` linear-gradient rules from `.benefits-column .benefits-image-wrapper img` inside [parents-club-hero-benefits.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-hero-benefits.css).
 
