@@ -3275,27 +3275,8 @@ function idl_loader_register_parents_club_elements() {
         "base"        => "idl_free_sample_downloads",
         "icon"        => "cs_icon_for_vc",
         "category"    => esc_html__( "eMathSmart Elements", "book-junky" ),
-        "description" => esc_html__( "Centralized Hub for Free Sample Downloads, Audio Clips, and Learning Resources.", "book-junky" ),
+        "description" => esc_html__( "Centralized Grid & Filter Toolbar for Free Sample Downloads and Learning Resources.", "book-junky" ),
         "params"      => array(
-            array(
-                "type"        => "textfield",
-                "heading"     => esc_html__( "Badge Text", "book-junky" ),
-                "param_name"  => "badge",
-                "value"       => "🎁 Free Resources",
-            ),
-            array(
-                "type"        => "textfield",
-                "heading"     => esc_html__( "Section Title", "book-junky" ),
-                "param_name"  => "title",
-                "value"       => "Free Sample Downloads & Educational Resources",
-                "admin_label" => true,
-            ),
-            array(
-                "type"        => "textarea",
-                "heading"     => esc_html__( "Section Subtitle", "book-junky" ),
-                "param_name"  => "subtitle",
-                "value"       => "Explore and download free printable worksheets, audio clips, answer keys, and sample workbooks designed for Canadian & international curricula.",
-            ),
             array(
                 "type"        => "param_group",
                 "heading"     => esc_html__( "Download Items", "book-junky" ),
@@ -8010,18 +7991,11 @@ add_shortcode( 'idl_free_sample_downloads', 'idl_loader_free_sample_downloads_sh
 
 function idl_loader_free_sample_downloads_shortcode( $atts ) {
     $attributes = shortcode_atts( array(
-        'badge'    => '🎁 Free Resources',
-        'title'    => 'Free Sample Downloads & Educational Resources',
-        'subtitle' => 'Explore and download free printable worksheets, audio clips, answer keys, and sample workbooks designed for Canadian & international curricula.',
-        'items'    => '',
+        'items' => '',
     ), $atts );
 
     // Enqueue the modular stylesheet natively
     wp_enqueue_style( 'free-sample-downloads', plugins_url( 'templates/css/free-sample-downloads.css', __FILE__ ) );
-
-    $badge    = esc_html( $attributes['badge'] );
-    $title    = esc_html( $attributes['title'] );
-    $subtitle = esc_html( $attributes['subtitle'] );
 
     // Parse items param group
     $items_data = array();
@@ -8037,81 +8011,81 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
     if ( empty( $items_data ) || ! is_array( $items_data ) ) {
         $items_data = array(
             array(
-                'title'       => 'Complete EnglishSmart Audio & Worksheets',
+                'title'       => 'Complete EnglishSmart',
                 'category'    => 'English & Phonics',
-                'description' => 'Phonics, spelling, and listening comprehension audio clips and sample worksheets for Grades 1 to 8.',
+                'description' => 'Phonics, spelling, and listening comprehension audio clips and sample worksheets.',
                 'grade'       => 'Grades 1-8',
                 'file_format' => 'MP3 & PDF',
                 'file_url'    => '/download-centre/complete-englishsmart',
-                'button_text' => 'Access Resources',
+                'button_text' => 'Download',
             ),
             array(
-                'title'       => 'Complete MathSmart Worksheets & Answer Keys',
+                'title'       => 'Complete MathSmart',
                 'category'    => 'Math',
-                'description' => 'Curriculum-aligned math practice sets, visual math guides, and comprehensive answer keys.',
+                'description' => 'Curriculum-aligned math practice sets, problem solving, and comprehensive answer keys.',
                 'grade'       => 'Grades 1-8',
                 'file_format' => 'PDF',
                 'file_url'    => '/download-centre/complete-mathsmart',
-                'button_text' => 'Access Resources',
+                'button_text' => 'Download',
             ),
             array(
-                'title'       => 'Complete ScienceSmart Experiments & Guides',
+                'title'       => 'Complete ScienceSmart',
                 'category'    => 'Science',
-                'description' => 'Curriculum-based science experiments, diagram sheets, and step-by-step activity guides.',
+                'description' => 'Curriculum-based science experiments, diagram sheets, and activity guides.',
                 'grade'       => 'Grades 1-8',
                 'file_format' => 'PDF',
                 'file_url'    => '/download-centre/complete-sciencesmart',
-                'button_text' => 'Access Resources',
+                'button_text' => 'Download',
             ),
             array(
-                'title'       => 'CodingSmart Learning Materials',
+                'title'       => 'CodingSmart Materials',
                 'category'    => 'Coding & Tech',
                 'description' => 'Fun unplugged coding exercises, logic puzzles, and beginner algorithm worksheets.',
-                'grade'       => 'Beginners & Little Coders',
+                'grade'       => 'Beginners',
                 'file_format' => 'PDF',
                 'file_url'    => '/download-centre/codingsmart',
-                'button_text' => 'Access Resources',
+                'button_text' => 'Download',
             ),
             array(
-                'title'       => 'Visual MathSmart Sample Guides',
+                'title'       => 'Visual MathSmart',
                 'category'    => 'Math',
-                'description' => 'Visual diagrams and step-by-step math strategies tailored for visual learners.',
+                'description' => 'Visual diagrams and step-by-step math strategies for visual learners.',
                 'grade'       => 'Grades 1-6',
                 'file_format' => 'PDF',
                 'file_url'    => '/download-centre/visual-mathsmart',
-                'button_text' => 'Access Resources',
+                'button_text' => 'Download',
             ),
             array(
-                'title'       => 'Bilingual ReadSmart Audio Stories',
+                'title'       => 'Bilingual ReadSmart',
                 'category'    => 'French & Bilingual',
                 'description' => 'English and French dual-language audio stories and comprehension activities.',
                 'grade'       => 'Levels 1-3',
-                'file_format' => 'MP3 Audio',
+                'file_format' => 'MP3',
                 'file_url'    => '/download-centre/bilingual-readsmart',
-                'button_text' => 'Access Resources',
+                'button_text' => 'Download',
             ),
             array(
-                'title'       => 'MathSmart High School Series',
+                'title'       => 'MathSmart High School',
                 'category'    => 'Math',
                 'description' => 'High school algebra, geometry, and trigonometry sample topics and solution guides.',
                 'grade'       => 'Grades 9-12',
                 'file_format' => 'PDF',
                 'file_url'    => '/download-centre/mathsmart-smart-high-school-series',
-                'button_text' => 'Access Resources',
+                'button_text' => 'Download',
             ),
             array(
-                'title'       => 'Interactive EnglishSmart Tutor Materials',
+                'title'       => 'EnglishSmart Tutor',
                 'category'    => 'English & Phonics',
                 'description' => 'Interactive tutor worksheets, vocabulary exercises, and reading practice sheets.',
                 'grade'       => 'Grades 1-6',
                 'file_format' => 'PDF',
                 'file_url'    => '/download-centre/interactive-englishsmart',
-                'button_text' => 'Access Resources',
+                'button_text' => 'Download',
             ),
         );
     }
 
-    // Collect categories for filter tabs
+    // Collect categories for filter pills
     $categories = array( 'All' );
     foreach ( $items_data as $item ) {
         if ( ! empty( $item['category'] ) ) {
@@ -8124,41 +8098,27 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
 
     ob_start();
     ?>
-    <div class="idl-downloads-hub">
-        <div class="idl-downloads-header">
-            <?php if ( ! empty( $badge ) ) : ?>
-                <div class="idl-downloads-badge">
-                    <span><?php echo $badge; ?></span>
-                </div>
-            <?php endif; ?>
-            <?php if ( ! empty( $title ) ) : ?>
-                <h1 class="idl-downloads-title"><?php echo $title; ?></h1>
-            <?php endif; ?>
-            <?php if ( ! empty( $subtitle ) ) : ?>
-                <p class="idl-downloads-subtitle"><?php echo $subtitle; ?></p>
-            <?php endif; ?>
-        </div>
-
-        <div class="idl-downloads-toolbar">
-            <div class="idl-downloads-tabs" role="tablist">
+    <div class="dev-downloads-wrapper">
+        <div class="dev-downloads-toolbar">
+            <div class="dev-filter-pills" role="tablist">
                 <?php foreach ( $categories as $index => $cat_name ) : ?>
-                    <button class="idl-downloads-tab <?php echo 0 === $index ? 'active' : ''; ?>" 
-                            data-category="<?php echo esc_attr( strtolower( $cat_name ) ); ?>" 
-                            role="tab">
+                    <button class="dev-pill-btn <?php echo 0 === $index ? 'active' : ''; ?>" 
+                            data-cat="<?php echo esc_attr( strtolower( $cat_name ) ); ?>" 
+                            type="button">
                         <?php echo esc_html( $cat_name ); ?>
                     </button>
                 <?php endforeach; ?>
             </div>
-            <div class="idl-downloads-search-wrap">
-                <svg class="idl-downloads-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <div class="dev-search-wrap">
+                <svg class="dev-search-icon" viewBox="0 0 24 24">
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <input type="text" class="idl-downloads-search-input" placeholder="Search samples..." aria-label="Search downloads">
+                <input type="text" class="dev-search-input" placeholder="Search resources..." aria-label="Search downloads">
             </div>
         </div>
 
-        <div class="idl-downloads-grid">
+        <div class="dev-downloads-grid">
             <?php foreach ( $items_data as $item ) : 
                 $item_title = isset( $item['title'] ) ? esc_html( $item['title'] ) : '';
                 $item_cat   = isset( $item['category'] ) ? esc_html( $item['category'] ) : 'General';
@@ -8166,7 +8126,7 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
                 $item_grade = isset( $item['grade'] ) ? esc_html( $item['grade'] ) : '';
                 $item_fmt   = isset( $item['file_format'] ) ? esc_html( $item['file_format'] ) : 'PDF';
                 $item_url   = isset( $item['file_url'] ) ? esc_url( $item['file_url'] ) : '#';
-                $item_btn   = isset( $item['button_text'] ) && ! empty( $item['button_text'] ) ? esc_html( $item['button_text'] ) : 'Access Resources';
+                $item_btn   = isset( $item['button_text'] ) && ! empty( $item['button_text'] ) ? esc_html( $item['button_text'] ) : 'Download';
                 $cover_id   = isset( $item['cover_image'] ) ? $item['cover_image'] : '';
 
                 $cover_src = '';
@@ -8181,38 +8141,26 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
                     }
                 }
                 ?>
-                <div class="idl-download-card" 
-                     data-category="<?php echo esc_attr( strtolower( $item_cat ) ); ?>" 
-                     data-search="<?php echo esc_attr( strtolower( $item_title . ' ' . $item_cat . ' ' . $item_desc . ' ' . $item_grade ) ); ?>">
-                    <div class="idl-download-card-media">
-                        <div class="idl-download-badges">
-                            <span class="idl-badge-category"><?php echo $item_cat; ?></span>
-                            <span class="idl-badge-format"><?php echo $item_fmt; ?></span>
+                <div class="dev-card" 
+                     data-cat="<?php echo esc_attr( strtolower( $item_cat ) ); ?>" 
+                     data-text="<?php echo esc_attr( strtolower( $item_title . ' ' . $item_cat . ' ' . $item_desc . ' ' . $item_grade ) ); ?>">
+                    <div class="dev-card-body">
+                        <div class="dev-card-header">
+                            <span class="dev-badge-cat"><?php echo $item_cat; ?></span>
+                            <span class="dev-badge-fmt"><?php echo $item_fmt; ?></span>
                         </div>
-                        <?php if ( ! empty( $cover_src ) ) : ?>
-                            <img src="<?php echo esc_url( $cover_src ); ?>" alt="<?php echo $item_title; ?>" loading="lazy">
-                        <?php else : ?>
-                            <div class="idl-download-card-placeholder">
-                                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                    <polyline points="14 2 14 8 20 8"></polyline>
-                                    <line x1="12" y1="18" x2="12" y2="12"></line>
-                                    <polyline points="9 15 12 18 15 15"></polyline>
-                                </svg>
-                            </div>
+                        <h3 class="dev-card-title"><?php echo $item_title; ?></h3>
+                        <?php if ( ! empty( $item_desc ) ) : ?>
+                            <p class="dev-card-desc"><?php echo $item_desc; ?></p>
                         <?php endif; ?>
                     </div>
-                    <div class="idl-download-card-body">
+                    <div class="dev-card-footer">
                         <?php if ( ! empty( $item_grade ) ) : ?>
-                            <div class="idl-download-card-meta">
-                                <span class="idl-download-card-grade">🎓 <?php echo $item_grade; ?></span>
-                            </div>
+                            <span class="dev-card-grade">🎓 <?php echo $item_grade; ?></span>
+                        <?php else : ?>
+                            <span></span>
                         <?php endif; ?>
-                        <h3 class="idl-download-card-title"><?php echo $item_title; ?></h3>
-                        <?php if ( ! empty( $item_desc ) ) : ?>
-                            <p class="idl-download-card-desc"><?php echo $item_desc; ?></p>
-                        <?php endif; ?>
-                        <a href="<?php echo $item_url; ?>" class="idl-download-btn">
+                        <a href="<?php echo $item_url; ?>" class="dev-card-btn">
                             <span><?php echo $item_btn; ?></span>
                             <svg viewBox="0 0 24 24">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -8223,70 +8171,73 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
                 </div>
             <?php endforeach; ?>
 
-            <div class="idl-downloads-no-results">
-                <p>No sample downloads match your search or filter.</p>
-                <span>Try searching for another keyword or selecting a different category tab.</span>
+            <div class="dev-no-results">
+                <p>No downloads match your search or category filter.</p>
             </div>
         </div>
     </div>
 
     <script>
     (function() {
-        document.addEventListener('DOMContentLoaded', function() {
-            var hub = document.querySelector('.idl-downloads-hub');
-            if (!hub) return;
+        function initDevDownloads() {
+            var container = document.querySelector('.dev-downloads-wrapper');
+            if (!container) return;
 
-            var tabs = hub.querySelectorAll('.idl-downloads-tab');
-            var searchInput = hub.querySelector('.idl-downloads-search-input');
-            var cards = hub.querySelectorAll('.idl-download-card');
-            var noResults = hub.querySelector('.idl-downloads-no-results');
+            var pills = container.querySelectorAll('.dev-pill-btn');
+            var searchInput = container.querySelector('.dev-search-input');
+            var cards = container.querySelectorAll('.dev-card');
+            var noResults = container.querySelector('.dev-no-results');
 
-            var currentCategory = 'all';
-            var currentSearch = '';
+            var activeCat = 'all';
 
-            function filterCards() {
-                var visibleCount = 0;
+            function filterGrid() {
+                var query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                var visible = 0;
 
                 cards.forEach(function(card) {
-                    var cardCat = (card.getAttribute('data-category') || '').toLowerCase();
-                    var cardSearch = (card.getAttribute('data-search') || '').toLowerCase();
+                    var cardCat = (card.getAttribute('data-cat') || '').toLowerCase().trim();
+                    var cardText = (card.getAttribute('data-text') || '').toLowerCase().trim();
 
-                    var matchCat = (currentCategory === 'all' || cardCat === currentCategory);
-                    var matchSearch = (!currentSearch || cardSearch.indexOf(currentSearch) !== -1);
+                    var matchCat = (activeCat === 'all' || cardCat === activeCat);
+                    var matchText = (!query || cardText.indexOf(query) !== -1);
 
-                    if (matchCat && matchSearch) {
+                    if (matchCat && matchText) {
                         card.style.display = 'flex';
-                        visibleCount++;
+                        visible++;
                     } else {
                         card.style.display = 'none';
                     }
                 });
 
                 if (noResults) {
-                    noResults.style.display = (visibleCount === 0) ? 'block' : 'none';
+                    noResults.style.display = (visible === 0) ? 'block' : 'none';
                 }
             }
 
-            tabs.forEach(function(tab) {
-                tab.addEventListener('click', function() {
-                    tabs.forEach(function(t) { t.classList.remove('active'); });
+            pills.forEach(function(pill) {
+                pill.addEventListener('click', function() {
+                    pills.forEach(function(p) { p.classList.remove('active'); });
                     this.classList.add('active');
-                    currentCategory = (this.getAttribute('data-category') || 'all').toLowerCase();
-                    filterCards();
+                    activeCat = (this.getAttribute('data-cat') || 'all').toLowerCase().trim();
+                    filterGrid();
                 });
             });
 
             if (searchInput) {
-                searchInput.addEventListener('input', function() {
-                    currentSearch = this.value.trim().toLowerCase();
-                    filterCards();
-                });
+                searchInput.addEventListener('input', filterGrid);
             }
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initDevDownloads);
+        } else {
+            initDevDownloads();
+        }
     })();
     </script>
     <?php
     return ob_get_clean();
 }
+
 
 

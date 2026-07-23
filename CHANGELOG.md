@@ -2,26 +2,26 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-23] - Centralized Free Sample Downloads Hub Page & bCheck Fallback Fix
+## [2026-07-23] - Centralized Free Sample Downloads Hub Page & WPBakery Element Redesign
 
 ### Added
-- **JS bCheck Fallback Handler**:
-  - Added `idl_loader_bcheck_fallback()` hooked to `wp_head` at priority `1` in [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php). Defines `window.bCheck` safely early in `<head>` so any legacy theme scripts or header/footer tags calling `if (!bCheck())` do not throw `ReferenceError: bCheck is not defined` in the browser console.
 - **Centralized Free Sample Downloads Hub WPBakery Element**:
   - Registered `idl_free_sample_downloads` shortcode element under "eMathSmart Elements" category in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php).
-  - Supports configurable badge text, section title, section subtitle, and a repeatable `param_group` (`items`) for resource cards (title, category tag, grade level, file format, direct file/page URL, button text, and thumbnail cover image).
+  - Configured repeating `param_group` (`items`) for resource cards (title, category tag, grade level, file format, direct file/page URL, button text, and thumbnail cover image).
   - Pre-populated with default resources covering EnglishSmart, MathSmart, ScienceSmart, CodingSmart, Visual MathSmart, Bilingual ReadSmart, MathSmart High School, and Interactive EnglishSmart Tutor.
-  - Implemented client-side tab category filtering (All, English & Phonics, Math, Science, Coding & Tech, French & Bilingual) and instant keyword search filtering.
-- **Modular Stylesheet**:
-  - Created [free-sample-downloads.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/free-sample-downloads.css) containing responsive grid layouts, category tab pill controls, card hover elevation, floating format badges, and mobile styling.
+  - Implemented programmatic DOM event listeners (`addEventListener`) for tab pill category filtering and search input without inline `onclick` HTML entity encoding issues.
 
 ### Changed
+- **WPBakery Element & Stylesheet Redesign (dev.popularbook.ca Consistency)**:
+  - Updated [free-sample-downloads.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/free-sample-downloads.css) and [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php) to adopt the `dev.popularbook.ca` design system (Outfit typography, `#b30026` primary crimson accent, `#fdf2f4` rose capsule badges, 20px rounded card corners, and 50px pill filters).
+  - Removed internal header text rendering (Badge, Title, Subtitle) from inside the WPBakery element shortcode handler so heading text can be placed cleanly using standard page headings above the element.
+  - Fixed search input left padding (`padding-left: 38px !important;`) and magnifying glass icon absolute positioning to prevent overlap with input placeholder text.
 - **Download Centre Page Content**:
-  - Updated post content for Post ID `3528` (`/download-centre`) to embed clean minimalist download hub layout.
+  - Updated post content for Post ID `3528` (`/download-centre`) to include standard HTML heading/subtitle above `[idl_free_sample_downloads]`.
 
 ### Technical Notes for AI Agents
-- The shortcode `[idl_free_sample_downloads]` automatically enqueues `templates/css/free-sample-downloads.css` contextually upon execution.
-- `idl_loader_bcheck_fallback()` runs early in `wp_head` (`priority 1`) to guarantee `window.bCheck` is available globally before external script execution.
+- The shortcode `[idl_free_sample_downloads]` outputs the filter toolbar and card grid only. Heading copy is placed externally on the page.
+- Category data attributes use lowercase strings and clean JavaScript event binding (`initDevDownloads()`) to avoid WordPress entity escaping (`&` -> `&#038;`) issues.
 
 ## [2026-07-21] - Mobile Layout Spacing & Hero Benefits Image Styling Updates
 
