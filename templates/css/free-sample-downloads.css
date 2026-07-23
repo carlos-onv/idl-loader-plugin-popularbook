@@ -1,0 +1,348 @@
+/* Free Sample Downloads Hub Stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+
+.idl-downloads-hub {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1e293b;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 1rem 4rem;
+}
+
+/* Header Section */
+.idl-downloads-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.idl-downloads-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: #fff5f5;
+    color: #af0128;
+    border: 1px solid #fecdd3;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.idl-downloads-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.2;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+}
+
+.idl-downloads-subtitle {
+    font-size: 1.125rem;
+    color: #475569;
+    max-width: 760px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Filter & Search Toolbar */
+.idl-downloads-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+    background: #ffffff;
+    padding: 1rem 1.25rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+    border: 1px solid #e2e8f0;
+}
+
+.idl-downloads-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.idl-downloads-tab {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #64748b;
+    padding: 0.5rem 1.125rem;
+    border-radius: 10px;
+    font-size: 0.925rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.idl-downloads-tab:hover {
+    color: #af0128;
+    background: #f8fafc;
+}
+
+.idl-downloads-tab.active {
+    background: #af0128;
+    color: #ffffff;
+    border-color: #af0128;
+    box-shadow: 0 4px 12px rgba(175, 1, 40, 0.25);
+}
+
+.idl-downloads-search-wrap {
+    position: relative;
+    flex-grow: 1;
+    max-width: 320px;
+    min-width: 220px;
+}
+
+.idl-downloads-search-input {
+    width: 100%;
+    padding: 0.6rem 1rem 0.6rem 2.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 0.925rem;
+    font-family: inherit;
+    color: #0f172a;
+    background: #f8fafc;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.idl-downloads-search-input:focus {
+    outline: none;
+    border-color: #af0128;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(175, 1, 40, 0.12);
+}
+
+.idl-downloads-search-icon {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+/* Download Cards Grid */
+.idl-downloads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.75rem;
+}
+
+.idl-download-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.idl-download-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.12);
+    border-color: #fca5a5;
+}
+
+.idl-download-card-media {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.idl-download-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.idl-download-card:hover .idl-download-card-media img {
+    transform: scale(1.05);
+}
+
+.idl-download-card-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #94a3b8;
+}
+
+.idl-download-card-placeholder svg {
+    width: 48px;
+    height: 48px;
+    stroke: #af0128;
+    stroke-width: 1.5;
+    fill: none;
+}
+
+.idl-download-badges {
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    right: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.idl-badge-category {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.idl-badge-format {
+    background: #af0128;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(175, 1, 40, 0.3);
+}
+
+/* Card Body */
+.idl-download-card-body {
+    padding: 1.35rem 1.35rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.idl-download-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+}
+
+.idl-download-card-grade {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #2563eb;
+    background: #eff6ff;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+}
+
+.idl-download-card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 0.6rem 0;
+    line-height: 1.35;
+}
+
+.idl-download-card-desc {
+    font-size: 0.925rem;
+    color: #475569;
+    line-height: 1.55;
+    margin: 0 0 1.25rem 0;
+    flex-grow: 1;
+}
+
+/* Action Button */
+.idl-download-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    background: #af0128;
+    color: #ffffff !important;
+    font-size: 0.925rem;
+    font-weight: 700;
+    text-decoration: none !important;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(175, 1, 40, 0.2);
+    box-sizing: border-box;
+}
+
+.idl-download-btn:hover {
+    background: #8b001e;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(175, 1, 40, 0.35);
+    color: #ffffff !important;
+}
+
+.idl-download-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+}
+
+/* Empty / No Results state */
+.idl-downloads-no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: #ffffff;
+    border: 2px dashed #cbd5e1;
+    border-radius: 16px;
+    color: #64748b;
+    display: none;
+}
+
+.idl-downloads-no-results p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+    .idl-downloads-hub {
+        padding: 1.5rem 0.75rem 2.5rem;
+    }
+    .idl-downloads-title {
+        font-size: 1.85rem;
+    }
+    .idl-downloads-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .idl-downloads-search-wrap {
+        max-width: 100%;
+    }
+    .idl-downloads-grid {
+        grid-template-columns: 1fr;
+    }
+}

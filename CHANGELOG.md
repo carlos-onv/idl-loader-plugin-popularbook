@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-23] - Centralized Free Sample Downloads Hub Page
+
+### Added
+- **Centralized Free Sample Downloads Hub WPBakery Element**:
+  - Registered `idl_free_sample_downloads` shortcode element under "eMathSmart Elements" category in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php).
+  - Supports configurable badge text, section title, section subtitle, and a repeatable `param_group` (`items`) for resource cards (title, category tag, grade level, file format, direct file/page URL, button text, and thumbnail cover image).
+  - Pre-populated with default resources covering EnglishSmart, MathSmart, ScienceSmart, CodingSmart, Visual MathSmart, Bilingual ReadSmart, MathSmart High School, and Interactive EnglishSmart Tutor.
+  - Implemented client-side tab category filtering (All, English & Phonics, Math, Science, Coding & Tech, French & Bilingual) and instant keyword search filtering.
+- **Modular Stylesheet**:
+  - Created [free-sample-downloads.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/free-sample-downloads.css) containing responsive grid layouts, category tab pill controls, card hover elevation, floating format badges, and mobile styling.
+
+### Changed
+- **Download Centre Page Content**:
+  - Updated post content for Post ID `3528` (`/download-centre`) to embed `[idl_free_sample_downloads]`.
+
+### Technical Notes for AI Agents
+- The shortcode `[idl_free_sample_downloads]` automatically enqueues `templates/css/free-sample-downloads.css` contextually upon execution.
+- If no custom items are provided via WPBakery parameters, the shortcode falls back to the default 8 curriculum resource items defined in `idl_loader_free_sample_downloads_shortcode()`.
+
 ## [2026-07-21] - Mobile Layout Spacing & Hero Benefits Image Styling Updates
 
 ### Changed
