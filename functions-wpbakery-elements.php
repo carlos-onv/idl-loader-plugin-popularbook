@@ -8042,7 +8042,7 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
                 'description' => 'Phonics, spelling, and listening comprehension audio clips and sample worksheets for Grades 1 to 8.',
                 'grade'       => 'Grades 1-8',
                 'file_format' => 'MP3 & PDF',
-                'file_url'    => '/complete-englishsmart',
+                'file_url'    => '/download-centre/complete-englishsmart',
                 'button_text' => 'Access Resources',
             ),
             array(
@@ -8051,7 +8051,7 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
                 'description' => 'Curriculum-aligned math practice sets, visual math guides, and comprehensive answer keys.',
                 'grade'       => 'Grades 1-8',
                 'file_format' => 'PDF',
-                'file_url'    => '/complete-mathsmart',
+                'file_url'    => '/download-centre/complete-mathsmart',
                 'button_text' => 'Access Resources',
             ),
             array(
@@ -8060,7 +8060,7 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
                 'description' => 'Curriculum-based science experiments, diagram sheets, and step-by-step activity guides.',
                 'grade'       => 'Grades 1-8',
                 'file_format' => 'PDF',
-                'file_url'    => '/complete-sciencesmart',
+                'file_url'    => '/download-centre/complete-sciencesmart',
                 'button_text' => 'Access Resources',
             ),
             array(
@@ -8069,7 +8069,7 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
                 'description' => 'Fun unplugged coding exercises, logic puzzles, and beginner algorithm worksheets.',
                 'grade'       => 'Beginners & Little Coders',
                 'file_format' => 'PDF',
-                'file_url'    => '/codingsmart',
+                'file_url'    => '/download-centre/codingsmart',
                 'button_text' => 'Access Resources',
             ),
             array(
@@ -8078,7 +8078,7 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
                 'description' => 'Visual diagrams and step-by-step math strategies tailored for visual learners.',
                 'grade'       => 'Grades 1-6',
                 'file_format' => 'PDF',
-                'file_url'    => '/visual-mathsmart',
+                'file_url'    => '/download-centre/visual-mathsmart',
                 'button_text' => 'Access Resources',
             ),
             array(
@@ -8087,7 +8087,7 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
                 'description' => 'English and French dual-language audio stories and comprehension activities.',
                 'grade'       => 'Levels 1-3',
                 'file_format' => 'MP3 Audio',
-                'file_url'    => '/bilingual-readsmart',
+                'file_url'    => '/download-centre/bilingual-readsmart',
                 'button_text' => 'Access Resources',
             ),
             array(
@@ -8096,7 +8096,7 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
                 'description' => 'High school algebra, geometry, and trigonometry sample topics and solution guides.',
                 'grade'       => 'Grades 9-12',
                 'file_format' => 'PDF',
-                'file_url'    => '/mathsmart-smart-high-school-series',
+                'file_url'    => '/download-centre/mathsmart-smart-high-school-series',
                 'button_text' => 'Access Resources',
             ),
             array(
@@ -8105,7 +8105,7 @@ function idl_loader_free_sample_downloads_shortcode( $atts ) {
                 'description' => 'Interactive tutor worksheets, vocabulary exercises, and reading practice sheets.',
                 'grade'       => 'Grades 1-6',
                 'file_format' => 'PDF',
-                'file_url'    => '/interactive-englishsmart',
+                'file_url'    => '/download-centre/interactive-englishsmart',
                 'button_text' => 'Access Resources',
             ),
         );
