@@ -2,9 +2,11 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-23] - Centralized Free Sample Downloads Hub Page
+## [2026-07-23] - Centralized Free Sample Downloads Hub Page & bCheck Fallback Fix
 
 ### Added
+- **JS bCheck Fallback Handler**:
+  - Added `idl_loader_bcheck_fallback()` hooked to `wp_head` at priority `1` in [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php). Defines `window.bCheck` safely early in `<head>` so any legacy theme scripts or header/footer tags calling `if (!bCheck())` do not throw `ReferenceError: bCheck is not defined` in the browser console.
 - **Centralized Free Sample Downloads Hub WPBakery Element**:
   - Registered `idl_free_sample_downloads` shortcode element under "eMathSmart Elements" category in [functions-wpbakery-elements.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions-wpbakery-elements.php).
   - Supports configurable badge text, section title, section subtitle, and a repeatable `param_group` (`items`) for resource cards (title, category tag, grade level, file format, direct file/page URL, button text, and thumbnail cover image).
@@ -15,11 +17,11 @@ All notable changes to this project will be documented in this file for both hum
 
 ### Changed
 - **Download Centre Page Content**:
-  - Updated post content for Post ID `3528` (`/download-centre`) to embed `[idl_free_sample_downloads]`.
+  - Updated post content for Post ID `3528` (`/download-centre`) to embed clean minimalist download hub layout.
 
 ### Technical Notes for AI Agents
 - The shortcode `[idl_free_sample_downloads]` automatically enqueues `templates/css/free-sample-downloads.css` contextually upon execution.
-- If no custom items are provided via WPBakery parameters, the shortcode falls back to the default 8 curriculum resource items defined in `idl_loader_free_sample_downloads_shortcode()`.
+- `idl_loader_bcheck_fallback()` runs early in `wp_head` (`priority 1`) to guarantee `window.bCheck` is available globally before external script execution.
 
 ## [2026-07-21] - Mobile Layout Spacing & Hero Benefits Image Styling Updates
 

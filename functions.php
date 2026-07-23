@@ -3688,4 +3688,15 @@ function emathsmart_override_porto_info_box_atts( $out, $pairs, $atts, $shortcod
     return $out;
 }
 
+/**
+ * Safe fallback definition for legacy bCheck() function to prevent JS ReferenceError in browser console.
+ */
+function idl_loader_bcheck_fallback() {
+    if ( ! is_admin() ) {
+        echo '<script>if(typeof window.bCheck === "undefined"){ window.bCheck = function(){ return false; }; }</script>' . "\n";
+    }
+}
+add_action( 'wp_head', 'idl_loader_bcheck_fallback', 1 );
+
+
 
