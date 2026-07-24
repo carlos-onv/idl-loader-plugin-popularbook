@@ -2553,17 +2553,28 @@ add_filter('wpseo_json_ld_output', '__return_false');
 /* Best selling product scroller */
 function dynamic_top_5_best_seller_scroller_shortcode($atts)
 {
-    // Get the current category slug dynamically
-    $category_slug = '';
+    $atts = shortcode_atts(array(
+        'speed'          => 1500,
+        'autoplay_speed' => 1500,
+        'slides_to_show' => 1,
+        'category'       => '',
+    ), $atts, 'dynamic_top_5_best_seller_scroller');
 
-    if (is_product_category()) {
-        // If on a category archive page
-        $category_slug = get_queried_object()->slug;
-    } elseif (is_product()) {
-        // If on a single product page
-        $terms = get_the_terms(get_the_ID(), 'product_cat');
-        if ($terms && !is_wp_error($terms)) {
-            $category_slug = $terms[0]->slug; // Get the first category
+    $speed = (!empty($atts['speed']) && $atts['speed'] != 1500) ? intval($atts['speed']) : intval($atts['autoplay_speed']);
+
+    // Get the current category slug dynamically
+    $category_slug = !empty($atts['category']) ? sanitize_text_field($atts['category']) : '';
+
+    if (empty($category_slug)) {
+        if (is_product_category()) {
+            // If on a category archive page
+            $category_slug = get_queried_object()->slug;
+        } elseif (is_product()) {
+            // If on a single product page
+            $terms = get_the_terms(get_the_ID(), 'product_cat');
+            if ($terms && !is_wp_error($terms)) {
+                $category_slug = $terms[0]->slug; // Get the first category
+            }
         }
     }
 
@@ -2577,16 +2588,16 @@ function dynamic_top_5_best_seller_scroller_shortcode($atts)
 
     // Arguments for querying the top 5 best-selling products in the detected category
     $args = array(
-        'post_type' => 'product',
+        'post_type'      => 'product',
         'posts_per_page' => 5, // Display only 5 products
-        'meta_key' => 'total_sales', // WooCommerce tracks sales in 'total_sales'
-        'orderby' => 'meta_value_num', // Order by number of sales
-        'order' => 'DESC', // Show the highest sales first
-        'tax_query' => array(
+        'meta_key'       => 'total_sales', // WooCommerce tracks sales in 'total_sales'
+        'orderby'        => 'meta_value_num', // Order by number of sales
+        'order'          => 'DESC', // Show the highest sales first
+        'tax_query'      => array(
             array(
                 'taxonomy' => 'product_cat',
-                'field' => 'slug', // Use slug to match the category
-                'terms' => $category_slug, // The detected category slug
+                'field'    => 'slug', // Use slug to match the category
+                'terms'    => $category_slug, // The detected category slug
                 'operator' => 'IN',
             ),
         ),
@@ -2620,10 +2631,10 @@ function dynamic_top_5_best_seller_scroller_shortcode($atts)
         <script>
             jQuery(document).ready(function() {
                 jQuery('.top-5-best-seller-scroller').slick({
-                    slidesToShow: 1, // Show 5 products at once
+                    slidesToShow: <?php echo intval($atts['slides_to_show']); ?>,
                     slidesToScroll: 1, // Scroll 1 product at a time
                     autoplay: true, // Enable auto-scrolling
-                    autoplaySpeed: 1500, // Speed between auto-scroll (in milliseconds)
+                    autoplaySpeed: <?php echo intval($speed); ?>, // Speed between auto-scroll (in milliseconds)
                     arrows: false, // Show next/previous arrows
                     dots: true, // Show pagination dots
                 });
@@ -2637,6 +2648,7 @@ function dynamic_top_5_best_seller_scroller_shortcode($atts)
     }
 }
 add_shortcode('dynamic_top_5_best_seller_scroller', 'dynamic_top_5_best_seller_scroller_shortcode');
+add_shortcode('homepage_best_seller_scroller', 'dynamic_top_5_best_seller_scroller_shortcode');
 
 add_filter('wpseo_metadesc', 'do_shortcode');
 add_filter('wpseo_opengraph_desc', 'do_shortcode');

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-24] - Best Seller Scroller Speed Parameter & Shortcode Alias
+
+### Added
+- **Shortcode Attributes Support (`speed`, `autoplay_speed`, `slides_to_show`, `category`)**:
+  - Updated `dynamic_top_5_best_seller_scroller_shortcode()` in [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php#L2554-L2639) to accept parameters: `speed` / `autoplay_speed` (in ms, e.g. `speed="3000"`), `slides_to_show`, and `category` slug override.
+- **Shortcode Alias `[homepage_best_seller_scroller]`**:
+  - Registered `homepage_best_seller_scroller` shortcode alias to point to `dynamic_top_5_best_seller_scroller_shortcode`.
+
 ## [2026-07-24] - Fix bCheck Polyfill Early Execution for Checkout Tokenization
 
 ### Added
