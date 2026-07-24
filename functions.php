@@ -3322,6 +3322,145 @@ function idl_loader_parents_club_template_styles() {
     
     // Always enqueue FAQ styles globally so .faq-home and WPBakery toggles on any page get styled cleanly
     wp_enqueue_style( 'parents-club-faq', plugins_url( 'templates/css/parents-club-faq.css', __FILE__ ), array(), time() );
+}
+
+/**
+ * High-priority inline CSS injection to ensure all FAQ accordion items (closed & open) render with light red background (#fdf2f4) and no borders.
+ */
+add_action( 'wp_head', 'idl_loader_force_faq_home_light_red_css', 99999 );
+function idl_loader_force_faq_home_light_red_css() {
+    ?>
+    <style id="idl-loader-force-faq-home-css">
+    html body .faq-home,
+    html body .parents-club-faq,
+    html body .vc_toggle,
+    html body .vc_toggle_default,
+    html body .vc_toggle_simple,
+    html body .vc_toggle_rounded,
+    html body .vc_toggle_round,
+    html body .vc_tta-panel,
+    html body .vc_tta-panel-heading,
+    html body .vc_tta-accordion .vc_tta-panel,
+    html body .accordion .card,
+    html body .accordion .panel,
+    html body .panel-default,
+    html body #parents-club-section-6 .faq-item {
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        background-color: #fdf2f4 !important;
+        background: #fdf2f4 !important;
+        width: 100% !important;
+        margin-bottom: 10px !important;
+    }
+    html body .faq-home .vc_toggle_title,
+    html body .parents-club-faq .vc_toggle_title,
+    html body .vc_toggle .vc_toggle_title,
+    html body .vc_toggle_default .vc_toggle_title,
+    html body .vc_tta-panel-heading,
+    html body .vc_tta-panel-title,
+    html body .vc_tta-panel-title > a,
+    html body .card-header,
+    html body .panel-heading,
+    html body #parents-club-section-6 .faq-question {
+        background-color: #fdf2f4 !important;
+        background: #fdf2f4 !important;
+        border: none !important;
+        padding: 14px 18px !important;
+        color: #1e293b !important;
+        font-size: 14.5px !important;
+        font-weight: 700 !important;
+        text-decoration: none !important;
+    }
+    html body .faq-home .vc_toggle_title h4,
+    html body .parents-club-faq .vc_toggle_title h4,
+    html body .vc_toggle .vc_toggle_title h4,
+    html body .vc_toggle_default .vc_toggle_title h4,
+    html body .vc_tta-panel-title *,
+    html body .card-header *,
+    html body .panel-title * {
+        color: #1e293b !important;
+        margin: 0 !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        background: transparent !important;
+    }
+    html body .faq-home:hover,
+    html body .parents-club-faq:hover,
+    html body .vc_toggle:hover,
+    html body .vc_tta-panel:hover,
+    html body .accordion .card:hover,
+    html body #parents-club-section-6 .faq-item:hover,
+    html body .faq-home:hover .vc_toggle_title,
+    html body .parents-club-faq:hover .vc_toggle_title,
+    html body .vc_toggle:hover .vc_toggle_title,
+    html body .vc_tta-panel-heading:hover,
+    html body .vc_tta-panel-title:hover {
+        background-color: #fce7eb !important;
+        background: #fce7eb !important;
+        border: none !important;
+    }
+    html body .faq-home.vc_toggle_active,
+    html body .parents-club-faq.vc_toggle_active,
+    html body .vc_toggle.vc_toggle_active,
+    html body .vc_tta-panel.vc_active,
+    html body .vc_tta-panel.vc_active .vc_tta-panel-heading,
+    html body .accordion .card.active,
+    html body #parents-club-section-6 .faq-item.is-open,
+    html body .faq-home.vc_toggle_active .vc_toggle_title,
+    html body .parents-club-faq.vc_toggle_active .vc_toggle_title,
+    html body .vc_toggle.vc_toggle_active .vc_toggle_title,
+    html body .vc_tta-panel.vc_active .vc_tta-panel-title,
+    html body .vc_tta-panel.vc_active .vc_tta-panel-title > a,
+    html body #parents-club-section-6 .faq-question.is-open {
+        background-color: #fde2e6 !important;
+        background: #fde2e6 !important;
+        color: #af0128 !important;
+        border: none !important;
+    }
+    html body .faq-home.vc_toggle_active .vc_toggle_title h4,
+    html body .parents-club-faq.vc_toggle_active .vc_toggle_title h4,
+    html body .vc_toggle.vc_toggle_active .vc_toggle_title h4,
+    html body .vc_tta-panel.vc_active .vc_tta-panel-title * {
+        color: #af0128 !important;
+    }
+    html body .faq-home .vc_toggle_icon,
+    html body .parents-club-faq .vc_toggle_icon,
+    html body .vc_toggle .vc_toggle_icon,
+    html body .vc_toggle_title .vc_toggle_icon,
+    html body .vc_tta-controls-icon,
+    html body .vc_tta-controls-icon-plus,
+    html body #parents-club-section-6 .faq-chevron {
+        color: #af0128 !important;
+        border-color: #af0128 !important;
+    }
+    html body .vc_toggle .vc_toggle_icon::before,
+    html body .vc_toggle .vc_toggle_icon::after,
+    html body .vc_toggle_title .vc_toggle_icon::before,
+    html body .vc_toggle_title .vc_toggle_icon::after,
+    html body .vc_tta-controls-icon::before,
+    html body .vc_tta-controls-icon::after {
+        background-color: #af0128 !important;
+    }
+    html body .faq-home .vc_toggle_content,
+    html body .parents-club-faq .vc_toggle_content,
+    html body .vc_toggle .vc_toggle_content,
+    html body .vc_tta-panel-body,
+    html body .card-body,
+    html body .panel-body,
+    html body #parents-club-section-6 .faq-answer {
+        background-color: #fde2e6 !important;
+        background: #fde2e6 !important;
+        border: none !important;
+        padding: 0 18px 16px 18px !important;
+        color: #334155 !important;
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+    }
+    </style>
+    <?php
+
 
     if ( $is_parents_page ) {
         wp_enqueue_style( 'parents-club-template-layout', plugins_url( 'templates/css/parents-club-template.css', __FILE__ ) );

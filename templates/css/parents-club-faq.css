@@ -95,44 +95,56 @@ html body #parents-club-section-6 .faq-col {
 html body .faq-home,
 html body .parents-club-faq,
 html body .vc_toggle.faq-home,
-html body .vc_toggle.parents-club-faq,
 html body .vc_toggle,
 html body .vc_toggle_default,
 html body .vc_toggle_simple,
 html body .vc_toggle_rounded,
 html body .vc_toggle_round,
+html body .vc_tta-panel,
+html body .vc_tta-panel-heading,
+html body .vc_tta-accordion .vc_tta-panel,
+html body .accordion .card,
+html body .accordion .panel,
+html body .panel-default,
 html body #parents-club-section-6 .faq-item {
     border: none !important;
     box-shadow: none !important;
     border-radius: 12px !important;
     overflow: hidden !important;
     background-color: #fdf2f4 !important; /* Soft light red background for ALL FAQ items (closed & open) */
+    background: #fdf2f4 !important;
     width: 100% !important;
     margin-bottom: 10px !important;
     transition: background-color 0.25s ease !important;
 }
 
-/* Hover state for all FAQ items */
+/* Hover state for all FAQ items (closed & open) */
 html body .faq-home:hover,
 html body .parents-club-faq:hover,
-html body .vc_toggle.faq-home:hover,
-html body .vc_toggle.parents-club-faq:hover,
 html body .vc_toggle:hover,
+html body .vc_tta-panel:hover,
+html body .accordion .card:hover,
 html body #parents-club-section-6 .faq-item:hover,
 html body .faq-home:hover .vc_toggle_title,
 html body .parents-club-faq:hover .vc_toggle_title,
-html body .vc_toggle:hover .vc_toggle_title {
-    background-color: #fce7eb !important; /* Slightly richer light red hover */
+html body .vc_toggle:hover .vc_toggle_title,
+html body .vc_tta-panel-heading:hover,
+html body .vc_tta-panel-title:hover {
+    background-color: #fce7eb !important;
+    background: #fce7eb !important;
     border: none !important;
 }
 
-/* Question Header Row */
+/* Question Header Row (Closed & Open) */
 html body .faq-home .vc_toggle_title,
 html body .parents-club-faq .vc_toggle_title,
-html body .vc_toggle.faq-home .vc_toggle_title,
-html body .vc_toggle.parents-club-faq .vc_toggle_title,
 html body .vc_toggle .vc_toggle_title,
 html body .vc_toggle_default .vc_toggle_title,
+html body .vc_tta-panel-heading,
+html body .vc_tta-panel-title,
+html body .vc_tta-panel-title > a,
+html body .card-header,
+html body .panel-heading,
 html body #parents-club-section-6 .faq-question {
     display: flex !important;
     align-items: center !important;
@@ -141,6 +153,7 @@ html body #parents-club-section-6 .faq-question {
     width: 100% !important;
     padding: 14px 18px !important;
     background-color: #fdf2f4 !important; /* Light red question header */
+    background: #fdf2f4 !important;
     border: none !important;
     cursor: pointer !important;
     text-align: left !important;
@@ -148,19 +161,22 @@ html body #parents-club-section-6 .faq-question {
     font-weight: 700 !important;
     color: #1e293b !important;
     line-height: 1.45 !important;
+    text-decoration: none !important;
     transition: color 0.2s ease, background-color 0.2s ease !important;
 }
 
 html body .faq-home .vc_toggle_title h4,
 html body .parents-club-faq .vc_toggle_title h4,
-html body .vc_toggle.faq-home .vc_toggle_title h4,
-html body .vc_toggle.parents-club-faq .vc_toggle_title h4,
 html body .vc_toggle .vc_toggle_title h4,
-html body .vc_toggle_default .vc_toggle_title h4 {
+html body .vc_toggle_default .vc_toggle_title h4,
+html body .vc_tta-panel-title *,
+html body .card-header *,
+html body .panel-title * {
     margin: 0 !important;
     font-size: inherit !important;
     font-weight: inherit !important;
     color: inherit !important;
+    background: transparent !important;
 }
 
 /* Toggle Icon / Plus/Minus / Chevron */
@@ -168,6 +184,8 @@ html body .faq-home .vc_toggle_icon,
 html body .parents-club-faq .vc_toggle_icon,
 html body .vc_toggle .vc_toggle_icon,
 html body .vc_toggle_title .vc_toggle_icon,
+html body .vc_tta-controls-icon,
+html body .vc_tta-controls-icon-plus,
 html body #parents-club-section-6 .faq-chevron {
     flex-shrink: 0;
     width: 14px;
@@ -180,20 +198,22 @@ html body #parents-club-section-6 .faq-chevron {
 html body .vc_toggle .vc_toggle_icon::before,
 html body .vc_toggle .vc_toggle_icon::after,
 html body .vc_toggle_title .vc_toggle_icon::before,
-html body .vc_toggle_title .vc_toggle_icon::after {
+html body .vc_toggle_title .vc_toggle_icon::after,
+html body .vc_tta-controls-icon::before,
+html body .vc_tta-controls-icon::after {
     background-color: #af0128 !important;
 }
 
-/* ── ACTIVE / OPEN FAQ Item (Slightly warmer light red & Crimson active text) ── */
+/* ── ACTIVE / OPEN FAQ Item (Warmer light red & Crimson active text) ── */
 html body .faq-home.vc_toggle_active,
 html body .parents-club-faq.vc_toggle_active,
-html body .vc_toggle.faq-home.vc_toggle_active,
-html body .vc_toggle.parents-club-faq.vc_toggle_active,
 html body .vc_toggle.vc_toggle_active,
-html body .faq-home.is-open,
-html body .parents-club-faq.is-open,
+html body .vc_tta-panel.vc_active,
+html body .vc_tta-panel.vc_active .vc_tta-panel-heading,
+html body .accordion .card.active,
 html body #parents-club-section-6 .faq-item.is-open {
     background-color: #fde2e6 !important; /* Warmer light red when open */
+    background: #fde2e6 !important;
     border: none !important;
     border-radius: 12px !important;
     box-shadow: none !important;
@@ -202,23 +222,26 @@ html body #parents-club-section-6 .faq-item.is-open {
 /* Active Title & Icon */
 html body .faq-home.vc_toggle_active .vc_toggle_title,
 html body .parents-club-faq.vc_toggle_active .vc_toggle_title,
-html body .vc_toggle.faq-home.vc_toggle_active .vc_toggle_title,
-html body .vc_toggle.parents-club-faq.vc_toggle_active .vc_toggle_title,
 html body .vc_toggle.vc_toggle_active .vc_toggle_title,
+html body .vc_tta-panel.vc_active .vc_tta-panel-title,
+html body .vc_tta-panel.vc_active .vc_tta-panel-title > a,
 html body #parents-club-section-6 .faq-question.is-open {
     background-color: #fde2e6 !important;
+    background: #fde2e6 !important;
     color: #af0128 !important; /* Crimson red text when open */
 }
 
 html body .faq-home.vc_toggle_active .vc_toggle_title h4,
 html body .parents-club-faq.vc_toggle_active .vc_toggle_title h4,
-html body .vc_toggle.vc_toggle_active .vc_toggle_title h4 {
+html body .vc_toggle.vc_toggle_active .vc_toggle_title h4,
+html body .vc_tta-panel.vc_active .vc_tta-panel-title * {
     color: #af0128 !important;
 }
 
 html body .faq-home.vc_toggle_active .vc_toggle_icon,
 html body .parents-club-faq.vc_toggle_active .vc_toggle_icon,
 html body .vc_toggle.vc_toggle_active .vc_toggle_icon,
+html body .vc_tta-panel.vc_active .vc_tta-controls-icon,
 html body #parents-club-section-6 .faq-question.is-open .faq-chevron {
     transform: rotate(180deg);
     color: #af0128 !important;
@@ -229,10 +252,13 @@ html body #parents-club-section-6 .faq-question.is-open .faq-chevron {
 html body .faq-home .vc_toggle_content,
 html body .parents-club-faq .vc_toggle_content,
 html body .vc_toggle .vc_toggle_content,
+html body .vc_tta-panel-body,
+html body .card-body,
+html body .panel-body,
 html body #parents-club-section-6 .faq-answer {
-    display: none;
     padding: 0 18px 16px 18px !important;
     background-color: #fde2e6 !important; /* Light red content background matching open item */
+    background: #fde2e6 !important;
     border: none !important;
     font-size: 14px !important;
     color: #334155 !important;
@@ -240,7 +266,7 @@ html body #parents-club-section-6 .faq-answer {
 }
 
 html body .faq-home.vc_toggle_active .vc_toggle_content,
-html body .parents-club-faq.vc_toggle_active .vc_toggle_content,
+html body .parents-club-faq.vc_toggle_content,
 html body .vc_toggle.vc_toggle_active .vc_toggle_content,
 html body #parents-club-section-6 .faq-answer.is-open {
     display: block;
@@ -262,7 +288,6 @@ html body .parents-club-faq.active label,
 html body .faq-home.active label {
     color: #af0128 !important;
 }
-
-
-
-
+label {
+    color: #af0128 !important;
+}
