@@ -2,15 +2,15 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-24] - Dev Home Page FAQ Individual Card Separation (.faq-home)
+## [2026-07-24] - Dev Home Page FAQ Background Only Styling (.faq-home)
 
 ### Changed
-- **FAQ Card Separation (`parents-club-faq.css` & `functions.php`)**:
-  - Fixed `.faq-home` column wrapper styling so the outer column remains transparent with zero background rectangles wrapping multiple items together.
-  - Ensured each FAQ question (`.vc_toggle`, `.parents-club-faq`, `#parents-club-section-6 .faq-item`) renders as an independent, distinct card with soft light red background (`#fdf2f4`), 12px rounded corners, 12px vertical spacing separation, and zero borders.
+- **Minimal FAQ Background Style (`parents-club-faq.css` & `functions.php`)**:
+  - Removed all custom typography, font sizes, custom paddings, icon overrides, and layout tweaks.
+  - Retained exclusively the light red background color (`#fdf2f4`) applied to FAQ items and titles, ensuring theme defaults remain completely unaltered.
 
 ### Technical Notes for AI Agents
-- Explicitly scoped transparent background to column wrappers (`.wpb_column.faq-home`, `.vc_column_container.faq-home`) while scoping `#fdf2f4` background exclusively to inner toggle elements (`.faq-home .vc_toggle`).
+- The CSS rules only target `background-color`, `background`, and `border: none !important` on `.faq-home .vc_toggle` and `.parents-club-faq`.
 
 ## [2026-07-24] - Removed Best Seller Scroller Shortcode from Plugin
 
