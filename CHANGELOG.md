@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-24] - Download Hub Full Width Container Adjustment
+
+### Changed
+- **Free Sample Downloads Stylesheet**:
+  - Removed `max-width: 1140px;` constraint from `.dev-downloads-wrapper` in [free-sample-downloads.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/free-sample-downloads.css) to allow full-width responsiveness within parent page containers.
+
 ## [2026-07-23] - Centralized Free Sample Downloads Hub Page & WPBakery Element Redesign
 
 ### Added
