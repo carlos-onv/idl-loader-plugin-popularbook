@@ -2,17 +2,15 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-24] - Dev Home Page FAQ Specificity Boost & Global Enqueue (.faq-home)
+## [2026-07-24] - Dev Home Page FAQ Individual Card Separation (.faq-home)
 
 ### Changed
-- **Ultra-High Specificity FAQ Rules (`parents-club-faq.css`)**:
-  - Updated [parents-club-faq.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-faq.css) with `html body` prefix across all `.vc_toggle`, `.vc_toggle_title`, `.vc_toggle_default`, `.parents-club-faq`, and `.faq-home` rules.
-  - Ensures closed FAQ items strictly inherit the light red background (`#fdf2f4`) and zero borders (`border: none !important;`) without being overridden by Porto theme or WPBakery defaults.
-- **Unconditional Asset Enqueueing & Cache Busting (`functions.php`)**:
-  - Updated `idl_loader_parents_club_template_styles()` in [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php) to always enqueue `parents-club-faq.css` globally using dynamic timestamp `time()` versioning to immediately bust browser asset caching.
+- **FAQ Card Separation (`parents-club-faq.css` & `functions.php`)**:
+  - Fixed `.faq-home` column wrapper styling so the outer column remains transparent with zero background rectangles wrapping multiple items together.
+  - Ensured each FAQ question (`.vc_toggle`, `.parents-club-faq`, `#parents-club-section-6 .faq-item`) renders as an independent, distinct card with soft light red background (`#fdf2f4`), 12px rounded corners, 12px vertical spacing separation, and zero borders.
 
 ### Technical Notes for AI Agents
-- `html body .vc_toggle`, `html body .vc_toggle_title`, and `html body .vc_toggle_default` override WPBakery's internal CSS specificity rules for closed accordion states.
+- Explicitly scoped transparent background to column wrappers (`.wpb_column.faq-home`, `.vc_column_container.faq-home`) while scoping `#fdf2f4` background exclusively to inner toggle elements (`.faq-home .vc_toggle`).
 
 ## [2026-07-24] - Removed Best Seller Scroller Shortcode from Plugin
 

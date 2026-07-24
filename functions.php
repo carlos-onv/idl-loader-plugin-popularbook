@@ -3332,18 +3332,25 @@ function idl_loader_force_faq_home_light_red_css() {
     ?>
     <style id="idl-loader-force-faq-home-css">
     html body .faq-home,
-    html body .parents-club-faq,
+    html body .faq-home-wrapper,
+    html body .wpb_column.faq-home,
+    html body .vc_column_container.faq-home,
+    html body #parents-club-section-6 {
+        background-color: transparent !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
     html body .vc_toggle,
     html body .vc_toggle_default,
     html body .vc_toggle_simple,
     html body .vc_toggle_rounded,
     html body .vc_toggle_round,
+    html body .parents-club-faq,
+    html body .faq-home .vc_toggle,
+    html body .faq-home .parents-club-faq,
     html body .vc_tta-panel,
-    html body .vc_tta-panel-heading,
-    html body .vc_tta-accordion .vc_tta-panel,
     html body .accordion .card,
-    html body .accordion .panel,
-    html body .panel-default,
     html body #parents-club-section-6 .faq-item {
         border: none !important;
         box-shadow: none !important;
@@ -3352,12 +3359,12 @@ function idl_loader_force_faq_home_light_red_css() {
         background-color: #fdf2f4 !important;
         background: #fdf2f4 !important;
         width: 100% !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 12px !important;
     }
-    html body .faq-home .vc_toggle_title,
-    html body .parents-club-faq .vc_toggle_title,
     html body .vc_toggle .vc_toggle_title,
     html body .vc_toggle_default .vc_toggle_title,
+    html body .parents-club-faq .vc_toggle_title,
+    html body .faq-home .vc_toggle .vc_toggle_title,
     html body .vc_tta-panel-heading,
     html body .vc_tta-panel-title,
     html body .vc_tta-panel-title > a,
@@ -3367,16 +3374,16 @@ function idl_loader_force_faq_home_light_red_css() {
         background-color: #fdf2f4 !important;
         background: #fdf2f4 !important;
         border: none !important;
-        padding: 14px 18px !important;
+        padding: 16px 20px !important;
         color: #1e293b !important;
         font-size: 14.5px !important;
         font-weight: 700 !important;
         text-decoration: none !important;
     }
-    html body .faq-home .vc_toggle_title h4,
-    html body .parents-club-faq .vc_toggle_title h4,
     html body .vc_toggle .vc_toggle_title h4,
     html body .vc_toggle_default .vc_toggle_title h4,
+    html body .parents-club-faq .vc_toggle_title h4,
+    html body .faq-home .vc_toggle .vc_toggle_title h4,
     html body .vc_tta-panel-title *,
     html body .card-header *,
     html body .panel-title * {
@@ -3386,31 +3393,28 @@ function idl_loader_force_faq_home_light_red_css() {
         font-weight: inherit !important;
         background: transparent !important;
     }
-    html body .faq-home:hover,
-    html body .parents-club-faq:hover,
     html body .vc_toggle:hover,
+    html body .parents-club-faq:hover,
+    html body .faq-home .vc_toggle:hover,
     html body .vc_tta-panel:hover,
     html body .accordion .card:hover,
     html body #parents-club-section-6 .faq-item:hover,
-    html body .faq-home:hover .vc_toggle_title,
-    html body .parents-club-faq:hover .vc_toggle_title,
     html body .vc_toggle:hover .vc_toggle_title,
-    html body .vc_tta-panel-heading:hover,
-    html body .vc_tta-panel-title:hover {
+    html body .parents-club-faq:hover .vc_toggle_title,
+    html body .faq-home .vc_toggle:hover .vc_toggle_title {
         background-color: #fce7eb !important;
         background: #fce7eb !important;
         border: none !important;
     }
-    html body .faq-home.vc_toggle_active,
-    html body .parents-club-faq.vc_toggle_active,
     html body .vc_toggle.vc_toggle_active,
+    html body .parents-club-faq.vc_toggle_active,
+    html body .faq-home .vc_toggle.vc_toggle_active,
     html body .vc_tta-panel.vc_active,
-    html body .vc_tta-panel.vc_active .vc_tta-panel-heading,
     html body .accordion .card.active,
     html body #parents-club-section-6 .faq-item.is-open,
-    html body .faq-home.vc_toggle_active .vc_toggle_title,
-    html body .parents-club-faq.vc_toggle_active .vc_toggle_title,
     html body .vc_toggle.vc_toggle_active .vc_toggle_title,
+    html body .parents-club-faq.vc_toggle_active .vc_toggle_title,
+    html body .faq-home .vc_toggle.vc_toggle_active .vc_toggle_title,
     html body .vc_tta-panel.vc_active .vc_tta-panel-title,
     html body .vc_tta-panel.vc_active .vc_tta-panel-title > a,
     html body #parents-club-section-6 .faq-question.is-open {
@@ -3419,15 +3423,15 @@ function idl_loader_force_faq_home_light_red_css() {
         color: #af0128 !important;
         border: none !important;
     }
-    html body .faq-home.vc_toggle_active .vc_toggle_title h4,
-    html body .parents-club-faq.vc_toggle_active .vc_toggle_title h4,
     html body .vc_toggle.vc_toggle_active .vc_toggle_title h4,
+    html body .parents-club-faq.vc_toggle_active .vc_toggle_title h4,
+    html body .faq-home .vc_toggle.vc_toggle_active .vc_toggle_title h4,
     html body .vc_tta-panel.vc_active .vc_tta-panel-title * {
         color: #af0128 !important;
     }
-    html body .faq-home .vc_toggle_icon,
-    html body .parents-club-faq .vc_toggle_icon,
     html body .vc_toggle .vc_toggle_icon,
+    html body .parents-club-faq .vc_toggle_icon,
+    html body .faq-home .vc_toggle .vc_toggle_icon,
     html body .vc_toggle_title .vc_toggle_icon,
     html body .vc_tta-controls-icon,
     html body .vc_tta-controls-icon-plus,
@@ -3443,9 +3447,9 @@ function idl_loader_force_faq_home_light_red_css() {
     html body .vc_tta-controls-icon::after {
         background-color: #af0128 !important;
     }
-    html body .faq-home .vc_toggle_content,
-    html body .parents-club-faq .vc_toggle_content,
     html body .vc_toggle .vc_toggle_content,
+    html body .parents-club-faq .vc_toggle_content,
+    html body .faq-home .vc_toggle .vc_toggle_content,
     html body .vc_tta-panel-body,
     html body .card-body,
     html body .panel-body,
@@ -3453,7 +3457,7 @@ function idl_loader_force_faq_home_light_red_css() {
         background-color: #fde2e6 !important;
         background: #fde2e6 !important;
         border: none !important;
-        padding: 0 18px 16px 18px !important;
+        padding: 0 20px 18px 20px !important;
         color: #334155 !important;
         font-size: 14px !important;
         line-height: 1.6 !important;
