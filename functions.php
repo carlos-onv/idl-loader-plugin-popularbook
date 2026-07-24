@@ -3320,6 +3320,10 @@ function idl_loader_parents_club_template_styles() {
         $is_parents_page = true;
     }
     
+    if ( $is_parents_page || is_front_page() || is_home() ) {
+        wp_enqueue_style( 'parents-club-faq', plugins_url( 'templates/css/parents-club-faq.css', __FILE__ ), array(), '1.1.0' );
+    }
+
     if ( $is_parents_page ) {
         wp_enqueue_style( 'parents-club-template-layout', plugins_url( 'templates/css/parents-club-template.css', __FILE__ ) );
         wp_enqueue_style( 'parents-club-hero-brand', plugins_url( 'templates/css/parents-club-hero-brand.css', __FILE__ ) );
