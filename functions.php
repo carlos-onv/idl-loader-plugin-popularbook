@@ -3331,6 +3331,12 @@ add_action( 'wp_head', 'idl_loader_force_faq_home_light_red_css', 99999 );
 function idl_loader_force_faq_home_light_red_css() {
     ?>
     <style id="idl-loader-force-faq-home-css">
+    :root {
+        --brand-red: #af0128;
+        --brand-red-light: #fdf2f4;
+        --brand-red-light-active: #fde2e6;
+        --s6-bg-light-red: #fdf2f4;
+    }
     html body #faq-acc .vc_tta-panel,
     html body #faq-acc .vc_tta-panel-heading,
     html body #faq-acc .vc_tta-panel-title,
@@ -3345,8 +3351,8 @@ function idl_loader_force_faq_home_light_red_css() {
     html body .vc_toggle.parents-club-faq,
     html body #parents-club-section-6 .faq-item,
     html body #parents-club-section-6 .faq-question {
-        background-color: #fdf2f4 !important;
-        background: #fdf2f4 !important;
+        background-color: var(--brand-red-light, var(--s6-bg-light-red, #fdf2f4)) !important;
+        background: var(--brand-red-light, var(--s6-bg-light-red, #fdf2f4)) !important;
         border: none !important;
     }
 
@@ -3364,8 +3370,8 @@ function idl_loader_force_faq_home_light_red_css() {
     html body .parents-club-faq.vc_toggle_active,
     html body #parents-club-section-6 .faq-item.is-open,
     html body #parents-club-section-6 .faq-answer {
-        background-color: #fde2e6 !important;
-        background: #fde2e6 !important;
+        background-color: var(--brand-red-light-active, #fde2e6) !important;
+        background: var(--brand-red-light-active, #fde2e6) !important;
         border: none !important;
     }
     </style>

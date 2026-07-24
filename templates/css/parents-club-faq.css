@@ -1,8 +1,15 @@
 /**
  * Dev Home Page & Parents Club FAQ Background Styling
  * File: parents-club-faq.css
- * Light red background for FAQ accordion items on dev homepage (#faq-acc / .faq-home)
+ * Light red background for FAQ accordion items using theme CSS variables.
  */
+
+:root {
+    --brand-red: #af0128;
+    --brand-red-light: #fdf2f4;
+    --brand-red-light-active: #fde2e6;
+    --s6-bg-light-red: #fdf2f4;
+}
 
 /* Closed FAQ Items & Question Title Links */
 html body #faq-acc .vc_tta-panel,
@@ -19,8 +26,8 @@ html body .vc_toggle.faq-home,
 html body .vc_toggle.parents-club-faq,
 html body #parents-club-section-6 .faq-item,
 html body #parents-club-section-6 .faq-question {
-    background-color: #fdf2f4 !important;
-    background: #fdf2f4 !important;
+    background-color: var(--brand-red-light, var(--s6-bg-light-red, #fdf2f4)) !important;
+    background: var(--brand-red-light, var(--s6-bg-light-red, #fdf2f4)) !important;
     border: none !important;
 }
 
@@ -39,9 +46,10 @@ html body .faq-home .vc_toggle.vc_toggle_active,
 html body .parents-club-faq.vc_toggle_active,
 html body #parents-club-section-6 .faq-item.is-open,
 html body #parents-club-section-6 .faq-answer {
-    background-color: #fde2e6 !important;
-    background: #fde2e6 !important;
+    background-color: var(--brand-red-light-active, #fde2e6) !important;
+    background: var(--brand-red-light-active, #fde2e6) !important;
     border: none !important;
 }
+
 
 
