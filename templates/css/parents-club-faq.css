@@ -5,14 +5,14 @@
  */
 
 /* ── Reset & shared variables ── */
-#parents-club-section-6,
-#parents-club-section-6 * {
+html body #parents-club-section-6,
+html body #parents-club-section-6 * {
     box-sizing: border-box !important;
     margin: 0;
     padding: 0;
 }
 
-#parents-club-section-6 {
+html body #parents-club-section-6 {
     --s6-brand-red: #af0128;
     --s6-bg-light-red: #fdf2f4;
     --s6-text-dark: #1e293b;
@@ -23,14 +23,14 @@
     width: 100%;
 }
 
-#parents-club-section-6 .container {
+html body #parents-club-section-6 .container {
     width: 100% !important;
     margin: 0 auto;
     padding: 0 20px;
 }
 
 /* ── Two-panel layout ── */
-#parents-club-section-6 .s6-layout {
+html body #parents-club-section-6 .s6-layout {
     display: flex;
     flex-direction: column;
     gap: 35px;
@@ -38,7 +38,7 @@
 }
 
 @media (min-width: 992px) {
-    #parents-club-section-6 .s6-layout {
+    html body #parents-club-section-6 .s6-layout {
         flex-direction: row;
         gap: 30px;
         align-items: flex-start;
@@ -46,14 +46,14 @@
 }
 
 /* ── FAQ panel ── */
-#parents-club-section-6 .faq-panel,
-.faq-home-container {
+html body #parents-club-section-6 .faq-panel,
+html body .faq-home-container {
     flex: 1 1 0;
     min-width: 0;
 }
 
-#parents-club-section-6 .faq-title,
-.faq-home-title {
+html body #parents-club-section-6 .faq-title,
+html body .faq-home-title {
     font-size: 24px !important;
     font-weight: 800 !important;
     color: var(--s6-text-dark) !important;
@@ -63,14 +63,14 @@
 }
 
 /* Grid for FAQ items */
-#parents-club-section-6 .faq-columns,
-.faq-home-grid {
+html body #parents-club-section-6 .faq-columns,
+html body .faq-home-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px 24px;
 }
 
-#parents-club-section-6 .faq-col {
+html body #parents-club-section-6 .faq-col {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -78,57 +78,62 @@
 }
 
 @media (min-width: 640px) {
-    #parents-club-section-6 .faq-columns,
-    .faq-home-grid {
+    html body #parents-club-section-6 .faq-columns,
+    html body .faq-home-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (min-width: 992px) {
-    #parents-club-section-6 .faq-columns,
-    .faq-home-grid {
+    html body #parents-club-section-6 .faq-columns,
+    html body .faq-home-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 /* ── ALL FAQ Items (Light Red Background for ALL items, No Borders) ── */
-.faq-home,
-.parents-club-faq,
-.vc_toggle.faq-home,
-.vc_toggle.parents-club-faq,
-.vc_toggle,
-#parents-club-section-6 .faq-item {
+html body .faq-home,
+html body .parents-club-faq,
+html body .vc_toggle.faq-home,
+html body .vc_toggle.parents-club-faq,
+html body .vc_toggle,
+html body .vc_toggle_default,
+html body .vc_toggle_simple,
+html body .vc_toggle_rounded,
+html body .vc_toggle_round,
+html body #parents-club-section-6 .faq-item {
     border: none !important;
     box-shadow: none !important;
     border-radius: 12px !important;
     overflow: hidden !important;
-    background-color: #fdf2f4 !important; /* Soft light red background for ALL FAQ items */
+    background-color: #fdf2f4 !important; /* Soft light red background for ALL FAQ items (closed & open) */
     width: 100% !important;
     margin-bottom: 10px !important;
     transition: background-color 0.25s ease !important;
 }
 
 /* Hover state for all FAQ items */
-.faq-home:hover,
-.parents-club-faq:hover,
-.vc_toggle.faq-home:hover,
-.vc_toggle.parents-club-faq:hover,
-.vc_toggle:hover,
-#parents-club-section-6 .faq-item:hover,
-.faq-home:hover .vc_toggle_title,
-.parents-club-faq:hover .vc_toggle_title,
-.vc_toggle:hover .vc_toggle_title {
+html body .faq-home:hover,
+html body .parents-club-faq:hover,
+html body .vc_toggle.faq-home:hover,
+html body .vc_toggle.parents-club-faq:hover,
+html body .vc_toggle:hover,
+html body #parents-club-section-6 .faq-item:hover,
+html body .faq-home:hover .vc_toggle_title,
+html body .parents-club-faq:hover .vc_toggle_title,
+html body .vc_toggle:hover .vc_toggle_title {
     background-color: #fce7eb !important; /* Slightly richer light red hover */
     border: none !important;
 }
 
 /* Question Header Row */
-.faq-home .vc_toggle_title,
-.parents-club-faq .vc_toggle_title,
-.vc_toggle.faq-home .vc_toggle_title,
-.vc_toggle.parents-club-faq .vc_toggle_title,
-.vc_toggle .vc_toggle_title,
-#parents-club-section-6 .faq-question {
+html body .faq-home .vc_toggle_title,
+html body .parents-club-faq .vc_toggle_title,
+html body .vc_toggle.faq-home .vc_toggle_title,
+html body .vc_toggle.parents-club-faq .vc_toggle_title,
+html body .vc_toggle .vc_toggle_title,
+html body .vc_toggle_default .vc_toggle_title,
+html body #parents-club-section-6 .faq-question {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
@@ -146,11 +151,12 @@
     transition: color 0.2s ease, background-color 0.2s ease !important;
 }
 
-.faq-home .vc_toggle_title h4,
-.parents-club-faq .vc_toggle_title h4,
-.vc_toggle.faq-home .vc_toggle_title h4,
-.vc_toggle.parents-club-faq .vc_toggle_title h4,
-.vc_toggle .vc_toggle_title h4 {
+html body .faq-home .vc_toggle_title h4,
+html body .parents-club-faq .vc_toggle_title h4,
+html body .vc_toggle.faq-home .vc_toggle_title h4,
+html body .vc_toggle.parents-club-faq .vc_toggle_title h4,
+html body .vc_toggle .vc_toggle_title h4,
+html body .vc_toggle_default .vc_toggle_title h4 {
     margin: 0 !important;
     font-size: inherit !important;
     font-weight: inherit !important;
@@ -158,10 +164,11 @@
 }
 
 /* Toggle Icon / Plus/Minus / Chevron */
-.faq-home .vc_toggle_icon,
-.parents-club-faq .vc_toggle_icon,
-.vc_toggle .vc_toggle_icon,
-#parents-club-section-6 .faq-chevron {
+html body .faq-home .vc_toggle_icon,
+html body .parents-club-faq .vc_toggle_icon,
+html body .vc_toggle .vc_toggle_icon,
+html body .vc_toggle_title .vc_toggle_icon,
+html body #parents-club-section-6 .faq-chevron {
     flex-shrink: 0;
     width: 14px;
     height: 14px;
@@ -170,15 +177,22 @@
     transition: transform 0.25s ease, color 0.15s ease;
 }
 
+html body .vc_toggle .vc_toggle_icon::before,
+html body .vc_toggle .vc_toggle_icon::after,
+html body .vc_toggle_title .vc_toggle_icon::before,
+html body .vc_toggle_title .vc_toggle_icon::after {
+    background-color: #af0128 !important;
+}
+
 /* ── ACTIVE / OPEN FAQ Item (Slightly warmer light red & Crimson active text) ── */
-.faq-home.vc_toggle_active,
-.parents-club-faq.vc_toggle_active,
-.vc_toggle.faq-home.vc_toggle_active,
-.vc_toggle.parents-club-faq.vc_toggle_active,
-.vc_toggle.vc_toggle_active,
-.faq-home.is-open,
-.parents-club-faq.is-open,
-#parents-club-section-6 .faq-item.is-open {
+html body .faq-home.vc_toggle_active,
+html body .parents-club-faq.vc_toggle_active,
+html body .vc_toggle.faq-home.vc_toggle_active,
+html body .vc_toggle.parents-club-faq.vc_toggle_active,
+html body .vc_toggle.vc_toggle_active,
+html body .faq-home.is-open,
+html body .parents-club-faq.is-open,
+html body #parents-club-section-6 .faq-item.is-open {
     background-color: #fde2e6 !important; /* Warmer light red when open */
     border: none !important;
     border-radius: 12px !important;
@@ -186,36 +200,36 @@
 }
 
 /* Active Title & Icon */
-.faq-home.vc_toggle_active .vc_toggle_title,
-.parents-club-faq.vc_toggle_active .vc_toggle_title,
-.vc_toggle.faq-home.vc_toggle_active .vc_toggle_title,
-.vc_toggle.parents-club-faq.vc_toggle_active .vc_toggle_title,
-.vc_toggle.vc_toggle_active .vc_toggle_title,
-#parents-club-section-6 .faq-question.is-open {
+html body .faq-home.vc_toggle_active .vc_toggle_title,
+html body .parents-club-faq.vc_toggle_active .vc_toggle_title,
+html body .vc_toggle.faq-home.vc_toggle_active .vc_toggle_title,
+html body .vc_toggle.parents-club-faq.vc_toggle_active .vc_toggle_title,
+html body .vc_toggle.vc_toggle_active .vc_toggle_title,
+html body #parents-club-section-6 .faq-question.is-open {
     background-color: #fde2e6 !important;
     color: #af0128 !important; /* Crimson red text when open */
 }
 
-.faq-home.vc_toggle_active .vc_toggle_title h4,
-.parents-club-faq.vc_toggle_active .vc_toggle_title h4,
-.vc_toggle.vc_toggle_active .vc_toggle_title h4 {
+html body .faq-home.vc_toggle_active .vc_toggle_title h4,
+html body .parents-club-faq.vc_toggle_active .vc_toggle_title h4,
+html body .vc_toggle.vc_toggle_active .vc_toggle_title h4 {
     color: #af0128 !important;
 }
 
-.faq-home.vc_toggle_active .vc_toggle_icon,
-.parents-club-faq.vc_toggle_active .vc_toggle_icon,
-.vc_toggle.vc_toggle_active .vc_toggle_icon,
-#parents-club-section-6 .faq-question.is-open .faq-chevron {
+html body .faq-home.vc_toggle_active .vc_toggle_icon,
+html body .parents-club-faq.vc_toggle_active .vc_toggle_icon,
+html body .vc_toggle.vc_toggle_active .vc_toggle_icon,
+html body #parents-club-section-6 .faq-question.is-open .faq-chevron {
     transform: rotate(180deg);
     color: #af0128 !important;
     border-color: #af0128 !important;
 }
 
 /* Answer panel / WPBakery toggle content */
-.faq-home .vc_toggle_content,
-.parents-club-faq .vc_toggle_content,
-.vc_toggle .vc_toggle_content,
-#parents-club-section-6 .faq-answer {
+html body .faq-home .vc_toggle_content,
+html body .parents-club-faq .vc_toggle_content,
+html body .vc_toggle .vc_toggle_content,
+html body #parents-club-section-6 .faq-answer {
     display: none;
     padding: 0 18px 16px 18px !important;
     background-color: #fde2e6 !important; /* Light red content background matching open item */
@@ -225,10 +239,10 @@
     line-height: 1.6;
 }
 
-.faq-home.vc_toggle_active .vc_toggle_content,
-.parents-club-faq.vc_toggle_active .vc_toggle_content,
-.vc_toggle.vc_toggle_active .vc_toggle_content,
-#parents-club-section-6 .faq-answer.is-open {
+html body .faq-home.vc_toggle_active .vc_toggle_content,
+html body .parents-club-faq.vc_toggle_active .vc_toggle_content,
+html body .vc_toggle.vc_toggle_active .vc_toggle_content,
+html body #parents-club-section-6 .faq-answer.is-open {
     display: block;
     animation: faqFadeIn 0.2s ease-out forwards;
 }
@@ -244,10 +258,11 @@
     }
 }
 
-.parents-club-faq.active label,
-.faq-home.active label {
+html body .parents-club-faq.active label,
+html body .faq-home.active label {
     color: #af0128 !important;
 }
+
 
 
 
