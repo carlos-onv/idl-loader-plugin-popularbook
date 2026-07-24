@@ -67,13 +67,13 @@
 .faq-home-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 8px 24px;
+    gap: 10px 24px;
 }
 
 #parents-club-section-6 .faq-col {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     align-items: stretch;
 }
 
@@ -91,29 +91,34 @@
     }
 }
 
-/* ── Inactive FAQ Items (No borders, transparent background) ── */
+/* ── ALL FAQ Items (Light Red Background for ALL items, No Borders) ── */
 .faq-home,
 .parents-club-faq,
 .vc_toggle.faq-home,
 .vc_toggle.parents-club-faq,
+.vc_toggle,
 #parents-club-section-6 .faq-item {
     border: none !important;
     box-shadow: none !important;
     border-radius: 12px !important;
-    overflow: hidden;
-    background-color: transparent !important;
-    width: 100%;
-    margin-bottom: 6px !important;
-    transition: background-color 0.25s ease, color 0.25s ease !important;
+    overflow: hidden !important;
+    background-color: #fdf2f4 !important; /* Soft light red background for ALL FAQ items */
+    width: 100% !important;
+    margin-bottom: 10px !important;
+    transition: background-color 0.25s ease !important;
 }
 
-/* Subtle hover for inactive items */
-.faq-home:not(.vc_toggle_active):not(.is-open):hover,
-.parents-club-faq:not(.vc_toggle_active):not(.is-open):hover,
-.vc_toggle.faq-home:not(.vc_toggle_active):not(.is-open):hover,
-.vc_toggle.parents-club-faq:not(.vc_toggle_active):not(.is-open):hover,
-#parents-club-section-6 .faq-item:not(.is-open):hover {
-    background-color: #f8fafc !important;
+/* Hover state for all FAQ items */
+.faq-home:hover,
+.parents-club-faq:hover,
+.vc_toggle.faq-home:hover,
+.vc_toggle.parents-club-faq:hover,
+.vc_toggle:hover,
+#parents-club-section-6 .faq-item:hover,
+.faq-home:hover .vc_toggle_title,
+.parents-club-faq:hover .vc_toggle_title,
+.vc_toggle:hover .vc_toggle_title {
+    background-color: #fce7eb !important; /* Slightly richer light red hover */
     border: none !important;
 }
 
@@ -122,6 +127,7 @@
 .parents-club-faq .vc_toggle_title,
 .vc_toggle.faq-home .vc_toggle_title,
 .vc_toggle.parents-club-faq .vc_toggle_title,
+.vc_toggle .vc_toggle_title,
 #parents-club-section-6 .faq-question {
     display: flex !important;
     align-items: center !important;
@@ -129,7 +135,7 @@
     gap: 14px !important;
     width: 100% !important;
     padding: 14px 18px !important;
-    background: transparent !important;
+    background-color: #fdf2f4 !important; /* Light red question header */
     border: none !important;
     cursor: pointer !important;
     text-align: left !important;
@@ -137,41 +143,44 @@
     font-weight: 700 !important;
     color: #1e293b !important;
     line-height: 1.45 !important;
-    transition: color 0.2s ease !important;
+    transition: color 0.2s ease, background-color 0.2s ease !important;
 }
 
 .faq-home .vc_toggle_title h4,
 .parents-club-faq .vc_toggle_title h4,
 .vc_toggle.faq-home .vc_toggle_title h4,
-.vc_toggle.parents-club-faq .vc_toggle_title h4 {
+.vc_toggle.parents-club-faq .vc_toggle_title h4,
+.vc_toggle .vc_toggle_title h4 {
     margin: 0 !important;
     font-size: inherit !important;
     font-weight: inherit !important;
     color: inherit !important;
 }
 
-/* Chevron / Toggle Icon */
+/* Toggle Icon / Plus/Minus / Chevron */
 .faq-home .vc_toggle_icon,
 .parents-club-faq .vc_toggle_icon,
+.vc_toggle .vc_toggle_icon,
 #parents-club-section-6 .faq-chevron {
     flex-shrink: 0;
     width: 14px;
     height: 14px;
-    color: #64748b !important;
-    border-color: #64748b !important;
+    color: #af0128 !important; /* Brand red accent icon */
+    border-color: #af0128 !important;
     transition: transform 0.25s ease, color 0.15s ease;
 }
 
-/* ── ACTIVE / OPEN FAQ Item (Light Red Background ONLY for Active) ── */
+/* ── ACTIVE / OPEN FAQ Item (Slightly warmer light red & Crimson active text) ── */
 .faq-home.vc_toggle_active,
 .parents-club-faq.vc_toggle_active,
 .vc_toggle.faq-home.vc_toggle_active,
 .vc_toggle.parents-club-faq.vc_toggle_active,
+.vc_toggle.vc_toggle_active,
 .faq-home.is-open,
 .parents-club-faq.is-open,
 #parents-club-section-6 .faq-item.is-open {
-    background-color: #fdf2f4 !important; /* Soft light red background ONLY on active/open item */
-    border: none !important; /* No red border */
+    background-color: #fde2e6 !important; /* Warmer light red when open */
+    border: none !important;
     border-radius: 12px !important;
     box-shadow: none !important;
 }
@@ -181,17 +190,21 @@
 .parents-club-faq.vc_toggle_active .vc_toggle_title,
 .vc_toggle.faq-home.vc_toggle_active .vc_toggle_title,
 .vc_toggle.parents-club-faq.vc_toggle_active .vc_toggle_title,
+.vc_toggle.vc_toggle_active .vc_toggle_title,
 #parents-club-section-6 .faq-question.is-open {
-    color: #af0128 !important; /* Crimson red question title when active */
+    background-color: #fde2e6 !important;
+    color: #af0128 !important; /* Crimson red text when open */
 }
 
 .faq-home.vc_toggle_active .vc_toggle_title h4,
-.parents-club-faq.vc_toggle_active .vc_toggle_title h4 {
+.parents-club-faq.vc_toggle_active .vc_toggle_title h4,
+.vc_toggle.vc_toggle_active .vc_toggle_title h4 {
     color: #af0128 !important;
 }
 
 .faq-home.vc_toggle_active .vc_toggle_icon,
 .parents-club-faq.vc_toggle_active .vc_toggle_icon,
+.vc_toggle.vc_toggle_active .vc_toggle_icon,
 #parents-club-section-6 .faq-question.is-open .faq-chevron {
     transform: rotate(180deg);
     color: #af0128 !important;
@@ -201,10 +214,11 @@
 /* Answer panel / WPBakery toggle content */
 .faq-home .vc_toggle_content,
 .parents-club-faq .vc_toggle_content,
+.vc_toggle .vc_toggle_content,
 #parents-club-section-6 .faq-answer {
     display: none;
-    padding: 2px 18px 18px 18px !important;
-    background-color: transparent !important; /* Blends with active light red background */
+    padding: 0 18px 16px 18px !important;
+    background-color: #fde2e6 !important; /* Light red content background matching open item */
     border: none !important;
     font-size: 14px !important;
     color: #334155 !important;
@@ -213,6 +227,7 @@
 
 .faq-home.vc_toggle_active .vc_toggle_content,
 .parents-club-faq.vc_toggle_active .vc_toggle_content,
+.vc_toggle.vc_toggle_active .vc_toggle_content,
 #parents-club-section-6 .faq-answer.is-open {
     display: block;
     animation: faqFadeIn 0.2s ease-out forwards;
@@ -233,5 +248,6 @@
 .faq-home.active label {
     color: #af0128 !important;
 }
+
 
 

@@ -2,18 +2,18 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-24] - Dev Home Page FAQ Active-Only Light Red Styling (.faq-home)
+## [2026-07-24] - Dev Home Page FAQ All-Item Light Red Background (.faq-home)
 
 ### Changed
 - **FAQ Accordion & Section Styling (`parents-club-faq.css`)**:
-  - Updated [parents-club-faq.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-faq.css) so that light red background tint (`#fdf2f4`) is applied **only** to the active/open FAQ item (`.vc_toggle_active`, `.is-open`).
-  - Removed all pink/red outer and item borders (`border: none !important;`) per feedback.
-  - Kept inactive FAQ items transparent with clean slate title text and gray toggle icons.
+  - Updated [parents-club-faq.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-faq.css) so that light red background tint (`#fdf2f4` / `#fde2e6`) is applied to **all** FAQ items (both closed and active toggles) to eliminate stark white page contrast.
+  - Completely removed pink/red outer and item borders (`border: none !important;`) per feedback.
+  - Applied subtle hover background transition (`#fce7eb`), rounded corners (`12px`), and brand crimson icon accents (`#af0128`).
 - **Native Stylesheet Enqueueing (`functions.php`)**:
   - Updated `idl_loader_parents_club_template_styles()` in [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php) to automatically enqueue `parents-club-faq.css` on front-page / home page contexts.
 
 ### Technical Notes for AI Agents
-- Targeted `.faq-home`, `.parents-club-faq`, `.vc_toggle.faq-home`, `.vc_toggle.parents-club-faq`, and `#parents-club-section-6 .faq-item` with `.vc_toggle_active` / `.is-open` condition so only open toggles switch to light red background.
+- Targeted `.faq-home`, `.parents-club-faq`, `.vc_toggle.faq-home`, `.vc_toggle.parents-club-faq`, `.vc_toggle`, `.vc_toggle_title`, and `.vc_toggle_content` so all WPBakery toggle elements inherit the light red background without any borders.
 
 ## [2026-07-24] - Removed Best Seller Scroller Shortcode from Plugin
 
