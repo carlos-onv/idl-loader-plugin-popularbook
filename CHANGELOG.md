@@ -2,15 +2,15 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-24] - Dev Home Page FAQ Background Only Styling (.faq-home)
+## [2026-07-24] - Dev Home Page FAQ Target Homepage Accordion (#faq-acc & .vc_tta-panel-title)
 
 ### Changed
-- **Minimal FAQ Background Style (`parents-club-faq.css` & `functions.php`)**:
-  - Removed all custom typography, font sizes, custom paddings, icon overrides, and layout tweaks.
-  - Retained exclusively the light red background color (`#fdf2f4`) applied to FAQ items and titles, ensuring theme defaults remain completely unaltered.
+- **Targeted Homepage WPBakery TTA Accordion (`parents-club-faq.css` & `functions.php`)**:
+  - Explicitly targeted `#faq-acc .vc_tta-panel-title > a` and `.faq-home .vc_tta-panel-heading` to override WPBakery's default grey flat background on the homepage toggle links.
+  - Set `#fdf2f4` for closed items and `#fde2e6` for open active items.
 
 ### Technical Notes for AI Agents
-- The CSS rules only target `background-color`, `background`, and `border: none !important` on `.faq-home .vc_toggle` and `.parents-club-faq`.
+- The homepage uses WPBakery TTA accordion (`.vc_tta-panel-title > a`) inside `#faq-acc`. Specificity on `> a` is required to override `vc_tta-color-grey` background defaults.
 
 ## [2026-07-24] - Removed Best Seller Scroller Shortcode from Plugin
 

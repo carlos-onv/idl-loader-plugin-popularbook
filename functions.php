@@ -3331,31 +3331,41 @@ add_action( 'wp_head', 'idl_loader_force_faq_home_light_red_css', 99999 );
 function idl_loader_force_faq_home_light_red_css() {
     ?>
     <style id="idl-loader-force-faq-home-css">
+    html body #faq-acc .vc_tta-panel,
+    html body #faq-acc .vc_tta-panel-heading,
+    html body #faq-acc .vc_tta-panel-title,
+    html body #faq-acc .vc_tta-panel-title > a,
+    html body .faq-home .vc_tta-panel,
+    html body .faq-home .vc_tta-panel-heading,
+    html body .faq-home .vc_tta-panel-title,
+    html body .faq-home .vc_tta-panel-title > a,
     html body .faq-home .vc_toggle,
     html body .parents-club-faq,
     html body .vc_toggle.faq-home,
     html body .vc_toggle.parents-club-faq,
-    html body #parents-club-section-6 .faq-item {
-        background-color: #fdf2f4 !important;
-        background: #fdf2f4 !important;
-        border: none !important;
-    }
-    html body .faq-home .vc_toggle .vc_toggle_title,
-    html body .parents-club-faq .vc_toggle_title,
-    html body .vc_toggle.faq-home .vc_toggle_title,
-    html body .vc_toggle.parents-club-faq .vc_toggle_title,
+    html body #parents-club-section-6 .faq-item,
     html body #parents-club-section-6 .faq-question {
         background-color: #fdf2f4 !important;
         background: #fdf2f4 !important;
         border: none !important;
     }
-    html body .faq-home .vc_toggle .vc_toggle_content,
-    html body .parents-club-faq .vc_toggle_content,
-    html body .vc_toggle.faq-home .vc_toggle_content,
-    html body .vc_toggle.parents-club-faq .vc_toggle_content,
+
+    html body #faq-acc .vc_tta-panel.vc_active,
+    html body #faq-acc .vc_tta-panel.vc_active .vc_tta-panel-heading,
+    html body #faq-acc .vc_tta-panel.vc_active .vc_tta-panel-title,
+    html body #faq-acc .vc_tta-panel.vc_active .vc_tta-panel-title > a,
+    html body #faq-acc .vc_tta-panel-body,
+    html body .faq-home .vc_tta-panel.vc_active,
+    html body .faq-home .vc_tta-panel.vc_active .vc_tta-panel-heading,
+    html body .faq-home .vc_tta-panel.vc_active .vc_tta-panel-title,
+    html body .faq-home .vc_tta-panel.vc_active .vc_tta-panel-title > a,
+    html body .faq-home .vc_tta-panel-body,
+    html body .faq-home .vc_toggle.vc_toggle_active,
+    html body .parents-club-faq.vc_toggle_active,
+    html body #parents-club-section-6 .faq-item.is-open,
     html body #parents-club-section-6 .faq-answer {
-        background-color: #fdf2f4 !important;
-        background: #fdf2f4 !important;
+        background-color: #fde2e6 !important;
+        background: #fde2e6 !important;
         border: none !important;
     }
     </style>
