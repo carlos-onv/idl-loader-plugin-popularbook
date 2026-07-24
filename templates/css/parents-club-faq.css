@@ -2,7 +2,6 @@
  * Parents Club & Dev Home Page - Section 6 FAQ CSS
  * File: parents-club-faq.css
  * "Frequently Asked Questions" accordion panel & .faq-home styling
- * Also owns the shared section-6 reset, variables, and layout.
  */
 
 /* ── Reset & shared variables ── */
@@ -16,14 +15,11 @@
 #parents-club-section-6 {
     --s6-brand-red: #af0128;
     --s6-bg-light-red: #fdf2f4;
-    --s6-card-bg-light-red: #fff5f5;
-    --s6-card-border-red: #fecaca;
     --s6-text-dark: #1e293b;
     --s6-text-muted: #475569;
 
-    background-color: var(--s6-bg-light-red);
-    border-radius: 16px;
-    padding: 50px 24px 70px;
+    background-color: transparent !important;
+    padding: 30px 0 50px;
     width: 100%;
 }
 
@@ -58,27 +54,26 @@
 
 #parents-club-section-6 .faq-title,
 .faq-home-title {
-    font-size: 22px !important;
+    font-size: 24px !important;
     font-weight: 800 !important;
-    color: var(--s6-brand-red) !important;
+    color: var(--s6-text-dark) !important;
     margin-bottom: 24px !important;
     line-height: 1.25 !important;
     text-transform: none !important;
 }
 
-/* 3-column grid for FAQ items */
+/* Grid for FAQ items */
 #parents-club-section-6 .faq-columns,
 .faq-home-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px 24px;
+    gap: 8px 24px;
 }
 
-/* Each column stacks its items with a gap */
 #parents-club-section-6 .faq-col {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
     align-items: stretch;
 }
 
@@ -92,39 +87,37 @@
 @media (min-width: 992px) {
     #parents-club-section-6 .faq-columns,
     .faq-home-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* ── Individual Accordion Card (.faq-home, .parents-club-faq, .faq-item, .vc_toggle) ── */
+/* ── Inactive FAQ Items (No borders, transparent background) ── */
 .faq-home,
 .parents-club-faq,
 .vc_toggle.faq-home,
 .vc_toggle.parents-club-faq,
 #parents-club-section-6 .faq-item {
-    border: 1px solid #fecaca !important; /* Soft rose/red border */
+    border: none !important;
+    box-shadow: none !important;
     border-radius: 12px !important;
     overflow: hidden;
-    background-color: #fff5f5 !important; /* Soft light red background */
+    background-color: transparent !important;
     width: 100%;
-    margin-bottom: 12px !important;
-    box-shadow: 0 2px 6px rgba(175, 1, 40, 0.04) !important;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    margin-bottom: 6px !important;
+    transition: background-color 0.25s ease, color 0.25s ease !important;
 }
 
-/* Hover state */
-.faq-home:hover,
-.parents-club-faq:hover,
-.vc_toggle.faq-home:hover,
-.vc_toggle.parents-club-faq:hover,
-#parents-club-section-6 .faq-item:hover {
-    background-color: #fee2e2 !important; /* Slightly deeper soft red hover */
-    border-color: #fca5a5 !important;
-    box-shadow: 0 4px 14px rgba(175, 1, 40, 0.08) !important;
-    transform: translateY(-1px);
+/* Subtle hover for inactive items */
+.faq-home:not(.vc_toggle_active):not(.is-open):hover,
+.parents-club-faq:not(.vc_toggle_active):not(.is-open):hover,
+.vc_toggle.faq-home:not(.vc_toggle_active):not(.is-open):hover,
+.vc_toggle.parents-club-faq:not(.vc_toggle_active):not(.is-open):hover,
+#parents-club-section-6 .faq-item:not(.is-open):hover {
+    background-color: #f8fafc !important;
+    border: none !important;
 }
 
-/* Question button / WPBakery toggle header */
+/* Question Header Row */
 .faq-home .vc_toggle_title,
 .parents-club-faq .vc_toggle_title,
 .vc_toggle.faq-home .vc_toggle_title,
@@ -135,38 +128,26 @@
     justify-content: space-between !important;
     gap: 14px !important;
     width: 100% !important;
-    padding: 16px 20px !important;
+    padding: 14px 18px !important;
     background: transparent !important;
     border: none !important;
     cursor: pointer !important;
     text-align: left !important;
-    font-size: 14px !important;
+    font-size: 14.5px !important;
     font-weight: 700 !important;
     color: #1e293b !important;
     line-height: 1.45 !important;
-    transition: all 0.2s ease !important;
+    transition: color 0.2s ease !important;
 }
 
 .faq-home .vc_toggle_title h4,
-.parents-club-faq .vc_toggle_title h4 {
+.parents-club-faq .vc_toggle_title h4,
+.vc_toggle.faq-home .vc_toggle_title h4,
+.vc_toggle.parents-club-faq .vc_toggle_title h4 {
     margin: 0 !important;
-    font-size: 14px !important;
-    font-weight: 700 !important;
-    color: #1e293b !important;
-}
-
-.faq-home .vc_toggle_title:hover,
-.parents-club-faq .vc_toggle_title:hover,
-#parents-club-section-6 .faq-question:hover {
-    background-color: transparent !important;
-    color: #af0128 !important;
-}
-
-.faq-home.is-open,
-.faq-home.vc_toggle_active,
-.parents-club-faq.vc_toggle_active,
-#parents-club-section-6 .faq-question.is-open {
-    color: #af0128 !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    color: inherit !important;
 }
 
 /* Chevron / Toggle Icon */
@@ -176,16 +157,45 @@
     flex-shrink: 0;
     width: 14px;
     height: 14px;
-    color: #af0128 !important; /* Brand red indicator */
-    border-color: #af0128 !important;
+    color: #64748b !important;
+    border-color: #64748b !important;
     transition: transform 0.25s ease, color 0.15s ease;
 }
 
-#parents-club-section-6 .faq-question.is-open .faq-chevron,
+/* ── ACTIVE / OPEN FAQ Item (Light Red Background ONLY for Active) ── */
+.faq-home.vc_toggle_active,
+.parents-club-faq.vc_toggle_active,
+.vc_toggle.faq-home.vc_toggle_active,
+.vc_toggle.parents-club-faq.vc_toggle_active,
+.faq-home.is-open,
+.parents-club-faq.is-open,
+#parents-club-section-6 .faq-item.is-open {
+    background-color: #fdf2f4 !important; /* Soft light red background ONLY on active/open item */
+    border: none !important; /* No red border */
+    border-radius: 12px !important;
+    box-shadow: none !important;
+}
+
+/* Active Title & Icon */
+.faq-home.vc_toggle_active .vc_toggle_title,
+.parents-club-faq.vc_toggle_active .vc_toggle_title,
+.vc_toggle.faq-home.vc_toggle_active .vc_toggle_title,
+.vc_toggle.parents-club-faq.vc_toggle_active .vc_toggle_title,
+#parents-club-section-6 .faq-question.is-open {
+    color: #af0128 !important; /* Crimson red question title when active */
+}
+
+.faq-home.vc_toggle_active .vc_toggle_title h4,
+.parents-club-faq.vc_toggle_active .vc_toggle_title h4 {
+    color: #af0128 !important;
+}
+
 .faq-home.vc_toggle_active .vc_toggle_icon,
-.parents-club-faq.vc_toggle_active .vc_toggle_icon {
+.parents-club-faq.vc_toggle_active .vc_toggle_icon,
+#parents-club-section-6 .faq-question.is-open .faq-chevron {
     transform: rotate(180deg);
     color: #af0128 !important;
+    border-color: #af0128 !important;
 }
 
 /* Answer panel / WPBakery toggle content */
@@ -193,12 +203,10 @@
 .parents-club-faq .vc_toggle_content,
 #parents-club-section-6 .faq-answer {
     display: none;
-    padding: 14px 18px !important;
-    margin: 0 10px 12px 10px !important;
-    background-color: #ffffff !important; /* Crisp white panel for optimal contrast */
-    border: 1px solid #fee2e2 !important;
-    border-radius: 8px !important;
-    font-size: 13.5px !important;
+    padding: 2px 18px 18px 18px !important;
+    background-color: transparent !important; /* Blends with active light red background */
+    border: none !important;
+    font-size: 14px !important;
     color: #334155 !important;
     line-height: 1.6;
 }
@@ -213,7 +221,7 @@
 @keyframes faqFadeIn {
     from {
         opacity: 0;
-        transform: translateY(-6px);
+        transform: translateY(-4px);
     }
     to {
         opacity: 1;
@@ -225,4 +233,5 @@
 .faq-home.active label {
     color: #af0128 !important;
 }
+
 

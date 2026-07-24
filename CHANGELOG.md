@@ -2,18 +2,18 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-24] - Dev Home Page FAQ Styling & Soft Red Background (.faq-home)
+## [2026-07-24] - Dev Home Page FAQ Active-Only Light Red Styling (.faq-home)
 
 ### Changed
 - **FAQ Accordion & Section Styling (`parents-club-faq.css`)**:
-  - Updated [parents-club-faq.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-faq.css) to apply a warm, non-stark light red background tint (`#fff5f5` / `#fdf2f4`) to FAQ items (`.faq-home`, `.parents-club-faq`, `.faq-item`, `.vc_toggle`).
-  - Added soft rose/red borders (`#fecaca`), 12px rounded corners, subtle red box shadows (`0 2px 6px rgba(175, 1, 40, 0.04)`), and hover state background transitions (`#fee2e2`).
-  - Configured crimson accents (`#af0128`) for active/open questions and toggle icons, while preserving clean white inner answer panels (`#ffffff`) for optimal legibility.
+  - Updated [parents-club-faq.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-faq.css) so that light red background tint (`#fdf2f4`) is applied **only** to the active/open FAQ item (`.vc_toggle_active`, `.is-open`).
+  - Removed all pink/red outer and item borders (`border: none !important;`) per feedback.
+  - Kept inactive FAQ items transparent with clean slate title text and gray toggle icons.
 - **Native Stylesheet Enqueueing (`functions.php`)**:
   - Updated `idl_loader_parents_club_template_styles()` in [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php) to automatically enqueue `parents-club-faq.css` on front-page / home page contexts.
 
 ### Technical Notes for AI Agents
-- Targeted `.faq-home`, `.parents-club-faq`, `.vc_toggle.faq-home`, `.vc_toggle.parents-club-faq`, and `#parents-club-section-6 .faq-item` so all WPBakery toggle variations or custom FAQ grids adopt the light red background design seamlessly.
+- Targeted `.faq-home`, `.parents-club-faq`, `.vc_toggle.faq-home`, `.vc_toggle.parents-club-faq`, and `#parents-club-section-6 .faq-item` with `.vc_toggle_active` / `.is-open` condition so only open toggles switch to light red background.
 
 ## [2026-07-24] - Removed Best Seller Scroller Shortcode from Plugin
 
