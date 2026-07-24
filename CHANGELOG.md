@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-24] - Fix bCheck Polyfill Early Execution for Checkout Tokenization
+
+### Added
+- **Global `bCheck()` Polyfill Hook (`wp_head` priority 0)**:
+  - Added `idl_loader_bcheck_polyfill()` in [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php) hooked to `wp_head` at priority `0`.
+  - Ensures `window.bCheck = function() { return false; };` is defined at the very top of `<head>` before third-party plugins (like GTM4WP at line 132) or legacy scripts execute.
+  - Prevents `Uncaught ReferenceError: bCheck is not defined` console errors from breaking JavaScript execution and halting Bambora checkout tokenization (`wc-bambora.js`).
+
 ## [2026-07-24] - Download Hub Full Width Container Adjustment
 
 ### Changed

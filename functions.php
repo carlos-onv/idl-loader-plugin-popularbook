@@ -22,6 +22,21 @@ function admin_bar(){
 }
 add_action('init', 'admin_bar' );
 
+/**
+ * Polyfill for legacy bCheck() function.
+ * Must execute at priority 0 (very top of <head>) before GTM4WP or other plugin scripts run.
+ */
+add_action( 'wp_head', 'idl_loader_bcheck_polyfill', 0 );
+function idl_loader_bcheck_polyfill() {
+    ?>
+    <script type="text/javascript">
+        if (typeof window.bCheck === 'undefined') {
+            window.bCheck = function() { return false; };
+        }
+    </script>
+    <?php
+}
+
 
 //add_action( 'wp_print_scripts', 'cyb_list_scripts' );
 function cyb_list_scripts()
