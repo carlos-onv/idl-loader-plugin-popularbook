@@ -45,6 +45,18 @@ function idl_loader_bcheck_polyfill() {
  * @return bool
  */
 function idl_loader_is_checkout_context() {
+    // 1. Fast URI String Match (No DB overhead)
+    if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+        $uri = strtolower( $_SERVER['REQUEST_URI'] );
+        if ( strpos( $uri, 'shop-checkout' ) !== false || strpos( $uri, 'shop-cart' ) !== false || strpos( $uri, 'checkout' ) !== false || strpos( $uri, 'cart' ) !== false ) {
+            return true;
+        }
+    }
+    // 2. AJAX requests
+    if ( function_exists( 'wp_doing_ajax' ) && wp_doing_ajax() ) {
+        return true;
+    }
+    // 3. WooCommerce Conditional Checks
     if ( function_exists( 'is_checkout' ) && is_checkout() ) {
         return true;
     }
@@ -56,15 +68,6 @@ function idl_loader_is_checkout_context() {
     }
     if ( function_exists( 'is_add_payment_method_page' ) && is_add_payment_method_page() ) {
         return true;
-    }
-    if ( function_exists( 'wp_doing_ajax' ) && wp_doing_ajax() ) {
-        return true;
-    }
-    if ( isset( $_SERVER['REQUEST_URI'] ) ) {
-        $uri = strtolower( $_SERVER['REQUEST_URI'] );
-        if ( strpos( $uri, 'shop-checkout' ) !== false || strpos( $uri, 'shop-cart' ) !== false || strpos( $uri, 'checkout' ) !== false ) {
-            return true;
-        }
     }
     return false;
 }
