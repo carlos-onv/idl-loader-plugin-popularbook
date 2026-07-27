@@ -417,7 +417,7 @@ function wpdocs_dequeue_script()
         }
 
 
-        if ($_SERVER['REQUEST_URI'] != "/shop-cart" && $_SERVER['REQUEST_URI'] != "/shop-checkout") {
+        if (! idl_loader_is_checkout_context()) {
             wp_deregister_script('wc-country-select');
         }
 
