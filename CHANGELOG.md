@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-27] - Fix Bambora Checkout Credit Card Input Fields Preserving
+
+### Fixed
+- **Bambora Custom Checkout Script Preservation (`functions.php`)**:
+  - Implemented `idl_loader_is_checkout_context()` helper function in [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php).
+  - Replaced rigid exact string checks (`$_SERVER['REQUEST_URI'] != "/shop-checkout"`) and simple `!is_checkout()` checks with `!idl_loader_is_checkout_context()`.
+  - Ensures Bambora payment assets (`bambora-custom-checkout`, `wc-bambora`, `jquery-blockui`, `sv-wc-payment-gateway-payment-form-v5_15_12`) are preserved on `/shop-checkout/` (with trailing slashes), query parameters, endpoints, and WooCommerce checkout AJAX calls.
+  - Resolves Freedcamp Task #72404983 where Bambora credit card iFrame fields ("Card Number", "Expiration", "Card Security Code") were rendered unclickable/disabled.
+
+### Technical Notes for AI Agents
+- The checkout page slug on this environment is `/shop-checkout`. Standard WooCommerce `is_checkout()` can evaluate to `false` when URL variations or AJAX calls occur, which previously triggered `wp_dequeue_script('bambora-custom-checkout')`. `idl_loader_is_checkout_context()` prevents accidental script dequeuing across all cart/checkout request types.
+
 ## [2026-07-27] - Update Book Cover Banner
 
 ### Changed

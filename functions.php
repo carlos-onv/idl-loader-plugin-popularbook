@@ -37,6 +37,39 @@ function idl_loader_bcheck_polyfill() {
     <?php
 }
 
+/**
+ * Helper function to determine if the current request is in a Cart or Checkout context.
+ * Accurately detects standard /checkout, custom /shop-checkout, /shop-cart, query parameters,
+ * pay endpoints, and WooCommerce AJAX requests.
+ *
+ * @return bool
+ */
+function idl_loader_is_checkout_context() {
+    if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+        return true;
+    }
+    if ( function_exists( 'is_cart' ) && is_cart() ) {
+        return true;
+    }
+    if ( function_exists( 'is_wc_endpoint_url' ) && ( is_wc_endpoint_url( 'order-pay' ) || is_wc_endpoint_url( 'order-received' ) ) ) {
+        return true;
+    }
+    if ( function_exists( 'is_add_payment_method_page' ) && is_add_payment_method_page() ) {
+        return true;
+    }
+    if ( function_exists( 'wp_doing_ajax' ) && wp_doing_ajax() ) {
+        return true;
+    }
+    if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+        $uri = strtolower( $_SERVER['REQUEST_URI'] );
+        if ( strpos( $uri, 'shop-checkout' ) !== false || strpos( $uri, 'shop-cart' ) !== false || strpos( $uri, 'checkout' ) !== false ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 
 //add_action( 'wp_print_scripts', 'cyb_list_scripts' );
 function cyb_list_scripts()
@@ -76,7 +109,7 @@ function child_remove_style()
         }
 
         // Remove Woocommerce country select from other pages other than cart and checkout
-        if ($_SERVER['REQUEST_URI'] != "/shop-cart" && $_SERVER['REQUEST_URI'] != "/shop-checkout") {
+        if (! idl_loader_is_checkout_context()) {
             wp_deregister_script('wc-country-select');
             wp_deregister_script('vc_woocommerce-add-to-cart-js');
             wp_deregister_script('wc-add-to-cart');
@@ -86,7 +119,7 @@ function child_remove_style()
         if (function_exists('is_woocommerce')) {
 
             // Check if we are on a WooCommerce page
-            if (! is_woocommerce() && ! is_cart() && ! is_checkout()) {
+            if (! is_woocommerce() && ! idl_loader_is_checkout_context()) {
 
                 ## Dequeue WooCommerce styles
                 wp_dequeue_style('woocommerce-layout');
@@ -106,12 +139,13 @@ function child_remove_style()
 
                 wp_dequeue_script('woo_discount_pro_script');
             }
-            if (! is_cart() && ! is_checkout()) {
+            if (! idl_loader_is_checkout_context()) {
                 wp_deregister_style('wc-bambora');
                 wp_dequeue_script('wc-bambora');
                 wp_dequeue_script('bambora-custom-checkout');
                 wp_dequeue_script('advanced-flat-rate-shipping-for-woocommerce');
                 wp_dequeue_script('sv-wc-payment-gateway-payment-form-v5_11_6');
+                wp_dequeue_script('sv-wc-payment-gateway-payment-form-v5_15_12');
             }
         }
 
@@ -320,7 +354,7 @@ function wps_deregister_styles()
         wp_deregister_style('iThing.css');
 
         // Remove Woocommerce country select from other pages other than cart and checkout
-        if ($_SERVER['REQUEST_URI'] != "/shop-cart" && $_SERVER['REQUEST_URI'] != "/shop-checkout") {
+        if (! idl_loader_is_checkout_context()) {
             wp_deregister_style('wc-country-select');
             wp_deregister_style('vc_woocommerce-add-to-cart-js');
             wp_deregister_style('wc-add-to-cart');
@@ -329,13 +363,14 @@ function wps_deregister_styles()
         // Check if WooCommerce is active
         if (function_exists('is_woocommerce')) {
             // Check if we are on a WooCommerce page
-            if (! is_woocommerce() && ! is_cart() && ! is_checkout()) {
+            if (! is_woocommerce() && ! idl_loader_is_checkout_context()) {
                 wp_deregister_style('flexible_shipping_notices');
             }
-            if (! is_cart() && ! is_checkout()) {
+            if (! idl_loader_is_checkout_context()) {
                 wp_deregister_style('wc-bambora');
                 wp_deregister_style('advanced-flat-rate-shipping-for-woocommerce');
                 wp_deregister_style('sv-wc-payment-gateway-payment-form-v5_11_6');
+                wp_deregister_style('sv-wc-payment-gateway-payment-form-v5_15_12');
             }
         }
 
