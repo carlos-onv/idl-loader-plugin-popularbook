@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file for both hum
 ### Changed
 - **Book Cover Banner Asset Update**:
   - Overwrote the custom shop banner image at [shop25_shop_banner_books.png](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/uploads/shop25_shop_banner_books.png) to feature updated live workbooks from popularbook.ca.
+  - Added an SEO-optimized version of the image at [complete-canadian-curriculum-mathsmart-stemsmart-workbooks.png](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/uploads/complete-canadian-curriculum-mathsmart-stemsmart-workbooks.png).
   - Replaced early preschool books with Grade 4 versions of three core workbook series: Complete Canadian Curriculum (CCC), Complete Canadian MathSmart, and Complete StemSmart.
 
 ## [2026-07-24] - Dev Home Page FAQ CSS Variables for Backgrounds (.faq-home)
