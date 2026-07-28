@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file for both hum
 - **Updated `.benefits-column .benefits-glance-card` (`parents-club-hero-benefits.css`)**: Added `margin-bottom: 20px;`.
 - **Updated `section#sub-card-view-0` (`parents-club-dashboard-subscription.css`)**: Added `section#sub-card-view-0 { margin-bottom: 20px; }`.
 - **Updated `#parents-club-billing .bill-card` (`parents-club-dashboard-billing.css`)**: Added `margin-bottom: 20px;`.
-- **Updated `#parents-club-dashboard` (`parents-club-dashboard-subscription.css`)**: Added `margin-bottom: 20px !important;`.
+- **Removed `#parents-club-dashboard` (`parents-club-dashboard-subscription.css`)**: Reverted `margin-bottom: 20px !important;` per request.
 
 ## [2026-07-28] - Production Readiness & Debug Removal
 
