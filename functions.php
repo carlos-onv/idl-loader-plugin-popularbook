@@ -59,6 +59,17 @@ function idl_loader_is_checkout_context() {
     return false;
 }
 
+/**
+ * Cap outbound HTTP request timeouts to 3 seconds to prevent external API calls
+ * from hanging page loads or timing out the server.
+ */
+add_filter( 'http_request_args', function( $r ) {
+    if ( isset( $r['timeout'] ) && $r['timeout'] > 3 ) {
+        $r['timeout'] = 3;
+    }
+    return $r;
+}, 10, 1 );
+
 
 
 //add_action( 'wp_print_scripts', 'cyb_list_scripts' );
