@@ -133,10 +133,10 @@ function child_remove_style()
                 wp_deregister_style('wc-bambora');
                 wp_dequeue_script('wc-bambora');
                 wp_dequeue_script('bambora-custom-checkout');
-                wp_dequeue_script('advanced-flat-rate-shipping-for-woocommerce');
                 wp_dequeue_script('sv-wc-payment-gateway-payment-form-v5_11_6');
                 wp_dequeue_script('sv-wc-payment-gateway-payment-form-v5_15_12');
             }
+            wp_dequeue_script('advanced-flat-rate-shipping-for-woocommerce');
         }
 
         // Remove : /wp-content/plugins/wp-redirects-contact-form-7/includes/js/custom.js
