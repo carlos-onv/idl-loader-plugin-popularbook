@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-28] - Relocated FAQ Accordion CSS to Porto Child Theme
+
+### Changed
+- **Relocated FAQ CSS to Porto Child (`porto-child/style.css` & `idl-loader`)**:
+  - Removed `idl_loader_force_faq_home_light_red_css()` inline `<style>` injection from `wp-content/plugins/idl-loader/functions.php`.
+  - Removed `parents-club-faq` stylesheet enqueue (`wp_enqueue_style( 'parents-club-faq', ... )`) from `wp-content/plugins/idl-loader/functions.php`.
+  - Deleted obsolete `wp-content/plugins/idl-loader/templates/css/parents-club-faq.css`.
+  - Appended FAQ accordion background styling rules directly to `wp-content/themes/porto-child/style.css`.
+
+### Technical Notes for AI Agents
+- Verified remote server files prior to change: remote `porto-child/style.css` and `idl-loader/functions.php` were matched to local prior to migration.
+
 ## [2026-07-28] - WPBakery Elements CSS Margin-Bottom Adjustments
 
 ### Changed
