@@ -38,9 +38,8 @@ function idl_loader_bcheck_polyfill() {
 }
 
 /**
- * Helper function to determine if the current request is strictly in a Cart or Checkout context.
- * Accurately detects standard /checkout, custom /shop-checkout, /shop-cart, query parameters,
- * pay endpoints, and WooCommerce checkout AJAX requests without matching general site URLs or AJAX.
+ * Helper function to determine if the current request is in a Cart or Checkout context.
+ * Checks standard WooCommerce functions as well as custom /shop-checkout and /shop-cart paths.
  *
  * @return bool
  */
@@ -55,20 +54,6 @@ function idl_loader_is_checkout_context() {
         $uri = strtolower( $_SERVER['REQUEST_URI'] );
         if ( strpos( $uri, 'shop-checkout' ) !== false || strpos( $uri, 'shop-cart' ) !== false ) {
             return true;
-        }
-    }
-    if ( function_exists( 'is_wc_endpoint_url' ) && ( is_wc_endpoint_url( 'order-pay' ) || is_wc_endpoint_url( 'order-received' ) ) ) {
-        return true;
-    }
-    if ( function_exists( 'is_add_payment_method_page' ) && is_add_payment_method_page() ) {
-        return true;
-    }
-    if ( function_exists( 'wp_doing_ajax' ) && wp_doing_ajax() ) {
-        if ( isset( $_REQUEST['wc-ajax'] ) ) {
-            $wc_ajax = sanitize_text_field( $_REQUEST['wc-ajax'] );
-            if ( strpos( $wc_ajax, 'checkout' ) !== false || strpos( $wc_ajax, 'cart' ) !== false || $wc_ajax === 'update_order_review' ) {
-                return true;
-            }
         }
     }
     return false;
