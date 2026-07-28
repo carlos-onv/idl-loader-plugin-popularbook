@@ -14,27 +14,8 @@ function emathsmart_run_error_tests()
         }
 
         echo "<h1>eMathSmart API Hardening Test Suite (Real Flow)</h1>";
-        echo "<p>This suite triggers the REAL 3-attempt logic and real WooCommerce notes.</p>";
-
-        $order_id = 116377; // Your test order
-        
-        // --- SCENARIO 1: WRONG SECRET KEY (REAL FLOW) ---
-        echo "<h2>Scenario 1: Triggering Real Signature Retry Loop</h2>";
-        echo "<em>Expected: 3 attempts, Success: NO, Check WC Order Notes afterwards.</em><br>";
-        
-        $GLOBALS['emathsmart_debug_override'] = 'wrong_key';
-        process_subscription_custom($order_id, 'Payment', true);
-        unset($GLOBALS['emathsmart_debug_override']);
-
-        echo "<hr>";
-
-        // --- SCENARIO 2: NETWORK TIMEOUT (REAL FLOW) ---
-        echo "<h2>Scenario 2: Triggering Real Network Timeout</h2>";
-        echo "<em>Expected: 3 attempts (due to network failure), Check WC Order Notes.</em><br>";
-        
-        $GLOBALS['emathsmart_debug_override'] = 'dead_url';
-        process_subscription_custom($order_id, 'Payment', true);
-        unset($GLOBALS['emathsmart_debug_override']);
+        echo "<p>Scenario disabled: production override hooks were removed.</p>";
+        return;
 
         // --- VERIFICATION ---
         echo "<h2>Database Verification (Latest Logs)</h2>";
@@ -821,53 +802,8 @@ function emathsmart_run_type2_test()
         if (!current_user_can('manage_options')) {
             wp_die('Unauthorized');
         }
-
         echo "<h1>eMathSmart API #5 Type 2 (AI Coins) Diagnostic Simulation</h1>";
-        echo "<p>This simulation triggers a mock payment notification for AI Coins (500 coins = 5 packages) under order ID 116377.</p>";
-
-        $order_id = 116377; // Your test order
-
-        // Hook up the global mock
-        $GLOBALS['emathsmart_mock_type2'] = true;
-
-        echo "<h2>1. Triggering Outbound Webhook Payment Notification</h2>";
-        echo "<em>Expected: Payload with type = 2 and additionalPackageQuantity = 5. Signature will omit subscription keys.</em><br><br>";
-        
-        process_subscription_custom($order_id, 'Payment', true);
-
-        // Clean up global mock
-        unset($GLOBALS['emathsmart_mock_type2']);
-
-        // Database Verification
-        echo "<h2>2. Database Verification (Latest Logs for Order $order_id)</h2>";
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'emathsmart_log';
-        $logs = $wpdb->get_results("SELECT * FROM $table_name WHERE order_id = $order_id ORDER BY id DESC LIMIT 5");
-
-        if ($logs) {
-            echo "<table border='1' cellpadding='5' style='border-collapse: collapse; width: 100%; font-family: sans-serif; font-size: 14px;'>";
-            echo "<tr style='background: #eee;'><th>ID</th><th>Type</th><th>Attempt</th><th>Response Code</th><th>HTTP Status</th><th>Created At</th><th>Response Body</th></tr>";
-            foreach ($logs as $log) {
-                echo "<tr>";
-                echo "<td>{$log->id}</td>";
-                echo "<td>" . esc_html($log->api_type) . "</td>";
-                echo "<td>" . esc_html($log->attempt) . "</td>";
-                echo "<td>" . esc_html($log->response_code) . "</td>";
-                echo "<td>" . esc_html($log->http_status) . "</td>";
-                echo "<td>" . esc_html($log->created_at) . "</td>";
-                echo "<td><pre style='margin: 0; white-space: pre-wrap; font-size: 11px;'>" . esc_html($log->response_body) . "</pre></td>";
-                echo "</tr>";
-            }
-            echo "</table>";
-        } else {
-            echo "<p style='color: red;'>No database log entries found for order $order_id.</p>";
-        }
-
-        if (function_exists('emathsmart_flush_deferred_notes')) {
-            emathsmart_flush_deferred_notes();
-        }
-
-        echo "<hr><p style='color:green;font-weight:bold;'>Simulation complete!</p>";
+        echo "<p>Scenario disabled: production override hooks were removed.</p>";
         exit;
     }
 }
@@ -2316,4 +2252,25 @@ function emathsmart_debug_porto_builder_posts() {
     exit;
 }
 
+add_action('init', 'custom_testcms');
+function custom_testcms()
+{
+    if (isset($_REQUEST['testcms']) && $_REQUEST['testcms'] == "process") {
+        if (!current_user_can('manage_options')) {
+            wp_die('Unauthorized');
+        }
+        $order_id = 116377;
+        $type = 'Payment';
+        if (isset($_REQUEST['type']) && $_REQUEST['type'] == 'refund') {
+            $type = 'refund';
+        } else if (isset($_REQUEST['type']) && $_REQUEST['type'] == 'public_exams') {
+            $type = 'public_exams';
+        }
+        process_subscription_custom($order_id, $type, true); // True = Debug mode for manual testing
 
+        // Flush deferred notes manually since we call exit here
+        emathsmart_flush_deferred_notes();
+
+        exit;
+    }
+}

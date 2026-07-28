@@ -42,33 +42,7 @@ function addtocartlogin()
 
 
 
-// Fixed hardcoded paths
-function wo_before_authorize_function_login_redirect( $request ){
-	// file_put_contents("logoauth.txt",date("Y-m-d H:i:s")."\n"."wo_before_authorize_method ::: ".serialize($request)."\nPOST:::".serialize($_POST)."\n\n\n\n",FILE_APPEND);
-}
-add_action('wo_before_authorize_method', 'wo_before_authorize_function_login_redirect');
 
-function wo_before_authorize_function_login_redirect1( $request ){
-	// file_put_contents("logoauth.txt",date("Y-m-d H:i:s")."\n"."wo_before_create_client ::: ".serialize($request)."\nPOST:::".serialize($_POST)."\n\n\n\n",FILE_APPEND);
-}
-add_action('wo_before_create_client', 'wo_before_authorize_function_login_redirect1');
-
-
-if(
-str_contains(serialize($_POST), 'client_id') ||
-str_contains(serialize($_REQUEST), 'client_id') ||
-str_contains(serialize(getallheaders()), 'Bearer')
-    )
-{
-
-if(isset($_POST) && count($_POST)>0)
-{
-    // file_put_contents("logoauth.txt",date("Y-m-d H:i:s")."\n"."wo_POST ::: "."\nPOST:::".serialize($_POST)."\nHeaders ::: ".serialize(getallheaders())."\n\n\n\n",FILE_APPEND);
-}
-
-// file_put_contents("logoauth.txt",date("Y-m-d H:i:s")."\n"."wo_REQUEST ::: "."\nREQUEST:::".serialize($_REQUEST)."\nHeaders ::: ".serialize(getallheaders())."\n\n\n\n",FILE_APPEND);
-
-}
 
 
 

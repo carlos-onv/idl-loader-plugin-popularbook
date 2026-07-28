@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-28] - Production Readiness & Debug Removal
+
+### Removed
+- **Debug File Gating (`functions-esmart.php`)**: Gated inclusion of `functions-esmart-debug.php` behind `defined('IDL_ESMART_DEBUG') && IDL_ESMART_DEBUG` constant.
+- **Moved Manual Test Trigger (`functions-esmart.php` & `functions-esmart-debug.php`)**: Relocated `custom_testcms()` and its `init` hook from `functions-esmart.php` to `functions-esmart-debug.php`.
+- **Debug Overrides & Mocks Purged (`functions-esmart.php`)**: Removed `$GLOBALS['emathsmart_debug_override']` poisoning block, `$GLOBALS['emathsmart_mock_type2']` mock in `emathsmart_order_has_additional_packages()`, and raw debug `echo` statements from `process_subscription_custom()`.
+- **Dead Scratch Code (`functions.php`)**: Removed 300-line commented `process_subscription_custom` scratch block, unhooked `cyb_list_scripts()` / `cyb_list_styles()`, and disabled `custom_action_on_new_subscription()` / `get_subscription_payment_function()`.
+- **Leftover Order Logging (`functions.php`)**: Removed `hd_woocommerce_payment_complete_order_status`, `hd_order_processed_log`, and `hd_checkout_create_order_log` functions and hooks that wrote JSON to `order-logs.txt`.
+- **Inert OAuth Scaffolding (`functions-restapi.php`)**: Removed unused `wo_before_authorize_*` logging hooks and file serialization blocks.
+- **Dev Artifacts & Log Cleanup**: Untracked and removed `.DS_Store` files, `Archive.zip`, `templates.zip`, `templates/Archive.zip`, and `scratch/` directory via `git rm -f`. Added `.gitignore` covering `.DS_Store`, `*.zip`, `scratch/`, `order-logs.txt`, and `logoauth.txt`.
+
+### Changed
+- **Debug Test Suite Safety Stubs (`functions-esmart-debug.php`)**: Added safety stubs inside `emathsmart_run_error_tests()` and `emathsmart_run_type2_test()` inside `isset` checks to prevent live API requests if `IDL_ESMART_DEBUG` is active.
+
+### Technical Notes for AI Agents
+- Production request paths in `functions-esmart.php` no longer evaluate debug override globals or mocks.
+- `functions-esmart-debug.php` is strictly gated by `IDL_ESMART_DEBUG`.
+
 ## [2026-07-27] - Fix Bambora Checkout Credit Card Input Fields Preserving
 
 ### Fixed

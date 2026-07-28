@@ -11,7 +11,9 @@ function emathsmart_get_api_url() {
     return rtrim( $url, '/' );
 }
 
-require_once('functions-esmart-debug.php');
+if ( defined( 'IDL_ESMART_DEBUG' ) && IDL_ESMART_DEBUG ) {
+    require_once plugin_dir_path( __FILE__ ) . 'functions-esmart-debug.php';
+}
 require_once('functions-esmart-admin.php');
 
 
@@ -21,28 +23,6 @@ require_once('functions-esmart-admin.php');
 
 
 
-add_action('init', 'custom_testcms');
-function custom_testcms()
-{
-    if (isset($_REQUEST['testcms']) && $_REQUEST['testcms'] == "process") {
-        if (!current_user_can('manage_options')) {
-            wp_die('Unauthorized');
-        }
-        $order_id = 116377;
-        $type = 'Payment';
-        if (isset($_REQUEST['type']) && $_REQUEST['type'] == 'refund') {
-            $type = 'refund';
-        } else if (isset($_REQUEST['type']) && $_REQUEST['type'] == 'public_exams') {
-            $type = 'public_exams';
-        }
-        process_subscription_custom($order_id, $type, true); // True = Debug mode for manual testing
-
-        // Flush deferred notes manually since we call exit here
-        emathsmart_flush_deferred_notes();
-
-        exit;
-    }
-}
 
 /**
  * FEATURE 1: Database Log Table Creation
@@ -576,15 +556,6 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
             $secret = emathsmart_get_api_secret();
 
             
-            // DEBUG OVERRIDE: Allow test suite to poison the request
-            if (isset($GLOBALS['emathsmart_debug_override'])) {
-                if ($GLOBALS['emathsmart_debug_override'] === 'wrong_key') {
-                    $secret = "DEBUG_WRONG_KEY";
-                } elseif ($GLOBALS['emathsmart_debug_override'] === 'dead_url') {
-                    $url = "https://this-domain-does-not-exist-12345.com/api";
-                }
-            }
-
             ksort($sign_params);
             $pairs = [];
             foreach ($sign_params as $k => $v) {
@@ -592,10 +563,6 @@ function process_subscription_custom($order_id, $subscription_type = 'Payment', 
                     $pairs[] = $k . '=' . $v;
             }
             $content = implode('&', $pairs);
-            if ($debug) {
-                echo "DEBUG - Secret: " . $secret . "\n";
-                echo "DEBUG - Content: " . $content . "\n";
-            }
             $hash = hash_hmac('sha256', $content, $secret, true);
             $signature = rtrim(strtr(base64_encode($hash), '+/', '-_'), '=');
 
@@ -1145,10 +1112,6 @@ function emathsmart_restrict_coupons_for_ai_coins($is_valid, $coupon, $discount)
  */
 function emathsmart_order_has_additional_packages($order)
 {
-    if (isset($GLOBALS['emathsmart_mock_type2']) && $GLOBALS['emathsmart_mock_type2']) {
-        return 5; // Mock 5 packages (500 coins)
-    }
-
     if (is_numeric($order)) {
         $order = wc_get_order($order);
     }
