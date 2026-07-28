@@ -54,6 +54,7 @@
     padding: 15px !important;
     box-shadow: 0 6px 20px rgba(175, 1, 40, 0.15);
     height: stretch;
+    margin-bottom: 20px;
 }
 
 .benefits-column .benefits-glance-card h3 {

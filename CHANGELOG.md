@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-28] - WPBakery Elements CSS Margin-Bottom Adjustments
+
+### Changed
+- **Updated `.member-welcome-column` (`parents-club-member-welcome.css`)**: Added `margin-bottom: 20px;` to the base class selector.
+- **Updated `.benefits-column .benefits-glance-card` (`parents-club-hero-benefits.css`)**: Added `margin-bottom: 20px;`.
+- **Updated `section#sub-card-view-0` (`parents-club-dashboard-subscription.css`)**: Added `section#sub-card-view-0 { margin-bottom: 20px; }`.
+- **Updated `#parents-club-billing .bill-card` (`parents-club-dashboard-billing.css`)**: Added `margin-bottom: 20px;`.
+- **Updated `#parents-club-dashboard` (`parents-club-dashboard-subscription.css`)**: Added `margin-bottom: 20px !important;`.
+
 ## [2026-07-28] - Production Readiness & Debug Removal
 
 ### Removed
