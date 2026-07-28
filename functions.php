@@ -3366,6 +3366,9 @@ function idl_loader_parents_club_template_styles() {
  */
 add_action( 'wp_head', 'idl_loader_force_faq_home_light_red_css', 99999 );
 function idl_loader_force_faq_home_light_red_css() {
+    if ( ! is_front_page() && ! is_home() ) {
+        return;
+    }
     ?>
     <style id="idl-loader-force-faq-home-css">
     :root {
@@ -3374,39 +3377,53 @@ function idl_loader_force_faq_home_light_red_css() {
         --brand-red-light-active: #fde2e6;
         --s6-bg-light-red: #fdf2f4;
     }
-    html body #faq-acc .vc_tta-panel,
-    html body #faq-acc .vc_tta-panel-heading,
-    html body #faq-acc .vc_tta-panel-title,
-    html body #faq-acc .vc_tta-panel-title > a,
-    html body .faq-home .vc_tta-panel,
-    html body .faq-home .vc_tta-panel-heading,
-    html body .faq-home .vc_tta-panel-title,
-    html body .faq-home .vc_tta-panel-title > a,
-    html body .faq-home .vc_toggle,
-    html body .parents-club-faq,
-    html body .vc_toggle.faq-home,
-    html body .vc_toggle.parents-club-faq,
-    html body #parents-club-section-6 .faq-item,
-    html body #parents-club-section-6 .faq-question {
+    html body.home #faq-acc .vc_tta-panel,
+    html body.home #faq-acc .vc_tta-panel-heading,
+    html body.home #faq-acc .vc_tta-panel-title,
+    html body.home #faq-acc .vc_tta-panel-title > a,
+    html body.home .faq-home .vc_tta-panel,
+    html body.home .faq-home .vc_tta-panel-heading,
+    html body.home .faq-home .vc_tta-panel-title,
+    html body.home .faq-home .vc_tta-panel-title > a,
+    html body.home .faq-home .vc_toggle,
+    html body.home .vc_toggle.faq-home,
+    html body.front-page #faq-acc .vc_tta-panel,
+    html body.front-page #faq-acc .vc_tta-panel-heading,
+    html body.front-page #faq-acc .vc_tta-panel-title,
+    html body.front-page #faq-acc .vc_tta-panel-title > a,
+    html body.front-page .faq-home .vc_tta-panel,
+    html body.front-page .faq-home .vc_tta-panel-heading,
+    html body.front-page .faq-home .vc_tta-panel-title,
+    html body.front-page .faq-home .vc_tta-panel-title > a,
+    html body.front-page .faq-home .vc_toggle,
+    html body.front-page .vc_toggle.faq-home {
         background-color: var(--brand-red-light, var(--s6-bg-light-red, #fdf2f4)) !important;
         background: var(--brand-red-light, var(--s6-bg-light-red, #fdf2f4)) !important;
         border: none !important;
     }
 
-    html body #faq-acc .vc_tta-panel.vc_active,
-    html body #faq-acc .vc_tta-panel.vc_active .vc_tta-panel-heading,
-    html body #faq-acc .vc_tta-panel.vc_active .vc_tta-panel-title,
-    html body #faq-acc .vc_tta-panel.vc_active .vc_tta-panel-title > a,
-    html body #faq-acc .vc_tta-panel-body,
-    html body .faq-home .vc_tta-panel.vc_active,
-    html body .faq-home .vc_tta-panel.vc_active .vc_tta-panel-heading,
-    html body .faq-home .vc_tta-panel.vc_active .vc_tta-panel-title,
-    html body .faq-home .vc_tta-panel.vc_active .vc_tta-panel-title > a,
-    html body .faq-home .vc_tta-panel-body,
-    html body .faq-home .vc_toggle.vc_toggle_active,
-    html body .parents-club-faq.vc_toggle_active,
-    html body #parents-club-section-6 .faq-item.is-open,
-    html body #parents-club-section-6 .faq-answer {
+    html body.home #faq-acc .vc_tta-panel.vc_active,
+    html body.home #faq-acc .vc_tta-panel.vc_active .vc_tta-panel-heading,
+    html body.home #faq-acc .vc_tta-panel.vc_active .vc_tta-panel-title,
+    html body.home #faq-acc .vc_tta-panel.vc_active .vc_tta-panel-title > a,
+    html body.home #faq-acc .vc_tta-panel-body,
+    html body.home .faq-home .vc_tta-panel.vc_active,
+    html body.home .faq-home .vc_tta-panel.vc_active .vc_tta-panel-heading,
+    html body.home .faq-home .vc_tta-panel.vc_active .vc_tta-panel-title,
+    html body.home .faq-home .vc_tta-panel.vc_active .vc_tta-panel-title > a,
+    html body.home .faq-home .vc_tta-panel-body,
+    html body.home .faq-home .vc_toggle.vc_toggle_active,
+    html body.front-page #faq-acc .vc_tta-panel.vc_active,
+    html body.front-page #faq-acc .vc_tta-panel.vc_active .vc_tta-panel-heading,
+    html body.front-page #faq-acc .vc_tta-panel.vc_active .vc_tta-panel-title,
+    html body.front-page #faq-acc .vc_tta-panel.vc_active .vc_tta-panel-title > a,
+    html body.front-page #faq-acc .vc_tta-panel-body,
+    html body.front-page .faq-home .vc_tta-panel.vc_active,
+    html body.front-page .faq-home .vc_tta-panel.vc_active .vc_tta-panel-heading,
+    html body.front-page .faq-home .vc_tta-panel.vc_active .vc_tta-panel-title,
+    html body.front-page .faq-home .vc_tta-panel.vc_active .vc_tta-panel-title > a,
+    html body.front-page .faq-home .vc_tta-panel-body,
+    html body.front-page .faq-home .vc_toggle.vc_toggle_active {
         background-color: var(--brand-red-light-active, #fde2e6) !important;
         background: var(--brand-red-light-active, #fde2e6) !important;
         border: none !important;

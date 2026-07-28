@@ -23,15 +23,16 @@ All notable changes to this project will be documented in this file for both hum
   - Added an SEO-optimized version of the image at [complete-canadian-curriculum-mathsmart-stemsmart-workbooks.png](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/uploads/complete-canadian-curriculum-mathsmart-stemsmart-workbooks.png).
   - Replaced early preschool books with Grade 4 versions of three core workbook series: Complete Canadian Curriculum (CCC), Complete Canadian MathSmart, and Complete StemSmart.
 
-## [2026-07-24] - Dev Home Page FAQ CSS Variables for Backgrounds (.faq-home)
+## [2026-07-28] - Scope Dev Home Page FAQ Background Styling Exclusively to Home Page (.home / .front-page)
 
 ### Changed
-- **CSS Variables Integration (`parents-club-faq.css` & `functions.php`)**:
-  - Refactored FAQ background styling to leverage brand and theme CSS variables (`var(--brand-red-light, var(--s6-bg-light-red, #fdf2f4))` and `var(--brand-red-light-active, #fde2e6)`).
-  - Maintained zero layout/font modifications, applying strictly background colors via CSS variables.
+- **Homepage-Only FAQ Scope (`parents-club-faq.css` & `functions.php`)**:
+  - Added PHP condition `if ( ! is_front_page() && ! is_home() ) { return; }` to `idl_loader_force_faq_home_light_red_css()` in [functions.php](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/functions.php).
+  - Scoped CSS rules in [parents-club-faq.css](file:///Users/carlos/Local%20Sites/dev-popularbook/app/public/wp-content/plugins/idl-loader/templates/css/parents-club-faq.css) under `html body.home` and `html body.front-page`.
+  - Ensures the light red background styles for FAQ accordion items apply strictly to the home page without affecting FAQs on other site pages.
 
 ### Technical Notes for AI Agents
-- The CSS rules reference `:root` variables `--brand-red-light` (`#fdf2f4`) and `--brand-red-light-active` (`#fde2e6`) to match theme color tokens.
+- Condition `is_front_page() || is_home()` combined with body classes `.home` / `.front-page` ensures zero side-effects on subpages.
 
 ## [2026-07-24] - Removed Best Seller Scroller Shortcode from Plugin
 
