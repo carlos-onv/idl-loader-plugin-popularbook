@@ -141,6 +141,7 @@ function child_remove_style()
                 wp_dequeue_script('woo_discount_pro_script');
             }
             if (! idl_loader_is_checkout_context()) {
+                wp_dequeue_script('wc-cart-fragments');
                 wp_deregister_style('wc-bambora');
                 wp_dequeue_script('wc-bambora');
                 wp_dequeue_script('bambora-custom-checkout');
