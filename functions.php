@@ -14,16 +14,13 @@ require_once("functions-wpbakery-elements.php");
 
 
 
-/**
- * Force Admin Bar display on front-end ONLY when a user is actually logged in.
- */
-add_action( 'wp_loaded', function() {
-    if ( function_exists('is_user_logged_in') && is_user_logged_in() ) {
-        add_filter( 'show_admin_bar', '__return_true', 99999999 );
-    } else {
-        add_filter( 'show_admin_bar', '__return_false', 99999999 );
-    }
-} );
+function admin_bar(){
+
+  if(is_user_logged_in()){
+    add_filter( 'show_admin_bar', '__return_true' , 10000000 );
+  }
+}
+add_action('init', 'admin_bar' );
 
 /**
  * Polyfill for legacy bCheck() function.
