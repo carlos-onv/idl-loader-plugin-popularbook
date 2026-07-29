@@ -2,9 +2,13 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
-## [2026-07-29] - Updated Parents' Club CTA Banner Fallback Asset
+## [2026-07-29] - Updated Parents' Club Fallback Assets (Logged-In & Non-Logged-In Views)
 
 ### Changed
+- **`templates/images/PBC-CA-club.webp`**: Updated the Parents' Club brand logo fallback asset to match the webp asset used on DEV (`https://dev.popularbook.ca/wp-content/uploads/PBC-CA-club.webp`). Updated `parents_club_hero_intro` element default logo URL fallback in `functions-wpbakery-elements.php:3693`.
+- **`templates/images/parents-club-banner.jpg`**: Updated benefits glance banner fallback asset to match DEV asset (`https://dev.popularbook.ca/wp-content/uploads/ParentClub2.jpg`).
+- **`templates/images/emathsmart-program.png`**: Synchronized eMathSmart program illustration fallback asset with DEV asset (`https://dev.popularbook.ca/wp-content/uploads/emathsmart-program.png`).
+- **`templates/images/not-ready-for-emathsmart.png`**: Synchronized "Not ready for eMathSmart" card fallback asset with DEV asset (`https://dev.popularbook.ca/wp-content/uploads/not-ready-for-emathsmart.png`).
 - **`templates/images/parents-club-cta-tablet.png`**: Updated the bundled plugin fallback image for the Parents' Club CTA banner (`parents_club_cta_banner`) to match the high-resolution DEV site asset (`https://dev.popularbook.ca/wp-content/uploads/Homepage-PC-image-1.png`).
 
 ## [2026-07-28] - Fixed eMathSmart Slider Revolution Slide (Slider 8 / Slide 120)

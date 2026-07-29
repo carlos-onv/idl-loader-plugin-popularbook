@@ -3690,7 +3690,7 @@ function idl_loader_parents_club_hero_intro_shortcode( $atts ) {
         }
     }
     if ( empty( $logo_url ) ) {
-        $logo_url = plugins_url( 'templates/images/popularbook-logo-parents-club.png', __FILE__ );
+        $logo_url = plugins_url( 'templates/images/PBC-CA-club.webp', __FILE__ );
     }
 
     ob_start();
