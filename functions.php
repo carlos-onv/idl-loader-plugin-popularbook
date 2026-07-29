@@ -14,12 +14,10 @@ require_once("functions-wpbakery-elements.php");
 
 
 
-function admin_bar(){
-  if(is_user_logged_in()){
-    add_filter( 'show_admin_bar', '__return_true' , 10000000 );
-  }
-}
-add_action('wp', 'admin_bar' );
+/**
+ * Force Admin Bar display on front-end for all logged-in users.
+ */
+add_filter( 'show_admin_bar', '__return_true', 99999999 );
 
 /**
  * Polyfill for legacy bCheck() function.
