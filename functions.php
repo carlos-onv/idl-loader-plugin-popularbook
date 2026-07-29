@@ -15,12 +15,11 @@ require_once("functions-wpbakery-elements.php");
 
 
 function admin_bar(){
-
   if(is_user_logged_in()){
     add_filter( 'show_admin_bar', '__return_true' , 10000000 );
   }
 }
-add_action('init', 'admin_bar' );
+add_action('wp', 'admin_bar' );
 
 /**
  * Polyfill for legacy bCheck() function.
