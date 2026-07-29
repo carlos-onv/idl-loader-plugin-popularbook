@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-29] - Added Defensive Guard for WC_Subscriptions_Cart
+
+### Fixed
+- **`functions.php:1287`**: Wrapped `WC_Subscriptions_Cart::cart_contains_subscription()` inside `class_exists('WC_Subscriptions_Cart')` and `method_exists()` checks to prevent `Uncaught Error: Class "WC_Subscriptions_Cart" not found` fatal errors when WooCommerce Subscriptions plugin is inactive or not loaded.
+
 ## [2026-07-29] - Updated Parents' Club Fallback Assets (Logged-In & Non-Logged-In Views)
 
 ### Changed

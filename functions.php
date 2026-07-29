@@ -1284,9 +1284,16 @@ function apply_group_discount_coupon($cart)
         $has_ai_coins = true;
     }
 
-    if (!$has_ai_coins && !WC_Subscriptions_Cart::cart_contains_subscription() && $discount_enabled && ! $cart->has_discount($coupon_code)) {
+    $has_subscription = false;
+    if (class_exists('WC_Subscriptions_Cart') && method_exists('WC_Subscriptions_Cart', 'cart_contains_subscription')) {
+        $has_subscription = WC_Subscriptions_Cart::cart_contains_subscription();
+    } elseif (function_exists('wcs_cart_contains_subscription')) {
+        $has_subscription = wcs_cart_contains_subscription();
+    }
+
+    if (!$has_ai_coins && !$has_subscription && $discount_enabled && ! $cart->has_discount($coupon_code)) {
         $cart->apply_coupon($coupon_code);
-    } elseif (($has_ai_coins || !$discount_enabled) && $cart->has_discount($coupon_code)) {
+    } elseif (($has_ai_coins || $has_subscription || !$discount_enabled) && $cart->has_discount($coupon_code)) {
         $cart->remove_coupon($coupon_code);
     } else {
         return;
