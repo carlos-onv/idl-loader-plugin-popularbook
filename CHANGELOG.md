@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file for both human developers and AI agents.
 
+## [2026-07-29] - Updated Parents' Club CTA Banner Fallback Asset
+
+### Changed
+- **`templates/images/parents-club-cta-tablet.png`**: Updated the bundled plugin fallback image for the Parents' Club CTA banner (`parents_club_cta_banner`) to match the high-resolution DEV site asset (`https://dev.popularbook.ca/wp-content/uploads/Homepage-PC-image-1.png`).
+
+## [2026-07-28] - Fixed eMathSmart Slider Revolution Slide (Slider 8 / Slide 120)
+
+Data-only change: no plugin or theme code was modified. All edits landed in the
+`wp_revslider_sliders` / `wp_revslider_slides` tables and `wp-content/uploads/esmart-slide/`.
+
+### Fixed
+- **Slide 120 layers rebuilt**: The editor threw `TypeError: Cannot read properties of undefined (reading 'length')` in `RSColor.sanitizeGradient` on every load. Cause: `idle.backgroundColor` was stored as a responsive object `{"d":{"v":"#fbb03b"}}`. `drawHTMLLayer` passes that key **straight** to `RSColor.get()`, which treats any non-string as a gradient and dereferences `.colors.length`. The hand-written layers were also missing most keys the editor dereferences unconditionally, and only carried the `d` breakpoint.
+- **Swapped asset filenames**: `striped-bg.png` held the tablet mockup and `tablet-mockup.png` held the striped background. Files were exchanged so each name matches its contents.
+- **Slide background attachment**: `params.bg.imageId` pointed at `113658` (`NT_20250302_eBookSale-Slider`), an unrelated attachment inherited from cloning slider 3. The three eMathSmart assets were registered as real Media Library attachments and the background now points at the correct one.
+- **Slider 8 embed shortcode**: `params.shortcode` still read `[rev_slider alias="slider-1"]` (slider 3's alias). Corrected to `emathsmart-grades-3-4`.
+- **Asset URLs forced to https**: `content_url()` under WP-CLI emits `http://` (no `is_ssl()`), which made the editor log a CORS error and re-request every image.
+
+### Changed
+- Slider 8 grid set to 1260x539 / 1024x438 / 778x333 / 480x205 (2.34:1, matching the striped background) with `useFullScreenHeight` off.
+- Slide rebuilt as 12 layers: logo, title, subtitle, accent bar, description, badge, tablet, and five feature rows. Feature rows use native RS6 `borderWidth [0,0,1px,0]` + `borderStyle dashed` instead of one HTML blob, so each row is editable in the layer panel.
+
+### Technical Notes for AI Agents
+- **Never hand-write RevSlider 6 layer JSON.** Generate the base from RevSlider's own code:
+  `(new RevSliderPluginUpdate)->migrate_layer_to_6_0(array('type' => 'text'), true, $slide, $slider)`
+  returns a fully-defaulted layer. Overlay content onto it, then run it through
+  `_simplify_layers($layer, $slide, $slider)` to store the diff RevSlider itself would store.
+- **The value *shape* per key is load-bearing** — the editor deep-merges stored values over its
+  JS defaults, so a wrong type wins over the default and crashes:
+  - Plain strings: `idle.backgroundColor`, `idle.borderColor`, `idle.backgroundImage`, `idle.fontFamily`, `idle.textDecoration`, `idle.textTransform`, `idle.display`, `hover.color`, `hover.backgroundColor`, `hover.borderColor`.
+  - Responsive `{d,n,t,m}` -> `{v,e,u}`: `idle.color`, `idle.fontSize`, `idle.fontWeight`, `idle.lineHeight`, `idle.letterSpacing`, `idle.textAlign`, `idle.whiteSpace`, `idle.borderStyle`, `idle.margin`, `idle.padding`, `size.*`, `position.x/y`. **All four breakpoints must be present** — the editor reads `[RVS.screen].v` with no guard.
+  - Own containers: `idle.borderRadius` = `{v:[...], u:'px'}`, `idle.borderWidth` = `[t,r,b,l]`. Non-zero entries need units (`"1px"`), they are concatenated straight into CSS.
+  - `idle.fontSize` / `lineHeight` / `letterSpacing` are **unitless** number strings (`"29"`); the editor appends `px` itself. `size.width` / `height` **do** carry units (`"486px"` / `"auto"`).
+  - `timeline` frames live under `timeline.frames.frame_N`, not `timeline.frame_N`, and use `transform.opacity`, not `to.o`.
+- **Reference for the schema**: `admin/assets/js/modules/editor.min.js` (search `o.idle=g(t.idle,{`) holds the editor's default blob; `RVS.F.drawHTMLLayer` is what actually dereferences these keys. `admin/includes/plugin-update.class.php` holds the PHP equivalents (`migrate_layer_to_6_0`, `_simplify_layers`, `_compare`).
+- **WP-CLI gotcha**: `wp eval-file` `include`s the file inside a method, so top-level variables in the script are **not** in global scope; `global $x` inside a function in that file reads `null`.
+
 ## [2026-07-28] - Relocated FAQ Accordion CSS to Porto Child Theme
 
 ### Changed
